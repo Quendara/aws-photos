@@ -7,8 +7,6 @@ import Settings from "./Settings"
 // import * as AWS from 'aws-sdk';
 const AWS = require('aws-sdk')
 
-const credentials = { "accessKeyId": "AKIAUDZ4WIUOCYKXPTA2", "secretAccessKey": "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", "region": "eu-central-1" }
-
 const Images = ( props ) => {
 
   const listFiles = () => {
