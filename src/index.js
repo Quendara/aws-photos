@@ -28,8 +28,12 @@ const App = () => {
         <Auth authSuccessCallback={authSuccessCallback} />
       </nav>
       <hr />
-      xx
-      {username.length > 0 && <Images username={username} token={ jwtTocken }  />}
+      {username.length > 0 && 
+      <>
+      <Images username={username} token={ jwtTocken } url="images" />
+      
+      
+      </>}
     </div>
   );
 };
