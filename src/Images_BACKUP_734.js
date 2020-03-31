@@ -10,11 +10,15 @@ import Gallery from 'react-photo-gallery';
 // import * as AWS from 'aws-sdk';
 const AWS = require('aws-sdk')
 
+<<<<<<< HEAD
 const s3Root = "https://s3.eu-central-1.amazonaws.com/quendara.de/"
 
 const Images = (props) => {
 
   const [items, setItems] = useState("");
+=======
+const Images = ( props ) => {
+>>>>>>> 8aa0f0bb33cf793959103ee3abb5af059955fe38
 
   const listFiles = () => {
 
@@ -38,13 +42,16 @@ const Images = (props) => {
             })
 
           console.log("items", items)
+
           items = items.slice(0, 10) // reduce
+
           setItems(items)
         },
         (error) => {
           console.error("Could not load images : ", error.message);
         }
       )
+
   }
 
   return (
@@ -52,6 +59,7 @@ const Images = (props) => {
       <h1 onClick={listFiles} >{props.url} </h1>
 
       {items.length > 0 && <Gallery photos={items} />}
+
     </>
   )
 }
