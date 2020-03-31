@@ -2,7 +2,10 @@ import React, { Component, useState } from "react";
 import { render } from "react-dom";
 
 import { Auth } from "./Auth";
-import { Images } from "./Images";
+import { ImageApp } from "./ImageApp";
+import { TimeTree } from "./TimeTree";
+
+
 
 
 
@@ -19,7 +22,7 @@ const App = () => {
   };
 
   return (
-    <div className="container"> 
+    <div className="container-fluid">
       <br />
       <nav className="navbar navbar-dark bg-dark">
         <a className="navbar-brand mr-auto " href="#">
@@ -28,14 +31,14 @@ const App = () => {
         <Auth authSuccessCallback={authSuccessCallback} />
       </nav>
       <hr />
-      {username.length > 0 && 
-      <>
-      <Images username={username} token={ jwtTocken } url="images" />
-      
-      
-      </>}
+      {username.length > 0 &&
+        <>
+          <ImageApp username={username} token={jwtTocken} url="images" />
+        </>}
     </div>
   );
 };
 
+// 
+// <TimeTree username={username} token={ jwtTocken }  />
 render(<App />, document.getElementById("root"));
