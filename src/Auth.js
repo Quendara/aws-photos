@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
   faAngleDoubleRight,
-  faSignOutAlt
+  faSignOutAlt,
+  faUserAstronaut
 } from "@fortawesome/free-solid-svg-icons";
 
 // import { AmazonCognitoIdentity } from "amazon-cognito-identity-js";
@@ -22,15 +23,15 @@ const poolData = {
 };
 
 const Auth = ({ authSuccessCallback }) => {
-  const [username, setUsername] = useState("Test");
-  const [password, setPassword] = useState("TestUser123");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
   const [token, setToken] = useState("");
   const [trySend, setTrySend] = useState(false);
 
   const [cognitoUser, setCognitoUser] = useState(null);
 
-  useEffect(() => { 
+  useEffect(() => {
     // check if user is already logged in
     if (cognitoUser == null) {
       // Update the document title using the browser API
@@ -67,6 +68,8 @@ const Auth = ({ authSuccessCallback }) => {
       // send ONLY when it's filled out
       // authSuccessCallback(token);
 
+      setTrySend( true );
+
       authImpl(username, password);
     } else {
     }
@@ -76,15 +79,14 @@ const Auth = ({ authSuccessCallback }) => {
     console.log("signOut");
     if (cognitoUser != null) {
       console.log("cognitoUser", cognitoUser);
-      
+
       setUsername("");
       setPassword("");
-      setAuthError("")
+      setAuthError("");
       setCognitoUser(null);
 
       cognitoUser.signOut();
-      
-      
+
       authSuccessCallback("", "");
     }
   };
@@ -135,9 +137,10 @@ const Auth = ({ authSuccessCallback }) => {
 
         setAuthError("Success" + JSON.stringify(decoded));
         setCognitoUser(cognitoUser);
+        setTrySend( false );
       },
-
       onFailure: function(err) {
+        setTrySend( false );
         console.error("Cannot log in ", JSON.stringify(err));
         setAuthError("Cannot log in " + JSON.stringify(err));
       }
@@ -145,7 +148,7 @@ const Auth = ({ authSuccessCallback }) => {
   };
 
   const getInputClass = val => {
-    let ret = "form-control mr-sm-2";
+    let ret = "form-control m-2";
     if (val.length > 0) {
       ret += " is-valid";
     } else if (trySend) {
@@ -157,6 +160,7 @@ const Auth = ({ authSuccessCallback }) => {
 
   if (cognitoUser == null) {
     return (
+      <>
       <form className="form-inline" onSubmit={handleClick}>
         <input
           value={username}
@@ -165,23 +169,41 @@ const Auth = ({ authSuccessCallback }) => {
           onChange={e => setUsername(e.target.value)}
         />
         <input
+          type="password"
           value={password}
           className={getInputClass(password)}
           placeholder="Password"
           onChange={e => setPassword(e.target.value)}
         />
-        <button className="btn btn-primary">
-          <FontAwesomeIcon icon={faAngleDoubleRight} />
+        <button className="btn btn-primary m-2">          
+          { trySend ? "Loading" : "Sign-In"  }
+          <FontAwesomeIcon icon={faAngleDoubleRight} className="ml-2" />
         </button>
-        { authError }
       </form>
+              
+        {authError}
+      </>
     );
   } else {
     return (
       <>
-        <button className="btn btn-primary mr-sm-2" onClick={signOut} >
-          {username} {" "} <FontAwesomeIcon icon={faSignOutAlt} />
-        </button>
+        <div className="navbar" id="navbarNavDropdown">
+          <ul className="nav">
+            <li className="nav-item">
+              <button className="btn btn-primary ">
+              <FontAwesomeIcon icon={faUserAstronaut} className="mr-2" />
+                <b> {username} </b>
+                
+              </button>
+            </li>
+            <li className="nav-item ml-3 " >
+              <button className="btn btn-secondary " onClick={signOut}>
+                Logout 
+                <FontAwesomeIcon icon={faSignOutAlt}  className="ml-2" />
+              </button>
+            </li>
+          </ul>
+        </div>
       </>
     );
   }
@@ -189,8 +211,3 @@ const Auth = ({ authSuccessCallback }) => {
 
 export { Auth };
 
-/*
-
-
-
-*/

@@ -26,7 +26,7 @@ const App = () => {
       <br />
       <nav className="navbar navbar-dark bg-dark">
         <a className="navbar-brand mr-auto " href="#">
-          Home
+          Photos
         </a>
         <Auth authSuccessCallback={authSuccessCallback} />
       </nav>
