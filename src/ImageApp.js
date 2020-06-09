@@ -24,18 +24,20 @@ const SimpleImageList = ({ photos, deleteTodoHandle }) => {
     const imageList = photos.length ? (
         photos.map(image => {
             return (
-                <div className="collection-item" key={image.id}>
-                    <div className="row"
+                <div className="row" key={image.id}>
+                    <div className=" "
                         onClick={() => {
                             // deleteTodoHandle(image.id);
                         }}
                     >
-                        <div className="col s2" >
+                        <div className="col s6 m2" >
                             <img className="responsive-img" src={image.src} />
                         </div>
-                        <div className="col s10">
-                            {image.id} - {image.src}
+                        <div className="col s6 m10">
+                        <div className="divider" />
+                            {image.id} - {image.src}                            
                         </div>
+                        
                     </div>
                 </div>
             );
@@ -45,8 +47,7 @@ const SimpleImageList = ({ photos, deleteTodoHandle }) => {
         );
 
     return (
-        <div className="collection">
-            <h3 className="center blue-text">Images</h3>
+        <div className="collection">            
             {imageList}
         </div>
     );
@@ -69,6 +70,8 @@ const ImageApp = (props) => {
     const [current_city, setCurrentCity] = useState("");
     const [current_year, setCurrentYear] = useState("");
     const [current_rating, setCurrentRating] = useState("");
+
+    const [view_images, setViewImages] = useState("grid"); // list, grid
 
 
     const filterFiles = (year, city, rating) => {
@@ -227,11 +230,13 @@ const ImageApp = (props) => {
         filterFiles(current_year, current_city, x)
     }
 
-    // <Images photos={current_items} />
+    // 
 
     const imageApp = items.length ? (
-        <SimpleImageList photos={current_items} />
 
+         <Images photos={current_items} /> 
+        
+        
     ) : (
             <div className="" >
                 <p className="center">
@@ -260,7 +265,7 @@ const ImageApp = (props) => {
 
 
             <div className="row">
-                <div className="col s2">
+                <div className="col s12 m2">
 
 
 
@@ -270,7 +275,7 @@ const ImageApp = (props) => {
 
 
                 </div>
-                <div className="col s10">
+                <div className="col s12 m10">
                     {imageApp}
                 </div>
             </div>
