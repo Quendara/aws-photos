@@ -42,7 +42,7 @@ const Auth = ({ authSuccessCallback }) => {
       console.log("cognitoUser", cognitoUser);
 
       if (cognitoUser != null) {
-        cognitoUser.getSession(function(err, session) {
+        cognitoUser.getSession(function (err, session) {
           if (err) {
             alert(err.message || JSON.stringify(err));
             return;
@@ -68,7 +68,7 @@ const Auth = ({ authSuccessCallback }) => {
       // send ONLY when it's filled out
       // authSuccessCallback(token);
 
-      setTrySend( true );
+      setTrySend(true);
 
       authImpl(username, password);
     } else {
@@ -121,7 +121,7 @@ const Auth = ({ authSuccessCallback }) => {
     // });
 
     cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: function(result) {
+      onSuccess: function (result) {
         var accessToken = result.getAccessToken().getJwtToken();
 
         // Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer
@@ -137,10 +137,10 @@ const Auth = ({ authSuccessCallback }) => {
 
         setAuthError("Success" + JSON.stringify(decoded));
         setCognitoUser(cognitoUser);
-        setTrySend( false );
+        setTrySend(false);
       },
-      onFailure: function(err) {
-        setTrySend( false );
+      onFailure: function (err) {
+        setTrySend(false);
         console.error("Cannot log in ", JSON.stringify(err));
         setAuthError("Cannot log in " + JSON.stringify(err));
       }
@@ -161,48 +161,54 @@ const Auth = ({ authSuccessCallback }) => {
   if (cognitoUser == null) {
     return (
       <>
-      <form className="form-inline" onSubmit={handleClick}>
-        <input
-          value={username}
-          className={getInputClass(username)}
-          placeholder="Name"
-          onChange={e => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          value={password}
-          className={getInputClass(password)}
-          placeholder="Password"
-          onChange={e => setPassword(e.target.value)}
-        />
-        <button className="btn btn-primary m-2">          
-          { trySend ? "Loading" : "Sign-In"  }
-          <FontAwesomeIcon icon={faAngleDoubleRight} className="ml-2" />
-        </button>
-      </form>
-              
+        <form className="form-inline" onSubmit={handleClick}>
+          <input
+            value={username}
+            className={getInputClass(username)}
+            placeholder="Name"
+            onChange={e => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            value={password}
+            className={getInputClass(password)}
+            placeholder="Password"
+            onChange={e => setPassword(e.target.value)}
+          />
+          <button className="btn btn-primary m-2">
+            {trySend ? "Loading" : "Sign-In"}
+            <FontAwesomeIcon icon={faAngleDoubleRight} className="ml-2" />
+          </button>
+        </form>
+
         {authError}
       </>
     );
   } else {
     return (
       <>
-        <div className="navbar" id="navbarNavDropdown">
-          <ul className="nav">
-            <li className="nav-item">
-              <button className="btn btn-primary ">
-              <FontAwesomeIcon icon={faUserAstronaut} className="mr-2" />
-                <b> {username} </b>
-                
-              </button>
-            </li>
-            <li className="nav-item ml-3 " >
-              <button className="btn btn-secondary " onClick={signOut}>
-                Logout 
-                <FontAwesomeIcon icon={faSignOutAlt}  className="ml-2" />
-              </button>
-            </li>
-          </ul>
+        <div className="nav-wrapper" id="navbarNavDropdown">
+          <div className="row">
+            <div className=" col s12" >
+              <a href="#" className="brand-logo">Photos</a>
+              <ul id="nav-mobile" className="right hide-on-med-and-down m4">
+                <li>
+                  <button className="btn btn-primary ">
+                    <FontAwesomeIcon icon={faUserAstronaut} className="m2" />
+                    <b> {username} </b>
+
+                  </button>
+                </li>
+                <li >
+                  <button className="btn btn " onClick={signOut}>
+                    Logout
+                <FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
+                  </button>
+                </li>
+
+              </ul>
+            </div>
+          </div>
         </div>
       </>
     );
