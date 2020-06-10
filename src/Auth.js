@@ -194,7 +194,7 @@ const Auth = ({ authSuccessCallback }) => {
               <ul id="nav-mobile" className="right hide-on-med-and-down m4">
                 <li>
                   <button className="btn btn-primary ">
-                    <FontAwesomeIcon icon={faUserAstronaut} className="m2" />
+                    <FontAwesomeIcon icon={faUserAstronaut} className="mr-2" />
                     <b> {username} </b>
 
                   </button>
