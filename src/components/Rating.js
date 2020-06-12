@@ -14,7 +14,7 @@ export const Rating = ({ rating }) => {
 
     const getStars= ( v ) => {
         return [...Array(5).keys()].map( index => {
-            console.log( index )
+            // console.log( index )
             return( <Icon key={index}  icon="star" className={whichStar(index, v)} >  </Icon>)
         } ) 
 

@@ -7,16 +7,14 @@ import { ImageListSimple } from "./ImageListSimple";
 import { ImageGroup } from "./ImageGroup";
 import { ImageGrid } from "./ImageGrid";
 
-
-
 const Images = ({ photos, view, ...rest }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
-  const addSrcAndReduce = (images, size) => {
+  const addSrcAndReduce = (images, size=999999) => {
 
-    const reduceditems = images.slice(0, size=9999999) // reduce    
+    const reduceditems = images.slice(0, size) // reduce    
 
     return reduceditems.map((image) => {
       image["src"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
@@ -30,7 +28,7 @@ const Images = ({ photos, view, ...rest }) => {
         return (<ImageGrid photos={ addSrcAndReduce(photos, 100) } />)
         break;
       case "list":
-        return (<ImageListSimple photos={ addSrcAndReduce(photos, 100) } />)
+        return (<ImageListSimple photos={ addSrcAndReduce(photos, 40) } />)
         break;
       case "group":
         return (<ImageGroup photos={ addSrcAndReduce(photos) } />)

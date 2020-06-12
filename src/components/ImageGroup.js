@@ -11,7 +11,7 @@ import { findUnique } from "./helpers"
 
 export const ImageGroup = ({ photos, deleteTodoHandle }) => {
 
-    const [group, setGroup] = useState("month");
+    const [group, setGroup] = useState("country");
     const [current, setCurrent] = useState({ name: "", photos: [] });
 
     const getItems = (photos) => {
@@ -39,7 +39,7 @@ export const ImageGroup = ({ photos, deleteTodoHandle }) => {
 
 
     return (
-        <div className="row">
+        <div>
             <div className="col s12 " onClick={ () => setCurrent({ name: "", photos: [] }) }>
                 <h3>{ current.name } </h3>
             </div>

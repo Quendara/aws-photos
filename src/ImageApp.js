@@ -17,9 +17,9 @@ import { mockdataMadeira } from "./data/mockdata_Madeira.js"
 // import { mockdata } from "./data/mockdata_full"
 
 let mockdata = []
-mockdata = mockdata.concat( mockdataBerlin )
-mockdata = mockdata.concat( mockdataSizilien )
-mockdata = mockdata.concat( mockdataMadeira )
+mockdata = mockdata.concat(mockdataBerlin)
+mockdata = mockdata.concat(mockdataSizilien)
+mockdata = mockdata.concat(mockdataMadeira)
 
 
 
@@ -43,7 +43,7 @@ const ImageApp = (props) => {
     const [current_year, setCurrentYear] = useState("");
     const [current_rating, setCurrentRating] = useState("");
 
-    const [view_images, setViewImages] = useState("group"); // list, grid
+    const [view_images, setViewImages] = useState("group"); // group, list, grid
 
 
     const filterFiles = (year, country, city, rating) => {
@@ -88,7 +88,7 @@ const ImageApp = (props) => {
 
     const callbackCountry = (x) => {
         console.log("loc : ", x)
-        setCurrentCity(x)
+        setCurrentCountry(x)
         filterFiles(current_year, x, current_city, current_rating)
     }
 
@@ -101,7 +101,7 @@ const ImageApp = (props) => {
     // Settings.baseS3Bucket + "thumbs/
     // <button className="btn" onClick={() => listFiles} >Load </button>
 
-    const imageApp = items.length ? (
+    const imageApp = current_items.length ? (
         <Images photos={ current_items } view={ view_images } />
     ) : (
             <div className="" >
@@ -120,7 +120,7 @@ const ImageApp = (props) => {
         }
         else if (view_images == "group") {
             setViewImages("list")
-        }        
+        }
         else {
             setViewImages("grid")
         }
@@ -129,16 +129,7 @@ const ImageApp = (props) => {
     return (
         <>
 
-            <div className="row">
-                <div className="offset-s2 col s6 center">
-                    <CancelFilter value={ current_year } callback={ callbackYear } />
-                    <CancelFilter value={ current_rating } callback={ callbackRating } />
-                    <CancelFilter value={ current_city } callback={ callbackCity } />
-                </div>
-                <div className="offset-s2 col s2 center" onClick={ toogleView }>
-                    { view_images }
-                </div>
-            </div>
+
 
 
             <div className="row">
@@ -150,7 +141,22 @@ const ImageApp = (props) => {
 
                 </div>
                 <div className="col s12 m10">
-                    { imageApp }
+                    <div className="row">
+                        <div className="offset-s2 col s6 center">
+                            <CancelFilter value={ current_year } callback={ callbackYear } />
+                            <CancelFilter value={ current_rating } callback={ callbackRating } />
+                            <CancelFilter value={ current_country } callback={ callbackCountry } />
+                            <CancelFilter value={ current_city } callback={ callbackCity } />
+                        </div>
+                        <div className="offset-s2 col s2 center" onClick={ toogleView }>
+                            <button className="btn blue" >{ view_images }</button> 
+                        </div>
+                    </div>
+                    <div className="row">
+                        { imageApp }
+                    </div>
+
+                    
                 </div>
             </div>
         </>

@@ -8,7 +8,7 @@ export const CancelFilter = ({ value, callback }) => {
 
     return (
         <>
-        { value.length > 0 && <span className="blue badge" onClick={() => callback("")}  ><b>{value} </b><Icon icon="cancel" ></Icon></span>     }
+        { value.length > 0 && <button className="btn blue ml-2" onClick={() => callback("")}  ><b>{value} </b><Icon icon="cancel" className="ml-2" ></Icon></button>     }
         </>
     )
 }

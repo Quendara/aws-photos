@@ -30,9 +30,9 @@ export const ImageListSimple = ({ photos, deleteTodoHandle }) => {
         );
 
     return (
-        <div className="collection">
+        <>
             {imageList}
-        </div>
+        </>
     );
 };
 
