@@ -1,5 +1,13 @@
 $transition-effects: color 1s ease, background-color 1s ease;
 
+.mr-1{
+	margin-right: 0.2em;
+}
+
+.ml-1{
+	margin-left: 0.2em;	
+}
+
 .mr-2{
 	margin-right: 0.5em;
 }
@@ -7,6 +15,18 @@ $transition-effects: color 1s ease, background-color 1s ease;
 .ml-2{
 	margin-left: 0.5em;	
 }
+
+.rating{
+	.active{
+		color: #f3c623;
+	}
+	.deactive{
+		color: #3B4043
+	}
+}
+
+.mouse-pointer{ cursor: pointer; }
+
 
 
 body {
