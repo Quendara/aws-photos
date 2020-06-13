@@ -25,6 +25,14 @@ $transition-effects: color 1s ease, background-color 1s ease;
 	}
 }
 
+.text-ellipsis {
+	width: 150px;
+	//width:50%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
+
 .mouse-pointer{ cursor: pointer; }
 
 

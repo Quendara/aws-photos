@@ -12,7 +12,10 @@ import { Icon } from "./components/Icons";
 import { mockdataBerlin } from "./data/mockdata_Berlin.js"
 import { mockdataSizilien } from "./data/mockdata_Sizilien.js"
 import { mockdataMadeira } from "./data/mockdata_Madeira.js"
-
+import { mockdataHamburg } from "./data/mockdata_Hamburg.js"
+import { mockdataPrag } from "./data/mockdata_Prag.js"
+import { mockdataKroatien } from "./data/mockdata_Kroatien.js"
+import { mockdataDenHaag } from "./data/mockdata_DenHaag.js"
 
 // import { mockdata } from "./data/mockdata_full"
 
@@ -20,6 +23,10 @@ let mockdata = []
 mockdata = mockdata.concat(mockdataBerlin)
 mockdata = mockdata.concat(mockdataSizilien)
 mockdata = mockdata.concat(mockdataMadeira)
+mockdata = mockdata.concat(mockdataHamburg)
+mockdata = mockdata.concat(mockdataPrag)
+mockdata = mockdata.concat(mockdataKroatien)
+mockdata = mockdata.concat(mockdataDenHaag)
 
 
 
@@ -42,6 +49,7 @@ const ImageApp = (props) => {
     const [current_country, setCurrentCountry] = useState("");
     const [current_year, setCurrentYear] = useState("");
     const [current_rating, setCurrentRating] = useState("");
+    const [current_dirname, setCurrentDirname] = useState("");
 
     const [view_images, setViewImages] = useState("group"); // group, list, grid
 
@@ -98,6 +106,14 @@ const ImageApp = (props) => {
         filterFiles(current_year, current_country, current_city, x)
     }
 
+    const callbackDirname = (x) => {
+        console.log("rating : ", x)
+        setCurrentDirname(x)
+        // filterFiles(current_year, current_country, current_city, x)
+    }    
+
+    
+
     // Settings.baseS3Bucket + "thumbs/
     // <button className="btn" onClick={() => listFiles} >Load </button>
 
@@ -136,13 +152,15 @@ const ImageApp = (props) => {
                 <div className="col s12 m2">
                     <TopList photos={ current_items } title="year" icon="year" items={ year } callback={ callbackYear } />
                     <TopList photos={ current_items } title="rating" icon="rating" items={ rating } callback={ callbackRating } />
-                    <TopList photos={ current_items } title="country" icon="location" items={ location } callback={ callbackCountry } />
+                    <TopList photos={ current_items } title="dirname" icon="dirname" items={ year } callback={ callbackDirname } />
+                    <TopList photos={ current_items } title="country" icon="country" items={ location } callback={ callbackCountry } />
                     <TopList photos={ current_items } title="city" icon="location" items={ location } callback={ callbackCity } />
 
                 </div>
                 <div className="col s12 m10">
                     <div className="row">
                         <div className="offset-s2 col s6 center">
+                        <CancelFilter value={ current_dirname } callback={ callbackDirname } />
                             <CancelFilter value={ current_year } callback={ callbackYear } />
                             <CancelFilter value={ current_rating } callback={ callbackRating } />
                             <CancelFilter value={ current_country } callback={ callbackCountry } />

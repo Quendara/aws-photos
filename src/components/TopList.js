@@ -21,7 +21,8 @@ export const TopList = ({ photos, icon, title, callback }) => {
                 { getItems(photos).map((item, index) => (
                     <div className="collection-item" onClick={ () => callback(item.value) } key={ index }>
                         <Icon icon={ icon } className="mr-2" />
-                        { item.value }  <span class="badge ">{ item.count }</span> </div>
+                        <span className="text-ellipsis">{ item.value }</span>
+                          <span class="badge ">{ item.count }</span> </div>
                 )) }
             </div>
             <br />

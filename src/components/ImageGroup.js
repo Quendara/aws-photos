@@ -50,7 +50,7 @@ export const ImageGroup = ({ photos, deleteTodoHandle }) => {
                     <>
                         { getItems(photos).map((item, index) => (
                             <div className="row" >
-                                <div className="col s12 mouse-pointer" key={ index } onClick={ () => setCurrent({ name: item.value, photos: item.photos }) } >
+                                <div className="col s11 mouse-pointer" key={ index } onClick={ () => setCurrent({ name: item.value, photos: item.photos }) } >
                                     <h5>
                                         <Icon icon={ group } className="mr-2" />
                                         { item.value }  <span class="badge ">{ item.count }</span>
