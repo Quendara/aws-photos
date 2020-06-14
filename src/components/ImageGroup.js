@@ -36,13 +36,17 @@ export const ImageGroup = ({ photos, deleteTodoHandle }) => {
         return "col s6"
     }
 
-
+    // condition ? true : false.
 
     return (
         <div>
+            
+            { (current.name.length != 0 ) ? (
             <div className="col s12 " onClick={ () => setCurrent({ name: "", photos: [] }) }>
-                <h3>{ current.name } </h3>
+                <h5><button className="btn blue mr-2">Back </button>{ current.name } </h5>
             </div>
+            ) :
+            ( <></> ) }
 
             <>
 

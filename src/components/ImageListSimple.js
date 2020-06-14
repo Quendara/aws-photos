@@ -18,6 +18,7 @@ export const ImageListSimple = ({ photos, deleteTodoHandle }) => {
                             <span class="badge">{image.dirname} / {image.filename}</span>                            
                             <h5>{image.country}</h5>
                             <h6>{image.city}</h6>
+                            <h6>{image.day}</h6>
                             <Rating rating={image.rating}></Rating>
                         </div>
 

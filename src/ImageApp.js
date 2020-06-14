@@ -46,13 +46,14 @@ const ImageApp = (props) => {
     const [location, setLocation] = useState(dummyLocations);
 
     const filter = {
-        country:"",
-        state:"",
-        city:"",
-        dirname:"",
-        year:"",
-        rating:"",
-        city:"",
+        country: "",
+        state: "",
+        city: "",
+        sameday: "",
+        dirname: "",
+        year: "",
+        rating: "",
+        city: "",
     }
 
     // filtered
@@ -67,7 +68,7 @@ const ImageApp = (props) => {
     const [view_images, setViewImages] = useState("group"); // group, list, grid
 
 
-    const filterFiles = ( filter ) => {
+    const filterFiles = (filter) => {
 
         const t0 = performance.now()
 
@@ -77,12 +78,15 @@ const ImageApp = (props) => {
             const bool1 = filter.year === "" || +image.year === +filter.year
             const bool2 = filter.rating === "" || +image.rating >= +filter.rating
             const bool3 = filter.country === "" || image.country === filter.country
-            const bool4 = filter.city === "" || image.city === filter.city
-            const bool5 = filter.dirname === "" || image.dirname === filter.dirname
+            const bool4 = filter.sameday === "" || image.sameday === filter.sameday
+
+            const bool5 = filter.state === "" || image.state === filter.state
+            const bool6 = filter.city === "" || image.city === filter.city
+            const bool7 = filter.dirname === "" || image.dirname === filter.dirname
 
             // console.log("+image.year === +year : ", +image.year, year, +image.year === +year)
             // console.log(bool1, bool2, bool3)
-            return (bool1 && bool2 && bool3 && bool4 && bool5 )
+            return (bool1 && bool2 && bool3 && bool4 && bool5 && bool6 && bool7)
         })
 
 
@@ -97,9 +101,9 @@ const ImageApp = (props) => {
 
     const callbackFilter = (key, value) => {
 
-        console.log( "callbackFilter : " , key, " : ", value)
+        console.log("callbackFilter : ", key, " : ", value)
         current_filter[key] = value;
-        setCurrentFilter( current_filter )
+        setCurrentFilter(current_filter)
         filterFiles(current_filter)
     }
 
@@ -130,16 +134,18 @@ const ImageApp = (props) => {
 
     return (
         <>
-
-
-
-
             <div className="row">
+                <div className="col s12">
+                    <div className="m-2" ></div>
+                </div>
                 <div className="col s12 m2">
-                    <TopList photos={ current_items } title="year" icon="year" sortByCount={false} items={ year } callback={ callbackFilter } />
-                    <TopList photos={ current_items } title="rating" icon="rating" sortByCount={false}  items={ rating } callback={ callbackFilter } />
+                    <button className="btn blue" onClick={ () => callbackFilter('sameday', '06-14') } >Today</button>
+
+
+                    <TopList photos={ current_items } title="year" icon="year" sortByCount={ false } items={ year } callback={ callbackFilter } />
+                    <TopList photos={ current_items } title="rating" icon="rating" sortByCount={ false } items={ rating } callback={ callbackFilter } />
                     <TopList photos={ current_items } title="dirname" icon="dirname" items={ year } callback={ callbackFilter } />
-                    <TopList photos={ current_items } title="country" icon="country" items={ location } callback={ callbackFilter } />
+                    <TopList photos={ current_items } title="country" icon="location" items={ location } callback={ callbackFilter } />
                     <TopList photos={ current_items } title="state" icon="location" items={ location } callback={ callbackFilter } />
                     <TopList photos={ current_items } title="city" icon="location" items={ location } callback={ callbackFilter } />
 
@@ -147,22 +153,23 @@ const ImageApp = (props) => {
                 <div className="col s12 m10">
                     <div className="row">
                         <div className="offset-s2 col s6 center">
-                            <CancelFilter value={ current_filter.dirname } filter={"dirname"} callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.year } filter={"year"} callback={ callbackFilter } />
+
+                            <CancelFilter value={ current_filter.sameday } filter={ "sameday" } callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.dirname } filter={ "dirname" } callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.year } filter={ "year" } callback={ callbackFilter } />
                             <CancelFilter value={ current_filter.rating } filter="rating" callback={ callbackFilter } />
                             <CancelFilter value={ current_filter.country } filter="country" callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.country } filter="state" callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ current_filter.city } filter="city" callback={ callbackFilter } />
                         </div>
                         <div className="offset-s2 col s2 center" onClick={ toogleView }>
+
                             <button className="btn blue" >{ view_images }</button>
                         </div>
                     </div>
                     <div className="row">
                         { imageApp }
                     </div>
-
-
                 </div>
             </div>
         </>
