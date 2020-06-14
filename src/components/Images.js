@@ -25,10 +25,10 @@ const Images = ({ photos, view, ...rest }) => {
   const imageApp = (vw) => {
     switch (vw) {
       case "grid":
-        return (<ImageGrid photos={ addSrcAndReduce(photos, 100) } />)
+        return (<ImageGrid photos={ addSrcAndReduce(photos, 20) } />)
         break;
       case "list":
-        return (<ImageListSimple photos={ addSrcAndReduce(photos, 40) } />)
+        return (<ImageListSimple photos={ addSrcAndReduce(photos, 20) } />)
         break;
       case "group":
         return (<ImageGroup photos={ addSrcAndReduce(photos) } />)
