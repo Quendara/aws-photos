@@ -16,6 +16,7 @@ import { mockdataHamburg } from "./data/mockdata_Hamburg.js"
 import { mockdataPrag } from "./data/mockdata_Prag.js"
 import { mockdataKroatien } from "./data/mockdata_Kroatien.js"
 import { mockdataDenHaag } from "./data/mockdata_DenHaag.js"
+import { mockdataItalien } from "./data/mockdata_Italien.js"
 
 // import { mockdata } from "./data/mockdata_full"
 
@@ -27,6 +28,7 @@ mockdata = mockdata.concat(mockdataHamburg)
 mockdata = mockdata.concat(mockdataPrag)
 mockdata = mockdata.concat(mockdataKroatien)
 mockdata = mockdata.concat(mockdataDenHaag)
+mockdata = mockdata.concat(mockdataItalien)
 
 
 
@@ -43,32 +45,44 @@ const ImageApp = (props) => {
     const [year, setYear] = useState(dummyYear);
     const [location, setLocation] = useState(dummyLocations);
 
+    const filter = {
+        country:"",
+        state:"",
+        city:"",
+        dirname:"",
+        year:"",
+        rating:"",
+        city:"",
+    }
+
     // filtered
     const [current_items, setCurrentItems] = useState(mockdata);
-    const [current_city, setCurrentCity] = useState("");
-    const [current_country, setCurrentCountry] = useState("");
-    const [current_year, setCurrentYear] = useState("");
-    const [current_rating, setCurrentRating] = useState("");
-    const [current_dirname, setCurrentDirname] = useState("");
+    // const [current_city, setCurrentCity] = useState("");
+    // const [current_country, setCurrentCountry] = useState("");
+    // const [current_year, setCurrentYear] = useState("");
+    // const [current_rating, setCurrentRating] = useState("");
+    // const [current_dirname, setCurrentDirname] = useState("");
+    const [current_filter, setCurrentFilter] = useState(filter);
 
     const [view_images, setViewImages] = useState("group"); // group, list, grid
 
 
-    const filterFiles = (year, country, city, rating) => {
+    const filterFiles = ( filter ) => {
 
         const t0 = performance.now()
 
         const list = items.filter(image => {
 
             // return true keeps the item in the list
-            const bool1 = year === "" || +image.year === +year
-            const bool2 = rating === "" || +image.rating >= +rating
-            const bool3 = country === "" || image.country === country
-            const bool4 = city === "" || image.city === city
+            const bool1 = filter.year === "" || +image.year === +filter.year
+            const bool2 = filter.rating === "" || +image.rating >= +filter.rating
+            const bool3 = filter.country === "" || image.country === filter.country
+            const bool4 = filter.city === "" || image.city === filter.city
+            const bool5 = filter.dirname === "" || image.dirname === filter.dirname
 
             // console.log("+image.year === +year : ", +image.year, year, +image.year === +year)
             // console.log(bool1, bool2, bool3)
-            return (bool1 && bool2 && bool3 && bool4)
+            return (bool1 && bool2 && bool3 && bool4 && bool5 )
         })
 
 
@@ -81,41 +95,13 @@ const ImageApp = (props) => {
         setCurrentItems(list)
     };
 
-    const callbackYear = (x) => {
+    const callbackFilter = (key, value) => {
 
-        console.log("year : ", x)
-        setCurrentYear(x)
-        filterFiles(x, current_country, current_city, current_rating)
-
+        console.log( "callbackFilter : " , key, " : ", value)
+        current_filter[key] = value;
+        setCurrentFilter( current_filter )
+        filterFiles(current_filter)
     }
-    const callbackCity = (x) => {
-        console.log("loc : ", x)
-        setCurrentCity(x)
-        filterFiles(current_year, current_country, x, current_rating)
-    }
-
-    const callbackCountry = (x) => {
-        console.log("loc : ", x)
-        setCurrentCountry(x)
-        filterFiles(current_year, x, current_city, current_rating)
-    }
-
-    const callbackRating = (x) => {
-        console.log("rating : ", x)
-        setCurrentRating(x)
-        filterFiles(current_year, current_country, current_city, x)
-    }
-
-    const callbackDirname = (x) => {
-        console.log("rating : ", x)
-        setCurrentDirname(x)
-        // filterFiles(current_year, current_country, current_city, x)
-    }    
-
-    
-
-    // Settings.baseS3Bucket + "thumbs/
-    // <button className="btn" onClick={() => listFiles} >Load </button>
 
     const imageApp = current_items.length ? (
         <Images photos={ current_items } view={ view_images } />
@@ -150,31 +136,33 @@ const ImageApp = (props) => {
 
             <div className="row">
                 <div className="col s12 m2">
-                    <TopList photos={ current_items } title="year" icon="year" items={ year } callback={ callbackYear } />
-                    <TopList photos={ current_items } title="rating" icon="rating" items={ rating } callback={ callbackRating } />
-                    <TopList photos={ current_items } title="dirname" icon="dirname" items={ year } callback={ callbackDirname } />
-                    <TopList photos={ current_items } title="country" icon="country" items={ location } callback={ callbackCountry } />
-                    <TopList photos={ current_items } title="city" icon="location" items={ location } callback={ callbackCity } />
+                    <TopList photos={ current_items } title="year" icon="year" sortByCount={false} items={ year } callback={ callbackFilter } />
+                    <TopList photos={ current_items } title="rating" icon="rating" sortByCount={false}  items={ rating } callback={ callbackFilter } />
+                    <TopList photos={ current_items } title="dirname" icon="dirname" items={ year } callback={ callbackFilter } />
+                    <TopList photos={ current_items } title="country" icon="country" items={ location } callback={ callbackFilter } />
+                    <TopList photos={ current_items } title="state" icon="location" items={ location } callback={ callbackFilter } />
+                    <TopList photos={ current_items } title="city" icon="location" items={ location } callback={ callbackFilter } />
 
                 </div>
                 <div className="col s12 m10">
                     <div className="row">
                         <div className="offset-s2 col s6 center">
-                        <CancelFilter value={ current_dirname } callback={ callbackDirname } />
-                            <CancelFilter value={ current_year } callback={ callbackYear } />
-                            <CancelFilter value={ current_rating } callback={ callbackRating } />
-                            <CancelFilter value={ current_country } callback={ callbackCountry } />
-                            <CancelFilter value={ current_city } callback={ callbackCity } />
+                            <CancelFilter value={ current_filter.dirname } filter={"dirname"} callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.year } filter={"year"} callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.rating } filter="rating" callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.country } filter="country" callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.country } filter="state" callback={ callbackFilter } />
+                            <CancelFilter value={ current_filter.city } filter="city" callback={ callbackFilter } />
                         </div>
                         <div className="offset-s2 col s2 center" onClick={ toogleView }>
-                            <button className="btn blue" >{ view_images }</button> 
+                            <button className="btn blue" >{ view_images }</button>
                         </div>
                     </div>
                     <div className="row">
                         { imageApp }
                     </div>
 
-                    
+
                 </div>
             </div>
         </>
