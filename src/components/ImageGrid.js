@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from "react";
 import Gallery from 'react-photo-gallery';
 import Carousel, { Modal, ModalGateway } from "react-images";
+
 import Settings from "../Settings"
 
-export const ImageGrid = ({ photos, view, ...rest }) => {
+export const ImageGrid = ({ photos, limit=10,  ...rest }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -28,12 +29,19 @@ export const ImageGrid = ({ photos, view, ...rest }) => {
     }),
   }
 
+  const limitPhotos = (images, size=999999) => {
+
+    return images.slice(0, size) // reduce    
+
+ 
+  }  
+
   return (
     <>
       { photos.length > 0 && <>
 
         <div>
-            <Gallery photos={ photos } onClick={ openLightbox } />
+            <Gallery photos={ limitPhotos( photos, limit) } onClick={ openLightbox } />
             <ModalGateway>
               { viewerIsOpen ? (
                 <Modal onClose={ closeLightbox }>
@@ -43,7 +51,7 @@ export const ImageGrid = ({ photos, view, ...rest }) => {
                     views={ photos.map(x => ({
                       ...x,
                       srcset: x.srcSet,
-                      caption: x.title,
+                      caption: x.filename,
 
                     })) }
                   />

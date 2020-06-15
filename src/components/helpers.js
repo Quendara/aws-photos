@@ -1,6 +1,6 @@
 import { sortBy, groupBy } from "underscore";
 
-export const findUnique = (list, group, sortByCount = true ) => {
+export const findUnique = ( list, group, sortByCount = true, limit=5 ) => {
     let groups = groupBy(list, group);
     let uniqueItems = []
     for (var key in groups) {
@@ -13,7 +13,6 @@ export const findUnique = (list, group, sortByCount = true ) => {
                 photos: groups[key]
             }
             uniqueItems.push(item)
-
         }
     }
     // 
@@ -27,7 +26,8 @@ export const findUnique = (list, group, sortByCount = true ) => {
     uniqueItems = uniqueItems.reverse() // to reverse the order, of course replace with better impl
 
     console.log("uniqueItems (SORTED) : ", uniqueItems);
-    return uniqueItems
+    return uniqueItems.slice(0, limit) // reduce
+    
 }   
 
 export const leadingZeros = (num, size=2) => {

@@ -28,11 +28,11 @@ let mockdata = []
 mockdata = mockdata.concat(mockdataBerlin)
 mockdata = mockdata.concat(mockdataSizilien)
 mockdata = mockdata.concat(mockdataMadeira)
-// mockdata = mockdata.concat(mockdataHamburg)
-// mockdata = mockdata.concat(mockdataPrag)
-// mockdata = mockdata.concat(mockdataKroatien)
-// mockdata = mockdata.concat(mockdataDenHaag)
-// mockdata = mockdata.concat(mockdataItalien)
+mockdata = mockdata.concat(mockdataHamburg)
+mockdata = mockdata.concat(mockdataPrag)
+mockdata = mockdata.concat(mockdataKroatien)
+mockdata = mockdata.concat(mockdataDenHaag)
+mockdata = mockdata.concat(mockdataItalien)
 
 
 
