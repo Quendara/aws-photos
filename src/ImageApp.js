@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Settings from "./Settings"
+// import Settings from "./Settings"
 
 // import { sortBy, groupBy } from "underscore";
 
@@ -9,9 +9,7 @@ import { CancelFilter } from "./components/CancelFilter";
 import { SelectionView } from "./components/SelectionView";
 import { leadingZeros } from "./components/helpers";
 
-
-
-import { Icon } from "./components/Icons";
+// import { Icon } from "./components/Icons";
 
 import { mockdataBerlin } from "./data/mockdata_Berlin.js"
 import { mockdataSizilien } from "./data/mockdata_Sizilien.js"
@@ -33,8 +31,6 @@ mockdata = mockdata.concat(mockdataPrag)
 mockdata = mockdata.concat(mockdataKroatien)
 mockdata = mockdata.concat(mockdataDenHaag)
 mockdata = mockdata.concat(mockdataItalien)
-
-
 
 
 // This class contains the business logic of the application
@@ -169,8 +165,8 @@ const ImageApp = (props) => {
                             <CancelFilter value={ current_filter.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ current_filter.city } filter="city" callback={ callbackFilter } />
                         </div>
-                        <div className="offset-s2 col s2 center" >
-                            <SelectionView currentValue={ view_images } valueArr={ ['grid', 'list', 'group'] } callback={ callbackView } />
+                        <div className="offset-s1 col s3 center" >
+                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', ] } callback={ callbackView } />
                         </div>
                     </div>
                     <div className="row">

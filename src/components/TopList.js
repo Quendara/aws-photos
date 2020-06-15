@@ -7,8 +7,8 @@ export const TopList = ({ photos, icon, title, sortByCount = true, callback = un
 
     const getItems = (photos) => {
         const group = title
-        
-        let locations = findUnique( photos, group, sortByCount ) 
+
+        let locations = findUnique(photos, group, sortByCount)
         return locations
     }
 
@@ -18,13 +18,13 @@ export const TopList = ({ photos, icon, title, sortByCount = true, callback = un
 
     return (
         <>
-            <h6><Icon icon={ icon } /> { title } <span onClick={ () => callback( title,"" ) } className={ getResetClass() } >Reset</span> </h6>
-            <div className="collection z-depth-5">
+            <h6><Icon icon={ icon } /> { title } <span onClick={ () => callback(title, "") } className={ getResetClass() } >Reset</span> </h6>
+            <div className="collection grey-blue darken-4 z-depth-5">
                 { getItems(photos).map((item, index) => (
-                    <div className="collection-item" onClick={ () => callback( title, item.value) } key={ index }>
+                    <div className="collection-item" onClick={ () => callback(title, item.value) } key={ index }>
                         <Icon icon={ icon } className="mr-2" />
                         <span className="text-ellipsis">{ item.value }</span>
-                          <span class="badge ">{ item.count }</span> </div>
+                        <span class="badge text-blue ">{ item.count }</span> </div>
                 )) }
             </div>
             <br />
@@ -32,3 +32,6 @@ export const TopList = ({ photos, icon, title, sortByCount = true, callback = un
     )
 }
 
+/*
+
+*/

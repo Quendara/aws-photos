@@ -1,5 +1,4 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Icon } from "./Icons"
 
 export const SelectionView = ({ valueArr, currentValue, callback }) => {
@@ -7,10 +6,10 @@ export const SelectionView = ({ valueArr, currentValue, callback }) => {
 
     const getClass = ( item ) => {
         if( item == currentValue ){
-            return "btn blue ml-1" 
+            return "btn blue m-1" 
         }
         else{
-            return  "btn ml-1"
+            return  "btn blue-text text-lighten-2 blue darken-4 m-1"
         }        
     }
 
@@ -27,7 +26,7 @@ export const SelectionView = ({ valueArr, currentValue, callback }) => {
         <>
             { valueArr.map((item, index) => {
                 return (
-                    <a className={getClass(item) } onClick={ () => callbackLocal(item)} >{ item }</a>
+                    <a className={getClass(item) } onClick={ () => callbackLocal(item)} ><Icon icon={ item } className="mr-2" /> { item }</a>
                 )
             }) }
         </>

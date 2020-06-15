@@ -161,27 +161,27 @@ const Auth = ({ authSuccessCallback }) => {
   if (cognitoUser == null) {
     return (
       <>
-        <form className="form-inline" onSubmit={handleClick}>
+        <form className="form-inline" onSubmit={ handleClick }>
           <input
-            value={username}
-            className={getInputClass(username)}
+            value={ username }
+            className={ getInputClass(username) }
             placeholder="Name"
-            onChange={e => setUsername(e.target.value)}
+            onChange={ e => setUsername(e.target.value) }
           />
           <input
             type="password"
-            value={password}
-            className={getInputClass(password)}
+            value={ password }
+            className={ getInputClass(password) }
             placeholder="Password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={ e => setPassword(e.target.value) }
           />
           <button className="btn btn-primary m-2">
-            {trySend ? "Loading" : "Sign-In"}
-            <FontAwesomeIcon icon={faAngleDoubleRight} className="ml-2" />
+            { trySend ? "Loading" : "Sign-In" }
+            <FontAwesomeIcon icon={ faAngleDoubleRight } className="ml-2" />
           </button>
         </form>
 
-        {authError}
+        { authError }
       </>
     );
   } else {
@@ -194,15 +194,13 @@ const Auth = ({ authSuccessCallback }) => {
               <ul id="nav-mobile" className="right hide-on-med-and-down m4">
                 <li>
                   <button className="btn btn-primary ">
-                    <FontAwesomeIcon icon={faUserAstronaut} className="mr-2" />
-                    <b> {username} </b>
+                    <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" />
+                    <b> { username } </b>
 
                   </button>
-                </li>
-                <li >
-                  <button className="btn btn " onClick={signOut}>
+                  <button className="btn btn m-2 " onClick={ signOut }>
                     Logout
-                <FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
+                <FontAwesomeIcon icon={ faSignOutAlt } className="ml-2" />
                   </button>
                 </li>
 

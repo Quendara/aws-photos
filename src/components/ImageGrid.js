@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import Gallery from 'react-photo-gallery';
 import Carousel, { Modal, ModalGateway } from "react-images";
+import { Rating } from "./Rating"
 
 import Settings from "../Settings"
 
@@ -19,22 +20,29 @@ export const ImageGrid = ({ photos, limit=10,  ...rest }) => {
     setViewerIsOpen(false);
   };
 
-  const customStyles = {
+  // const customStyles = {
 
-    view: () => ({
-      // none of react-images styles are passed to <View />
+  //   view: () => ({
+  //     // none of react-images styles are passed to <View />
 
-      width: "190vh",
-      height: "190vh",
-    }),
-  }
+  //     width: "190vh",
+  //     height: "190vh",
+  //   }),
+  // }
 
   const limitPhotos = (images, size=999999) => {
-
     return images.slice(0, size) // reduce    
-
- 
   }  
+
+  const getCaptionFromPhoto = ( image ) => {
+    return ( 
+      <div >
+        { image.filename }
+        <Rating rating={image.rating}></Rating>
+        { image.year }
+      </div> )
+  }
+
 
   return (
     <>
@@ -46,12 +54,11 @@ export const ImageGrid = ({ photos, limit=10,  ...rest }) => {
               { viewerIsOpen ? (
                 <Modal onClose={ closeLightbox }>
                   <Carousel
-
                     currentIndex={ currentImage }
-                    views={ photos.map(x => ({
+                    views={ limitPhotos( photos, limit * 3).map(x => ({
                       ...x,
                       srcset: x.srcSet,
-                      caption: x.filename,
+                      caption: getCaptionFromPhoto( x )
 
                     })) }
                   />

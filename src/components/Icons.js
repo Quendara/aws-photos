@@ -5,10 +5,15 @@ import {
     faSignOutAlt,
     faClock,
     faStar,
+    faFolder,
     faUserAstronaut,
     faMapMarkerAlt,
     faWindowClose,
-    faStarAndCrescent
+    faStarAndCrescent,
+
+    faList,
+    faThList,
+    faThLarge,
     // fasStar,
   } from "@fortawesome/free-solid-svg-icons";
 
@@ -22,6 +27,14 @@ const textToIcon = {
     "state": faMapMarkerAlt,
 
     "rating": faStar,
+
+    "dirname": faFolder,
+    "filename": faFolder,
+
+    "list": faList,
+    "group": faThList,
+    "grid": faThLarge,
+
     
     "day": faClock,
     "month": faClock,

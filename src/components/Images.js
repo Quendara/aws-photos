@@ -1,6 +1,4 @@
 import React, { useState, useCallback } from "react";
-import Gallery from 'react-photo-gallery';
-import Carousel, { Modal, ModalGateway } from "react-images";
 
 import Settings from "../Settings"
 import { ImageListSimple } from "./ImageListSimple";
@@ -25,17 +23,13 @@ const Images = ({ photos, view, ...rest }) => {
   const imageApp = (vw) => {
     switch (vw) {
       case "grid":
-        return (<ImageGrid photos={ addSrcAndReduce(photos) } limit="2" />)
-        break;
+        return (<ImageGrid photos={ addSrcAndReduce(photos) } limit="40" />)
       case "list":
         return (<ImageListSimple photos={ addSrcAndReduce(photos, 20) }  />)
-        break;
       case "group":
         return (<ImageGroup photos={ addSrcAndReduce(photos) } />)
-        break;
       default:
         return (<div ><h1>View not specified</h1> </div>)
-        break;
     }
   }
 

@@ -12,7 +12,7 @@ import { SelectionView } from "./SelectionView";
 
 export const ImageGroup = ({ photos, deleteTodoHandle }) => {
 
-    const [group, setGroup] = useState("country");
+    const [group, setGroup] = useState("dirname");
     const [current, setCurrent] = useState({ name: "", photos: [] });
 
     const getGroupedItems = (photos) => {
@@ -41,28 +41,29 @@ export const ImageGroup = ({ photos, deleteTodoHandle }) => {
         setGroup(value)
     }
 
-    const returnValuesAsString = ( list ) => {
-        let valueArr = list.map(x => x.value ); // map object to simple str arr
+    const returnValuesAsString = (list) => {
+        let valueArr = list.map(x => ( x.value ) ); // map object to simple str arr
         let str = valueArr.join(', ') // join to string
         return str;
     }
 
-    const getContext = ( currentGrouping, photos) => {
+    const getContext = (currentGrouping, photos) => {
         switch (currentGrouping) {
             case "year":
                 // list countries form given photos
-                return returnValuesAsString( findUnique( photos, 'country' ) ); 
-            case "dirname":{
-                let  listToUse = findUnique( photos, 'country' ) 
+                return returnValuesAsString(findUnique(photos, 'country'));
+            case "month":
+                // list countries form given photos
+                return returnValuesAsString(findUnique(photos, 'country'));
+            case "dirname": {
+                let listToUse = findUnique(photos, 'country')
 
 
-                return returnValuesAsString( listToUse ); 
+                return returnValuesAsString(listToUse);
             }
-                
-                
-            case "country":                
+            case "country":
                 // list year form given photos
-                return returnValuesAsString( findUnique( photos, 'year' ) );
+                return returnValuesAsString(findUnique(photos, 'year'));
             default:
                 return "Bla, Bla, Bla"
 
@@ -94,7 +95,7 @@ export const ImageGroup = ({ photos, deleteTodoHandle }) => {
                     <>
                         <div className="row" >
                             <div className="col s12 right" >
-                                <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country'] } callback={ callbackGroupBy } />
+                                <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country', 'month'] } callback={ callbackGroupBy } />
                             </div>
                         </div>
 
@@ -111,7 +112,7 @@ export const ImageGroup = ({ photos, deleteTodoHandle }) => {
                                         <span class="badge ">{ item.count }</span>
                                     </h5>
                                 </div>
-                                <div className={ adaptColSize(item.count) } key={ index }>
+                                <div className={ adaptColSize(item.count) } key={ index + 1000 }>
                                     <ImageGrid photos={ sortPhotos(item.photos, 'rating') } limit="5" />
                                 </div>
                             </div>

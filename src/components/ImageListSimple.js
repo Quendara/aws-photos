@@ -1,16 +1,37 @@
-import React from "react";
+
+import React, { useState } from "react";
+import Carousel, { Modal, ModalGateway } from "react-images";
+
 import { Rating } from "./Rating"
 
 export const ImageListSimple = ({ photos, deleteTodoHandle }) => {
+
+    const [currentImage, setCurrentImage] = useState(0);
+    const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  
+    const openLightbox = index => {
+      setCurrentImage(index);
+      setViewerIsOpen(true);
+    }
+  
+    const closeLightbox = () => {
+      setCurrentImage(0);
+      setViewerIsOpen(false);
+    };
+
+    const getCaptionFromPhoto = ( image ) => {
+        return ( 
+          <div >
+            { image.filename }
+            <Rating rating={image.rating}></Rating>
+            { image.year }
+          </div> )
+      }    
+
     const imageList = photos.length ? (
-        photos.map(image => {
+        photos.map( (image, index) => {
             return (
-                <div className="row " key={image.id}>
-                    <div className=" "
-                        onClick={() => {
-                            // deleteTodoHandle(image.id);
-                        }}
-                    >
+                <div className="row " key={image.id} onClick={ () => openLightbox(index) }>
                         <div className="col s6 m2" >
                             <img className="responsive-img" src={image.src} />
                         </div>
@@ -21,8 +42,6 @@ export const ImageListSimple = ({ photos, deleteTodoHandle }) => {
                             <h6>{image.day}</h6>
                             <Rating rating={image.rating}></Rating>
                         </div>
-
-                    </div>
                 </div>
             );
         })
@@ -33,6 +52,21 @@ export const ImageListSimple = ({ photos, deleteTodoHandle }) => {
     return (
         <>
             {imageList}
+            <ModalGateway>
+              { viewerIsOpen ? (
+                <Modal onClose={ closeLightbox }>
+                  <Carousel
+                    currentIndex={ currentImage }
+                    views={ photos.map(x => ({
+                      ...x,
+                      srcset: x.srcSet,
+                      caption: getCaptionFromPhoto( x )
+
+                    })) }
+                  />
+                </Modal>
+              ) : null }
+            </ModalGateway>            
         </>
     );
 };
