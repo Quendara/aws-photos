@@ -30,4 +30,9 @@ export const findUnique = (list, group, sortByCount = true ) => {
     return uniqueItems
 }   
 
+export const leadingZeros = (num, size=2) => {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
 

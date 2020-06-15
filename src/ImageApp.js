@@ -6,6 +6,10 @@ import Settings from "./Settings"
 import { Images } from "./components/Images";
 import { TopList } from "./components/TopList";
 import { CancelFilter } from "./components/CancelFilter";
+import { SelectionView } from "./components/SelectionView";
+import { leadingZeros } from "./components/helpers";
+
+
 
 import { Icon } from "./components/Icons";
 
@@ -24,11 +28,11 @@ let mockdata = []
 mockdata = mockdata.concat(mockdataBerlin)
 mockdata = mockdata.concat(mockdataSizilien)
 mockdata = mockdata.concat(mockdataMadeira)
-mockdata = mockdata.concat(mockdataHamburg)
-mockdata = mockdata.concat(mockdataPrag)
-mockdata = mockdata.concat(mockdataKroatien)
-mockdata = mockdata.concat(mockdataDenHaag)
-mockdata = mockdata.concat(mockdataItalien)
+// mockdata = mockdata.concat(mockdataHamburg)
+// mockdata = mockdata.concat(mockdataPrag)
+// mockdata = mockdata.concat(mockdataKroatien)
+// mockdata = mockdata.concat(mockdataDenHaag)
+// mockdata = mockdata.concat(mockdataItalien)
 
 
 
@@ -107,30 +111,33 @@ const ImageApp = (props) => {
         filterFiles(current_filter)
     }
 
+    const callbackView = (view) => {
+        setViewImages(view)
+    }
+
+    const setToday = () => {
+        const date = new Date()
+        let today = leadingZeros(date.getMonth()+1)
+        today += "-" + leadingZeros(date.getDate())
+
+        callbackFilter('sameday', today)
+    }
+
+
     const imageApp = current_items.length ? (
         <Images photos={ current_items } view={ view_images } />
     ) : (
-            <div className="" >
-                <p className="center">
-                    No images loaded
-                    <br />
-
-                </p>
+            <div className="row" >
+                <div className="offset-s2 col s8" >
+                    <div className="card-panel blue-grey darken-1" >
+                        <p className="blue-text center">
+                            <h5>No images selected, please remove filter.</h5>
+                        </p>
+                    </div>
+                </div>
             </div>
         )
 
-    const toogleView = ({ view }) => {
-
-        if (view_images == "grid") {
-            setViewImages("group")
-        }
-        else if (view_images == "group") {
-            setViewImages("list")
-        }
-        else {
-            setViewImages("grid")
-        }
-    }
 
     return (
         <>
@@ -139,7 +146,7 @@ const ImageApp = (props) => {
                     <div className="m-2" ></div>
                 </div>
                 <div className="col s12 m2">
-                    <button className="btn blue" onClick={ () => callbackFilter('sameday', '06-14') } >Today</button>
+                    <button className="btn blue" onClick={ setToday } >Today</button>
 
 
                     <TopList photos={ current_items } title="year" icon="year" sortByCount={ false } items={ year } callback={ callbackFilter } />
@@ -162,9 +169,8 @@ const ImageApp = (props) => {
                             <CancelFilter value={ current_filter.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ current_filter.city } filter="city" callback={ callbackFilter } />
                         </div>
-                        <div className="offset-s2 col s2 center" onClick={ toogleView }>
-
-                            <button className="btn blue" >{ view_images }</button>
+                        <div className="offset-s2 col s2 center" >
+                            <SelectionView currentValue={ view_images } valueArr={ ['grid', 'list', 'group'] } callback={ callbackView } />
                         </div>
                     </div>
                     <div className="row">
