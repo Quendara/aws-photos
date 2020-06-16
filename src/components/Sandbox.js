@@ -9,10 +9,8 @@ import { TopList } from "./TopList"
 import { CancelFilter } from "./CancelFilter"
 
 
-import { setFilter } from "../redux/actions"; // import default 
-
+import { setQueryFilter } from "../redux/actions"; // import default 
 import { rootReducer } from "../redux/reducer"; // import default 
-
 import { createStore } from "redux";
 
 // init with function
@@ -24,7 +22,7 @@ store.subscribe(() => {
 });
 
 const callbackFilter = (key, value) => {
-    store.dispatch(setFilter(key, value) );
+    store.dispatch(setQueryFilter(key, value) );
 }
 
 export const Sandbox = () => {

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 // import Settings from "./Settings"
-
 // import { sortBy, groupBy } from "underscore";
+
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux'
+
 
 import { Images } from "./components/Images";
 import { TopList } from "./components/TopList";
@@ -9,102 +12,23 @@ import { CancelFilter } from "./components/CancelFilter";
 import { SelectionView } from "./components/SelectionView";
 import { leadingZeros } from "./components/helpers";
 
+import { setQueryFilter } from "./redux/actions"; // import default 
+
 // import { Icon } from "./components/Icons";
 
-import { mockdataBerlin } from "./data/mockdata_Berlin.js"
-import { mockdataSizilien } from "./data/mockdata_Sizilien.js"
-import { mockdataMadeira } from "./data/mockdata_Madeira.js"
-import { mockdataHamburg } from "./data/mockdata_Hamburg.js"
-import { mockdataPrag } from "./data/mockdata_Prag.js"
-import { mockdataKroatien } from "./data/mockdata_Kroatien.js"
-import { mockdataDenHaag } from "./data/mockdata_DenHaag.js"
-import { mockdataItalien } from "./data/mockdata_Italien.js"
-
-// import { mockdata } from "./data/mockdata_full"
-
-let mockdata = []
-mockdata = mockdata.concat(mockdataBerlin)
-mockdata = mockdata.concat(mockdataSizilien)
-mockdata = mockdata.concat(mockdataMadeira)
-mockdata = mockdata.concat(mockdataHamburg)
-mockdata = mockdata.concat(mockdataPrag)
-mockdata = mockdata.concat(mockdataKroatien)
-mockdata = mockdata.concat(mockdataDenHaag)
-mockdata = mockdata.concat(mockdataItalien)
-
-
 // This class contains the business logic of the application
-const ImageApp = (props) => {
-
-    const dummyLocations = []
-    const dummyYear = []
-    const dummyRating = []
-
-    const [items, setItems] = useState(mockdata);
-    const [rating, setRating] = useState(dummyRating);
-    const [year, setYear] = useState(dummyYear);
-    const [location, setLocation] = useState(dummyLocations);
-
-    const filter = {
-        country: "",
-        state: "",
-        city: "",
-        sameday: "",
-        dirname: "",
-        year: "",
-        rating: "",
-        city: "",
-    }
-
-    // filtered
-    const [current_items, setCurrentItems] = useState(mockdata);
-    // const [current_city, setCurrentCity] = useState("");
-    // const [current_country, setCurrentCountry] = useState("");
-    // const [current_year, setCurrentYear] = useState("");
-    // const [current_rating, setCurrentRating] = useState("");
-    // const [current_dirname, setCurrentDirname] = useState("");
-    const [current_filter, setCurrentFilter] = useState(filter);
+const ImageApp = ( {photos, query, setQueryFilter} ) => {
 
     const [view_images, setViewImages] = useState("group"); // group, list, grid
-
-
-    const filterFiles = (filter) => {
-
-        const t0 = performance.now()
-
-        const list = items.filter(image => {
-
-            // return true keeps the item in the list
-            const bool1 = filter.year === "" || +image.year === +filter.year
-            const bool2 = filter.rating === "" || +image.rating >= +filter.rating
-            const bool3 = filter.country === "" || image.country === filter.country
-            const bool4 = filter.sameday === "" || image.sameday === filter.sameday
-
-            const bool5 = filter.state === "" || image.state === filter.state
-            const bool6 = filter.city === "" || image.city === filter.city
-            const bool7 = filter.dirname === "" || image.dirname === filter.dirname
-
-            // console.log("+image.year === +year : ", +image.year, year, +image.year === +year)
-            // console.log(bool1, bool2, bool3)
-            return (bool1 && bool2 && bool3 && bool4 && bool5 && bool6 && bool7)
-        })
-
-
-        const t1 = performance.now()
-        console.log("filtering took " + (t1 - t0) + " milliseconds.")
-
-        console.log("filterFiles : ", list.length);
-
-        // updateViews(list)
-        setCurrentItems(list)
-    };
 
     const callbackFilter = (key, value) => {
 
         console.log("callbackFilter : ", key, " : ", value)
-        current_filter[key] = value;
-        setCurrentFilter(current_filter)
-        filterFiles(current_filter)
+        // current_filter[key] = value;
+        // setCurrentFilter(current_filter)
+        // filterFiles(current_filter)
+
+        setQueryFilter(key, value)
     }
 
     const callbackView = (view) => {
@@ -120,8 +44,8 @@ const ImageApp = (props) => {
     }
 
 
-    const imageApp = current_items.length ? (
-        <Images photos={ current_items } view={ view_images } />
+    const imageApp = photos.length ? (
+        <Images photos={ photos } view={ view_images } />
     ) : (
             <div className="row" >
                 <div className="offset-s2 col s8" >
@@ -145,25 +69,25 @@ const ImageApp = (props) => {
                     <button className="btn blue" onClick={ setToday } >Today</button>
 
 
-                    <TopList photos={ current_items } title="year" icon="year" sortByCount={ false } items={ year } callback={ callbackFilter } />
-                    <TopList photos={ current_items } title="rating" icon="rating" sortByCount={ false } items={ rating } callback={ callbackFilter } />
-                    <TopList photos={ current_items } title="dirname" icon="dirname" items={ year } callback={ callbackFilter } />
-                    <TopList photos={ current_items } title="country" icon="location" items={ location } callback={ callbackFilter } />
-                    <TopList photos={ current_items } title="state" icon="location" items={ location } callback={ callbackFilter } />
-                    <TopList photos={ current_items } title="city" icon="location" items={ location } callback={ callbackFilter } />
+                    <TopList photos={ photos } title="year" icon="year" sortByCount={ false } callback={ callbackFilter } />
+                    <TopList photos={ photos } title="rating" icon="rating" sortByCount={ false }  callback={ callbackFilter } />
+                    <TopList photos={ photos } title="dirname" icon="dirname"  callback={ callbackFilter } />
+                    <TopList photos={ photos } title="country" icon="location" callback={ callbackFilter } />
+                    <TopList photos={ photos } title="state" icon="location" callback={ callbackFilter } />
+                    <TopList photos={ photos } title="city" icon="location" callback={ callbackFilter } />
 
                 </div>
                 <div className="col s12 m10">
                     <div className="row">
                         <div className="col offset-m2  m6 s12 center">
 
-                            <CancelFilter value={ current_filter.sameday } filter={ "sameday" } callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.dirname } filter={ "dirname" } callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.year } filter={ "year" } callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.rating } filter="rating" callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.country } filter="country" callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.state } filter="state" callback={ callbackFilter } />
-                            <CancelFilter value={ current_filter.city } filter="city" callback={ callbackFilter } />
+                            <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
+                            <CancelFilter value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
+                            <CancelFilter value={ query.year } filter={ "year" } callback={ callbackFilter } />
+                            <CancelFilter value={ query.rating } filter="rating" callback={ callbackFilter } />
+                            <CancelFilter value={ query.country } filter="country" callback={ callbackFilter } />
+                            <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
+                            <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
                         <div className="col offset-m1 m3 s12  center" >
                             <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', ] } callback={ callbackView } />
@@ -179,6 +103,52 @@ const ImageApp = (props) => {
     )
 }
 
+const filterFiles = (photos, query) => {
+
+    const t0 = performance.now()
+
+    const list = photos.filter(image => {
+
+        // return true keeps the item in the list
+        const bool1 = query.year === "" || +image.year === +query.year
+        const bool2 = query.rating === "" || +image.rating >= +query.rating
+        const bool3 = query.country === "" || image.country === query.country
+        const bool4 = query.sameday === "" || image.sameday === query.sameday
+
+        const bool5 = query.state === "" || image.state === query.state
+        const bool6 = query.city === "" || image.city === query.city
+        const bool7 = query.dirname === "" || image.dirname === query.dirname
+
+        // console.log("+image.year === +year : ", +image.year, year, +image.year === +year)
+        // console.log(bool1, bool2, bool3)
+        return (bool1 && bool2 && bool3 && bool4 && bool5 && bool6 && bool7)
+    })
 
 
-export { ImageApp };
+    const t1 = performance.now()
+    console.log("filtering took " + (t1 - t0) + " milliseconds.")
+
+    console.log("filterFiles : ", list.length);
+
+    // updateViews(list)
+    // setCurrentItems(list)
+    return list
+};
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators( { setQueryFilter  }, dispatch )
+}
+
+const mapStateToProps = state => {
+
+    // const photos = state.photos
+    const photos = filterFiles(state.photos, state.query)
+    const query = state.query
+ 
+    return { photos, query } // photos:photos
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImageApp);
+
+// export { ImageApp };

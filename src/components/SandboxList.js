@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux'
+import { bindActionCreators } from "redux";
 
 import { Rating } from "./Rating"
-import { bindActionCreators } from "redux";
 
 import { setRatingOnImage } from "../redux/actions"; // import default 
 
@@ -27,7 +27,7 @@ const SandboxList = ({ photos, setRatingOnImage, query }) => {
                             <img className="responsive-img" src={ image.src } />
                         </div>
                         <div className="col s6 m10">
-                            <span class="badge">{ image.dirname } / { image.filename }</span>
+                            <span className="badge">{ image.dirname } / { image.filename }</span>
                             <h5>{ image.country }</h5>
                             <h6>{ image.city }</h6>
                             <h6>{ image.day }</h6>
@@ -83,7 +83,6 @@ const mapStateToProps = state => {
     const query = state.query
  
     return { photos, query } // photos:photos
-
 }
 
 

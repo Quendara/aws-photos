@@ -25,7 +25,7 @@ export function setRatingOnImage( id, rating ) {
 
 }
 
-export function setFilter( key, value ) {
+export function setQueryFilter( key, value ) {
     const action = {
       type: SET_FILTER,
       key, // == rating:rating

@@ -13,8 +13,10 @@ export const Rating = ({ rating, id, callback }) => {
     }
 
     const callbackLocal = (id, index) => {
-        const rating = index+1
-        callback( id, rating )
+        if( callback !== undefined ){
+            const rating = index+1
+            callback( id, rating )    
+        }        
     }
 
     const getStars = (v) => {

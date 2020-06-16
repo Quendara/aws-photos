@@ -26,7 +26,7 @@ export const SelectionView = ({ valueArr, currentValue, callback }) => {
         <>
             { valueArr.map((item, index) => {
                 return (
-                    <a className={getClass(item) } onClick={ () => callbackLocal(item)} ><Icon icon={ item } className="mr-2" /> { item }</a>
+                    <a key={index} className={getClass(item) } onClick={ () => callbackLocal(item)} ><Icon icon={ item } className="mr-2" /> { item }</a>
                 )
             }) }
         </>

@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from "react";
 
 import Settings from "../Settings"
-import { ImageListSimple } from "./ImageListSimple";
-import { ImageGroup } from "./ImageGroup";
-import { ImageGrid } from "./ImageGrid";
+import ImageListSimple from "./ImageListSimple";
+import ImageGroup from "./ImageGroup";
+import ImageGrid from "./ImageGrid";
 
 const Images = ({ photos, view, ...rest }) => {
 
@@ -23,7 +23,7 @@ const Images = ({ photos, view, ...rest }) => {
   const imageApp = (vw) => {
     switch (vw) {
       case "grid":
-        return (<ImageGrid photos={ addSrcAndReduce(photos) } limit="40" />)
+        return (<ImageGrid photos={ addSrcAndReduce(photos) } paging={true} />)
       case "list":
         return (<ImageListSimple photos={ addSrcAndReduce(photos, 20) }  />)
       case "group":

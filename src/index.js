@@ -1,8 +1,9 @@
 import React, { Component, useState } from "react";
+import { Provider } from 'react-redux'
 import { render } from "react-dom";
 
 import { Auth } from "./Auth";
-import { ImageApp } from "./ImageApp";
+import ImageApp from "./ImageApp";
 import { Sandbox } from "./components/Sandbox";
 
 
@@ -18,6 +19,19 @@ import {
 
 import './style.scss';
 
+import { rootReducer } from "./redux/reducer"; // import default 
+import { createStore } from "redux";
+
+// init with function
+export const store = createStore(rootReducer)
+
+
+store.subscribe(() => {
+    console.log("state.subscribe", store.getState().query );
+});
+
+
+
 const App = () => {
   const [username, setUsername] = useState("");
   const [jwtTocken, setJwtToken] = useState("");
@@ -32,19 +46,20 @@ const App = () => {
 
   return (
     <Router>
-    <div className="container-fluid">
-      <nav className="navbar navbar-dark bg-dark">
-    
-        <Auth authSuccessCallback={authSuccessCallback} />
-      </nav>
-      
+      <div className="container-fluid">
+        <nav className="navbar navbar-dark bg-dark">
 
-      {username.length > 0 &&
-        <>
-          <Route exact path="/" component={ImageApp} />
-          <Route exact path="/sandbox" component={Sandbox} />
-        </>}
-    </div>
+          <Auth authSuccessCallback={ authSuccessCallback } />
+        </nav>
+
+
+        { username.length > 0 &&
+          <Provider store={ store } >
+            <Route exact path="/" component={ ImageApp } />
+            <Route exact path="/sandbox" component={ Sandbox } />
+          </Provider>
+        }
+      </div>
     </Router>
   );
 };
