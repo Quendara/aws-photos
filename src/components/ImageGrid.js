@@ -9,7 +9,7 @@ import { Rating } from "./Rating"
 import { setRatingOnImage } from "../redux/actions"; // import default 
 import Settings from "../Settings"
 
-export const ImageGrid = ({ photos, limit=10, paging=false,  ...rest }) => {
+export const ImageGrid = ({ photos, limit=10, paging=false, setRatingOnImage,  ...rest }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -28,6 +28,11 @@ export const ImageGrid = ({ photos, limit=10, paging=false,  ...rest }) => {
 
 
   const limitPhotos = (images, size=999999) => {
+
+    if( +currentLimit > photos.length ){
+      setCurrentLimit( photos.length )
+    }    
+
     return images.slice(0, size) // reduce    
   }  
 
@@ -35,15 +40,27 @@ export const ImageGrid = ({ photos, limit=10, paging=false,  ...rest }) => {
     return ( 
       <div >
         { image.filename }
-        <Rating rating={image.rating}></Rating>
+        <Rating rating={ image.rating } id={ image.id } callback={ callbackLocal } ></Rating>
         { image.year }
       </div> )
   }
 
   const increaseLimit = ( ) => {
     console.log( "increaseLimit", currentLimit )
+    if( +currentLimit > photos.length ){
+      setCurrentLimit( photos.length )
+    }
     setCurrentLimit( +currentLimit + 20 )
   }
+
+  const callbackLocal = (id, rating) => {
+    
+    if( setRatingOnImage === undefined ){
+      console.error("callbackLocal - setRatingOnImage is undefined", id, rating)
+    }
+    console.log("callbackLocal", id, rating, setRatingOnImage)
+    setRatingOnImage(id, rating)
+  }  
 
 
   return (
@@ -69,7 +86,7 @@ export const ImageGrid = ({ photos, limit=10, paging=false,  ...rest }) => {
             </ModalGateway>
             
             { paging && <>
-            <div className="col offset-s3 s6 btn grey darker-2 m-2" onClick={increaseLimit} >  more </div><span className="blue-text" >{currentLimit}</span></> }
+            <div className="col offset-s3 s6 btn grey darker-2 m-2" onClick={increaseLimit} >  more </div><span className="blue-text" >{currentLimit } / { photos.length }</span></> }
           </div>
       
       </> }
