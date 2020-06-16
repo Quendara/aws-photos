@@ -65,7 +65,7 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
                 <div className="col s12">
                     <div className="m-2" ></div>
                 </div>
-                <div className="col s12 m2 hide-on-small-only">
+                <div className="col s12 l2 hide-on-med-and-down">
                     <button className="btn blue" onClick={ setToday } >Today</button>
 
 
@@ -77,7 +77,7 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
                     <TopList photos={ photos } title="city" icon="location" callback={ callbackFilter } />
 
                 </div>
-                <div className="col s12 m10">
+                <div className="col s12 l10">
                     <div className="row">
                         <div className="col offset-m2  m6 s12 center">
 

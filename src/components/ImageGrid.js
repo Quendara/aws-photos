@@ -39,8 +39,8 @@ export const ImageGrid = ({ photos, limit=10, paging=false, setRatingOnImage,  .
   const getCaptionFromPhoto = ( image ) => {
     return ( 
       <div >
-        { image.filename }
-        <Rating rating={ image.rating } id={ image.id } callback={ callbackLocal } ></Rating>
+        { image.filename }        
+        <h5><Rating rating={ image.rating } id={ image.id } callback={ callbackLocal } ></Rating></h5>
         { image.year }
       </div> )
   }

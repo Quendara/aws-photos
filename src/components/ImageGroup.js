@@ -23,9 +23,9 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
 
     return (
         <>{ secondGroupValues.map(x => (
-            <>
-                <span key={x} onClick={ () => callbackLocal(x.value) } className="ml-2">{ x.value } </span>
-            </>))
+            
+                <span key={x.value} onClick={ () => callbackLocal(x.value) } className="ml-2">{ x.value } </span>
+            ))
         }
         </>
     )
@@ -63,15 +63,6 @@ export const ImageGroup = ({ photos, setQueryFilter }) => {
 
     const callbackGroupBy = (value) => {
         setGroup(value)
-    }
-
-    const returnValuesAsString = (list) => {
-        let valueArr = list.map(x => (
-            <>
-                <span className="ml-2">{ x.value } </span>
-            </>));
-        // let str = valueArr.join(', ') // join to string
-        return valueArr;
     }
 
     const getContext = (currentGrouping, currentValue, photos) => {
@@ -142,7 +133,7 @@ export const ImageGroup = ({ photos, setQueryFilter }) => {
                 { getGroupedItems(photos).length > 1 ? (
                     <>
                         { getGroupedItems(photos).map((item, index) => (
-                            <div className="row" >
+                            <div className="row" key={ item.value } > 
                                 <div className="col s11 mouse-pointer" key={ index }  >
                                     <h5>
                                         <span onClick={ () => queryOnGroup(group, item.value) }>
