@@ -3,7 +3,18 @@ import { render } from "react-dom";
 
 import { Auth } from "./Auth";
 import { ImageApp } from "./ImageApp";
+import { Sandbox } from "./components/Sandbox";
+
+
 import { TimeTree } from "./TimeTree";
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  IndexRoute,
+  useLocation
+} from "react-router-dom";
+
 
 import './style.scss';
 
@@ -20,6 +31,7 @@ const App = () => {
   };
 
   return (
+    <Router>
     <div className="container-fluid">
       <nav className="navbar navbar-dark bg-dark">
     
@@ -29,9 +41,11 @@ const App = () => {
 
       {username.length > 0 &&
         <>
-          <ImageApp username={username} token={jwtTocken} url="images" />
+          <Route exact path="/" component={ImageApp} />
+          <Route exact path="/sandbox" component={Sandbox} />
         </>}
     </div>
+    </Router>
   );
 };
 

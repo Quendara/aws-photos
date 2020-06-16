@@ -1,22 +1,30 @@
 import React from "react";
 import { Icon } from "./Icons"
 
-export const Rating = ({ rating }) => {
+export const Rating = ({ rating, id, callback }) => {
 
-    const whichStar = ( index, rat ) => {
-        if( index < rat )  {
+    const whichStar = (index, rat) => {
+        if (index < rat) {
             return "active mr-1"
         }
-        else{
+        else {
             return "deactive mr-1"
         }
     }
 
-    const getStars= ( v ) => {
-        return [...Array(5).keys()].map( index => {
+    const callbackLocal = (id, index) => {
+        const rating = index+1
+        callback( id, rating )
+    }
+
+    const getStars = (v) => {
+        return [...Array(5).keys()].map(index => {
             // console.log( index )
-            return( <Icon key={index}  icon="star" className={whichStar(index, v)} >  </Icon>)
-        } ) 
+            return (<a key={ index } onClick={ () => callbackLocal(id, index) }>
+                <Icon icon="star" className={ whichStar(index, v) } >  </Icon>
+            </a>
+            )
+        })
 
         // className={whichStar(index, v)} 
 
@@ -26,6 +34,6 @@ export const Rating = ({ rating }) => {
 
     return (
         <div className="rating">
-            { getStars( rating ) }
-        </div> )
+            { getStars(rating) }
+        </div>)
 }

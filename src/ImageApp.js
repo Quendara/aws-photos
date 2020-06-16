@@ -141,7 +141,7 @@ const ImageApp = (props) => {
                 <div className="col s12">
                     <div className="m-2" ></div>
                 </div>
-                <div className="col s12 m2">
+                <div className="col s12 m2 hide-on-small-only">
                     <button className="btn blue" onClick={ setToday } >Today</button>
 
 
@@ -155,7 +155,7 @@ const ImageApp = (props) => {
                 </div>
                 <div className="col s12 m10">
                     <div className="row">
-                        <div className="offset-s2 col s6 center">
+                        <div className="col offset-m2  m6 s12 center">
 
                             <CancelFilter value={ current_filter.sameday } filter={ "sameday" } callback={ callbackFilter } />
                             <CancelFilter value={ current_filter.dirname } filter={ "dirname" } callback={ callbackFilter } />
@@ -165,7 +165,7 @@ const ImageApp = (props) => {
                             <CancelFilter value={ current_filter.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ current_filter.city } filter="city" callback={ callbackFilter } />
                         </div>
-                        <div className="offset-s1 col s3 center" >
+                        <div className="col offset-m1 m3 s12  center" >
                             <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', ] } callback={ callbackView } />
                         </div>
                     </div>
