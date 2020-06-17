@@ -41,7 +41,7 @@ const App = () => {
     setJwtToken(token);
 
     console.log("username", username);
-    console.log("authSuccess", token);
+    // console.log("authSuccess", token);
   };
 
   return (

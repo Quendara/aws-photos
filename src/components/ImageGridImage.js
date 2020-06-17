@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { ImageOnDemand } from "./ImageOnDemand";
 
 const cont = {
-    backgroundColor: "#000",
+    // backgroundColor: "#F00",
     cursor: "pointer",
     overflow: "hidden",
     position: "relative"

@@ -17,7 +17,7 @@ import { setRatingOnImage } from "../redux/actions"; // import default
 import Settings from "../Settings"
 
 
-export const ImageGrid = ({ photos, limit = 100, paging = false, sortBy, setRatingOnImage, ...rest }) => {
+export const ImageGrid = ({ photos, limit = 1000, paging = false, sortBy, setRatingOnImage, ...rest }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -56,7 +56,7 @@ export const ImageGrid = ({ photos, limit = 100, paging = false, sortBy, setRati
     if (+currentLimit > photos.length) {
       setCurrentLimit(photos.length)
     }
-    setCurrentLimit(+currentLimit + 20)
+    setCurrentLimit(+currentLimit + 1000)
   }
 
   const ratingCallback = (id, rating) => {

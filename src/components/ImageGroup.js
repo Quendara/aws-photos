@@ -158,9 +158,8 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
                                         <ImageGrid photos={ item.photos } sortBy={sortBy} limit="5" />
                                     ) :
                                     (
-                                        <span>
-                                            
-                                            <ImageGrid photos={ photos } sortBy={sortBy} limit="20" paging={ true } />
+                                        <span>                                            
+                                            <ImageGrid photos={ photos } sortBy={sortBy} limit="1000" paging={ true } />
                                         </span>
                                     ) }
                             </div>

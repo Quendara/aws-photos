@@ -84,7 +84,6 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
                 <div className="col s12 l10">
                     <div className="row">
                         <div className="col offset-m1  m6 s12 center">
-
                             <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
                             <CancelFilter value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
                             <CancelFilter value={ query.year } filter={ "year" } callback={ callbackFilter } />
@@ -93,7 +92,7 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
                             <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
-                        <div className="col offset-m1 m4 s12  center" >
+                        <div className="col m5 s12  center" >
                             <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', ] } callback={ callbackView } />
                             
                             <span className="m-2 blue-text">Sorting</span>                             

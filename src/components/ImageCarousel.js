@@ -24,8 +24,6 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
     const handleKeyPress = (event) => {
 
-
-
         switch (event.key) {
             case '1':
             case '2':
@@ -36,6 +34,12 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 break;
             case 27:
                 closeCallback()
+                break;
+            case 'ArrowUp':
+                increaseRating()
+                break;
+            case 'ArrowDown':
+                decreaseRating()
                 break;
             case 'ArrowRight':
                 nextImage()
@@ -54,6 +58,19 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
 
 
+    const increaseRating = () => {
+        const newRating = photo.rating + 1
+        if (newRating <= 5) { // prevent to access negative arr
+            ratingCallback(photo.id, newRating);
+        }
+    }
+    const decreaseRating = () => {
+        const newRating = photo.rating - 1
+        if (newRating >= 0 ) { // prevent to access negative arr
+            ratingCallback(photo.id, newRating);
+        }
+    }
+
     const nextImage = () => {
         const newIndex = index + 1
         if (newIndex < photos.length) { // prevent to access negative arr
@@ -63,7 +80,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     }
     const previousImage = () => {
         const newIndex = index - 1 // prevent to access out of range arr
-        if (newIndex > 0) {
+        if (newIndex >= 0) {
             setIndex(newIndex)
         }
     }
@@ -97,7 +114,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             </div>
 
             <div style={ { top: '80%', right: '20px' } } className="image-carousel" >
-                <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length + 1 }</b></h5>
+                <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length }</b></h5>
             </div>
         </>
     )
