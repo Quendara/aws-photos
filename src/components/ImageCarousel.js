@@ -5,7 +5,7 @@ import { ImageOnDemand } from "./ImageOnDemand";
 import { Icon } from "./Icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback  }) => {
+export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback }) => {
 
     const [index, setIndex] = useState(currentIndex);
 
@@ -27,12 +27,12 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
 
         switch (event.key) {
-            case 1:
-            case 2:
-            case 3:
-            case 5:
-            case 5:
-                ratingCallback( photo.id, event.key  );
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+                ratingCallback(photo.id, event.key);
                 break;
             case 27:
                 closeCallback()
@@ -41,10 +41,8 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 nextImage()
                 break;
             case 'ArrowLeft':
-                nextImage()
+                previousImage()
                 break;
-
-
             default:
                 console.log('key pressed here !! ' + event.key)
         }
@@ -89,30 +87,17 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                     alt={ photo.title } />
             </div>
 
-            <div className="image-carousel"  >
-                <div className="row"  >
-                    <div className="col offset-s11 s1 grey-text" onClick={ closeCallback } ><h1><Icon icon="close" /></h1> </div>
-                </div>
+            <div style={ { top: '0px', right: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
+
+            <div style={ { top: '43%', left: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
+            <div style={ { top: '43%', right: '20px' } } className="image-carousel offset-s10 s1 grey-text text-darken-5" onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
+
+            <div style={ { top: '80%', left: '20px' } } className="image-carousel-text" >
+                { getCaptionFromPhoto(photo) }
             </div>
 
-            <div className="image-carousel" style={ { top: '45%' } } >
-                <div className="row"  >
-                    <div className="col s1 grey-text" onClick={ previousImage } ><h1><Icon icon="arrow-left" /></h1> </div>
-                    <div className="col offset-s10 s1 grey-text" onClick={ nextImage } ><h1><Icon icon="arrow-right" /></h1> </div>
-                </div>
-            </div>
-
-            <div className="image-carousel" style={ { top: '80%' } }>
-                <div className="row"  >
-
-                    <div className="col s5">
-                        { getCaptionFromPhoto(photo) }
-                    </div>
-                    <div className="col offset-s5 s2">
-                        <span className="grey-text" >{ index + 1 } / { photos.length + 1 }</span>
-                    </div>
-
-                </div>
+            <div style={ { top: '80%', right: '20px' } } className="image-carousel" >
+                <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length + 1 }</b></h5>
             </div>
         </>
     )

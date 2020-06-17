@@ -8,7 +8,7 @@ import Carousel, { Modal, ModalGateway } from "react-images";
 import { Rating } from "./Rating"
 import { sortPhotos } from "./helpers"
 
-import ImageGridImage from "./ImageGridImage"
+import { ImageGridImage } from "./ImageGridImage"
 import { ImageCarousel } from "./ImageCarousel"
 
 
@@ -92,7 +92,11 @@ export const ImageGrid = ({ photos, limit = 100, paging = false, sortBy, setRati
           <ModalGateway>
             { viewerIsOpen ? (
               <Modal onClose={ closeLightbox }>
-                <ImageCarousel photos={ currentPhotos } currentIndex={ currentImage } closeCallback={closeLightbox} ratingCallback={ratingCallback} />
+                <ImageCarousel
+                  photos={ currentPhotos }
+                  currentIndex={ currentImage }
+                  closeCallback={ closeLightbox }
+                  ratingCallback={ ratingCallback } />
 
               </Modal>
             ) : null }

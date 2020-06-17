@@ -16,7 +16,7 @@ import {
     faThLarge,
     faArrowCircleLeft,
     faArrowCircleRight,
-    faTimesCircle
+    faTimes
     // fasStar,
   } from "@fortawesome/free-solid-svg-icons";
 
@@ -47,7 +47,7 @@ const textToIcon = {
     "month": faClock,
     "year": faClock,
     
-    "close": faTimesCircle,
+    "close": faTimes,
     "cancel": faWindowClose,
     "star": faStar,
     "star-empty": faStarAndCrescent

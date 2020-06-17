@@ -1,6 +1,55 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ImageOnDemand } from "./ImageOnDemand";
 
+const cont = {
+    backgroundColor: "#000",
+    cursor: "pointer",
+    overflow: "hidden",
+    position: "relative"
+};
+
+export const ImageGridImage = ({
+    index,
+    photo,
+    margin,
+    onClick,
+    direction,
+    top,
+    left,
+    selected,
+
+}) => {
+
+    // const callBackLocal = useCallback(() => onClick( null, {index, photo} ), []);
+    const callbackLocal = (e) => onClick(e, { index, photo });
+
+    const consolelog = () => {
+        consolelog.log(photo)
+    }
+    // <ImageOnDemand image={photo} />
+    return (
+        <div
+            style={ { margin, height: photo.height, width: photo.width, ...cont } }
+            onClick={ callbackLocal }
+        >
+
+            <ImageOnDemand
+                image={ photo }
+                className="responsive-img"
+                alt={ photo.title }
+
+                { ...photo }
+            />
+
+        </div>
+
+
+    )
+}
+
+
+
+
 // const Checkmark = ({ selected }) => (
 //     <div
 //         style={
@@ -87,52 +136,3 @@ import { ImageOnDemand } from "./ImageOnDemand";
 //         </div>
 //     );
 // };
-
-const cont = {
-    backgroundColor: "#000",
-    cursor: "pointer",
-    overflow: "hidden",
-    position: "relative"
-};
-
-const ImageGridImage = ({
-    index,
-    photo,
-    margin,
-    onClick,
-    direction,
-    top,
-    left,
-    selected,
-    
-}) => {
-
-    // const callBackLocal = useCallback(() => onClick( null, {index, photo} ), []);
-    const callbackLocal = (e) => onClick( e, {index, photo} ); 
-
-    const consolelog = () => {
-        consolelog.log(photo)
-    }
-    // <ImageOnDemand image={photo} />
-    return (
-        <div
-            
-            style={ { margin, height: photo.height, width: photo.width, ...cont } }
-            onClick={ callbackLocal }
-        >
-
-            <ImageOnDemand
-                image={ photo }
-                className="responsive-img"
-                alt={ photo.title }
-                
-                { ...photo }
-            />
-
-        </div>
-
-
-    )
-}
-
-export default ImageGridImage;
