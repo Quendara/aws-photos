@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "./Icons"
 
-export const SelectionView = ({ valueArr, currentValue, callback }) => {
+export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callback }) => {
 
 
     const getClass = ( item ) => {
@@ -20,13 +20,18 @@ export const SelectionView = ({ valueArr, currentValue, callback }) => {
         else{
             console.error( "callback is not defined" )
         }
-    }    
+    } 
+
+    const getItemName = ( item ) =>  {
+        if( iconsOnly ) return ""
+        return item;
+    }
 
     return (
         <>
             { valueArr.map((item, index) => {
                 return (
-                    <a key={index} className={getClass(item) } onClick={ () => callbackLocal(item)} ><Icon icon={ item } className="mr-2" /> { item }</a>
+                    <a key={index} className={getClass(item) } onClick={ () => callbackLocal(item)} ><Icon icon={ item } className="mr-2" /> { getItemName(item) }</a>
                 )
             }) }
         </>

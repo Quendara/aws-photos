@@ -36,6 +36,7 @@ const textToIcon = {
     "grid": faThLarge,
 
     
+    "date": faClock,
     "day": faClock,
     "month": faClock,
     "year": faClock,

@@ -4,9 +4,9 @@ import { bindActionCreators } from "redux";
 
 import { Rating } from "./Rating"
 import { Icon } from "./Icons"
-import { sortBy, groupBy } from "underscore";
 
-import { findUnique } from "./helpers"
+
+import { findUnique, sortPhotos } from "./helpers"
 import { ImageGrid } from "./ImageGrid"
 import { SelectionView } from "./SelectionView";
 import { setQueryFilter } from "../redux/actions"; // import default 
@@ -23,9 +23,9 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
 
     return (
         <>{ secondGroupValues.map(x => (
-            
-                <span key={x.value} onClick={ () => callbackLocal(x.value) } className="ml-2">{ x.value } </span>
-            ))
+
+            <span key={ x.value } onClick={ () => callbackLocal(x.value) } className="ml-2">{ x.value } </span>
+        ))
         }
         </>
     )
@@ -33,7 +33,7 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
 
 
 
-export const ImageGroup = ({ photos, setQueryFilter }) => {
+export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
 
     const [group, setGroup] = useState("dirname");
     const [current, setCurrent] = useState({ name: "", photos: [] });
@@ -45,11 +45,10 @@ export const ImageGroup = ({ photos, setQueryFilter }) => {
         return findUnique(photos, group, sortByCount, limit)
     }
 
-    const sortPhotos = (images, sortByKey = 'rating') => {
-        images = sortBy(images, sortByKey);
-        images = images.reverse()
-        return images; // .slice(0, 5);
-    }
+    // descending == absteigend
+    // ascending == aufstseigend
+
+
 
     const filterCurrent = (images) => {
 
@@ -65,16 +64,13 @@ export const ImageGroup = ({ photos, setQueryFilter }) => {
         setGroup(value)
     }
 
-    const getContext = (currentGrouping, currentValue, photos) => {
+    const getContext = (currentGrouping, currentValue, photos ) => {
+        const sortByCount = false
+        const limit = 3;
+
+
         switch (currentGrouping) {
             case "year":
-                // list countries form given photos
-                return (<ImageGroupHeader
-                    callback={ queryOnTwoGroups }
-                    groupKey={ currentGrouping }
-                    groupValue={ currentValue }
-                    secondGroupKey={ 'country' }
-                    secondGroupValues={ findUnique(photos, 'country') } />)
             case "month":
                 // list countries form given photos
                 return (<ImageGroupHeader
@@ -83,7 +79,14 @@ export const ImageGroup = ({ photos, setQueryFilter }) => {
                     groupValue={ currentValue }
                     secondGroupKey={ 'country' }
                     secondGroupValues={ findUnique(photos, 'country') } />)
-
+            case "day":
+                // list countries form given photos
+                return (<ImageGroupHeader
+                    callback={ queryOnTwoGroups }
+                    groupKey={ currentGrouping }
+                    groupValue={ currentValue }
+                    secondGroupKey={ 'country' }
+                    secondGroupValues={ findUnique(photos, 'city', sortByCount, limit) } />)
             case "dirname": {
                 return (<ImageGroupHeader
                     callback={ queryOnTwoGroups }
@@ -121,48 +124,50 @@ export const ImageGroup = ({ photos, setQueryFilter }) => {
 
     //  () => setCurrent({ name: item.value, photos: item.photos })
 
+    const groups = getGroupedItems(photos)
+
     return (
         <div>
             <>
                 <div className="row" >
                     <div className="col s12 right" >
-                        <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country', 'month'] } callback={ callbackGroupBy } />
+                        <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country', 'month', 'day'] } callback={ callbackGroupBy } />
                     </div>
                 </div>
+                <>
+                    { groups.map((item, index) => (
 
-                { getGroupedItems(photos).length > 1 ? (
-                    <>
-                        { getGroupedItems(photos).map((item, index) => (
-                            <div className="row" key={ item.value } > 
-                                <div className="col s11 mouse-pointer" key={ index }  >
-                                    <h5>
-                                        <span onClick={ () => queryOnGroup(group, item.value) }>
-                                            <Icon icon={ group } className="mr-2" />
-                                            { item.value }
+                        <div className="row" key={ item.value } >
+                            <div className="col s11 mouse-pointer" key={ index }  >
+                                <h5>
+                                    <span onClick={ () => queryOnGroup(group, item.value) }>
+                                        <Icon icon={ group } className="mr-2" />
+                                        { item.value }
+                                    </span>
+                                    <span>
+                                        <span className="ml-2 blue-text text-darken-2" >
+                                            { getContext(group, item.value, item.photos) }
                                         </span>
+                                        <span className="badge ">{ item.count }</span>
+                                    </span>
+                                </h5>
+                            </div>
+                            <div className={ adaptColSize(item.count) } key={ index + 1000 }>
+                                { groups.length > 1 ?
+                                    (
+                                        <ImageGrid photos={ item.photos } sortBy={sortBy} limit="5" />
+                                    ) :
+                                    (
                                         <span>
-                                            <span className="ml-2 blue-text text-darken-2" >
-                                                { getContext(group, item.value, item.photos) }
-                                            </span>
-                                            <span className="badge ">{ item.count }</span>
+                                            
+                                            <ImageGrid photos={ photos } sortBy={sortBy} limit="20" paging={ true } />
                                         </span>
-                                    </h5>
-                                </div>
-                                <div className={ adaptColSize(item.count) } key={ index + 1000 }>
-                                    <ImageGrid photos={ sortPhotos(item.photos, 'rating') } limit="5" />
-                                </div>
+                                    ) }
                             </div>
-                        )) }
-                    </>
-                ) : (
-                        <>                        
-                            <div className={ adaptColSize( photos.length ) } >
-                                <ImageGrid photos={ sortPhotos( photos, 'rating') } limit="20" paging={true} />
-                            </div>
-                        </>
+                        </div>
+                    )) }
+                </>
 
-                    )
-                }
             </>
 
         </div>

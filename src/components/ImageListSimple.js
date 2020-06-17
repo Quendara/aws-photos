@@ -6,12 +6,15 @@ import { bindActionCreators } from "redux";
 import Carousel, { Modal, ModalGateway } from "react-images";
 
 import { Rating } from "./Rating"
+import { sortPhotos } from "./helpers"
+
 import { setRatingOnImage } from "../redux/actions"; // import default 
 
-export const ImageListSimple = ({ photos, setRatingOnImage }) => {
+export const ImageListSimple = ({ photos, sortBy, limit=99999, setRatingOnImage }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  const [currentLimit, setCurrentLimit] = useState(limit);
 
   const openLightbox = index => {
     setCurrentImage(index);
@@ -29,6 +32,8 @@ export const ImageListSimple = ({ photos, setRatingOnImage }) => {
         { image.filename }        
         <h5><Rating rating={ image.rating } id={ image.id } callback={ callbackLocal } ></Rating></h5>
         { image.year }
+        <h5>{ image.country }</h5>
+        { image.city }
       </div>)
   }
 
@@ -41,8 +46,23 @@ export const ImageListSimple = ({ photos, setRatingOnImage }) => {
     setRatingOnImage(id, rating)
   }
 
+  const limitPhotosAndSort = (images, size = 999999, sortBy) => {
+
+    console.log( "limitPhotosAndSort called" )
+    images = sortPhotos(images, sortBy)
+    return images
+
+    // if (+currentLimit > photos.length) {
+    //   setCurrentLimit(photos.length)
+    // }
+    // return images.slice(0, size) // reduce    
+  }  
+
+  // 
+  const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);  
+
   const imageList = photos.length ? (
-    photos.map((image, index) => {
+    currentPhotos.map((image, index) => {
       return (
         <div className="row " key={ image.id } >
           <div className="col s6 m6 l3" onClick={ () => openLightbox(index) } >
@@ -70,7 +90,7 @@ export const ImageListSimple = ({ photos, setRatingOnImage }) => {
           <Modal onClose={ closeLightbox }>
             <Carousel
               currentIndex={ currentImage }
-              views={ photos.map(x => ({
+              views={ currentPhotos.map(x => ({
                 ...x,
                 srcset: x.srcSet,
                 caption: getCaptionFromPhoto(x)

@@ -1,5 +1,15 @@
 import { sortBy, groupBy } from "underscore";
 
+export const sortPhotos = (images, sortByKey = 'rating', ascending=false) => {
+    images = sortBy(images, sortByKey);
+    if( !ascending ){
+        images = images.reverse()
+    }
+    return images; // .slice(0, 5);
+}
+
+
+
 export const findUnique = ( list, group, sortByCount = true, limit=5 ) => {
     let groups = groupBy(list, group);
     let uniqueItems = []
@@ -27,7 +37,6 @@ export const findUnique = ( list, group, sortByCount = true, limit=5 ) => {
 
     // console.log("uniqueItems (SORTED) : ", uniqueItems);
     return uniqueItems.slice(0, limit) // reduce
-    
 }   
 
 export const leadingZeros = (num, size=2) => {

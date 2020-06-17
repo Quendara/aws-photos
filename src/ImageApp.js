@@ -20,6 +20,7 @@ import { setQueryFilter } from "./redux/actions"; // import default
 const ImageApp = ( {photos, query, setQueryFilter} ) => {
 
     const [view_images, setViewImages] = useState("group"); // group, list, grid
+    const [view_sort, setViewSort] = useState("rating"); // group, list, grid
 
     const callbackFilter = (key, value) => {
 
@@ -34,6 +35,9 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
     const callbackView = (view) => {
         setViewImages(view)
     }
+    const callbackSort = (view) => {
+        setViewSort(view)
+    }    
 
     const setToday = () => {
         const date = new Date()
@@ -45,7 +49,7 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
 
 
     const imageApp = photos.length ? (
-        <Images photos={ photos } view={ view_images } />
+        <Images photos={ photos } view={ view_images } sortBy={view_sort} />
     ) : (
             <div className="row" >
                 <div className="offset-s2 col s8" >
@@ -79,7 +83,7 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
                 </div>
                 <div className="col s12 l10">
                     <div className="row">
-                        <div className="col offset-m2  m6 s12 center">
+                        <div className="col offset-m1  m6 s12 center">
 
                             <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
                             <CancelFilter value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
@@ -89,8 +93,11 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
                             <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
-                        <div className="col offset-m1 m3 s12  center" >
+                        <div className="col offset-m1 m4 s12  center" >
                             <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', ] } callback={ callbackView } />
+                            
+                            <span className="m-2 blue-text">Sorting</span>                             
+                            <SelectionView currentValue={ view_sort } iconsOnly={true} valueArr={ ['date', 'rating' ] } callback={ callbackSort } />
                         </div>
                     </div>
                     <div className="row">
