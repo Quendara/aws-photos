@@ -19,7 +19,7 @@ import { setQueryFilter } from "./redux/actions"; // import default
 // This class contains the business logic of the application
 const ImageApp = ( {photos, query, setQueryFilter} ) => {
 
-    const [view_images, setViewImages] = useState("group"); // group, list, grid
+    const [view_images, setViewImages] = useState("grid"); // group, list, grid
     const [view_sort, setViewSort] = useState("rating"); // group, list, grid
 
     const callbackFilter = (key, value) => {

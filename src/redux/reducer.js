@@ -14,13 +14,13 @@ import { mockdataItalien } from "../data/mockdata_Italien.js"
 
 let mockdata = []
 mockdata = mockdata.concat(mockdataBerlin)
-mockdata = mockdata.concat(mockdataSizilien)
-mockdata = mockdata.concat(mockdataMadeira)
-mockdata = mockdata.concat(mockdataHamburg)
-mockdata = mockdata.concat(mockdataPrag)
-mockdata = mockdata.concat(mockdataKroatien)
-mockdata = mockdata.concat(mockdataDenHaag)
-mockdata = mockdata.concat(mockdataItalien)
+// mockdata = mockdata.concat(mockdataSizilien)
+// mockdata = mockdata.concat(mockdataMadeira)
+// mockdata = mockdata.concat(mockdataHamburg)
+// mockdata = mockdata.concat(mockdataPrag)
+// mockdata = mockdata.concat(mockdataKroatien)
+// mockdata = mockdata.concat(mockdataDenHaag)
+// mockdata = mockdata.concat(mockdataItalien)
 
 // mockdata = mockdata.slice(0, 5)
 

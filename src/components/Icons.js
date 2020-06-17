@@ -14,6 +14,9 @@ import {
     faList,
     faThList,
     faThLarge,
+    faArrowCircleLeft,
+    faArrowCircleRight,
+    faTimesCircle
     // fasStar,
   } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,6 +28,9 @@ const textToIcon = {
     "city": faMapMarkerAlt,
     "country": faMapMarkerAlt,
     "state": faMapMarkerAlt,
+
+    "arrow-right": faArrowCircleRight,
+    "arrow-left": faArrowCircleLeft,
 
     "rating": faStar,
 
@@ -40,6 +46,8 @@ const textToIcon = {
     "day": faClock,
     "month": faClock,
     "year": faClock,
+    
+    "close": faTimesCircle,
     "cancel": faWindowClose,
     "star": faStar,
     "star-empty": faStarAndCrescent

@@ -1,10 +1,43 @@
-import React, { Component } from "react";
+import React, { useRef } from 'react';
+import { useVisible } from 'react-hooks-visible'
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 
 import { Rating } from "./Rating"
 
 import { setRatingOnImage } from "../redux/actions"; // import default 
+
+const SandImage = ({ image, callback }) => {
+    
+    
+    // Boolean. This example is 50% visible.
+    // const [targetRef, visible] = useVisible()
+    // Boolean. This example is 50% visible.
+    const [targetRef, isVisible] = useVisible((vi: number) => vi > 0.5)
+     
+
+    // className={isVisible ? 'excited' : ''}
+
+    return (
+
+
+        <div className="row "  >
+            <div className="col s6 m2" >
+                
+                <div className={isVisible ? 'blue' : 'red'} >This is {isVisible} % visible </div>
+                
+            </div>
+            <div ref={targetRef} className="col s6 m10">
+                <span className="badge">{ image.dirname } / { image.filename }</span>
+                <h5>{ image.country }</h5>
+                <h6>{ image.city }</h6>
+                <h6>{ image.day }</h6>
+                <Rating rating={ image.rating } id={ image.id } callback={ callback }  ></Rating>
+            </div>
+        </div>
+    );
+}
 
 
 const SandboxList = ({ photos, setRatingOnImage, query }) => {
@@ -13,27 +46,14 @@ const SandboxList = ({ photos, setRatingOnImage, query }) => {
         console.log("callbackLocal", id, rating)
         setRatingOnImage(id, rating)
     }
-
     return (
         <>
-
-
             <div className="divider" />
+
             { photos.splice(0, 10).map((image, index) => {
 
                 return (
-                    <div className="row " key={ image.id } >
-                        <div className="col s6 m2" >
-                            <img className="responsive-img" src={ image.src } />
-                        </div>
-                        <div className="col s6 m10">
-                            <span className="badge">{ image.dirname } / { image.filename }</span>
-                            <h5>{ image.country }</h5>
-                            <h6>{ image.city }</h6>
-                            <h6>{ image.day }</h6>
-                            <Rating rating={ image.rating } id={ image.id } callback={ callbackLocal }  ></Rating>
-                        </div>
-                    </div>
+                    <SandImage key={ image.id } image={ image } />
                 );
             }) }
         </>
@@ -73,7 +93,7 @@ const filterFiles = (photos, query) => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators( { setRatingOnImage }, dispatch )
+    return bindActionCreators({ setRatingOnImage }, dispatch)
 }
 
 const mapStateToProps = state => {
@@ -81,7 +101,7 @@ const mapStateToProps = state => {
     // const photos = state.photos
     const photos = filterFiles(state.photos, state.query)
     const query = state.query
- 
+
     return { photos, query } // photos:photos
 }
 

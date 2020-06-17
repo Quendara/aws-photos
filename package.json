@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-fontawesome": "^1.7.1",
+    "react-hooks-visible": "^1.1.1",
     "react-images": "^1.1.0",
     "react-photo-gallery": "^8.0.0",
     "react-redux": "^7.2.0",

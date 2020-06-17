@@ -8,11 +8,16 @@ import Carousel, { Modal, ModalGateway } from "react-images";
 import { Rating } from "./Rating"
 import { sortPhotos } from "./helpers"
 
+import ImageGridImage from "./ImageGridImage"
+import { ImageCarousel } from "./ImageCarousel"
+
+
 
 import { setRatingOnImage } from "../redux/actions"; // import default 
 import Settings from "../Settings"
 
-export const ImageGrid = ({ photos, limit = 10, paging = false, sortBy, setRatingOnImage, ...rest }) => {
+
+export const ImageGrid = ({ photos, limit = 100, paging = false, sortBy, setRatingOnImage, ...rest }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -28,18 +33,23 @@ export const ImageGrid = ({ photos, limit = 10, paging = false, sortBy, setRatin
     setViewerIsOpen(false);
   };
 
+  // useCallback
+  const imageRenderer = (
+    ({ index, left, top, key, photo, onClick }) => (
+      <ImageGridImage
+        selected={ false }
+        onClick={ onClick }
+        key={ key }
+        margin={ "2px" }
+        index={ index }
+        photo={ photo }
+        left={ left }
+        top={ top }
+      />
+    )
+  );
 
 
-  const getCaptionFromPhoto = (image) => {
-    return (
-      <div >
-        { image.filename }
-        <h5><Rating rating={ image.rating } id={ image.id } callback={ callbackLocal } ></Rating></h5>
-        { image.year }
-        <h5>{ image.country }</h5>
-        { image.city }
-      </div>)
-  }
 
   const increaseLimit = () => {
     console.log("increaseLimit", currentLimit)
@@ -49,7 +59,7 @@ export const ImageGrid = ({ photos, limit = 10, paging = false, sortBy, setRatin
     setCurrentLimit(+currentLimit + 20)
   }
 
-  const callbackLocal = (id, rating) => {
+  const ratingCallback = (id, rating) => {
 
     if (setRatingOnImage === undefined) {
       console.error("callbackLocal - setRatingOnImage is undefined", id, rating)
@@ -60,36 +70,30 @@ export const ImageGrid = ({ photos, limit = 10, paging = false, sortBy, setRatin
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
 
-    console.log( "limitPhotosAndSort called" )
+    console.log("limitPhotosAndSort called")
     images = sortPhotos(images, sortBy)
 
     if (+currentLimit > photos.length) {
       setCurrentLimit(photos.length)
     }
     return images.slice(0, size) // reduce    
-  }  
+  }
 
   // 
   const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
+
 
   return (
     <>
       { photos.length > 0 && <>
 
-        <div>          
-          <Gallery photos={ currentPhotos} onClick={ openLightbox } />
+        <div>
+          <Gallery photos={ currentPhotos } renderImage={ imageRenderer } onClick={ openLightbox } />
           <ModalGateway>
             { viewerIsOpen ? (
               <Modal onClose={ closeLightbox }>
-                <Carousel
-                  currentIndex={ currentImage }
-                  views={ currentPhotos.map(x => ({
-                    ...x,
-                    srcset: x.srcSet,
-                    caption: getCaptionFromPhoto(x)
+                <ImageCarousel photos={ currentPhotos } currentIndex={ currentImage } closeCallback={closeLightbox} ratingCallback={ratingCallback} />
 
-                  })) }
-                />
               </Modal>
             ) : null }
           </ModalGateway>
