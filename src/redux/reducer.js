@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_TODO, SET_RATING, SET_FILTER } from "./actions"
+import { SET_RATING, SET_FILTER, FETCH_DATA } from "./actions"
 
 import { mockdataBerlin } from "../data/mockdata_Berlin.js"
 import { mockdataSizilien } from "../data/mockdata_Sizilien.js"
@@ -22,10 +22,12 @@ mockdata = mockdata.concat(mockdataKroatien)
 mockdata = mockdata.concat(mockdataDenHaag)
 mockdata = mockdata.concat(mockdataItalien)
 
+//https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos
+
 // mockdata = mockdata.slice(0, 5)
 
 const initial_state = {
-    photos: mockdata,
+    photos: [], // mockdata,
     query: {
         country: "",
         state: "",
@@ -44,6 +46,9 @@ const initial_state = {
 function photos(state = initial_state.photos, action) {
 
     switch (action.type) {
+        case FETCH_DATA:
+            return action.values
+
         case SET_RATING:
             return state.map((image, index) => {
                 if (image.id === action.id) {

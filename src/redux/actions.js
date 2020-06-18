@@ -1,4 +1,5 @@
 export const  ADD_TODO = 'ADD_TODO'
+export const  FETCH_DATA = 'FETCH_DATA'
 export const  SET_RATING = 'SET_RATING'
 export const  SET_FILTER = 'SET_FILTER'
 
@@ -11,7 +12,16 @@ export function addTodoById( id ) {
   }
 
   return action;
+}
 
+// list of actions
+export function setPhotos( values ) {
+  const action = {
+    type: FETCH_DATA,
+    values// == id:id
+  }
+
+  return action;
 }
 
 export function setRatingOnImage( id, rating ) {

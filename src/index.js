@@ -16,6 +16,7 @@ import {
   IndexRoute,
   useLocation
 } from "react-router-dom";
+import { setPhotos } from "./redux/actions";
 
 
 import './style.scss';
@@ -43,6 +44,31 @@ const App = () => {
 
     console.log("username", username);
     // console.log("authSuccess", token);
+
+    const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos"
+
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      }
+    };  
+
+    // initial load of data
+  
+    fetch(url, options)
+      .then(res => res.json()) 
+      .then(
+        result => { 
+          console.log("result", result);
+          store.dispatch( setPhotos( result ) )
+          // setItems(result);
+        },
+        (error) => {
+          console.error( "Could not load links : ", error.message);
+        }
+      )
+      .catch(err => { console.log( "XX", err) })    
   };
 
   return (
@@ -58,7 +84,12 @@ const App = () => {
           <Provider store={ store } >
             <Route exact path="/" component={ ImageApp } />
             <Route exact path="/sandbox" component={ Sandbox } />
+
+            
+
           </Provider>
+
+          
         }
       </div>
     </Router>
