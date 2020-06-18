@@ -17,9 +17,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
                 { image.year }
                 <h5>{ image.country }</h5>
-                { image.city }
-
-            --{  image.width }x{image.height }--
+                <p className="grey-text" > { image.city }</p>
             </div>)
     }
 
@@ -105,7 +103,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
     return (
         <>
-            <div >
+            <div {...handlers} >
                 <ImageOnDemand
                     image={ photo }
                     className="responsive-carousel"
@@ -121,7 +119,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 { getCaptionFromPhoto(photo) }
             </div>
 
-            <div style={ { top: '80%', right: '20px' } } className="image-carousel" >
+            <div style={ { top: '92%', right: '20px' } } className="image-carousel" >
                 <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length }</b></h5>
             </div>
         </>
