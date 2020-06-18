@@ -12,8 +12,14 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
     // const reduceditems = images.slice(0, size) // reduce    
 
     return images.map((image) => {
-      image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
-      image["src"] = image.id
+      // image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
+      // image["src"] = image.id
+      
+      image["source_url"] = Settings.baseS3Bucket + image.filename
+      image["src"] = image.filename
+
+      console.log( image["source_url"] )
+      
 
       if( image.orientation == "90CW" || image.orientation == "90CCW" ){
           const oldWidth = image.width 
