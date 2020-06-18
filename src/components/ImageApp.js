@@ -13,15 +13,18 @@ import { SelectionView } from "./SelectionView";
 import { leadingZeros, sortPhotos } from "./helpers";
 
 
+
+
+
 import { setQueryFilter } from "../redux/actions"; // import default 
 
 // import { Icon } from "./components/Icons";
 
 // This class contains the business logic of the application
-const ImageApp = ( {photos, query, setQueryFilter} ) => {
+const ImageApp = ({ photos, query, setQueryFilter }) => {
 
-    const [view_images, setViewImages] = useState("grid"); // group, list, grid
-    const [view_sort, setViewSort] = useState("rating"); // group, list, grid
+    const [view_images, setViewImages] = useState("group"); // group, list, grid
+    const [view_sort, setViewSort] = useState("rating"); // rating, date
 
     const callbackFilter = (key, value) => {
 
@@ -38,11 +41,11 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
     }
     const callbackSort = (view) => {
         setViewSort(view)
-    }    
+    }
 
     const setToday = () => {
         const date = new Date()
-        let today = leadingZeros(date.getMonth()+1)
+        let today = leadingZeros(date.getMonth() + 1)
         today += "-" + leadingZeros(date.getDate())
 
         callbackFilter('sameday', today)
@@ -52,14 +55,15 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
 
 
     const imageApp = sortedPhotos.length ? (
-        <Images photos={ sortedPhotos } view={ view_images } sortBy={view_sort} />
+        <Images photos={ sortedPhotos } view={ view_images } sortBy={ view_sort } />
     ) : (
             <div className="row" >
-                <div className="offset-s2 col s8" >
-                    <div className="card-panel blue-grey darken-1" >
-                        <p className="blue-text center">
-                            <h5>No images selected, please remove filter.</h5>
-                        </p>
+                <div className="offset-s3 col s6" >
+                    <div className="card-panel blue darken-4" >
+                        <h5 className="blue-text center">Loading...</h5>                        
+                        <div class="progress">
+                            <div class="indeterminate"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,8 +81,8 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
 
 
                     <TopList photos={ photos } title="year" icon="year" sortByCount={ false } callback={ callbackFilter } />
-                    <TopList photos={ photos } title="rating" icon="rating" sortByCount={ false }  callback={ callbackFilter } />
-                    <TopList photos={ photos } title="dirname" icon="dirname"  callback={ callbackFilter } />
+                    <TopList photos={ photos } title="rating" icon="rating" sortByCount={ false } callback={ callbackFilter } />
+                    <TopList photos={ photos } title="dirname" icon="dirname" callback={ callbackFilter } />
                     <TopList photos={ photos } title="country" icon="location" callback={ callbackFilter } />
                     <TopList photos={ photos } title="state" icon="location" callback={ callbackFilter } />
                     <TopList photos={ photos } title="city" icon="location" callback={ callbackFilter } />
@@ -96,10 +100,10 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
                             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
                         <div className="col m5 s12  center" >
-                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', ] } callback={ callbackView } />
-                            
-                            <span className="m-2 blue-text">Sorting</span>                             
-                            <SelectionView currentValue={ view_sort } iconsOnly={true} valueArr={ ['date', 'rating' ] } callback={ callbackSort } />
+                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list',] } callback={ callbackView } />
+
+                            <span className="m-2 blue-text">Sorting</span>
+                            <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
                         </div>
                     </div>
                     <div className="row">
@@ -145,15 +149,15 @@ const filterFiles = (photos, query) => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators( { setQueryFilter  }, dispatch )
+    return bindActionCreators({ setQueryFilter }, dispatch)
 }
 
 const mapStateToProps = state => {
 
     // const photos = state.photos
-    const photos = filterFiles(state.photos, state.query)    
+    const photos = filterFiles(state.photos, state.query)
     const query = state.query
- 
+
     return { photos, query } // photos:photos
 }
 
