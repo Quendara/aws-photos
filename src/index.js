@@ -3,7 +3,8 @@ import { Provider } from 'react-redux'
 import { render } from "react-dom";
 
 import { Auth } from "./Auth";
-import ImageApp from "./ImageApp";
+
+import ImageApp from "./components/ImageApp"; // no {} because exported with connect
 import { Sandbox } from "./components/Sandbox";
 
 

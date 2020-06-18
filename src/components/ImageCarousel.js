@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Rating } from "./Rating"
+import { useSwipeable } from "react-swipeable";
 
 import { ImageOnDemand } from "./ImageOnDemand";
 import { Icon } from "./Icons";
@@ -21,6 +22,13 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             --{  image.width }x{image.height }--
             </div>)
     }
+
+    const handlers = useSwipeable({
+        onSwipedLeft: () => nextImage(),
+        onSwipedRight: () => previousImage(),
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true
+      });    
 
     const handleKeyPress = (event) => {
 

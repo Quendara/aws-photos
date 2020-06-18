@@ -155,7 +155,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
                             <div className={ adaptColSize(item.count) } key={ index + 1000 }>
                                 { groups.length > 1 ?
                                     (
-                                        <ImageGrid photos={ item.photos } sortBy={sortBy} limit="5" />
+                                        <ImageGrid photos={ item.photos } sortBy={sortBy} limit="6" />
                                     ) :
                                     (
                                         <span>                                            

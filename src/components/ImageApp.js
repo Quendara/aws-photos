@@ -6,13 +6,14 @@ import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 
 
-import { Images } from "./components/Images";
-import { TopList } from "./components/TopList";
-import { CancelFilter } from "./components/CancelFilter";
-import { SelectionView } from "./components/SelectionView";
-import { leadingZeros } from "./components/helpers";
+import { Images } from "./ImagesRouter";
+import { TopList } from "./TopList";
+import { CancelFilter } from "./CancelFilter";
+import { SelectionView } from "./SelectionView";
+import { leadingZeros, sortPhotos } from "./helpers";
 
-import { setQueryFilter } from "./redux/actions"; // import default 
+
+import { setQueryFilter } from "../redux/actions"; // import default 
 
 // import { Icon } from "./components/Icons";
 
@@ -47,9 +48,11 @@ const ImageApp = ( {photos, query, setQueryFilter} ) => {
         callbackFilter('sameday', today)
     }
 
+    const sortedPhotos = sortPhotos(photos, view_sort)
 
-    const imageApp = photos.length ? (
-        <Images photos={ photos } view={ view_images } sortBy={view_sort} />
+
+    const imageApp = sortedPhotos.length ? (
+        <Images photos={ sortedPhotos } view={ view_images } sortBy={view_sort} />
     ) : (
             <div className="row" >
                 <div className="offset-s2 col s8" >
@@ -148,7 +151,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
 
     // const photos = state.photos
-    const photos = filterFiles(state.photos, state.query)
+    const photos = filterFiles(state.photos, state.query)    
     const query = state.query
  
     return { photos, query } // photos:photos

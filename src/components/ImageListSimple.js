@@ -1,26 +1,35 @@
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 
 import { ImageOnDemand } from "./ImageOnDemand";
-import Carousel, { Modal, ModalGateway } from "react-images";
+import { Modal, ModalGateway } from "react-images";
 
 import { Rating } from "./Rating"
 import { sortPhotos } from "./helpers"
 
 import { setRatingOnImage } from "../redux/actions"; // import default 
+import { ImageCarousel } from "./ImageCarousel"
 
 
   
-const ImageSimpleRow = ({ image, callbackImage, ratingCallback }) => {
+
+const ImageSimpleRow = ({ index, image, onClick, ratingCallback }) => {
     
+
+  // const callbackImageLocal = (e) => callbackImage( e, {index, image  } )
+  // const callbackImageLocal = (index) => {
+  //   callbackImage( index )
+  // }
+
+  const callbackImageLocal = (e) => onClick(e, { index, image });
+
 
   return (
 
-
       <div className="row "  >
-          <div className="col s6 m6 l3" onClick={callbackImage}  >            
+          <div className="col s6 m6 l3" onClick={callbackImageLocal}  >            
             <ImageOnDemand className="responsive-img" image={image} />
           </div>
           <div  className="col s6 m6 l9">
@@ -41,34 +50,27 @@ export const ImageListSimple = ({ photos, sortBy, limit=10, setRatingOnImage }) 
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [currentLimit, setCurrentLimit] = useState(limit);
 
-  const openLightbox = index => {
+  // const openLightbox = useCallback((event, { photo, index }) => {
+  //   setCurrentImage(index);
+  //   setViewerIsOpen(true);
+  // }, []);
+
+  const openLightbox = useCallback((event, { photo, index }) => {
     setCurrentImage(index);
     setViewerIsOpen(true);
-  }
+  }, []);
 
   const closeLightbox = () => {
     setCurrentImage(0);
     setViewerIsOpen(false);
   };
 
-  const getCaptionFromPhoto = (image) => {
-    return (
-      <div >
-        { image.filename }        
-        <h5><Rating rating={ image.rating } id={ image.id } callback={ callbackLocal } ></Rating></h5>
-        { image.year }
-        <h5>{ image.country }</h5>
-        { image.city }
-        --{  image.width}x{image.height}--
-      </div>)
-  }
-
-  const callbackLocal = (id, rating) => {
+  const ratingCallback = (id, rating) => {
     
     if( setRatingOnImage === undefined ){
-      console.error("callbackLocal - setRatingOnImage is undefined", id, rating)
+      console.error("ratingCallback - setRatingOnImage is undefined", id, rating)
     }
-    console.log("callbackLocal", id, rating, setRatingOnImage)
+    console.log("ratingCallback", id, rating, setRatingOnImage)
     setRatingOnImage(id, rating)
   }
 
@@ -86,11 +88,12 @@ export const ImageListSimple = ({ photos, sortBy, limit=10, setRatingOnImage }) 
   // 
   const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);  
 
+
   const imageList = photos.length ? (
     currentPhotos.map((image, index) => {
       return (
         <div className="row " key={ image.id } >
-          <ImageSimpleRow index={index} image={image} ratingCallback={callbackLocal} callbackImage={ () => openLightbox(index) } />
+          <ImageSimpleRow index={index} image={image} ratingCallback={ratingCallback} onClick={ openLightbox  } />
         </div>
       );
     })
@@ -104,14 +107,11 @@ export const ImageListSimple = ({ photos, sortBy, limit=10, setRatingOnImage }) 
       <ModalGateway>
         { viewerIsOpen ? (
           <Modal onClose={ closeLightbox }>
-            <Carousel
-              currentIndex={ currentImage }
-              views={ currentPhotos.map(x => ({
-                ...x,
-                srcset: x.srcSet,
-                caption: getCaptionFromPhoto(x)
-
-              })) }
+                <ImageCarousel
+                  photos={ currentPhotos }
+                  currentIndex={ currentImage }
+                  closeCallback={ closeLightbox }
+                  ratingCallback={ ratingCallback } />
             />
           </Modal>
         ) : null }

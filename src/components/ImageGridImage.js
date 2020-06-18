@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
+
+
 import { ImageOnDemand } from "./ImageOnDemand";
+import { Rating } from "./Rating"
 
 const cont = {
     // backgroundColor: "#F00",
@@ -13,6 +16,8 @@ export const ImageGridImage = ({
     photo,
     margin,
     onClick,
+    view, // simple, details
+    ratingCallback,
     direction,
     top,
     left,
@@ -20,8 +25,20 @@ export const ImageGridImage = ({
 
 }) => {
 
+    const getCaptionFromPhoto = ( image, ratingCallback ) => {
+        return (
+            <div >
+                { image.filename }
+                <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
+                { image.year }
+                <h5>{ image.country }</h5>
+                { image.city }
+            </div>)
+    }
+
     // const callBackLocal = useCallback(() => onClick( null, {index, photo} ), []);
     const callbackLocal = (e) => onClick(e, { index, photo });
+    
 
     const consolelog = () => {
         consolelog.log(photo)
@@ -30,20 +47,32 @@ export const ImageGridImage = ({
     return (
         <div
             style={ { margin, height: photo.height, width: photo.width, ...cont } }
-            onClick={ callbackLocal }
+
         >
+            { view === "details" ? (
+                <div className="row">
+                    <div className="col s6" onClick={ callbackLocal } >
+                        <ImageOnDemand                            
+                            image={ photo }
+                            className="responsive-img"
+                            alt={ photo.title }
+                            { ...photo }
+                        />
+                    </div>
+                    <div className="col s6" >{ getCaptionFromPhoto(photo, ratingCallback ) }</div>
+                </div>
+            ) : (
+                    <span onClick={ callbackLocal } >
+                        <ImageOnDemand
+                            image={ photo }
+                            className="responsive-img"
+                            alt={ photo.title }
+                            { ...photo } />
+                    </span>
+                ) }
 
-            <ImageOnDemand
-                image={ photo }
-                className="responsive-img"
-                alt={ photo.title }
-
-                { ...photo }
-            />
 
         </div>
-
-
     )
 }
 

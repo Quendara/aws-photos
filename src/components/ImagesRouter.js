@@ -30,10 +30,11 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
   const imageApp = (vw, sortBy) => {
     switch (vw) {
       case "grid":
-        return (<ImageGrid photos={ currentPhotos } sortBy={sortBy} paging={true} />)
+        return (<ImageGrid view="grid" photos={ currentPhotos } sortBy={sortBy} paging={true} />)
       case "list":
-        return (<ImageListSimple photos={ currentPhotos } sortBy={sortBy}  />)
-      case "group":
+        // the div cleans the stage when switching from grid to list
+        return (<div><ImageGrid view="details" limit={ 10 } paging={true} photos={ currentPhotos } sortBy={sortBy}  /> </div>)
+      case "group": 
         return (<ImageGroup photos={ currentPhotos} sortBy={sortBy}/>)
       default:
         return (<div ><h1>View not specified</h1> </div>)
