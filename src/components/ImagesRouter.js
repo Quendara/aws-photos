@@ -1,7 +1,7 @@
 import React from "react";
 
 import Settings from "../Settings"
-import ImageListSimple from "./ImageListSimple";
+// import ImageListSimple from "./ImageListSimple";
 import ImageGroup from "./ImageGroup";
 import ImageGrid from "./ImageGrid";
 
@@ -17,11 +17,8 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
       
       image["source_url"] = Settings.baseS3Bucket + image.filename
       image["src"] = image.filename
-      // image["id"] = image.i
 
-      // console.log( image["source_url"] )
-      
-
+      // swap width height when image is rotated
       if( image.orientation == "90CW" || image.orientation == "90CCW" ){
           const oldWidth = image.width 
           image.width = image.height

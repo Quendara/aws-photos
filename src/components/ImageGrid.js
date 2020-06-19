@@ -6,15 +6,10 @@ import { useVisible } from 'react-hooks-visible'
 import Gallery from 'react-photo-gallery';
 import Carousel, { Modal, ModalGateway } from "react-images";
 
-import { Rating } from "./Rating"
-import { sortPhotos } from "./helpers"
-
 import { ImageGridImage } from "./ImageGridImage"
 import { ImageCarousel } from "./ImageCarousel"
-
-
-
 import { setRatingOnImage } from "../redux/actions"; // import default 
+
 import Settings from "../Settings"
 
 
@@ -105,14 +100,16 @@ export const ImageGrid = ({
   const ratingCallback = (id, rating) => {
 
     if (setRatingOnImage === undefined) {
-      console.error("callbackLocal - setRatingOnImage is undefined", id, rating)
+      console.error("callbackLocal - setRatingOnImage is undefined", id, rating);      
+      return;
     }
     console.log("callbackLocal", id, rating, setRatingOnImage)
     setRatingOnImage(id, rating)
 
-    const photoId = "RATING_ID"
-
-    const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos/" + id + "/rating/" + rating
+    // TO BACKEND
+   
+    // const url = Settings.baseRestApi + "/photos/" + id + "/rating/" + rating
+    const url = [Settings.baseRestApi, 'photos', id, 'rating', rating].join("/")
 
     const options = {
 
@@ -124,9 +121,6 @@ export const ImageGrid = ({
     };
 
     console.log("CALL : ", url, token)
-
-    // initial load of data
-
     fetch(url, options)
         .then(res => res.json())
         .then(
@@ -139,10 +133,7 @@ export const ImageGrid = ({
                 console.error("Could not send RATING : ", error.message);
             }
         )
-        .catch(err => { console.log("XX", err) })    
-
-
-
+        .catch(err => { console.log("Could not send RATING (CATCHED)", err) })    
   }
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
