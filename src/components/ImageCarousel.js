@@ -24,6 +24,8 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     const handlers = useSwipeable({
         onSwipedLeft: () => nextImage(),
         onSwipedRight: () => previousImage(),
+        onSwipedUp: () => increaseRating(),
+        onSwipedDown: () => decreaseRating(),
         preventDefaultTouchmoveEvent: true,
         trackMouse: true
       });    

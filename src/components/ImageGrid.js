@@ -112,7 +112,7 @@ export const ImageGrid = ({
 
     const photoId = "RATING_ID"
 
-    const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos/" + photoId + "/rating/" + rating
+    const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos/" + id + "/rating/" + rating
 
     const options = {
 

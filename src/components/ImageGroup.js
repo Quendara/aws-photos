@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 
-import { Rating } from "./Rating"
 import { Icon } from "./Icons"
 
-
-import { findUnique, sortPhotos } from "./helpers"
+import { findUnique } from "./helpers"
 import { ImageGrid } from "./ImageGrid"
 import { SelectionView } from "./SelectionView";
 import { setQueryFilter } from "../redux/actions"; // import default 
@@ -36,7 +34,7 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
 export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
 
     const [group, setGroup] = useState("dirname");
-    const [current, setCurrent] = useState({ name: "", photos: [] });
+    // const [current, setCurrent] = useState({ name: "", photos: [] });
 
     const getGroupedItems = (photos) => {
         const sortByCount = false

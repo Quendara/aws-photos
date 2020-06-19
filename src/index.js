@@ -29,44 +29,7 @@ export const store = createStore(rootReducer)
 
 
 store.subscribe(() => {
-    console.log("state.subscribe", store.getState() );
-
-    const token = store.getState().token.access
-
-    const photoId = "ABC"
-    const rating = 4
-
-    const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos/" + photoId + "/rating/" + rating
-
-    const options = {
-
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          // Authorization: token
-        },
-        // method: 'PATCH',                                                              
-        // body: { "rating": 26 }  // JSON.stringify( { task: task } )             
-    };
-
-    console.log("CALL : ", url, token)
-
-    // initial load of data
-
-    fetch(url, options)
-        .then(res => res.json())
-        .then(
-            result => {
-                console.log("RATING updated", result);
-                // store.dispatch(setPhotos(result))
-                // setItems(result);
-            },
-            (error) => {
-                console.error("Could not send RATING : ", error.message);
-            }
-        )
-        .catch(err => { console.log("XX", err) })
-    
+    // console.log("state.subscribe", store.getState() );   
 })
 
 
@@ -125,9 +88,6 @@ const App = () => {
           <Provider store={ store } >
             <Route exact path="/" component={ ImageApp } />
             <Route exact path="/sandbox" component={ Sandbox } />
-
-            
-
           </Provider>
 
           

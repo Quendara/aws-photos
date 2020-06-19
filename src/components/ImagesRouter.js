@@ -17,7 +17,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
       
       image["source_url"] = Settings.baseS3Bucket + image.filename
       image["src"] = image.filename
-      image["id"] = image.filename
+      // image["id"] = image.i
 
       // console.log( image["source_url"] )
       
