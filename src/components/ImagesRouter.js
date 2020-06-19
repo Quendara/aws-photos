@@ -19,7 +19,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
       image["src"] = image.filename
       image["id"] = image.filename
 
-      console.log( image["source_url"] )
+      // console.log( image["source_url"] )
       
 
       if( image.orientation == "90CW" || image.orientation == "90CCW" ){

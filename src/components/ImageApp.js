@@ -61,8 +61,8 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 <div className="offset-s3 col s6" >
                     <div className="card-panel blue darken-4" >
                         <h5 className="blue-text center">Loading...</h5>                        
-                        <div class="progress">
-                            <div class="indeterminate"></div>
+                        <div className="progress">
+                            <div className="indeterminate"></div>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_RATING, SET_FILTER, FETCH_DATA } from "./actions"
+import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA } from "./actions"
 
 import { mockdataBerlin } from "../data/mockdata_Berlin.js"
 import { mockdataSizilien } from "../data/mockdata_Sizilien.js"
@@ -36,6 +36,9 @@ const initial_state = {
         dirname: "",
         year: "",
         rating: ""
+    },
+    token: {
+        access: ""
     }
 }
 
@@ -52,14 +55,28 @@ function photos(state = initial_state.photos, action) {
         case SET_RATING:
             return state.map((image, index) => {
                 if (image.id === action.id) {
-                  return Object.assign({}, image, {
-                    rating: action.rating
-                  })
+                    return Object.assign({}, image, {
+                        rating: action.rating
+                    })
                 }
                 return image
-              })
+            })
 
 
+        default:
+            return state
+    }
+}
+
+// use defaultState as state
+function token(state = initial_state.token, action) {
+
+    switch (action.type) {
+        case SET_ACCESS_TOKEN:
+            // return tocken as new object
+            return Object.assign({}, state, {
+                 access: action.token
+            })            
         default:
             return state
     }
@@ -79,7 +96,7 @@ function query(state = initial_state.query, action) {
 
     switch (action.type) {
         case SET_FILTER:
-            query[ action.key ] = action.value
+            query[action.key] = action.value
             return query
         default:
             return state
@@ -87,7 +104,7 @@ function query(state = initial_state.query, action) {
 }
 
 
-export const rootReducer = combineReducers({ photos, query })
+export const rootReducer = combineReducers({ photos, query, token })
 
 
 

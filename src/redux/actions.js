@@ -2,6 +2,7 @@ export const  ADD_TODO = 'ADD_TODO'
 export const  FETCH_DATA = 'FETCH_DATA'
 export const  SET_RATING = 'SET_RATING'
 export const  SET_FILTER = 'SET_FILTER'
+export const  SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
 
 
 // list of actions
@@ -24,6 +25,15 @@ export function setPhotos( values ) {
   return action;
 }
 
+export function setAccessToken( token ) {
+  const action = {
+    type: SET_ACCESS_TOKEN,
+    token // == token:token
+  }
+
+  return action;
+}
+
 export function setRatingOnImage( id, rating ) {
   const action = {
     type: SET_RATING,
@@ -32,7 +42,6 @@ export function setRatingOnImage( id, rating ) {
   }
 
   return action;
-
 }
 
 export function setQueryFilter( key, value ) {

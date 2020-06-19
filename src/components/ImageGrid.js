@@ -18,7 +18,15 @@ import { setRatingOnImage } from "../redux/actions"; // import default
 import Settings from "../Settings"
 
 
-export const ImageGrid = ({ photos, limit = 30, paging = false, view = "grid", sortBy, setRatingOnImage, ...rest }) => {
+export const ImageGrid = ({ 
+  photos, 
+  limit = 30, 
+  paging = false, 
+  view = "grid", 
+  sortBy, 
+  setRatingOnImage,   // from mapStateToProps
+  token,              // from mapStateToProps
+  ...rest }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -101,6 +109,40 @@ export const ImageGrid = ({ photos, limit = 30, paging = false, view = "grid", s
     }
     console.log("callbackLocal", id, rating, setRatingOnImage)
     setRatingOnImage(id, rating)
+
+    const photoId = "RATING_ID"
+
+    const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos/" + photoId + "/rating/" + rating
+
+    const options = {
+
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: token.access
+        },
+    };
+
+    console.log("CALL : ", url, token)
+
+    // initial load of data
+
+    fetch(url, options)
+        .then(res => res.json())
+        .then(
+            result => {
+                console.log("RATING updated", result);
+                // store.dispatch(setPhotos(result))
+                // setItems(result);
+            },
+            (error) => {
+                console.error("Could not send RATING : ", error.message);
+            }
+        )
+        .catch(err => { console.log("XX", err) })    
+
+
+
   }
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
@@ -166,10 +208,19 @@ export const ImageGrid = ({ photos, limit = 30, paging = false, view = "grid", s
 }
 
 
+const mapStateToProps = state => {
+
+  // const photos = state.photos
+  // const photos = filterFiles(state.photos, state.query)
+  const token = state.token
+
+  return { token  } // photos:photos
+}
+
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ setRatingOnImage }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(ImageGrid);
+export default connect(mapStateToProps, mapDispatchToProps)(ImageGrid);
 
