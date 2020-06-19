@@ -122,9 +122,17 @@ const filterFiles = (photos, query) => {
 
     const list = photos.filter(image => {
 
+        // filter all below 0
+        // missing & deleted -1
+        let rating = 0;
+        if( query.rating != "" ){
+            rating = query.rating
+        }
+
+        const bool1 = +image.rating >= rating
+
         // return true keeps the item in the list
-        const bool1 = query.year === "" || +image.year === +query.year
-        const bool2 = query.rating === "" || +image.rating >= +query.rating
+        const bool2 = query.year === "" || +image.year === +query.year // true when year is not given or equel
         const bool3 = query.country === "" || image.country === query.country
         const bool4 = query.sameday === "" || image.sameday === query.sameday
 

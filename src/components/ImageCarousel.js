@@ -28,7 +28,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
         onSwipedDown: () => decreaseRating(),
         preventDefaultTouchmoveEvent: true,
         trackMouse: true
-      });    
+    });
 
     const handleKeyPress = (event) => {
 
@@ -39,6 +39,12 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             case '4':
             case '5':
                 ratingCallback(photo.id, event.key);
+                break;
+            case 'd':
+                setDeleted(photo.id, event.key);
+                break;
+            case 'm':
+                setMissing(photo.id, event.key);
                 break;
             case 27:
                 closeCallback()
@@ -64,7 +70,15 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
         }
     }
 
+    const setMissing = () => {
+        const newRating = -10
+        ratingCallback(photo.id, newRating);
+    }
 
+    const setDeleted = () => {
+        const newRating = -1
+        ratingCallback(photo.id, newRating);
+    }
 
     const increaseRating = () => {
         const newRating = photo.rating + 1
@@ -74,7 +88,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     }
     const decreaseRating = () => {
         const newRating = photo.rating - 1
-        if (newRating >= 0 ) { // prevent to access negative arr
+        if (newRating > 0) { // prevent to access negative arr
             ratingCallback(photo.id, newRating);
         }
     }
@@ -105,7 +119,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
     return (
         <>
-            <div {...handlers} >
+            <div { ...handlers } >
                 <ImageOnDemand
                     image={ photo }
                     className="responsive-carousel"
@@ -121,7 +135,9 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 { getCaptionFromPhoto(photo) }
             </div>
 
-            <div style={ { top: '92%', right: '20px' } } className="image-carousel" >
+            <div style={ { top: '90%', right: '20px' } } className="image-carousel" >
+                <a className="btn red m-2" onClick={ setDeleted } >Delete</a>
+                <a className="btn blue m-2" onClick={ setMissing }  >Missing</a>
                 <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length }</b></h5>
             </div>
         </>

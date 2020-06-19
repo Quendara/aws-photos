@@ -172,13 +172,12 @@ export const ImageGrid = ({
       { photos.length > 0 && <>
 
         <div>
-          Limit : {currentLimit}
           <Gallery  photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
           <ModalGateway>
             { viewerIsOpen ? (
               <Modal onClose={ closeLightbox }>
                 <ImageCarousel
-                  photos={ currentPhotos }
+                  photos={ photos }
                   currentIndex={ currentImage }
                   closeCallback={ closeLightbox }
                   ratingCallback={ ratingCallback } />
