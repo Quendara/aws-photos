@@ -6,6 +6,7 @@ import { Auth } from "./Auth";
 
 import ImageApp from "./components/ImageApp"; // no {} because exported with connect
 import { Sandbox } from "./components/Sandbox";
+import Settings from "./Settings"
 
 
 import { TimeTree } from "./TimeTree";
@@ -46,7 +47,9 @@ const App = () => {
     console.log("username", username);
     // console.log("authSuccess", token);
 
-    const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos"
+    
+
+    const url = [ Settings.baseRestApi, "photos" ].join('/')
 
     const options = {
       headers: {
