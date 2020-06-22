@@ -89,10 +89,16 @@ export const ImageGrid = ({
 
   const increaseLimitImpl = () => {
     console.log("increaseLimit", currentLimit)
-    if (+currentLimit > photos.length) {
+
+    const newLimit = +currentLimit + increaseValue;
+    if( newLimit > photos.length) {
       setCurrentLimit(photos.length)
     }
-    setCurrentLimit(+currentLimit + increaseValue)
+    else{
+      // increase limit when possible
+      setCurrentLimit( newLimit )
+    }
+    
   }
 
 

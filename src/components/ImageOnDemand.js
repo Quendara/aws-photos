@@ -11,7 +11,7 @@ export const ImageOnDemand = ({ image, className }) => {
     const [targetRef, isVisible] = useVisible((vi: number) => vi > 0.02)
     let loaded = false;
 
-    const getSrcUrlWhenVisible = (isVisible, loaded ) => {
+    const getSrcUrlWhenVisible = (isVisible) => {
         if( isVisible || loaded ){
           loaded = true          
           console.log( "LOADED : ", image.source_url, isVisible, loaded )          

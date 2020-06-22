@@ -15,7 +15,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
       // image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
       // image["src"] = image.id
       
-      image["source_url"] = Settings.baseS3Bucket + image.filename
+      image["source_url"] = Settings.baseS3Bucket + image.dirname  + "/" + image.filename      
       image["src"] = image.id
 
       // swap width height when image is rotated
