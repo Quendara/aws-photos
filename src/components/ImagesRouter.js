@@ -16,7 +16,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
       // image["src"] = image.id
       
       image["source_url"] = Settings.baseS3Bucket + image.filename
-      image["src"] = image.filename
+      image["src"] = image.id
 
       // swap width height when image is rotated
       if( image.orientation == "90CW" || image.orientation == "90CCW" ){
@@ -24,6 +24,11 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
           image.width = image.height
           image.height = oldWidth
       }
+      
+      if( image.width  === undefined ){
+          console.error( "width is invalid : ", image.filename )
+      }
+      
 
       return image
     })

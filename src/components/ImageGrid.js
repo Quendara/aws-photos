@@ -13,12 +13,12 @@ import { setRatingOnImage } from "../redux/actions"; // import default
 import Settings from "../Settings"
 
 
-export const ImageGrid = ({ 
-  photos, 
-  limit = 30, 
-  paging = false, 
-  view = "grid", 
-  sortBy, 
+export const ImageGrid = ({
+  photos,
+  limit = 30,
+  paging = false,
+  view = "grid",
+  sortBy,
   setRatingOnImage,   // from mapStateToProps
   token,              // from mapStateToProps
   ...rest }) => {
@@ -29,7 +29,7 @@ export const ImageGrid = ({
   const increaseValue = 30
 
   const [targetRef, isVisible] = useVisible((vi: number) => {
-    
+
     return vi > 0.02
   }
   )
@@ -81,77 +81,83 @@ export const ImageGrid = ({
   );
 
   useEffect(() => {
-    if( isVisible === true){
+    if (isVisible === true) {
       console.log("loadMore .. increaseLimit ... ")
       increaseLimit()
     }
   })
 
-
-
-  const increaseLimit = () => {
+  const increaseLimitImpl = () => {
     console.log("increaseLimit", currentLimit)
     if (+currentLimit > photos.length) {
       setCurrentLimit(photos.length)
     }
-    setCurrentLimit(+currentLimit + increaseValue )
+    setCurrentLimit(+currentLimit + increaseValue)
+  }
+
+
+  const increaseLimit = () => {
+
+    setTimeout(() => {
+      increaseLimitImpl()
+    }, 200);
+
   }
 
   const ratingCallback = (id, rating) => {
 
     if (setRatingOnImage === undefined) {
-      console.error("callbackLocal - setRatingOnImage is undefined", id, rating);      
+      console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
       return;
     }
     console.log("callbackLocal", id, rating, setRatingOnImage)
     setRatingOnImage(id, rating)
 
     // TO BACKEND
-   
+
     // const url = Settings.baseRestApi + "/photos/" + id + "/rating/" + rating
     const url = [Settings.baseRestApi, 'photos', id, 'rating', rating].join("/")
 
     const options = {
 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: token.access
-        },
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: token.access
+      },
     };
 
     console.log("CALL : ", url, token)
     fetch(url, options)
-        .then(res => res.json())
-        .then(
-            result => {
-                console.log("RATING updated", result);
-                // store.dispatch(setPhotos(result))
-                // setItems(result);
-            },
-            (error) => {
-                console.error("Could not send RATING : ", error.message);
-            }
-        )
-        .catch(err => { console.log("Could not send RATING (CATCHED)", err) })    
+      .then(res => res.json())
+      .then(
+        result => {
+          console.log("RATING updated", result);
+          // store.dispatch(setPhotos(result))
+          // setItems(result);
+        },
+        (error) => {
+          console.error("Could not send RATING : ", error.message);
+        }
+      )
+      .catch(err => { console.log("Could not send RATING (CATCHED)", err) })
   }
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
 
-    console.log("limitPhotosAndSort called")
-    
+    console.log("limitPhotosAndSort called, size : ", size)
 
     let retImages = images
 
     if (view === "details") {
       currentRenderer = imageRendererDetails
-      retImages =  images.map((image) => {
+      retImages = images.map((image) => {
         return Object.assign({}, image, {
-          width: image.width*2
+          width: image.width * 2
         })
       })
     }
-    else{
+    else {
       currentRenderer = imageRenderer
     }
 
@@ -172,7 +178,7 @@ export const ImageGrid = ({
       { photos.length > 0 && <>
 
         <div>
-          <Gallery  photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
+          <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
           <ModalGateway>
             { viewerIsOpen ? (
               <Modal onClose={ closeLightbox }>
@@ -189,7 +195,7 @@ export const ImageGrid = ({
           { isVisible }
 
           { paging && <>
-            <div ref={targetRef} className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span></> }
+            <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span></> }
         </div>
 
       </> }
@@ -204,7 +210,7 @@ const mapStateToProps = state => {
   // const photos = filterFiles(state.photos, state.query)
   const token = state.token
 
-  return { token  } // photos:photos
+  return { token } // photos:photos
 }
 
 
