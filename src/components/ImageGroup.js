@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Icon } from "./Icons"
 
 import { findUnique } from "./helpers"
-import { ImageGrid } from "./ImageGrid"
+import ImageGrid from "./ImageGrid"
 import { SelectionView } from "./SelectionView";
 import { setQueryFilter } from "../redux/actions"; // import default 
 
