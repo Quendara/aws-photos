@@ -82,12 +82,12 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                     <button className="btn blue" onClick={ setToday } >Today</button>
 
 
-                    <TopList photos={ photos } title="year" icon="year" sortByCount={ false } callback={ callbackFilter } />
-                    <TopList photos={ photos } title="rating" icon="rating" sortByCount={ false } callback={ callbackFilter } />
-                    <TopList photos={ photos } title="dirname" icon="dirname" callback={ callbackFilter } />
-                    <TopList photos={ photos } title="country" icon="location" callback={ callbackFilter } />
-                    <TopList photos={ photos } title="state" icon="location" callback={ callbackFilter } />
-                    <TopList photos={ photos } title="city" icon="location" callback={ callbackFilter } />
+                    <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
+                    <TopList photos={ photos } title="dirname" icon="dirname" limit="7" callback={ callbackFilter } />
+                    <TopList photos={ photos } title="rating" icon="rating" limit="5" sortByCount={ false } callback={ callbackFilter } />
+                    <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
+                    <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
+                    <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
 
                 </div>
                 <div className="col s12 l10">

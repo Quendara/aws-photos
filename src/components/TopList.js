@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Icon } from "./Icons"
 import { findUnique } from "./helpers"
 
-export const TopList = ({ photos, icon, title, sortByCount = true, callback = undefined }) => {
+export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, callback = undefined }) => {
 
     const getItems = (photos) => {
         const group = title
 
-        let locations = findUnique(photos, group, sortByCount)
+        let locations = findUnique(photos, group, sortByCount, limit )
         return locations
     }
 
