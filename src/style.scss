@@ -55,7 +55,6 @@ $transition-effects: color 1s ease, background-color 1s ease;
 .image-carousel-text {
 	position: absolute;
 	top: 0px;
-	
 }
 
 img.responsive-carousel{ 
@@ -70,6 +69,24 @@ img.responsive-carousel{
 	margin: auto;
 }
 
+.btn-move-to-top {
+	position: fixed;
+	top: 90%;
+    right: 50px;
+	z-index: 999 !important;;
+	border-radius: 10% !important;;
+
+	transition: opacity 600ms !important;; 
+	
+}
+
+.invisible{
+	// #display: none;
+	// #visibility: hidden;
+	opacity: 0;
+
+
+}
 
 
 body {

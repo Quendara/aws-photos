@@ -4,6 +4,8 @@ import Settings from "../Settings"
 // import ImageListSimple from "./ImageListSimple";
 import ImageGroup from "./ImageGroup";
 import ImageGrid from "./ImageGrid";
+import {MoveToTop} from "./MoveToTop";
+
 
 const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
   
@@ -52,6 +54,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
 
   return (
     <>
+      <MoveToTop />
       { photos.length > 0 && <>{ imageApp(view, sortBy ) }</> }
     </>
   )

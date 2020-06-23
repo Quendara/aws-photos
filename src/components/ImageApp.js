@@ -24,7 +24,7 @@ import { setQueryFilter } from "../redux/actions"; // import default
 const ImageApp = ({ photos, query, setQueryFilter }) => {
 
     const [view_images, setViewImages] = useState("group"); // group, list, grid
-    const [view_sort, setViewSort] = useState("rating"); // rating, date
+    const [view_sort, setViewSort] = useState("date"); // rating, date
 
     const callbackFilter = (key, value) => {
 
@@ -35,6 +35,8 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
 
         setQueryFilter(key, value)
     }
+
+    // setQueryFilter("rating", 3)
 
     const callbackView = (view) => {
         setViewImages(view)
@@ -124,6 +126,7 @@ const filterFiles = (photos, query) => {
 
         // filter all below 0
         // missing & deleted -1
+        
         let rating = 0;
         if( query.rating != "" ){
             rating = query.rating

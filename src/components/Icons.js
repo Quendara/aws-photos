@@ -16,7 +16,8 @@ import {
     faThLarge,
     faArrowCircleLeft,
     faArrowCircleRight,
-    faTimes
+    faTimes,
+    faArrowUp
     // fasStar,
   } from "@fortawesome/free-solid-svg-icons";
 
@@ -40,6 +41,10 @@ const textToIcon = {
     "list": faList,
     "group": faThList,
     "grid": faThLarge,
+
+    "arrowUp": faArrowUp,
+
+    
 
     
     "date": faClock,

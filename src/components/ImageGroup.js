@@ -104,7 +104,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
             default:
                 return "Bla, Bla, Bla"
         }
-
     }
 
     // condition ? true : false.

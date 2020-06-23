@@ -13,6 +13,7 @@ import { setRatingOnImage } from "../redux/actions"; // import default
 import Settings from "../Settings"
 
 
+
 export const ImageGrid = ({
   photos,
   limit = 30,
@@ -31,7 +32,7 @@ export const ImageGrid = ({
   const [targetRef, isVisible] = useVisible((vi: number) => {
 
     return vi > 0.02
-  }
+  } 
   )
 
   // updated in limitPhotosAndSort
@@ -47,6 +48,8 @@ export const ImageGrid = ({
     setCurrentImage(0);
     setViewerIsOpen(false);
   };
+
+
 
   const imageRenderer = (
     ({ index, left, top, key, photo, onClick }) => (
@@ -183,6 +186,7 @@ export const ImageGrid = ({
     <>
       { photos.length > 0 && <>
 
+        
         <div>
           <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
           <ModalGateway>
@@ -201,7 +205,16 @@ export const ImageGrid = ({
           { isVisible }
 
           { paging && <>
-            <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span></> }
+            <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
+
+            </> 
+            
+            }
+
+            
+            
+
+            
         </div>
 
       </> }
