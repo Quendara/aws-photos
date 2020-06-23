@@ -54,7 +54,8 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
     }
 
     const adaptColSize = (nImages) => {
-        if (nImages > 4) return "col s12"
+        if (nImages === 1 ) return "col s4"
+        if (nImages >= 4) return "col s12"
         return "col s6"
     }
 
