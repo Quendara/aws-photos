@@ -30,10 +30,11 @@ export const ImageMap = ({
     return (
         <div className="row">
             <div className="col s12">
-                <h1> { marker.length } / { photos.length }</h1>
-                <div className="leaflet-container ">
+                
+                <div>
                     <SimpleMap markers={ marker } />
                 </div>
+                <h6> { marker.length } / { photos.length }</h6>
             </div>
         </div >
 
