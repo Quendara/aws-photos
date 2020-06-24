@@ -15,7 +15,8 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             <div >
                 { image.filename }
                 <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
-                { image.year }
+                { image.day }
+                
                 <h5>{ image.country }</h5>
                 <p className="grey-text" > { image.city }</p>
             </div>)

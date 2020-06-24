@@ -136,9 +136,13 @@ const filterFiles = (photos, query) => {
 
         // return true keeps the item in the list
         const bool2 = query.year === "" || +image.year === +query.year // true when year is not given or equel
+
+        if( bool2 === false || bool1 === false ){
+            return false; // realy exit
+        }
+
         const bool3 = query.country === "" || image.country === query.country
         const bool4 = query.sameday === "" || image.sameday === query.sameday
-
         const bool5 = query.state === "" || image.state === query.state
         const bool6 = query.city === "" || image.city === query.city
         const bool7 = query.dirname === "" || image.dirname === query.dirname
@@ -165,8 +169,17 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
 
-    // const photos = state.photos
-    const photos = filterFiles(state.photos, state.query)
+    let photos = state.photos
+
+    photos = photos.map((image) => {
+        if( image.country === undefined ){ image['country'] = "Unknown C"}
+        if( image.city === undefined ){ image['city'] = "Unknown City"}
+        if( image.state === undefined ){ image['state'] = "Unknown State"}
+
+        return image
+    })
+
+    photos = filterFiles( photos, state.query)
     const query = state.query
 
     return { photos, query } // photos:photos
