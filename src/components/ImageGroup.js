@@ -45,9 +45,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
 
     // descending == absteigend
     // ascending == aufstseigend
-
-
-
     const filterCurrent = (images) => {
 
         return images.slice(0, 5);
@@ -112,11 +109,15 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
     const queryOnTwoGroups = (group1, value1, group2, value2) => {
         setQueryFilter(group1, value1)
         setQueryFilter(group2, value2)
+
+        console.log( "queryOnTwoGroups" , group1, value1, group2, value2 )
         // setQueryFilter("country", "Deutschland")
     }
 
     const queryOnGroup = (currentGrouping, value) => {
         setQueryFilter(currentGrouping, value)
+
+        console.log( "queryOnGroup" , currentGrouping, value )
         // setQueryFilter("country", "Deutschland")
     }
 

@@ -161,27 +161,44 @@ const Auth = ({ authSuccessCallback }) => {
   if (cognitoUser == null) {
     return (
       <>
-        <form className="form-inline" onSubmit={ handleClick }>
-          <input
-            value={ username }
-            className={ getInputClass(username) }
-            placeholder="Name"
-            onChange={ e => setUsername(e.target.value) }
-          />
-          <input
-            type="password"
-            value={ password }
-            className={ getInputClass(password) }
-            placeholder="Password"
-            onChange={ e => setPassword(e.target.value) }
-          />
-          <button className="btn btn-primary m-2">
-            { trySend ? "Loading" : "Sign-In" }
-            <FontAwesomeIcon icon={ faAngleDoubleRight } className="ml-2" />
-          </button>
-        </form>
+        <>
+          <div className="nav-wrapper" id="navbarNavDropdown">
+            <div className="row">
+              <div className=" col s12" >
+                <a href="#" className="brand-logo hide-on-med-and-down">Photos</a>
+                <ul id="nav-mobile" className="right">
+                  <form className="form-inline" onSubmit={ handleClick }>
+                    <li>
+                      <input
+                        value={ username }
+                        className={ getInputClass(username) }
+                        placeholder="Name"
+                        onChange={ e => setUsername(e.target.value) }
+                      />
+                    </li>
+                    <li>
+                      <input
+                        type="password"
+                        value={ password }
+                        className={ getInputClass(password) }
+                        placeholder="Password"
+                        onChange={ e => setPassword(e.target.value) }
+                      />
+                    </li>
+                    <li>
+                      <button className="btn btn-primary m-2">
+                        { trySend ? "Loading" : "Sign-In" }
+                        <FontAwesomeIcon icon={ faAngleDoubleRight } className="ml-2" />
+                      </button>
+                    </li>
+                  </form>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </>
 
-        { authError }
+        <h2>{ authError }</h2>
       </>
     );
   } else {
@@ -200,10 +217,9 @@ const Auth = ({ authSuccessCallback }) => {
                   </button>
                   <button className="btn btn m-2 " onClick={ signOut }>
                     Logout
-                <FontAwesomeIcon icon={ faSignOutAlt } className="ml-2" />
+                    <FontAwesomeIcon icon={ faSignOutAlt } className="ml-2" />
                   </button>
                 </li>
-
               </ul>
             </div>
           </div>

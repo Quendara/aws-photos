@@ -154,7 +154,7 @@ export const ImageGrid = ({
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
 
-    console.log("limitPhotosAndSort called, size : ", size)
+    // console.log("limitPhotosAndSort called, size : ", size)
 
     let retImages = images
 
@@ -181,6 +181,15 @@ export const ImageGrid = ({
   // 
   const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
 
+  const showPaging = () => {
+
+    // Hide more button when all images loaded!
+    if( currentLimit === photos.length ){
+      return false;
+    }
+    return paging
+  }
+
   // targetRowHeight={170} 
   return (
     <>
@@ -204,7 +213,7 @@ export const ImageGrid = ({
 
           { isVisible }
 
-          { paging && <>
+          { showPaging() && <>
             <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
 
             </> 
