@@ -2,8 +2,12 @@ import React from "react";
 
 import Settings from "../Settings"
 // import ImageListSimple from "./ImageListSimple";
-import ImageGroup from "./ImageGroup";
+
+import ImageGroup from "./ImageGroup"; // import without {}
 import ImageGrid from "./ImageGrid";
+
+import {ImageMap} from "./ImageMap";
+
 import {MoveToTop} from "./MoveToTop";
 
 
@@ -47,6 +51,11 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
         return (<div><ImageGrid view="details" limit={ 10 } paging={true} photos={ currentPhotos } sortBy={sortBy}  /> </div>)
       case "group": 
         return (<ImageGroup photos={ currentPhotos} sortBy={sortBy}/>)
+      case "map": 
+        return (<ImageMap photos={ currentPhotos} sortBy={sortBy}/>)
+
+
+        
       default:
         return (<div ><h1>View not specified</h1> </div>)
     }

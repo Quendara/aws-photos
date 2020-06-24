@@ -147,7 +147,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
                         <div className="col m5 s12  center" >
-                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list',] } callback={ callbackView } />
+                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list','map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>
                             <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />

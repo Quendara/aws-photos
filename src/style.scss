@@ -36,6 +36,13 @@ $transition-effects: color 1s ease, background-color 1s ease;
 	}
 }
 
+.leaflet-container { 
+    height: 700px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+
 .text-ellipsis {
 	width: 150px;
 	//width:50%;
