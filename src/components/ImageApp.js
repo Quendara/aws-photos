@@ -21,7 +21,7 @@ import { setQueryFilter } from "../redux/actions"; // import default
 // This class contains the business logic of the application
 const ImageApp = ({ photos, query, setQueryFilter }) => {
 
-    const [view_images, setViewImages] = useState("map"); // group, list, grid
+    const [view_images, setViewImages] = useState("group"); // group, list, grid
     const [view_sort, setViewSort] = useState("date"); // rating, date
 
     const callbackFilter = (key, value) => {
@@ -98,11 +98,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                                     <h1><br /></h1>
                                 </>
                             )
-
                         }
-
-
-
 
                     </div>
                 </div>
@@ -117,19 +113,21 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                     <div className="m-2" ></div>
                 </div>
                 <div className="col s12 l2 hide-on-med-and-down">
-                    <button className="btn blue" onClick={ setToday } >Today</button>
 
+                    { sortedPhotos.length>0 && <>
+                        <button className="btn blue" onClick={ setToday } >Today</button>
 
-                    <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
-                    { query.year.length > 0 &&
-                        <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
-                    }
+                        <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
+                        { query.year.length > 0 &&
+                            <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
+                        }
 
-                    <TopList photos={ photos } title="dirname" icon="dirname" limit="7" callback={ callbackFilter } />
-                    <TopList photos={ photos } title="rating" icon="rating" limit="5" sortByCount={ false } callback={ callbackFilter } />
-                    <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
-                    <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
-                    <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
+                        <TopList photos={ photos } title="dirname" icon="dirname" limit="7" callback={ callbackFilter } />
+                        <TopList photos={ photos } title="rating" icon="rating" limit="5" sortByCount={ false } callback={ callbackFilter } />
+                        <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
+                        <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
+                        <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
+                    </> }
 
                 </div>
                 <div className="col s12 l10">
@@ -145,7 +143,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
                         <div className="col m5 s12  center" >
-                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list','map'] } callback={ callbackView } />
+                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>
                             <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
@@ -161,9 +159,9 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
     )
 }
 
-const filterFiles = (photos, query) => {
+const filterFiles = (images, query) => {
 
-    const list = photos.filter(image => {
+    const list = images.filter(image => {
 
         // filter all below 0
         // missing & deleted -1
@@ -211,42 +209,43 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators({ setQueryFilter }, dispatch)
 }
 
-  const addSrcAndDirname = (images) => {
+const addSrcAndDirname = (images) => {
 
     // const reduceditems = images.slice(0, size) // reduce    
 
-        // let retImage = Object.assign({}, image, {
-        //     // rating: action.rating
-        // })    
-
     return images.map((image) => {
 
-      if (image.country === undefined) { image['country'] = "Unknown Country" }
-      if (image.city === undefined) { image['city'] = "Unknown City" }
-      if (image.state === undefined) { image['state'] = "Unknown State" }      
-      
-      image["source_url"] = Settings.baseS3Bucket + image.dirname  + "/" + image.filename      
-      image["src"] = image.id
+        let retImage = Object.assign({}, image)
 
-      if( image.dirname_logical !== undefined ){
-        image.dirname = image.dirname_logical
-      }
+        // let retImage = image
 
-      // swap width height when image is rotated
-      if( image.orientation === "90CW" || image.orientation === "90CCW" ){
-          const oldWidth = image.width 
-          image.width = image.height
-          image.height = oldWidth
-      }
-      
-      if( image.width  === undefined ){
-          console.error( "width is invalid : ", image.filename )
-      }
-      
+        if (image.country === undefined) { retImage['country'] = "Unknown Country" }
+        if (image.city === undefined) { retImage['city'] = "Unknown City" }
+        if (image.state === undefined) { retImage['state'] = "Unknown State" }
 
-      return image
+        retImage["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
+        retImage["src"] = image.id
+
+        if (image.dirname_logical !== undefined) {
+            retImage['dirname_physical'] = image.dirname
+            retImage.dirname = image.dirname_logical
+        }
+
+        // swap width height when image is rotated
+        if (image.orientation === "90CW" || image.orientation === "90CCW") {
+            const oldWidth = image.width
+            retImage.width = image.height
+            retImage.height = oldWidth
+        }
+
+        if (image.width === undefined) {
+            console.error("width is invalid : ", image.filename)
+        }
+
+
+        return retImage
     })
-  }
+}
 
 const mapStateToProps = state => {
 
@@ -262,16 +261,17 @@ const mapStateToProps = state => {
     //     return image
     // })
 
-    photos = addSrcAndDirname( photos )
-    photos = filterFiles(photos, state.query)
+    let copyOfphotos = addSrcAndDirname(photos)
+    copyOfphotos = filterFiles(copyOfphotos, state.query)
 
     const t1 = performance.now()
-    console.log("filtering took " + (t1 - t0) + " milliseconds.")
+    console.log("filtering took " + (t1 - t0).toFixed(2) + " milliseconds.")
 
-    
+    console.log("photos[0]:", photos[0])
+
     const query = state.query
 
-    return { photos, query } // photos:photos
+    return { photos: copyOfphotos, query } // photos:photos
 }
 
 
