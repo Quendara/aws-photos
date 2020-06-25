@@ -5,69 +5,66 @@ import { Map, TileLayer, Polyline, Marker, Popup } from "react-leaflet";
 // import "react-leaflet-markercluster/dist/styles.min.css";
 import './map_style.css';
 
-const  SimpleMap = ({tracks = [], markers = []}) => {
+// item is [x,y]
+const basicMarkerHtml = (item, index) => (
+  <Marker key={ index } position={ item }>
+    <Popup>
+      Passed in PopUp<br /> Easily customizable.
+      <hr />
+      { item[0] }, { item[1] }
+    </Popup>
+  </Marker>
 
-  const zoom = 4
-  // constructor(props) {
-  //   super(props);
+)
 
-  //   this.state = {
-  //     tracks: [],
-  //     markerArr: [], // getRandPositions(10, position);
-  //     centerPosition: [],
-  //     zoom: 11
-  //   };
-  //   // get center of the    
+const SimpleMap = ({ tracks = [], markers = [], zoom = 4, center = [40, 10], markerHtml = basicMarkerHtml }) => {
+
+  // const zoom = 4
+
+  // const calcCenter = () => {
+  //   if( tracks.length > 0 ){
+  //     return tracks[0].trackCoords[0];
+  //   }
+  //   if( markers.length > 0 ){
+  //     // return markers[0] // .trackCoords[0];
+  //   }        
   // }
 
-  const calcCenter = () => {
-    if( tracks.length > 0 ){
-      return tracks[0].trackCoords[0];
-    }
-    if( markers.length > 0 ){
-      return markers[0] // .trackCoords[0];
-    }        
-  }
-
-    return (
-      <Map center={ calcCenter() } zoom={ zoom } >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
-        />
+  return (
+    <Map center={ center } zoom={ zoom } >
+      <TileLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
+      />
 
       { tracks.map((track, index) => (
-          <>
-            <Marker position={track.trackCoords[0]}>
-              <Popup>
-                <b>Tour</b> <br/> {track.name}
-                <hr />
-                {track.time}
-                <hr />
-                {track.trackCoords[0]}, {track.trackCoords[1]}
-              </Popup>
-            </Marker>
-
-            <Polyline color={track.color} positions={track.trackCoords} />
-          </>
-        ))}  
-
-        { markers.map((item, index) => (
-          <Marker key={index} position={item}>
+        <>
+          <Marker position={ track.trackCoords[0] }>
             <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
+              <b>Tour</b> <br /> { track.name }
               <hr />
-              {item[0]}, {item[1]}
+              { track.time }
+              <hr />
+              { track.trackCoords[0] }, { track.trackCoords[1] }
             </Popup>
           </Marker>
-        ))}                   
+
+          <Polyline color={ track.color } positions={ track.trackCoords } />
+        </>
+      )) }
+
+      { markers.map((item, index) => (
+        <>
+          { markerHtml(item, index) }
+        </>
+      )) }
 
 
 
-  
-      </Map>
 
-    )
+    </Map>
+
+  )
 }
 
 export { SimpleMap };

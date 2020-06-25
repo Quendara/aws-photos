@@ -5,8 +5,7 @@ import Settings from "../Settings"
 
 import ImageGroup from "./ImageGroup"; // import without {}
 import ImageGrid from "./ImageGrid";
-
-import {ImageMap} from "./ImageMap";
+import ImageMap from "./ImageMap";
 
 import {MoveToTop} from "./MoveToTop";
 

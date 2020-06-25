@@ -23,7 +23,7 @@ import { setQueryFilter } from "../redux/actions"; // import default
 // This class contains the business logic of the application
 const ImageApp = ({ photos, query, setQueryFilter }) => {
 
-    const [view_images, setViewImages] = useState("group"); // group, list, grid
+    const [view_images, setViewImages] = useState("map"); // group, list, grid
     const [view_sort, setViewSort] = useState("date"); // rating, date
 
     const callbackFilter = (key, value) => {
@@ -230,6 +230,8 @@ const mapStateToProps = state => {
 
         return image
     })
+
+    photos = photos.slice( 0, 1000 )
 
     photos = filterFiles(photos, state.query)
     const query = state.query

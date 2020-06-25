@@ -12,9 +12,7 @@ import { setRatingOnImage } from "../redux/actions"; // import default
 
 import Settings from "../Settings"
 
-
-
-export const ImageGrid = ({
+const ImageGrid = ({
   photos,
   limit = 30,
   paging = false,
