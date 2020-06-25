@@ -1,21 +1,20 @@
-
-import React, { useRef } from 'react';
+import React from 'react';
 import { Icon } from "./Icons"
 
 export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callback }) => {
 
 
     const getClass = (item) => {
-        if (item == currentValue) {
+        if (item === currentValue) {
             return "btn blue m-1"
         }
         else {
             return "btn blue-text text-lighten-2 blue darken-4 m-1"
         }
-    }
+    } 
 
     const callbackLocal = (item) => {
-        if (callback != undefined) {
+        if (callback !== undefined) {
             callback(item)
         }
         else {

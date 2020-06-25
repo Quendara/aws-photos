@@ -8,8 +8,7 @@ import ImageApp from "./components/ImageApp"; // no {} because exported with con
 import { Sandbox } from "./components/Sandbox";
 import Settings from "./Settings"
 
-
-import { TimeTree } from "./TimeTree";
+// import { TimeTree } from "./TimeTree";
 import {
   BrowserRouter as Router,
   Route,

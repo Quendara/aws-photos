@@ -1,10 +1,7 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Icon } from "./Icons"
 
 export const CancelFilter = ({ value, filter, callback }) => {
-
-    
 
     return (
         <>

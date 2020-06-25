@@ -7,8 +7,7 @@ import { setRatingOnImage, setQueryFilter } from "../redux/actions"; // import d
 import { findUnique } from "./helpers"
 import { ImageOnDemand } from "./ImageOnDemand";
 
-import { Map, TileLayer, Polyline, Marker, Popup } from "react-leaflet";
-import { values } from "underscore";
+import { Marker, Popup } from "react-leaflet";
 
 const ImageMap = ({
     photos,
@@ -25,24 +24,27 @@ const ImageMap = ({
 
     const getMarker = (images) => {
 
-        const group = "city"
-        const sortByCount = true
-        const limit = 40
+        if (images.length > 500) {
 
-        const groups = findUnique(images, group, sortByCount, limit)
+            // group by cities
 
-        let list = []
+            const group = "city"
+            const sortByCount = true
+            const limit = 80
 
-        groups.map((item, index) => {
-            // list.app item.photos             
-            list.push(...item.photos.slice(0, 10))
-        })
+            const groups = findUnique(images, group, sortByCount, limit)
 
-        return list;
+            let list = []
 
-        const filterAll = false
+            groups.map((item, index) => {
+                // list.app item.photos             
+                list.push(...item.photos.slice(0, 10))
+                return undefined
+            })
 
-        if (filterAll) {
+            return list;
+        } 
+        else {
 
             const list = images.filter(image => {
                 if (image.lat === undefined || isNaN(image.lat) || parseInt(image.lat) === 0) {

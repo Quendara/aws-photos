@@ -231,8 +231,6 @@ const mapStateToProps = state => {
         return image
     })
 
-    photos = photos.slice( 0, 1000 )
-
     photos = filterFiles(photos, state.query)
     const query = state.query
 

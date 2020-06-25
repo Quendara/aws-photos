@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faPlus,
-    faAngleDoubleRight,
-    faSignOutAlt,
+    // faPlus,
+    // faAngleDoubleRight,
+    // faSignOutAlt,
     faClock,
     faStar,
     faFolder,
@@ -29,6 +29,7 @@ const textToIcon = {
     "city": faMapMarkerAlt,
     "country": faMapMarkerAlt,
     "state": faMapMarkerAlt,
+    "map": faMapMarkerAlt,
 
     "arrow-right": faArrowCircleRight,
     "arrow-left": faArrowCircleLeft,

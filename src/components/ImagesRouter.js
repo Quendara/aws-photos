@@ -24,7 +24,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
       image["src"] = image.id
 
       // swap width height when image is rotated
-      if( image.orientation == "90CW" || image.orientation == "90CCW" ){
+      if( image.orientation === "90CW" || image.orientation === "90CCW" ){
           const oldWidth = image.width 
           image.width = image.height
           image.height = oldWidth

@@ -45,10 +45,10 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
 
     // descending == absteigend
     // ascending == aufstseigend
-    const filterCurrent = (images) => {
+    // const filterCurrent = (images) => {
 
-        return images.slice(0, 5);
-    }
+    //     return images.slice(0, 5);
+    // }
 
     const adaptColSize = (nImages) => {
         if (nImages === 1 ) return "col s4"

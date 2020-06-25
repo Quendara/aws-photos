@@ -1,5 +1,4 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Icon } from "./Icons"
 import { findUnique } from "./helpers"
 

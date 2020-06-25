@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Rating } from "./Rating"
 import { useSwipeable } from "react-swipeable";
 
 import { ImageOnDemand } from "./ImageOnDemand";
 import { Icon } from "./Icons";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback }) => {
 
