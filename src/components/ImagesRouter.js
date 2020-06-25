@@ -12,34 +12,34 @@ import {MoveToTop} from "./MoveToTop";
 
 const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
   
-  const addSrcAndReduce = (images, size=200) => {
+  // const addSrcAndReduce = (images, size=200) => {
 
-    // const reduceditems = images.slice(0, size) // reduce    
+  //   // const reduceditems = images.slice(0, size) // reduce    
 
-    return images.map((image) => {
-      // image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
-      // image["src"] = image.id
+  //   return images.map((image) => {
+  //     // image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
+  //     // image["src"] = image.id
       
-      image["source_url"] = Settings.baseS3Bucket + image.dirname  + "/" + image.filename      
-      image["src"] = image.id
+  //     image["source_url"] = Settings.baseS3Bucket + image.dirname  + "/" + image.filename      
+  //     image["src"] = image.id
 
-      // swap width height when image is rotated
-      if( image.orientation === "90CW" || image.orientation === "90CCW" ){
-          const oldWidth = image.width 
-          image.width = image.height
-          image.height = oldWidth
-      }
+  //     // swap width height when image is rotated
+  //     if( image.orientation === "90CW" || image.orientation === "90CCW" ){
+  //         const oldWidth = image.width 
+  //         image.width = image.height
+  //         image.height = oldWidth
+  //     }
       
-      if( image.width  === undefined ){
-          console.error( "width is invalid : ", image.filename )
-      }
+  //     if( image.width  === undefined ){
+  //         console.error( "width is invalid : ", image.filename )
+  //     }
       
 
-      return image
-    })
-  }
+  //     return image
+  //   })
+  // }
 
-  const currentPhotos = addSrcAndReduce(photos);
+  const currentPhotos = photos ; // addSrcAndReduce(photos);
 
   const imageApp = (vw, sortBy) => {
     switch (vw) {

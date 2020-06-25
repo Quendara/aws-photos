@@ -12,9 +12,7 @@ import { CancelFilter } from "./CancelFilter";
 import { SelectionView } from "./SelectionView";
 import { leadingZeros, sortPhotos } from "./helpers";
 
-
-
-
+import Settings from "../Settings"
 
 import { setQueryFilter } from "../redux/actions"; // import default 
 
@@ -219,6 +217,37 @@ const mapDispatchToProps = dispatch => {
     return bindActionCreators({ setQueryFilter }, dispatch)
 }
 
+  const addSrcAndDirname = (images) => {
+
+    // const reduceditems = images.slice(0, size) // reduce    
+
+    return images.map((image) => {
+      // image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
+      // image["src"] = image.id
+      
+      image["source_url"] = Settings.baseS3Bucket + image.dirname  + "/" + image.filename      
+      image["src"] = image.id
+
+      if( image.dirname_logical !== undefined ){
+        image.dirname = image.dirname_logical
+      }
+
+      // swap width height when image is rotated
+      if( image.orientation === "90CW" || image.orientation === "90CCW" ){
+          const oldWidth = image.width 
+          image.width = image.height
+          image.height = oldWidth
+      }
+      
+      if( image.width  === undefined ){
+          console.error( "width is invalid : ", image.filename )
+      }
+      
+
+      return image
+    })
+  }
+
 const mapStateToProps = state => {
 
     let photos = state.photos
@@ -232,6 +261,7 @@ const mapStateToProps = state => {
     })
 
     photos = filterFiles(photos, state.query)
+    photos = addSrcAndDirname( photos )
     const query = state.query
 
     return { photos, query } // photos:photos
