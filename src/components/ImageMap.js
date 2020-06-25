@@ -22,7 +22,30 @@ const ImageMap = ({
 
     const [zoom, setZoom] = useState(4);
 
+    const filterImagesWithoutCoords = (images ) => {
+
+        let inCount = 0
+        let outCount = 0
+
+        const imagesWithCoords = images.filter(image => {
+            if (image.lat === undefined || isNaN(image.lat) || parseInt(image.lat) === 0) {
+                //console.log("OUT : ", image.lat)
+                ++outCount
+                return false
+            }
+            ++inCount
+            // console.log("IN  : ", image.lat)
+            return true
+        })
+
+        console.log("filterImagesWithoutCoords in/total : ", inCount, (inCount+outCount) )
+
+        return imagesWithCoords;
+    }        
+
     const getMarker = (images) => {
+
+        let imagesWithCoords = filterImagesWithoutCoords( images )
 
         if (images.length > 500) {
 
@@ -32,30 +55,19 @@ const ImageMap = ({
             const sortByCount = true
             const limit = 80
 
-            const groups = findUnique(images, group, sortByCount, limit)
+            const groups = findUnique(imagesWithCoords, group, sortByCount, limit)
 
-            let list = []
+            let imagesFromGroups = []
 
             groups.map((item, index) => {
                 // list.app item.photos             
-                list.push(...item.photos.slice(0, 10))
+                imagesFromGroups.push(...item.photos.slice(0, 10))
                 return undefined
-            })
-
-            return list;
+            }) 
+            return imagesFromGroups;
         } 
         else {
-
-            const list = images.filter(image => {
-                if (image.lat === undefined || isNaN(image.lat) || parseInt(image.lat) === 0) {
-                    console.log("OUT : ", image.lat)
-                    return false
-                }
-                console.log("IN  : ", image.lat)
-                return true
-            })
-
-            return list;
+            return imagesWithCoords; 
         }
     }
 

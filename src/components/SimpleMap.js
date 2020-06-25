@@ -38,8 +38,7 @@ const SimpleMap = ({ tracks = [], markers = [], zoom = 4, center = [40, 10], mar
       />
 
       { tracks.map((track, index) => (
-        <>
-          <Marker position={ track.trackCoords[0] }>
+          <Marker key={index} position={ track.trackCoords[0] }>
             <Popup>
               <b>Tour</b> <br /> { track.name }
               <hr />
@@ -48,15 +47,12 @@ const SimpleMap = ({ tracks = [], markers = [], zoom = 4, center = [40, 10], mar
               { track.trackCoords[0] }, { track.trackCoords[1] }
             </Popup>
           </Marker>
-
-          <Polyline color={ track.color } positions={ track.trackCoords } />
-        </>
       )) }
 
       { markers.map((item, index) => (
-        <>
+        <span key={index} >
           { markerHtml(item, index) }
-        </>
+        </span>
       )) }
 
 
