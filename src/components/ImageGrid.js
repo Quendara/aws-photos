@@ -118,36 +118,11 @@ const ImageGrid = ({
       return;
     }
     console.log("callbackLocal", id, rating, setRatingOnImage)
-    setRatingOnImage(id, rating)
+    setRatingOnImage(id, rating, token.access )
 
     // TO BACKEND
 
-    // const url = Settings.baseRestApi + "/photos/" + id + "/rating/" + rating
-    const url = [Settings.baseRestApi, 'photos', id, 'rating', rating].join("/")
 
-    const options = {
-
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: token.access
-      },
-    };
-
-    console.log("CALL : ", url, token)
-    fetch(url, options)
-      .then(res => res.json())
-      .then(
-        result => {
-          console.log("RATING updated", result);
-          // store.dispatch(setPhotos(result))
-          // setItems(result);
-        },
-        (error) => {
-          console.error("Could not send RATING : ", error.message);
-        }
-      )
-      .catch(err => { console.log("Could not send RATING (CATCHED)", err) })
   }
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {

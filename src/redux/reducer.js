@@ -1,26 +1,27 @@
 import { combineReducers } from 'redux'
 import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA } from "./actions"
+import Settings from "../Settings"
 
-import { mockdataBerlin } from "../data/mockdata_Berlin.js"
-import { mockdataSizilien } from "../data/mockdata_Sizilien.js"
-import { mockdataMadeira } from "../data/mockdata_Madeira.js"
-import { mockdataHamburg } from "../data/mockdata_Hamburg.js"
-import { mockdataPrag } from "../data/mockdata_Prag.js"
-import { mockdataKroatien } from "../data/mockdata_Kroatien.js"
-import { mockdataDenHaag } from "../data/mockdata_DenHaag.js"
-import { mockdataItalien } from "../data/mockdata_Italien.js"
+// import { mockdataBerlin } from "../data/mockdata_Berlin.js"
+// import { mockdataSizilien } from "../data/mockdata_Sizilien.js"
+// import { mockdataMadeira } from "../data/mockdata_Madeira.js"
+// import { mockdataHamburg } from "../data/mockdata_Hamburg.js"
+// import { mockdataPrag } from "../data/mockdata_Prag.js"
+// import { mockdataKroatien } from "../data/mockdata_Kroatien.js"
+// import { mockdataDenHaag } from "../data/mockdata_DenHaag.js"
+// import { mockdataItalien } from "../data/mockdata_Italien.js"
 
 // import { mockdata } from "./data/mockdata_full"
 
-let mockdata = []
-mockdata = mockdata.concat(mockdataBerlin)
-mockdata = mockdata.concat(mockdataSizilien)
-mockdata = mockdata.concat(mockdataMadeira)
-mockdata = mockdata.concat(mockdataHamburg)
-mockdata = mockdata.concat(mockdataPrag)
-mockdata = mockdata.concat(mockdataKroatien)
-mockdata = mockdata.concat(mockdataDenHaag)
-mockdata = mockdata.concat(mockdataItalien)
+// let mockdata = []
+// mockdata = mockdata.concat(mockdataBerlin)
+// mockdata = mockdata.concat(mockdataSizilien)
+// mockdata = mockdata.concat(mockdataMadeira)
+// mockdata = mockdata.concat(mockdataHamburg)
+// mockdata = mockdata.concat(mockdataPrag)
+// mockdata = mockdata.concat(mockdataKroatien)
+// mockdata = mockdata.concat(mockdataDenHaag)
+// mockdata = mockdata.concat(mockdataItalien)
 
 //https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos
 
@@ -32,7 +33,7 @@ const initial_state = {
         country: "",
         state: "",
         city: "",
-        sameday: "", 
+        sameday: "",
         dirname: "",
         year: "",
         month: "",
@@ -43,6 +44,38 @@ const initial_state = {
         access: ""
     }
 }
+
+const restCallToBackend = (url, token, loggingMessage = "Generic Call") => {
+
+    // const url = Settings.baseRestApi + "/photos/" + id + "/rating/" + rating
+    const options = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: token // token.access
+        },
+    };
+
+    console.log("restCallToBackend : ", url, token)
+    fetch(url, options)
+        .then(res => res.json())
+        .then(
+            result => {
+                const message = loggingMessage + " success"
+                console.log(message, result);
+            },
+            (error) => {
+                const message = loggingMessage + " error"
+                console.error(message, error.message);
+            }
+        )
+        .catch(err => {
+            const message = loggingMessage + " error (CATCHED)"
+            console.log(message, err)
+        })
+
+}
+
 
 
 // var defaultState = 0;
@@ -55,6 +88,15 @@ function photos(state = initial_state.photos, action) {
             return action.values
 
         case SET_RATING:
+            console.log("SET_RATING : TOKEN? " + action.token)
+
+            // backend call
+            if (action.token !== undefined) {
+                const url = [Settings.baseRestApi, 'photos', action.id, 'rating', action.rating].join("/")
+                const loggingMessage = "Update Rating"
+                restCallToBackend(url, action.token, loggingMessage)
+            }
+
             return state.map((image, index) => {
                 if (image.id === action.id) {
                     return Object.assign({}, image, {
@@ -77,15 +119,15 @@ function token(state = initial_state.token, action) {
         case SET_ACCESS_TOKEN:
             // return tocken as new object
             return Object.assign({}, state, {
-                 access: action.token
-            })            
+                access: action.token
+            })
         default:
             return state
     }
 }
 
 function query(state = initial_state.query, action) {
- 
+
     let query = {
         country: state.country,
         state: state.state,
@@ -101,7 +143,9 @@ function query(state = initial_state.query, action) {
     switch (action.type) {
         case SET_FILTER:
             query[action.key] = action.value;
-            console.log( "query requcer : (key, value) ", action.key, action.value) 
+
+
+            console.log("query requcer : (key, value) ", action.key, action.value)
             return query
         default:
             return state

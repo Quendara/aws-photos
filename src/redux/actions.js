@@ -34,11 +34,12 @@ export function setAccessToken( token ) {
   return action;
 }
 
-export function setRatingOnImage( id, rating ) {
+export function setRatingOnImage( id, rating, token=undefined ) {
   const action = {
     type: SET_RATING,
     id,
-    rating // == rating:rating
+    rating, // == rating:rating
+    token
   }
 
   return action;
