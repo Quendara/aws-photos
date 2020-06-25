@@ -88,13 +88,14 @@ function photos(state = initial_state.photos, action) {
             return action.values
 
         case SET_RATING:
-            console.log("SET_RATING : TOKEN? " + action.token)
-
             // backend call
             if (action.token !== undefined) {
                 const url = [Settings.baseRestApi, 'photos', action.id, 'rating', action.rating].join("/")
                 const loggingMessage = "Update Rating"
                 restCallToBackend(url, action.token, loggingMessage)
+            }
+            else{
+                console.warn( "SET_RATING (without TOKEN)" )
             }
 
             return state.map((image, index) => {
@@ -143,9 +144,7 @@ function query(state = initial_state.query, action) {
     switch (action.type) {
         case SET_FILTER:
             query[action.key] = action.value;
-
-
-            console.log("query requcer : (key, value) ", action.key, action.value)
+            // console.log("query requcer : (key, value) ", action.key, action.value)
             return query
         default:
             return state

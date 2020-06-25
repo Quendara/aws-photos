@@ -24,7 +24,7 @@ export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, call
                     <div className="collection-item" onClick={ () => callback(title, item.value) } key={ index }>
                         <Icon icon={ icon } className="mr-2" />
                         <span className="text-ellipsis">{ item.value }</span>
-                        <span className="badge text-blue ">{ item.count }</span> </div>
+                        <span className="badge blue-text ">{ item.count }</span> </div>
                 )) }
             </div>
             <br />

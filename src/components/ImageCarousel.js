@@ -42,10 +42,10 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 ratingCallback(photo.id, event.key);
                 break;
             case 'd':
-                setDeleted(photo.id, event.key);
+                setDeleted();
                 break;
             case 'm':
-                setMissing(photo.id, event.key);
+                setMissing();
                 break;
             case 27:
                 closeCallback()
