@@ -1,8 +1,5 @@
 import React from "react";
 
-import Settings from "../Settings"
-// import ImageListSimple from "./ImageListSimple";
-
 import ImageGroup from "./ImageGroup"; // import without {}
 import ImageGrid from "./ImageGrid";
 import ImageMap from "./ImageMap";
@@ -11,33 +8,6 @@ import {MoveToTop} from "./MoveToTop";
 
 
 const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
-  
-  // const addSrcAndReduce = (images, size=200) => {
-
-  //   // const reduceditems = images.slice(0, size) // reduce    
-
-  //   return images.map((image) => {
-  //     // image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
-  //     // image["src"] = image.id
-      
-  //     image["source_url"] = Settings.baseS3Bucket + image.dirname  + "/" + image.filename      
-  //     image["src"] = image.id
-
-  //     // swap width height when image is rotated
-  //     if( image.orientation === "90CW" || image.orientation === "90CCW" ){
-  //         const oldWidth = image.width 
-  //         image.width = image.height
-  //         image.height = oldWidth
-  //     }
-      
-  //     if( image.width  === undefined ){
-  //         console.error( "width is invalid : ", image.filename )
-  //     }
-      
-
-  //     return image
-  //   })
-  // }
 
   const currentPhotos = photos ; // addSrcAndReduce(photos);
 

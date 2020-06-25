@@ -163,8 +163,6 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
 
 const filterFiles = (photos, query) => {
 
-    const t0 = performance.now()
-
     const list = photos.filter(image => {
 
         // filter all below 0
@@ -202,10 +200,6 @@ const filterFiles = (photos, query) => {
         return (bool4 && bool5 && bool6 && bool7 && bool8 && bool9)
     })
 
-
-    const t1 = performance.now()
-    console.log("filtering took " + (t1 - t0) + " milliseconds.")
-
     console.log("filterFiles : ", list.length);
 
     // updateViews(list)
@@ -221,9 +215,15 @@ const mapDispatchToProps = dispatch => {
 
     // const reduceditems = images.slice(0, size) // reduce    
 
+        // let retImage = Object.assign({}, image, {
+        //     // rating: action.rating
+        // })    
+
     return images.map((image) => {
-      // image["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
-      // image["src"] = image.id
+
+      if (image.country === undefined) { image['country'] = "Unknown Country" }
+      if (image.city === undefined) { image['city'] = "Unknown City" }
+      if (image.state === undefined) { image['state'] = "Unknown State" }      
       
       image["source_url"] = Settings.baseS3Bucket + image.dirname  + "/" + image.filename      
       image["src"] = image.id
@@ -250,18 +250,25 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
 
+    const t0 = performance.now()
+
     let photos = state.photos
 
-    photos = photos.map((image) => {
-        if (image.country === undefined) { image['country'] = "Unknown Country" }
-        if (image.city === undefined) { image['city'] = "Unknown City" }
-        if (image.state === undefined) { image['state'] = "Unknown State" }
+    // photos = photos.map((image) => {
+    //     if (image.country === undefined) { image['country'] = "Unknown Country" }
+    //     if (image.city === undefined) { image['city'] = "Unknown City" }
+    //     if (image.state === undefined) { image['state'] = "Unknown State" }
 
-        return image
-    })
+    //     return image
+    // })
 
-    photos = filterFiles(photos, state.query)
     photos = addSrcAndDirname( photos )
+    photos = filterFiles(photos, state.query)
+
+    const t1 = performance.now()
+    console.log("filtering took " + (t1 - t0) + " milliseconds.")
+
+    
     const query = state.query
 
     return { photos, query } // photos:photos
