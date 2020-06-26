@@ -31,9 +31,9 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
 
 
 
-export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
+export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup="dirname", showGroupSelector=true }) => {
 
-    const [group, setGroup] = useState("dirname");
+    const [group, setGroup] = useState(initialGroup);
     // const [current, setCurrent] = useState({ name: "", photos: [] });
 
     const getGroupedItems = (photos) => {
@@ -128,11 +128,13 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy }) => {
     return (
         <div>
             <>
+                { showGroupSelector &&
                 <div className="row" >
                     <div className="col s12 right" >
                         <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country', 'month', 'day'] } callback={ callbackGroupBy } />
                     </div>
                 </div>
+                }
                 <>
                     { groups.map((item, index) => (
 

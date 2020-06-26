@@ -106,6 +106,8 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
         )
 
 
+    // <button className="btn blue" onClick={ setToday } >Today</button>
+
     return (
         <>
             <div className="row">
@@ -115,8 +117,6 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 <div className="col s12 l2 hide-on-med-and-down">
 
                     { sortedPhotos.length>0 && <>
-                        <button className="btn blue" onClick={ setToday } >Today</button>
-
                         <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
                         { query.year.length > 0 &&
                             <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
@@ -132,7 +132,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 </div>
                 <div className="col s12 l10">
                     <div className="row">
-                        <div className="col offset-m1  m6 s12 center">
+                        <div className="col m6 s12 center">
                             <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
                             <CancelFilter value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
                             <CancelFilter value={ query.year } filter={ "year" } callback={ callbackFilter } />
@@ -142,8 +142,8 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                             <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
-                        <div className="col m5 s12  center" >
-                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } />
+                        <div className="col m6 s12  center" >
+                            <SelectionView currentValue={ view_images } valueArr={ ['today', 'group', 'grid', 'list', 'map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>
                             <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
