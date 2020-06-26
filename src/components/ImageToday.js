@@ -33,12 +33,12 @@ export const ImageToday = ({ photos, setQueryFilter, sortBy }) => {
         { currentPhotos.length > 0 ?
             <>
                 <h4>
-                <span style={{ fontSize:"1.3em"}} >☀️</span>                
-                <span className="grey-text text-darken-1" >
-                    Erinnerungen an den
+                    <span style={ { fontSize: "1.3em" } } >☀️</span>
+                    <span className="grey-text text-darken-1" >
+                        Erinnerungen an den
                     </span>
-                    <span style={{ fontSize:"1.3em"}} className="cyan-text text.accent-2" >
-                    { " "}    { date.getDate() }.  { getMonthName(date.getMonth()) } 
+                    <span style={ { fontSize: "1.3em" } } className="cyan-text text.accent-2" >
+                        { " " }    { date.getDate() }.  { getMonthName(date.getMonth()) }
                     </span>
                 </h4>
 
