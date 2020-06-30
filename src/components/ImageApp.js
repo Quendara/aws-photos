@@ -114,25 +114,28 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 <div className="col s12">
                     <div className="m-2" ></div>
                 </div>
-                <div className="col s12 l2 hide-on-med-and-down">
+                <div className="col s12 m3 l2 ">
 
-                    { sortedPhotos.length>0 && <>
+                    { sortedPhotos.length > 0 && <>
                         <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
                         { query.year.length > 0 &&
                             <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
                         }
 
-                        <TopList photos={ photos } title="dirname" icon="dirname" limit="7" callback={ callbackFilter } />
                         <TopList photos={ photos } title="rating" icon="rating" limit="5" sortByCount={ false } callback={ callbackFilter } />
-                        <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
-                        <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
-                        <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
+                        
+                        <div className="hide-on-med-and-down">
+                            <TopList photos={ photos } title="dirname" icon="dirname" limit="7" callback={ callbackFilter } />
+                            <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
+                            <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
+                            <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
+                        </div>
                     </> }
 
                 </div>
-                <div className="col s12 l10">
+                <div className="col s12 m9 l10">
                     <div className="row">
-                        <div className="col m6 s12 center">
+                        <div className="col m12 s12 l6 center">
                             <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
                             <CancelFilter value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
                             <CancelFilter value={ query.year } filter={ "year" } callback={ callbackFilter } />
@@ -142,7 +145,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                             <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
                             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
                         </div>
-                        <div className="col m6 s12  center" >
+                        <div className="col m12 s12  l6 center" >
                             <SelectionView currentValue={ view_images } valueArr={ ['today', 'group', 'grid', 'list', 'map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>
