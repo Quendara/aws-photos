@@ -65,12 +65,15 @@ const restCallToBackend = (url, token, loggingMessage = "Generic Call") => {
                 console.log(message, result);
             },
             (error) => {
+                
                 const message = loggingMessage + " error"
+                alert( message );
                 console.error(message, error.message);
             }
         )
         .catch(err => {
             const message = loggingMessage + " error (CATCHED)"
+            alert( message );
             console.log(message, err)
         })
 
