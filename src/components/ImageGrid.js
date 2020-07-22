@@ -1,16 +1,16 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 import { useVisible } from 'react-hooks-visible'
 
 import Gallery from 'react-photo-gallery';
-import Carousel, { Modal, ModalGateway } from "react-images";
+import { Modal, ModalGateway } from "react-images";
 
 import { ImageGridImage } from "./ImageGridImage"
 import { ImageCarousel } from "./ImageCarousel"
 import { setRatingOnImage } from "../redux/actions"; // import default 
 
-import Settings from "../Settings"
+// import Settings from "../Settings"
 
 const ImageGrid = ({
   photos,

@@ -91,8 +91,6 @@ const App = () => {
             <Route exact path="/" component={ ImageApp } />
             <Route exact path="/sandbox" component={ Sandbox } />
           </Provider>
-
-          
         }
       </div>
     </Router>

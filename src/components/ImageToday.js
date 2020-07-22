@@ -2,9 +2,8 @@ import React, { useState, useCallback } from "react";
 import ImageGroup from "./ImageGroup"; // import without {}
 import { leadingZeros, sortPhotos } from "./helpers";
 
-import { connect } from 'react-redux'
-import { bindActionCreators } from "redux";
-
+// import { connect } from 'react-redux'
+// import { bindActionCreators } from "redux";
 
 export const ImageToday = ({ photos, setQueryFilter, sortBy }) => {
 
