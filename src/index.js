@@ -64,7 +64,7 @@ const App = () => {
       .then(res => res.json()) 
       .then(
         result => { 
-          console.log("result", result);
+          // console.log("result", result);
           store.dispatch( setPhotos( result ) )
           // setItems(result);
         },
