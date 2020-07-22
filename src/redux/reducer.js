@@ -58,7 +58,9 @@ const restCallToBackend = (url, token, loggingMessage = "Generic Call") => {
 
     console.log("restCallToBackend : ", url, token)
     fetch(url, options)
-        .then(res => res.json())
+        // .then(res => res.json() )
+        .then(res => JSON.parse( res ) )
+        
         .then(
             result => {
                 const message = loggingMessage + " success"

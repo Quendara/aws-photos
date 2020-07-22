@@ -41,7 +41,7 @@ export const MoveToTop = ( ) => {
 
     return (
         <>
-            <a className={ getClassName( is_visible )} onClick={ scrollToTop }><Icon icon="arrowUp" /></a>
+            <button className={ getClassName( is_visible )} onClick={ scrollToTop }><Icon icon="arrowUp" /></button>
         </>
     )
 }

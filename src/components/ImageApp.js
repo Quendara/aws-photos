@@ -170,7 +170,7 @@ const filterFiles = (images, query) => {
         // missing & deleted -1
 
         let rating = 0;
-        if (query.rating != "") {
+        if (query.rating !== "") {
             rating = query.rating
         }
 

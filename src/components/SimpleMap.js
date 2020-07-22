@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Map, TileLayer, Polyline, Marker, Popup } from "react-leaflet";
+import React, { } from "react";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 // import MarkerClusterGroup from "react-leaflet-markercluster";
 // import {toGeoJSON}  from "./toGeoJSON"
 // import "react-leaflet-markercluster/dist/styles.min.css";
