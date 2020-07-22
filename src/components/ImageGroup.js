@@ -29,19 +29,50 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
     )
 }
 
+const getGroupedItems = (photos, groupA) => {
+    const sortByCount = false
+    const limit = 18;
+    return findUnique(photos, groupA, sortByCount, limit)
+}
 
 
-export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup="dirname", showGroupSelector=true }) => {
+const StatsRow = ({ photos }) => {
+
+    const getClass = ( key ) => {
+        switch (key) {
+            
+            case '1': return 'grey darken-3';
+            case '2': return 'grey darken-2';
+            case '3': return 'yellow darken-4';
+            case '4': return 'yellow darken-3';
+            case '5': return 'yellow darken-1';
+
+            default:
+                break;
+        }
+    }
+
+    return (
+        <table width="95%">
+            <tr>
+                {
+                    getGroupedItems(photos, 'rating').map((item, index) => (
+                        <td width={ item.photos.length / item.photos.length } class={ getClass( item.value  )} >
+                            { item.photos.length }
+                        </td>
+                    ))
+                }
+            </tr>
+        </table>
+    )
+}
+
+
+export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dirname", showGroupSelector = true, initialStats = false }) => {
 
     const [group, setGroup] = useState(initialGroup);
+    const [stats, setStats] = useState(initialStats);
     // const [current, setCurrent] = useState({ name: "", photos: [] });
-
-    const getGroupedItems = (photos) => {
-        const sortByCount = false
-        const limit = 10;
-
-        return findUnique(photos, group, sortByCount, limit)
-    }
 
     // descending == absteigend
     // ascending == aufstseigend
@@ -51,7 +82,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup="dirna
     // }
 
     const adaptColSize = (nImages) => {
-        if (nImages === 1 ) return "col s4"
+        if (nImages === 1) return "col s4"
         if (nImages >= 4) return "col s12"
         return "col s6"
     }
@@ -60,7 +91,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup="dirna
         setGroup(value)
     }
 
-    const getContext = (currentGrouping, currentValue, photos ) => {
+    const getContext = (currentGrouping, currentValue, photos) => {
         const sortByCount = false
         const limit = 3;
 
@@ -110,30 +141,31 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup="dirna
         setQueryFilter(group1, value1)
         setQueryFilter(group2, value2)
 
-        console.log( "queryOnTwoGroups" , group1, value1, group2, value2 )
+        console.log("queryOnTwoGroups", group1, value1, group2, value2)
         // setQueryFilter("country", "Deutschland")
     }
 
     const queryOnGroup = (currentGrouping, value) => {
         setQueryFilter(currentGrouping, value)
 
-        console.log( "queryOnGroup" , currentGrouping, value )
+        console.log("queryOnGroup", currentGrouping, value)
         // setQueryFilter("country", "Deutschland")
     }
 
     //  () => setCurrent({ name: item.value, photos: item.photos })
 
-    const groups = getGroupedItems(photos)
+    const groups = getGroupedItems(photos, group)
 
     return (
         <div>
             <>
                 { showGroupSelector &&
-                <div className="row" >
-                    <div className="col s12 right" >
-                        <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country', 'month', 'day'] } callback={ callbackGroupBy } />
+                    <div className="row" >
+                        <div className="col s12 right" >
+                            <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country', 'month', 'day'] } callback={ callbackGroupBy } />
+                            <button className="btn" onClick={ () => setStats( !stats )  }><Icon icon="arrowUp" /></button>
+                        </div>
                     </div>
-                </div>
                 }
                 <>
                     { groups.map((item, index) => (
@@ -154,15 +186,29 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup="dirna
                                 </h5>
                             </div>
                             <div className={ adaptColSize(item.count) } key={ index + 1000 }>
-                                { groups.length > 1 ?
-                                    (
-                                        <ImageGrid photos={ item.photos } sortBy={sortBy} limit="6" />
-                                    ) :
-                                    (
-                                        <span>                                            
-                                            <ImageGrid photos={ photos } sortBy={sortBy} limit="1000" paging={ true } />
-                                        </span>
-                                    ) }
+
+
+                                { stats === true ? (
+                                    <StatsRow photos={ item.photos } />
+
+
+                                ) : (
+                                        <>{
+                                            groups.length > 1 ?
+                                                (
+                                                    <ImageGrid photos={ item.photos } sortBy={ sortBy } limit="6" />
+                                                ) :
+                                                (
+                                                    <span>
+                                                        <ImageGrid photos={ photos } sortBy={ sortBy } limit="1000" paging={ true } />
+                                                    </span>
+                                                )
+                                        }</>
+                                    )
+                                }
+
+
+
                             </div>
                         </div>
                     )) }
