@@ -226,7 +226,7 @@ const addSrcAndDirname = (images) => {
         if (image.city === undefined) { retImage['city'] = "Unknown City" }
         if (image.state === undefined) { retImage['state'] = "Unknown State" }
 
-        retImage["source_url"] = Settings.baseS3Bucket + image.dirname + "/" + image.filename
+        retImage["source_url"] = Settings.baseApiBinaryImages + image.dirname + "/" + image.filename
         retImage["src"] = image.id
 
         if (image.dirname_logical !== undefined) {
