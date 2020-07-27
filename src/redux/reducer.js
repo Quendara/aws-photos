@@ -38,7 +38,7 @@ const initial_state = {
         year: "",
         month: "",
         day: "",
-        rating: ""
+        rating: "2"
     },
     token: {
         access: ""

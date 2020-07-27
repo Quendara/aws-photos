@@ -170,7 +170,7 @@ const ImageGrid = ({
 
         
         <div>
-          <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
+          <Gallery columns="1" photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
           <ModalGateway>
             { viewerIsOpen ? (
               <Modal onClose={ closeLightbox }>

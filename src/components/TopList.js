@@ -18,9 +18,9 @@ export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, call
     return (
         <>
             <h6><Icon icon={ icon } /> { title } <span onClick={ () => callback(title, "") } className={ getResetClass() } >Reset</span> </h6>
-            <div className="collection grey-blue darken-4 z-depth-5">
+            <div className="row">
                 { getItems(photos).map((item, index) => (
-                    <div className="collection-item" onClick={ () => callback(title, item.value) } key={ index }>
+                    <div className="col m-1 offset-s1  s11" onClick={ () => callback(title, item.value) } key={ index }>
                         <Icon icon={ icon } className="mr-2" />
                         <span className="text-ellipsis">{ item.value }</span>
                         <span className="badge blue-text ">{ item.count }</span> </div>
@@ -32,5 +32,16 @@ export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, call
 }
 
 /*
-
+        <>
+            <h6><Icon icon={ icon } /> { title } <span onClick={ () => callback(title, "") } className={ getResetClass() } >Reset</span> </h6>
+            <div className="collection grey-blue darken-4 z-depth-5">
+                { getItems(photos).map((item, index) => (
+                    <div className="collection-item" onClick={ () => callback(title, item.value) } key={ index }>
+                        <Icon icon={ icon } className="mr-2" />
+                        <span className="text-ellipsis">{ item.value }</span>
+                        <span className="badge blue-text ">{ item.count }</span> </div>
+                )) }
+            </div>
+            <br />
+        </>
 */

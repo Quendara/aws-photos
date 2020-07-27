@@ -15,8 +15,9 @@ import { leadingZeros, sortPhotos } from "./helpers";
 import Settings from "../Settings"
 
 import { setQueryFilter } from "../redux/actions"; // import default 
+import { Rating } from "./Rating";
 
-// import { Icon } from "./components/Icons";
+import { Icon } from "./Icons"
 
 // This class contains the business logic of the application
 const ImageApp = ({ photos, query, setQueryFilter }) => {
@@ -107,6 +108,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
 
 
     // <button className="btn blue" onClick={ setToday } >Today</button>
+    // <TopList photos={ photos } title="rating" icon="rating" limit="5" sortByCount={ false } callback={ callbackFilter } />
 
     return (
         <>
@@ -122,7 +124,13 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                             <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
                         }
 
-                        <TopList photos={ photos } title="rating" icon="rating" limit="5" sortByCount={ false } callback={ callbackFilter } />
+
+                        <h6><Icon icon="rating" /> Rating </h6>
+                        <div className="row">
+                        <div className="col m-1 offset-s1  s11" >
+                        <Rating rating={ query.rating } id="rating" callback={ callbackFilter } ></Rating>
+                        </div>
+                        </div>
                         
                         <div className="hide-on-med-and-down">
                             <TopList photos={ photos } title="dirname" icon="dirname" limit="7" callback={ callbackFilter } />
@@ -226,7 +234,7 @@ const addSrcAndDirname = (images) => {
         if (image.city === undefined) { retImage['city'] = "Unknown City" }
         if (image.state === undefined) { retImage['state'] = "Unknown State" }
 
-        retImage["source_url"] = [ Settings.baseApiBinaryImages, image.dirname, image.filename ].join('/')
+        retImage["source_url"] = [Settings.baseApiBinaryImages, image.dirname, image.filename].join('/')
         retImage["src"] = image.id
 
         if (image.dirname_logical !== undefined) {
