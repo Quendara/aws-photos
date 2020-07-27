@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from 'react-redux'
 import { render } from "react-dom";
 
@@ -6,6 +6,7 @@ import { Auth } from "./Auth";
 
 import ImageApp from "./components/ImageApp"; // no {} because exported with connect
 import { Sandbox } from "./components/Sandbox";
+
 import Settings from "./Settings"
 
 // import { TimeTree } from "./TimeTree";
@@ -33,6 +34,30 @@ store.subscribe(() => {
 })
 
 
+const loadPhotos = ( url, token ) => {
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    }
+  }; 
+
+  fetch(url, options)
+  .then(res => res.json()) 
+  .then(
+    result => { 
+      // console.log("result", result);
+      store.dispatch( setPhotos( result ) )
+      // setItems(result);
+    },
+    (error) => {
+      console.error( "Could not load links : ", error.message);
+    }
+  )
+  .catch(err => { console.log( "XX", err) })    
+
+
+}
 
 
 const App = () => {
@@ -44,38 +69,41 @@ const App = () => {
     setJwtToken(token);
 
     console.log("username", username);
-    // console.log("authSuccess", token);
-
-    
-
-    const url = [ Settings.baseRestApi, "photos" ].join('/')
-
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      }
-    };  
 
     // initial load of data
     store.dispatch( setAccessToken( token ) )
-  
-    fetch(url, options)
-      .then(res => res.json()) 
-      .then(
-        result => { 
-          // console.log("result", result);
-          store.dispatch( setPhotos( result ) )
-          // setItems(result);
-        },
-        (error) => {
-          console.error( "Could not load links : ", error.message);
-        }
-      )
-      .catch(err => { console.log( "XX", err) })    
 
+    // const url = [ Settings.baseRestApi, "photos" ].join('/')
+    // let url = [ Settings.baseRestApi, "photos", "filter", "sameday", "07-27" ].join('/')
+    // loadPhotos( url, token )
 
+    const fromCache = true
+    if( fromCache ){
+      const url = [ Settings.baseApiBinaryImages, "cache", "image-cache.json" ].join('/')
+      loadPhotos( url, token )  
+    }
+    else{
+      const url = [ Settings.baseRestApi, "photos" ].join('/')
+      loadPhotos( url, token )  
+    }  
   };
+
+  const createCache = () => {
+    alert("createCache")
+    const url = [ Settings.baseRestApi, "photos" ].join('/')
+    loadPhotos( url, jwtTocken )  
+
+  }
+
+  useEffect(() => {
+    
+    window.addEventListener("beforeunload", createCache);
+
+    return () => {
+        // window.removeEventListener("keydown", handleKeyPress, false);
+        // window.addEventListener("beforeunload", leaving);
+    };
+})  
 
   return (
     <Router>
@@ -84,7 +112,6 @@ const App = () => {
 
           <Auth authSuccessCallback={ authSuccessCallback } />
         </nav>
-
 
         { username.length > 0 &&
           <Provider store={ store } >

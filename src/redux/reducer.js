@@ -63,7 +63,8 @@ const restCallToBackend = (url, token, loggingMessage = "Generic Call") => {
         .then(
             result => {
                 const message = loggingMessage + " success"
-                console.log(message, result);
+                //console.log(message, result);
+                
             },
             (error) => {
                 
