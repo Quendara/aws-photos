@@ -1,4 +1,4 @@
-import { sortBy, groupBy } from "underscore";
+import { sortBy, groupBy, shuffle } from "underscore";
 
 export const sortPhotos = (images, sortByKey = 'rating', ascending=false) => {
     images = sortBy(images, sortByKey);
@@ -6,6 +6,11 @@ export const sortPhotos = (images, sortByKey = 'rating', ascending=false) => {
         images = images.reverse()
     }
     return images; // .slice(0, 5);
+}
+
+
+export const shuffleItems = ( list ) => {
+    return shuffle(list)
 }
 
 
