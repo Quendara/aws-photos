@@ -38,12 +38,12 @@ $transition-effects: color 1s ease, background-color 1s ease;
  
 
 
-.text-ellipsis {
-	width: 150px;
-	//width:50%;
+.text-ellipsis {	
+	width:75%;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	float: left;
   }
 
 .mouse-pointer{ cursor: pointer; }

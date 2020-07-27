@@ -17,12 +17,12 @@ export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, call
 
     return (
         <>
-            <h6><Icon icon={ icon } /> { title } <span onClick={ () => callback(title, "") } className={ getResetClass() } >Reset</span> </h6>
+            <h6><Icon icon={ icon } className="mr-2" /> <span style={{'text-transform':'capitalize'}}>{ title }</span> <span onClick={ () => callback(title, "") } className={ getResetClass() } >Reset</span> </h6>
             <div className="row">
                 { getItems(photos).map((item, index) => (
                     <div className="col m-1 offset-s1  s11" onClick={ () => callback(title, item.value) } key={ index }>
-                        <Icon icon={ icon } className="mr-2" />
-                        <span className="text-ellipsis">{ item.value }</span>
+                        
+                        <div className="text-ellipsis"><Icon icon={ icon } className="mr-2 grey-text text-darken-2" /> { item.value }</div>
                         <span className="badge blue-text ">{ item.count }</span> </div>
                 )) }
             </div>
