@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React from "react"; // { useState, useCallback } 
 import ImageGroup from "./ImageGroup"; // import without {}
-import { leadingZeros, sortPhotos } from "./helpers";
+import { leadingZeros } from "./helpers";
 
 // import { connect } from 'react-redux'
 // import { bindActionCreators } from "redux";

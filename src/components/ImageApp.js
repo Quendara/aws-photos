@@ -10,9 +10,9 @@ import { Images } from "./ImagesRouter";
 import { TopList } from "./TopList";
 import { CancelFilter } from "./CancelFilter";
 import { SelectionView } from "./SelectionView";
-import { leadingZeros, sortPhotos } from "./helpers";
+import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 
-import Settings from "../Settings"
+// import Settings from "../Settings"
 
 import { setQueryFilter } from "../redux/actions"; // import default 
 import { Rating } from "./Rating";
@@ -177,107 +177,13 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
     )
 }
 
-const filterFiles = (images, query) => {
 
-    const list = images.filter(image => {
-
-        // filter all below 0
-        // missing & deleted -1
-
-        let rating = 0;
-        if (query.rating !== "") {
-            rating = query.rating
-        }
-
-        const boolWidth = image.width !== 666 // remove images with the initial width of 666 (error state)
-
-        const bool1 = +image.rating >= rating
-
-        // return true keeps the item in the list
-        const bool2 = query.year === "" || +image.year === +query.year // true when year is not given or equel
-        const bool3 = query.dirname === "" || image.dirname === query.dirname
-
-        if (boolWidth === false || bool1 === false || bool2 === false || bool3 === false) { // if one is false return false, skip this photo
-            return false; // realy exit
-        }
-
-        const bool4 = query.month === "" || image.month === query.month
-        const bool5 = query.day === "" || image.country === query.day
-        const bool6 = query.sameday === "" || image.sameday === query.sameday
-
-        const bool7 = query.country === "" || image.country === query.country
-        const bool8 = query.state === "" || image.state === query.state
-        const bool9 = query.city === "" || image.city === query.city
-
-
-        // console.log("+image.year === +year : ", +image.year, year, +image.year === +year)
-        // console.log(bool1, bool2, bool3)
-        // #return (bool1 && bool2 && bool3 && bool4 && bool5 && bool6 && bool7 && bool8 && bool9)
-        return (bool4 && bool5 && bool6 && bool7 && bool8 && bool9)
-    })
-
-    console.log("filterFiles : ", list.length);
-
-    // updateViews(list)
-    // setCurrentItems(list)
-    return list
-};
-
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ setQueryFilter }, dispatch)
-}
-
-const addSrcAndDirname = (images) => {
-
-    // const reduceditems = images.slice(0, size) // reduce    
-
-    return images.map((image) => {
-
-        let retImage = Object.assign({}, image)
-
-        // let retImage = image
-
-        if (image.country === undefined) { retImage['country'] = "Unknown Country" }
-        if (image.city === undefined) { retImage['city'] = "Unknown City" }
-        if (image.state === undefined) { retImage['state'] = "Unknown State" }
-
-        retImage["source_url"] = [Settings.baseApiBinaryImages, image.dirname, image.filename].join('/')
-        retImage["src"] = image.id
-
-        if (image.dirname_logical !== undefined) {
-            retImage['dirname_physical'] = image.dirname
-            retImage.dirname = image.dirname_logical
-        }
-
-        // swap width height when image is rotated
-        if (image.orientation === "90CW" || image.orientation === "90CCW") {
-            const oldWidth = image.width
-            retImage.width = image.height
-            retImage.height = oldWidth
-        }
-
-        if (image.width === undefined) {
-            console.error("width is invalid : ", image.filename)
-        }
-
-
-        return retImage
-    })
-}
 
 const mapStateToProps = state => {
 
     const t0 = performance.now()
 
     let photos = state.photos
-
-    // photos = photos.map((image) => {
-    //     if (image.country === undefined) { image['country'] = "Unknown Country" }
-    //     if (image.city === undefined) { image['city'] = "Unknown City" }
-    //     if (image.state === undefined) { image['state'] = "Unknown State" }
-
-    //     return image
-    // })
 
     let copyOfphotos = addSrcAndDirname(photos)
     copyOfphotos = filterFiles(copyOfphotos, state.query)
@@ -291,6 +197,11 @@ const mapStateToProps = state => {
 
     return { photos: copyOfphotos, query } // photos:photos
 }
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({ setQueryFilter }, dispatch)
+}
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageApp);

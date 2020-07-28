@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Rating } from "./Rating"
 import { useSwipeable } from "react-swipeable";
-
 import { ImageOnDemand } from "./ImageOnDemand";
-import { Icon } from "./Icons";
 
-export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback }) => {
+import { TopList } from "./TopList";
+
+
+import { Icon } from "./Icons";
+import { values } from "underscore";
+
+export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback, updateMetadataCallback }) => {
+
+    // ratingCallback(photo.id, newRating);
+    // updateMetadataCallback(photo.id, what, newValue );
 
     const [index, setIndex] = useState(currentIndex);
+    const [contextMenu, setContextMenu] = useState("");
 
     const getCaptionFromPhoto = (image) => {
         return (
             <div >
                 { image.filename }
                 <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
-                <Icon icon="day" /> { image.day } - <span className="grey-text">{ image.dirname_physical }</span> 
-                
-                <h5>{ image.country }</h5>
-                <p className="grey-text" > { image.city }</p>
+                <Icon icon="day" /> { image.day } - <span className="grey-text">{ image.dirname_physical }</span>
+
+                <h5>
+                    <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
+                <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
+                </h5>
+                <p onClick={ () => setContextMenu("city") } className="grey-text" > { image.city }</p>
             </div>)
     }
 
@@ -47,6 +58,8 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 setMissing();
                 break;
             case 27:
+            case 'Escape':
+
                 closeCallback()
                 break;
             case 'ArrowUp':
@@ -117,22 +130,51 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
     const photo = photos[index]
 
+    const updateMetadata = (what, value) => {
+
+        if (value.length > 0) {
+            // console.log("Update '" + what + "' to '" + value + "' ImageID : " + photo.id )
+            updateMetadataCallback( photo.id, what, value )
+        }
+        else {
+            // CLOSE
+        }
+        setContextMenu("")
+    }
+
+    const contextMenuFcn = () => {
+
+        return (
+            <>
+                { contextMenu.length > 0 && 
+                <TopList rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } /> 
+                }
+            </>
+        )
+    }
+
     return (
-        <>
+        <div className="responsive-carousel-bg" >
             <div { ...handlers } >
                 <ImageOnDemand
                     image={ photo }
                     className="responsive-carousel"
                     alt={ photo.title } />
+
             </div>
 
             <div style={ { top: '0px', right: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
-
             <div style={ { top: '43%', left: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
             <div style={ { top: '43%', right: '20px' } } className="image-carousel offset-s10 s1 grey-text text-darken-5" onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
 
+
+            <div style={ { bottom: '2%', left: '20%', width: '30%' } } className="image-carousel-text" >
+                { contextMenuFcn() }
+            </div>
+
             <div style={ { top: '80%', left: '20px' } } className="image-carousel-text" >
                 { getCaptionFromPhoto(photo) }
+
             </div>
 
             <div style={ { top: '90%', right: '20px' } } className="image-carousel" >
@@ -140,6 +182,6 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 <a className="btn blue m-2" onClick={ setMissing }  >Missing</a>
                 <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length }</b></h5>
             </div>
-        </>
+        </div>
     )
 }

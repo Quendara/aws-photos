@@ -127,7 +127,7 @@ const ImageMap = ({
                     <div className="col s12" >
                         <hr />
                         <span className="badge">{ image.lat }, { image.long } </span>
-                        <a className="btn blue m-2" onClick={ () => setMissing(image.id) }  >Missing</a>
+                        <button className="btn blue m-2" onClick={ () => setMissing(image.id) }  >Missing</button>
                     </div>
                 </div>
             </Popup>
@@ -137,7 +137,7 @@ const ImageMap = ({
 
     return (
         <div className="row">
-            <div className="col s12">
+            <div className="col s12"> 
 
                 <div>
                     <SimpleMap markers={ markers } markerHtml={ markerHtml } zoom={ zoom } center={ calcCenter(markers) } />

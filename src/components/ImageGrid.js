@@ -8,7 +8,7 @@ import { Modal, ModalGateway } from "react-images";
 
 import { ImageGridImage } from "./ImageGridImage"
 import { ImageCarousel } from "./ImageCarousel"
-import { setRatingOnImage } from "../redux/actions"; // import default 
+import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 
 // import Settings from "../Settings"
 
@@ -18,7 +18,8 @@ const ImageGrid = ({
   paging = false,
   view = "grid",
   sortBy,
-  setRatingOnImage,   // from mapStateToProps
+  setRatingOnImage,   // from mapDispatchToProps
+  setMetadataOnImage, // from mapDispatchToProps
   token,              // from mapStateToProps
   ...rest }) => {
 
@@ -111,6 +112,7 @@ const ImageGrid = ({
 
   }
 
+  // could be replaced by updateMetadataCallback
   const ratingCallback = (id, rating) => {
 
     if (setRatingOnImage === undefined) {
@@ -120,10 +122,18 @@ const ImageGrid = ({
     console.log("callbackLocal", id, rating, setRatingOnImage)
     setRatingOnImage(id, rating, token.access )
 
-    // TO BACKEND
-
-
   }
+
+  const updateMetadataCallback = (id, what, newValue ) => {
+
+    // if (setRatingOnImage === undefined) {
+    //   console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
+    //   return;
+    // }
+    console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id )
+    setMetadataOnImage( id, what, newValue, token.access )
+
+  }      
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
 
@@ -170,7 +180,7 @@ const ImageGrid = ({
 
         
         <div>
-          <Gallery columns="1" photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
+          <Gallery  photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
           <ModalGateway>
             { viewerIsOpen ? (
               <Modal onClose={ closeLightbox }>
@@ -178,7 +188,9 @@ const ImageGrid = ({
                   photos={ photos }
                   currentIndex={ currentImage }
                   closeCallback={ closeLightbox }
-                  ratingCallback={ ratingCallback } />
+                  ratingCallback={ ratingCallback }
+                  updateMetadataCallback={updateMetadataCallback}
+                   />
 
               </Modal>
             ) : null }
@@ -216,7 +228,7 @@ const mapStateToProps = state => {
 
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ setRatingOnImage }, dispatch)
+  return bindActionCreators({ setRatingOnImage, setMetadataOnImage }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageGrid);

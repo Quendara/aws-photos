@@ -1,11 +1,16 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlus,
+//  faPlus,
   faAngleDoubleRight,
   faSignOutAlt,
   faUserAstronaut
 } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  BrowserRouter as Router,
+  NavLink,
+} from "react-router-dom";
 
 // import { AmazonCognitoIdentity } from "amazon-cognito-identity-js";
 
@@ -26,7 +31,7 @@ const Auth = ({ authSuccessCallback }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
-  const [token, setToken] = useState("");
+//  const [token, setToken] = useState("");
   const [trySend, setTrySend] = useState(false);
 
   const [cognitoUser, setCognitoUser] = useState(null);
@@ -167,7 +172,9 @@ const Auth = ({ authSuccessCallback }) => {
               <div className=" col s12" >
                 <a href="#" className="brand-logo hide-on-med-and-down">Photos</a>
                 <ul id="nav-mobile" className="right">
+                  
                   <form className="form-inline" onSubmit={ handleClick }>
+
                     <li>
                       <input
                         value={ username }
@@ -209,6 +216,8 @@ const Auth = ({ authSuccessCallback }) => {
             <div className=" col s12" >
               <a href="#" className="brand-logo">Photos</a>
               <ul id="nav-mobile" className="right hide-on-med-and-down m4">
+                  <li><NavLink className="nav-item nav-link mr-2" to="/main" activeClassName="blue">Main</NavLink></li>
+                  <li><NavLink className="nav-item nav-link mr-2 " to="/sandbox" activeClassName="blue">Sandbox</NavLink></li>
                 <li>
                   <button className="btn btn-primary ">
                     <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" />
