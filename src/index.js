@@ -5,6 +5,7 @@ import { render } from "react-dom";
 import { Auth } from "./Auth";
 
 import ImageApp from "./components/ImageApp"; // no {} because exported with connect
+import Today from "./components/Today";
 import Sandbox from "./components/Sandbox";
 
 import Settings from "./Settings"
@@ -118,6 +119,7 @@ const App = () => {
           <Provider store={ store } >
             <Route exact path="/" component={ ImageApp } />
             <Route exact path="/main" component={ ImageApp } />
+            <Route exact path="/today" component={ Today } />
             <Route exact path="/sandbox" component={ Sandbox } />
           </Provider>
         }

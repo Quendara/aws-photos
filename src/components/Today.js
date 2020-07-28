@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import SandboxList from "./SandboxList"
 
 import { TopList } from "./TopList"
-import { CancelFilter } from "./CancelFilter"
-import { ImageCarousel } from "./ImageCarousel"
+import { CancelFilterAll } from "./CancelFilter"
+import { ImageToday } from "./ImageToday"
 import ImageGrid from "./ImageGrid"
 
 
@@ -25,7 +25,7 @@ export const store = createStore(rootReducer)
 
 
 
-export const Sandbox = ({
+export const Today = ({
     photos,
     query,
     setQueryFilter,     // from mapDispatchToProps
@@ -82,33 +82,18 @@ export const Sandbox = ({
         <>
 
             <div className="row" >
-
-                <div className="col s12 m3 l2 " >
-                    { photos.length > 0 && <>
-
-                        <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
-
-                        { query.year.length > 0 &&
-                            <>
-                                <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
-                            </>
-                        }
-                        <TopList photos={ photos } title="dirname" icon="dirname" limit="9" sortByCount={ false } callback={ callbackFilter } />
-
-                        <div className="hide-on-med-and-down">
-
-                            <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
-                        </div>
-                    </> }
+                <div className="col s12">
+                    <div className="m-2" ></div>
+                </div>
+                <div className="col s4 offset-s8 right" >
+                    <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
                 </div>
 
-                <div className="col s12 m9 l10" >
+                <div className="col s12 offset-l1 l10" >
 
-                    { (showImage && photos.length > 0) &&
+                    { (photos.length > 0) &&
                         <>
-                            <ImageGrid photos={ photos } limit="15" />
+                            <ImageToday photos={ photos } />
                         </> }
 
                 </div>
@@ -146,4 +131,4 @@ const mapDispatchToProps = dispatch => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sandbox);
+export default connect(mapStateToProps, mapDispatchToProps)(Today);

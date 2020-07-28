@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 import { Images } from "./ImagesRouter";
 import { TopList } from "./TopList";
-import { CancelFilter } from "./CancelFilter";
+import { CancelFilterAll } from "./CancelFilter";
 import { SelectionView } from "./SelectionView";
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 
@@ -22,7 +22,7 @@ import { Icon } from "./Icons"
 // This class contains the business logic of the application
 const ImageApp = ({ photos, query, setQueryFilter }) => {
 
-    const [view_images, setViewImages] = useState("today"); // group, list, grid
+    const [view_images, setViewImages] = useState("group"); // group, list, grid
     const [view_sort, setViewSort] = useState("date"); // rating, date
 
     const callbackFilter = (key, value) => {
@@ -78,14 +78,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                             <div  >
                                 <h3 className="blue-text text-lighten-4 center">No images, please deselect at least one filter.</h3>
                                 <div className="divider" /><br /><br />
-                                <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
-                                <CancelFilter value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
-                                <CancelFilter value={ query.year } filter={ "year" } callback={ callbackFilter } />
-                                <CancelFilter value={ query.month } filter={ "month" } callback={ callbackFilter } />
-                                <CancelFilter value={ query.rating } filter="rating" callback={ callbackFilter } />
-                                <CancelFilter value={ query.country } filter="country" callback={ callbackFilter } />
-                                <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
-                                <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
+                                <CancelFilterAll query={query} callbackFilter={ callbackFilter } />
                             </div>
 
                         ) :
@@ -117,9 +110,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                     <div className="m-2" ></div>
                 </div>
                 <div className="col s12 m3 l2 ">
-
                     { sortedPhotos.length > 0 && <>
-                        
 
                         <h6><Icon icon="rating" className="mr-2" /> Rating </h6>
                         <div className="row">
@@ -131,13 +122,11 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                         <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
 
                         { query.year.length > 0 &&
-                        <>
-                            <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
-                            <TopList photos={ photos } title="dirname" icon="dirname" limit="7" callback={ callbackFilter } />
+                            <>
+                                <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />                            
                             </>
                         }
-
-
+                        <TopList photos={ photos } title="dirname" icon="dirname" limit="9" sortByCount={ false } callback={ callbackFilter } />
 
                         <div className="hide-on-med-and-down">
                             
@@ -151,17 +140,10 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 <div className="col s12 m9 l10">
                     <div className="row">
                         <div className="col l6 center hide-on-med-and-down">
-                            <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
-                            <CancelFilter value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
-                            <CancelFilter value={ query.year } filter={ "year" } callback={ callbackFilter } />
-                            <CancelFilter value={ query.month } filter={ "month" } callback={ callbackFilter } />
-                            <CancelFilter value={ query.rating } filter="rating" callback={ callbackFilter } />
-                            <CancelFilter value={ query.country } filter="country" callback={ callbackFilter } />
-                            <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
-                            <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
+                            <CancelFilterAll query={query} callbackFilter={ callbackFilter } />
                         </div>
                         <div className="col m12 s12  l6 center" >
-                            <SelectionView currentValue={ view_images } valueArr={ ['today', 'group', 'grid', 'list', 'map'] } callback={ callbackView } />
+                            <SelectionView currentValue={ view_images } valueArr={ [ 'group', 'grid', 'list', 'map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>
                             <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />

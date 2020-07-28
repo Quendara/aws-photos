@@ -216,6 +216,7 @@ const Auth = ({ authSuccessCallback }) => {
             <div className=" col s12" >
               <a href="#" className="brand-logo">Photos</a>
               <ul id="nav-mobile" className="right hide-on-med-and-down m4">
+                  <li><NavLink className="nav-item nav-link mr-2" to="/today" activeClassName="blue">Today</NavLink></li>
                   <li><NavLink className="nav-item nav-link mr-2" to="/main" activeClassName="blue">Main</NavLink></li>
                   <li><NavLink className="nav-item nav-link mr-2 " to="/sandbox" activeClassName="blue">Sandbox</NavLink></li>
                 <li>
