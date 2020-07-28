@@ -1,6 +1,7 @@
 export const  ADD_TODO = 'ADD_TODO'
 export const  FETCH_DATA = 'FETCH_DATA'
 export const  SET_RATING = 'SET_RATING'
+export const  SET_METADATA = 'SET_METADATA'
 export const  SET_FILTER = 'SET_FILTER'
 export const  SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
 
@@ -39,6 +40,18 @@ export function setRatingOnImage( id, rating, token=undefined ) {
     type: SET_RATING,
     id,
     rating, // == rating:rating
+    token
+  }
+
+  return action;
+}
+
+export function setMetadataOnImage( id, what, newValue, token=undefined ) {
+  const action = {
+    type: SET_METADATA,
+    id,
+    what, // == what:what year, city, country, ...
+    newValue,
     token
   }
 

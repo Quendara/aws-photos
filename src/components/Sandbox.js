@@ -1,98 +1,137 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // , { useState }
 import { Provider } from 'react-redux'
 
-
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux'
 
 import SandboxList from "./SandboxList"
 
 import { TopList } from "./TopList"
 import { CancelFilter } from "./CancelFilter"
+import { ImageCarousel } from "./ImageCarousel"
 
 
 import { setQueryFilter } from "../redux/actions"; // import default 
+import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 import { rootReducer } from "../redux/reducer"; // import default 
 import { createStore } from "redux";
+
+
+import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 
 // init with function
 export const store = createStore(rootReducer)
 
 
-store.subscribe(() => {
-    console.log("state.subscribe", store.getState().query);
-});
 
-const callbackFilter = (key, value) => {
-    store.dispatch(setQueryFilter(key, value));
-}
+export const Sandbox = ({ 
+    photos, 
+    query, 
+    setQueryFilter,     // from mapDispatchToProps
+    setRatingOnImage,   // from mapDispatchToProps
+    setMetadataOnImage, // from mapDispatchToProps
+    token               // from mapStateToProps    
+}) => {
 
-const TestApi = ({ token }) => {
+    const [showImage, setShowImage] = useState(true); // group, list, grid
 
-    const testApiCall = () => {
-        const url = "https://g1pdih9v74.execute-api.eu-central-1.amazonaws.com/dev/photos"
+    const callbackFilter = (key, value) => {
 
-        const options = {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: token
-            }
-        };
+        console.log("callbackFilter : ", key, " : ", value)
+        // current_filter[key] = value;
+        // setCurrentFilter(current_filter)
+        // filterFiles(current_filter)
 
-        console.log("CALL : ", url, token)
-
-        // initial load of data
-
-        fetch(url, options)
-            .then(res => res.json())
-            .then(
-                result => {
-                    console.log("result", result);
-                    // store.dispatch(setPhotos(result))
-                    // setItems(result);
-                },
-                (error) => {
-                    console.error("Could not load links : ", error.message);
-                }
-            )
-            .catch(err => { console.log("XX", err) })
+        setQueryFilter(key, value)
     }
 
+    const test = (image) => {
+        console.log("getSrcUrlWhenVisible : ", image)
+    }
+
+    // <div className="col s3" >
+    //     <TopList photos={ photos } title="year" icon="rating" sortByCount={ false } callback={ callbackFilter } />
+    //     <TopList photos={ photos } title="city" icon="city" sortByCount={ true } callback={ callbackFilter } />
+    // </div>    
+
+    const closeView = () => {
+        setShowImage( false )
+    }
+
+    const ratingCallback = (id, rating) => {
+
+        if (setRatingOnImage === undefined) {
+          console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
+          return;
+        }
+        console.log("callbackLocal", id, rating )
+        // setRatingOnImage(id, rating, token.access )
+    
+      }    
+
+      const updateMetadataCallback = (id, what, newValue ) => {
+
+        // if (setRatingOnImage === undefined) {
+        //   console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
+        //   return;
+        // }
+        console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id )
+        setMetadataOnImage( id, what, newValue, token.access )
+    
+      }    
+
+
+
+      
+
     return (
         <>
-            <h1 onClick={ testApiCall }>Test </h1>
-            { token.access }
-        </>
-    )
 
-}
+            <div className="row" >
 
+                <div className="col s9" >
 
+                    <h1>HELLO SANDBOX ;) { photos.length }</h1>
 
+                    { (showImage && photos.length > 0) &&
+                        <>
+                            <ImageCarousel photos={ photos } currentIndex={ 0 } closeCallback={ closeView } ratingCallback={ratingCallback} updateMetadataCallback={updateMetadataCallback} />
 
+                        </> }
 
-export const Sandbox = () => {
-
-    return (
-        <>
-            <Provider store={ store } >
-                <div className="row" >
-                    <div className="col s3" >
-                        <TopList photos={ store.getState().photos } title="rating" icon="rating" sortByCount={ false } callback={ callbackFilter } />
-                        <TopList photos={ store.getState().photos } title="city" icon="city" sortByCount={ true } callback={ callbackFilter } />
-                    </div>
-                    <div className="col s9" >
-
-                        <CancelFilter value={ store.getState().query.city } filter={ "city" } callback={ callbackFilter } />
-
-                        <div className="divider" />
-
-                        <TestApi token={ store.getState().token } />
-
-                        <SandboxList />
-                    </div>
                 </div>
+            </div>
 
-            </Provider>
 
         </>
     )
 }
+
+
+const mapStateToProps = state => {
+
+    const t0 = performance.now()
+
+    let photos = state.photos
+
+    let copyOfphotos = addSrcAndDirname(photos)
+    copyOfphotos = filterFiles(copyOfphotos, state.query)
+
+    const t1 = performance.now()
+    console.log("filtering took " + (t1 - t0).toFixed(2) + " milliseconds.")
+
+    // console.log("photos[0]:", photos[0])
+
+    const query = state.query
+    const token = state.token
+
+    return { photos: copyOfphotos, query, token } // photos:photos
+}
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({ setQueryFilter, setMetadataOnImage }, dispatch)
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sandbox);

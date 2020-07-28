@@ -55,15 +55,27 @@ $transition-effects: color 1s ease, background-color 1s ease;
 }
 
 .image-carousel-text {
-	position: absolute;
-	top: 0px;
+	position: absolute;	
+	transition: 1s;
+}
+
+.responsive-carousel-bg{ 
+    position: absolute;
+    height: 100vh;
+	width: 100vw;
+	background-color: #212121;
+	
+    left: 0;
+    right: 0;
+	top: 0;
+	bottom: 0;
 }
 
 img.responsive-carousel{ 
 	height: auto;
     position: absolute;
     max-height: 100vh;
-    max-width: 100vw;
+	max-width: 100vw;	
     left: 0;
     right: 0;
 	top: 0;
@@ -78,7 +90,7 @@ img.responsive-carousel{
 	z-index: 999 !important;;
 	border-radius: 10% !important;;
 
-	transition: opacity 600ms !important;; 
+	transition: opacity 600ms !important;
 	
 }
 

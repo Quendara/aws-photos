@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA } from "./actions"
+import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA, SET_METADATA } from "./actions"
 import Settings from "../Settings"
 
 // import { mockdataBerlin } from "../data/mockdata_Berlin.js"
@@ -63,8 +63,8 @@ const restCallToBackend = (url, token, loggingMessage = "Generic Call") => {
         .then(
             result => {
                 const message = loggingMessage + " success"
-                //console.log(message, result);
-                
+                // console.log(message, result);                
+                console.log(message);                
             },
             (error) => {
                 
@@ -111,6 +111,25 @@ function photos(state = initial_state.photos, action) {
                 }
                 return image
             })
+        case SET_METADATA:
+            // backend call
+            if (action.token !== undefined) {
+                const url = [Settings.baseRestApi, 'photos', action.id, 'update', action.what, action.newValue ].join("/")
+                const loggingMessage = "Update Rating"
+                restCallToBackend(url, action.token, loggingMessage)
+            }
+            else{
+                console.warn( "SET_METADATA (without TOKEN)" )
+            }
+
+            return state.map((image, index) => {
+                if (image.id === action.id) {
+                    let newObject = Object.assign({}, image )
+                    newObject[ action.what ] = action.newValue
+                    return newObject
+                }
+                return image
+            })            
 
 
         default:
