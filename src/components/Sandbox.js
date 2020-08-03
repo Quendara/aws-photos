@@ -25,7 +25,7 @@ export const store = createStore(rootReducer)
 
 
 
-export const Sandbox = ({
+const Sandbox = ({
     photos,
     query,
     setQueryFilter,     // from mapDispatchToProps
