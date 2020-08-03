@@ -130,6 +130,14 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                     groupValue={ currentValue }
                     secondGroupKey={ 'year' }
                     secondGroupValues={ findUnique(photos, 'year') } />)
+            case "city":
+                // list countries form given photos
+                return (<ImageGroupHeader
+                    callback={ queryOnTwoGroups }
+                    groupKey={ currentGrouping }
+                    groupValue={ currentValue }
+                    secondGroupKey={ 'day' }
+                    secondGroupValues={ findUnique(photos, 'day') } />)                    
             default:
                 return "Bla, Bla, Bla"
         }
@@ -162,7 +170,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                 { showGroupSelector &&
                     <div className="row" >
                         <div className="col s12 right" >
-                            <SelectionView currentValue={ group } valueArr={ ['year', 'dirname', 'country', 'month', 'day'] } callback={ callbackGroupBy } />
+                            <SelectionView currentValue={ group } valueArr={ [ 'dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
                             <button className="btn" onClick={ () => setStats( !stats )  }><Icon icon="arrowUp" /></button>
                         </div>
                     </div>

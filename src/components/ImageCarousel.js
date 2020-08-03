@@ -17,6 +17,10 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     const [index, setIndex] = useState(currentIndex);
     const [contextMenu, setContextMenu] = useState("");
 
+    const [cityClipboard, setCityClipboard] = useState("");
+    const [countryClipboard, setCountryClipboard] = useState("");
+    const [stateClipboard, setStateClipboard] = useState("");
+
     const getCaptionFromPhoto = (image) => {
         return (
             <div >
@@ -26,7 +30,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
                 <h5>
                     <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
-                <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
+                    <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
                 </h5>
                 <p onClick={ () => setContextMenu("city") } className="grey-text" > { image.city }</p>
             </div>)
@@ -59,7 +63,6 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 break;
             case 27:
             case 'Escape':
-
                 closeCallback()
                 break;
             case 'ArrowUp':
@@ -73,6 +76,16 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 break;
             case 'ArrowLeft':
                 previousImage()
+                break;
+            case 'c':
+                setCountryClipboard(photo.country)
+                setStateClipboard(photo.state)
+                setCityClipboard(photo.city)
+                break;
+            case 'v':
+                updateMetadata("country", countryClipboard) // call callback 
+                updateMetadata("state", stateClipboard) // call callback 
+                updateMetadata("city", cityClipboard) // call callback 
                 break;
             default:
                 console.log('key pressed here !! ' + event.key)
@@ -134,7 +147,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
         if (value.length > 0) {
             // console.log("Update '" + what + "' to '" + value + "' ImageID : " + photo.id )
-            updateMetadataCallback( photo.id, what, value )
+            updateMetadataCallback(photo.id, what, value)
         }
         else {
             // CLOSE
@@ -146,8 +159,19 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
         return (
             <>
-                { contextMenu.length > 0 && 
-                <TopList rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } /> 
+                { countryClipboard.length > 0 &&
+                    <p className="blue" >
+                        <h3>Clipboard</h3>                        
+                        <h5>
+                            <span className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }                </span>
+                            <span className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</span>
+                        </h5>
+                        { cityClipboard.length > 0 && <>{ cityClipboard }</> }
+                    </p>
+                }
+
+                { contextMenu.length > 0 &&
+                    <TopList rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } />
                 }
             </>
         )
