@@ -1,15 +1,11 @@
 import React, { useState } from "react"; // , { useState }
-import { Provider } from 'react-redux'
 
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 
-import SandboxList from "./SandboxList"
 
-import { TopList } from "./TopList"
 import { CancelFilterAll } from "./CancelFilter"
 import { ImageToday } from "./ImageToday"
-import ImageGrid from "./ImageGrid"
 
 
 import { setQueryFilter } from "../redux/actions"; // import default 
@@ -34,7 +30,6 @@ export const Today = ({
     token               // from mapStateToProps    
 }) => {
 
-    const [showImage, setShowImage] = useState(true); // group, list, grid
 
     const callbackFilter = (key, value) => {
 
@@ -44,38 +39,6 @@ export const Today = ({
         // filterFiles(current_filter)
 
         setQueryFilter(key, value)
-    }
-
-    const test = (image) => {
-        console.log("getSrcUrlWhenVisible : ", image)
-    }
-
-
-
-    const closeView = () => {
-        setShowImage(false)
-    }
-
-    const ratingCallback = (id, rating) => {
-
-        if (setRatingOnImage === undefined) {
-            console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
-            return;
-        }
-        console.log("callbackLocal", id, rating)
-        // setRatingOnImage(id, rating, token.access )
-
-    }
-
-    const updateMetadataCallback = (id, what, newValue) => {
-
-        // if (setRatingOnImage === undefined) {
-        //   console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
-        //   return;
-        // }
-        console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id)
-        setMetadataOnImage(id, what, newValue, token.access)
-
     }
 
     return (

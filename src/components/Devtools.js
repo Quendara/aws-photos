@@ -10,7 +10,7 @@ const Devtools = ({
 }) => {
 
     const [message, setMessage] = useState("-");
-    const [error, setError] = useState("x");
+    const [error, setError] = useState("");
 
     const updateCache = () => {
         const url = [Settings.baseRestApi, "photos"].join('/')
@@ -31,7 +31,7 @@ const Devtools = ({
 
 
     const callUrl = (url) => {
-        setMessage("<h2>Call</h2>", url)
+        setMessage("Loading...", url)
 
         const options = {
             headers: {
@@ -87,10 +87,14 @@ const Devtools = ({
                 <Icon icon="cache" className="mr-2" /><b> Update cache </b>
             </button>
 
-            <h3>Respond</h3>
+            <h3>Response</h3>
             <div className="row" >
                 <div className="col s6" >
                     <div className="blue" >
+                        { message === "Loading..." &&
+                            <div className="progress">
+                                <div className="indeterminate"></div>
+                            </div> }
                         <p className="m-2">{ message }</p>
                     </div>
                 </div>

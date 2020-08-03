@@ -209,6 +209,7 @@ const Auth = ({ authSuccessCallback }) => {
       </>
     );
   } else {
+    //<li><NavLink className="nav-item nav-link mr-2 " to="/sandbox" activeClassName="blue">Sandbox</NavLink></li>
     return (
       <>
         <div className="nav-wrapper" id="navbarNavDropdown">
@@ -218,7 +219,7 @@ const Auth = ({ authSuccessCallback }) => {
               <ul id="nav-mobile" className="right hide-on-med-and-down m4">
                   <li><NavLink className="nav-item nav-link mr-2" to="/today" activeClassName="blue">Today</NavLink></li>
                   <li><NavLink className="nav-item nav-link mr-2" to="/main" activeClassName="blue">Main</NavLink></li>
-                  <li><NavLink className="nav-item nav-link mr-2 " to="/sandbox" activeClassName="blue">Sandbox</NavLink></li>
+                  
                   <li><NavLink className="nav-item nav-link mr-2 " to="/devtools" activeClassName="blue">Devtools</NavLink></li>
                   
                 <li>

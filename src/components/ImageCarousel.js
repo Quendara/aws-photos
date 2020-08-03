@@ -7,7 +7,7 @@ import { TopList } from "./TopList";
 
 
 import { Icon } from "./Icons";
-import { values } from "underscore";
+// import { values } from "underscore";
 
 export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback, updateMetadataCallback }) => {
 
@@ -22,7 +22,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     const [stateClipboard, setStateClipboard] = useState("");
 
     const getCaptionFromPhoto = (image) => {
-        return (
+        return ( 
             <div >
                 { image.filename }
                 <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
