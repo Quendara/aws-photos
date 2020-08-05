@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
-//  faPlus,
+  //  faPlus,
   faAngleDoubleRight,
   faSignOutAlt,
-  faUserAstronaut
+  faUserAstronaut,
+  faCloudUploadAlt,
+  faImages,
+  faLaptopHouse,
+  faCalendarDay,
+  faCameraRetro
+
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -31,7 +38,7 @@ const Auth = ({ authSuccessCallback }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
-//  const [token, setToken] = useState("");
+  //  const [token, setToken] = useState("");
   const [trySend, setTrySend] = useState(false);
 
   const [cognitoUser, setCognitoUser] = useState(null);
@@ -172,7 +179,7 @@ const Auth = ({ authSuccessCallback }) => {
               <div className=" col s12" >
                 <a href="#" className="brand-logo hide-on-med-and-down">Photos</a>
                 <ul id="nav-mobile" className="right">
-                  
+
                   <form className="form-inline" onSubmit={ handleClick }>
 
                     <li>
@@ -215,15 +222,17 @@ const Auth = ({ authSuccessCallback }) => {
         <div className="nav-wrapper" id="navbarNavDropdown">
           <div className="row">
             <div className=" col s12" >
-              <a href="#" className="brand-logo">Photos</a>
-              <ul id="nav-mobile" className="right hide-on-med-and-down m4">
-                  <li><NavLink className="nav-item nav-link mr-2" to="/today" activeClassName="blue">Today</NavLink></li>
-                  <li><NavLink className="nav-item nav-link mr-2" to="/main" activeClassName="blue">Main</NavLink></li>
-                  <li><NavLink className="nav-item nav-link mr-2" to="/import" activeClassName="blue">Import</NavLink></li>
-                  
-                  
-                  <li><NavLink className="nav-item nav-link mr-2 " to="/devtools" activeClassName="blue">Devtools</NavLink></li>
-                  
+
+              
+              <ul id="nav-mobile" className="center hide-on-med-and-down m4">
+                <li><NavLink className="nav-item nav-link mr-2"className="left mr-6" style={{ fontSize:"2em" }}  to="/main" ><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> <b> Photos</b></NavLink></li>
+                <li><NavLink className="nav-item nav-link mr-4" to="/today" activeClassName="blue"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</NavLink></li>
+                <li><NavLink className="nav-item nav-link mr-4" to="/import" activeClassName="blue"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> Import</NavLink></li>
+                <li><NavLink className="nav-item nav-link mr-4 " to="/devtools" activeClassName="blue"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</NavLink></li>
+
+
+              </ul>
+              <ul className="right hide-on-med-and-down m4">
                 <li>
                   <button className="btn btn-primary ">
                     <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" />
