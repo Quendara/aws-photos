@@ -90,10 +90,6 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             default:
                 console.log('key pressed here !! ' + event.key)
         }
-
-        if (event.key === 27) {
-
-        }
     }
 
     const setMissing = () => {

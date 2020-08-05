@@ -122,6 +122,10 @@ const App = () => {
             <Route exact path="/" component={ ImageApp } />
             <Route exact path="/main" component={ ImageApp } />
             <Route exact path="/today" component={ Today } />
+            <Route exact path="/import" >
+              <Today flavor="import" />
+            </Route>
+
             <Route exact path="/sandbox" component={ Sandbox } />
             <Route exact path="/devtools" component={ Devtools } />
             

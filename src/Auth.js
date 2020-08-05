@@ -219,6 +219,8 @@ const Auth = ({ authSuccessCallback }) => {
               <ul id="nav-mobile" className="right hide-on-med-and-down m4">
                   <li><NavLink className="nav-item nav-link mr-2" to="/today" activeClassName="blue">Today</NavLink></li>
                   <li><NavLink className="nav-item nav-link mr-2" to="/main" activeClassName="blue">Main</NavLink></li>
+                  <li><NavLink className="nav-item nav-link mr-2" to="/import" activeClassName="blue">Import</NavLink></li>
+                  
                   
                   <li><NavLink className="nav-item nav-link mr-2 " to="/devtools" activeClassName="blue">Devtools</NavLink></li>
                   

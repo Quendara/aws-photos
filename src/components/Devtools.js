@@ -31,7 +31,8 @@ const Devtools = ({
 
 
     const callUrl = (url) => {
-        setMessage("Loading...", url)
+        setMessage("Loading..." )
+        setError("")
 
         const options = {
             headers: {
@@ -51,9 +52,15 @@ const Devtools = ({
                 (error) => {
                     console.error("Could not call URL : ", error.message);
                     setError(error.message)
+                    setMessage( "FAILED" )
                 }
             )
-            .catch(err => { console.log("XX", err) })
+            .catch(err => { 
+                console.error("XX", err) 
+                setError( err )
+                setMessage( "FAILED" )
+
+            })
 
 
     }

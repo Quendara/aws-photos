@@ -4,7 +4,7 @@ import ImageGroup from "./ImageGroup"; // import without {}
 import ImageGrid from "./ImageGrid";
 import ImageMap from "./ImageMap";
 
-import {ImageToday} from "./ImageToday";
+// import {ImageToday} from "./ImageToday";
 
 import {MoveToTop} from "./MoveToTop";
 
@@ -25,8 +25,8 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
       case "map": 
         return (<ImageMap photos={ currentPhotos} sortBy={sortBy}/>)
 
-      case "today": 
-        return (<ImageToday photos={ currentPhotos} sortBy={sortBy}/>)
+      // case "today": 
+      //   return (<ImageToday photos={ currentPhotos} sortBy={sortBy}/>)
         
       default:
         return (<div ><h1>View not specified</h1> </div>)

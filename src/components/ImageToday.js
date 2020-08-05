@@ -2,10 +2,9 @@ import React, { useState } from "react"; // { useState, useCallback }
 import ImageGroup from "./ImageGroup"; // import without {}
 import { leadingZeros } from "./helpers";
 
-// import { connect } from 'react-redux'
-// import { bindActionCreators } from "redux";
+  
 
-export const ImageToday = ({ photos, setQueryFilter, sortBy }) => {
+export const ImageToday = ({ photos, flavor, setQueryFilter, sortBy }) => {
 
     // const d = 
     const [date, setDate] = useState(new Date());
@@ -35,7 +34,22 @@ export const ImageToday = ({ photos, setQueryFilter, sortBy }) => {
         })
         return list;
     }
-    const currentPhotos = findTodaysPhotos(photos);
+    const todaysPhotos = findTodaysPhotos(photos);
+    
+    const findImportedPhotos = (images) => {
+
+        let imported = "" + date.getFullYear()
+        imported += "-" + leadingZeros(date.getMonth() + 1)
+        imported += "-" + leadingZeros(date.getDate())
+
+        console.log( imported )
+
+        const list = images.filter(image => {
+            return (image.imported === imported)
+        })
+        return list;
+    }
+    const importedPhotos = findImportedPhotos(photos);    
 
     // index must be 0..1, example from date.getMonth()
     const getMonthName = (index) => {
@@ -43,22 +57,60 @@ export const ImageToday = ({ photos, setQueryFilter, sortBy }) => {
         return array[index]
     }
 
-    return (<>
-        <h4>
-            <span style={ { fontSize: "1.3em" } } >☀️</span>
-            <span onClick={ previousDay } className="mouse-pointer grey-text text-darken-1" >
-                Erinnerungen an den
-                    </span>
-            <span onClick={ nextDay } style={ { fontSize: "1.3em" } } className="mouse-pointer cyan-text " >
-                { " " }    { date.getDate() }.  { getMonthName(date.getMonth()) }
-            </span>
-        </h4>
-        { currentPhotos.length > 0 ?
-            (<ImageGroup photos={ currentPhotos } sortBy={ sortBy } initialGroup="year" showGroupSelector={ false } />)
-            : (<>
-                <div className="card-panel blue darken-4 " >
-                    <h3 className="blue-text text-lighten-4 center">Keine Fotos von diesem Tag.</h3>
-                </div>
-            </>) }
-    </>)
+    const renderToday = () => {
+        return (<>
+            <h4>
+                <span role="img" aria-label="Panda" style={ { fontSize: "1.3em" } } >☀️</span>
+                <span onClick={ previousDay } className="mouse-pointer grey-text text-darken-1" >
+                    Erinnerungen an den
+                        </span>
+                <span onClick={ nextDay } style={ { fontSize: "1.3em" } } className="mouse-pointer cyan-text " >
+                    { " " }    { date.getDate() }.  { getMonthName(date.getMonth()) }
+                </span>
+            </h4>
+            { todaysPhotos.length > 0 ?
+                (<ImageGroup photos={ todaysPhotos } sortBy={ sortBy } initialGroup="year" showGroupSelector={ false } />)
+                : (<>
+                    <div className="card-panel blue darken-4 " >
+                        <h3 className="blue-text text-lighten-4 center">Keine Fotos von diesem Tag.</h3>
+                    </div>
+                </>) }
+        </>)        
+    }
+
+    const renderImported = () => {
+        return (<>
+            <h4>                
+                <span onClick={ previousDay } className="mouse-pointer grey-text text-darken-1" >
+                    Importiert am 
+                        </span>
+                <span onClick={ nextDay } style={ { fontSize: "1.3em" } } className="mouse-pointer cyan-text " >
+                    { " " }    { date.getDate() }.  { getMonthName(date.getMonth()) }
+                </span>
+            </h4>
+            { importedPhotos.length > 0 ?
+                (<ImageGroup photos={ importedPhotos } sortBy={ sortBy } initialGroup="year" showGroupSelector={ false } />)
+                : (<>
+                    <div className="card-panel blue darken-4 " >
+                        <h3 className="blue-text text-lighten-4 center">Keine Fotos von diesem Tag.</h3>
+                    </div>
+                </>) }
+        </>)        
+    }    
+
+    const what = () => {
+        if( flavor === "today" ){
+            return renderToday()
+        }
+        else{
+            return renderImported()
+        }
+        
+    }
+
+
+
+
+    return what()
+    
 }

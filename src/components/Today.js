@@ -23,6 +23,7 @@ export const store = createStore(rootReducer)
 
 export const Today = ({
     photos,
+    flavor = 'today',   // today, or imported
     query,
     setQueryFilter,     // from mapDispatchToProps
     setRatingOnImage,   // from mapDispatchToProps
