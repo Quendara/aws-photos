@@ -57,7 +57,7 @@ export const Today = ({
 
                     { (photos.length > 0) &&
                         <>
-                            <ImageToday photos={ photos } />
+                            <ImageToday photos={ photos } flavor={flavor} />
                         </> }
 
                 </div>
