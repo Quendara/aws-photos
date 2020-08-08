@@ -22,11 +22,11 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     const [stateClipboard, setStateClipboard] = useState("");
 
     const getCaptionFromPhoto = (image) => {
-        return ( 
+        return (
             <div >
                 { image.filename }
                 <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
-                <Icon icon="day" /> { image.day } - <span className="grey-text">{ image.dirname_physical }</span>
+                <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey-text">{ image.dirname }</span>
 
                 <h5>
                     <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
@@ -143,7 +143,12 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
         if (value.length > 0) {
             // console.log("Update '" + what + "' to '" + value + "' ImageID : " + photo.id )
-            updateMetadataCallback(photo.id, what, value)
+            if (value !== photo[what]) {
+                updateMetadataCallback(photo.id, what, value)
+            }
+            else {
+                console.log("No update needed, new and current is the same ", what)
+            }
         }
         else {
             // CLOSE
@@ -157,7 +162,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             <>
                 { countryClipboard.length > 0 &&
                     <p className="blue" >
-                        <h3>Clipboard</h3>                        
+                        <h3>Clipboard</h3>
                         <h5>
                             <span className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }                </span>
                             <span className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</span>

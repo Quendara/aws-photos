@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 
-import SandboxList from "./SandboxList"
 
 import { TopList } from "./TopList"
 import { CancelFilter } from "./CancelFilter"
@@ -25,7 +24,7 @@ export const store = createStore(rootReducer)
 
 
 
-const Sandbox = ({
+const ImageFaces = ({
     photos,
     query,
     setQueryFilter,     // from mapDispatchToProps
@@ -106,11 +105,11 @@ const Sandbox = ({
 
                 <div className="col s12 m9 l10" >
 
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Andre"] ) } >Andre</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Irena"] ) } >Irena</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Juri"] ) } >Juri</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Jonna"] ) } >Jonna</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Andre", "Irena"] ) } >Andre & Irena</button>
+                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Andre"] ) } >Andre</button>
+                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Irena"] ) } >Irena</button>
+                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Juri"] ) } >Juri</button>
+                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Jonna"] ) } >Jonna</button>
+                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Andre", "Irena"] ) } >Andre & Irena</button>
 
 
                     { (showImage && photos.length > 0) &&
@@ -153,4 +152,4 @@ const mapDispatchToProps = dispatch => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sandbox);
+export default connect(mapStateToProps, mapDispatchToProps)(ImageFaces);

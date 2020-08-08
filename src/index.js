@@ -6,6 +6,7 @@ import { Auth } from "./Auth";
 
 import ImageApp from "./components/ImageApp"; // no {} because exported with connect
 import Today from "./components/Today";
+import ImageFaces from "./components/ImageFaces";
 import Sandbox from "./components/Sandbox";
 import Devtools from "./components/Devtools";
 
@@ -122,6 +123,8 @@ const App = () => {
             <Route exact path="/" component={ ImageApp } />
             <Route exact path="/main" component={ ImageApp } />
             <Route exact path="/today" component={ Today } />
+            <Route exact path="/faces" component={ ImageFaces } />
+            
             <Route exact path="/import" >
               <Today flavor="import" />
             </Route>

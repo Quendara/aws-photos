@@ -82,12 +82,13 @@ export const filterFiles = (images, query) => {
         const bool7 = query.country === "" || image.country === query.country
         const bool8 = query.state === "" || image.state === query.state
         const bool9 = query.city === "" || image.city === query.city
+        const boolX = query.faces === undefined || query.faces === "" || query.faces.length === 0  || imageHasFace( image.faces, query.faces )
 
 
         // console.log("+image.year === +year : ", +image.year, year, +image.year === +year)
         // console.log(bool1, bool2, bool3)
         // #return (bool1 && bool2 && bool3 && bool4 && bool5 && bool6 && bool7 && bool8 && bool9)
-        return (bool4 && bool5 && bool6 && bool7 && bool8 && bool9)
+        return (bool4 && bool5 && bool6 && bool7 && bool8 && bool9 && boolX)
     })
 
     console.log("filterFiles : ", list.length);
@@ -96,6 +97,23 @@ export const filterFiles = (images, query) => {
     // setCurrentItems(list)
     return list
 };
+
+const imageHasFace = ( image, query ) => {
+    if( image === undefined ) return false;
+
+    let retBool = true; 
+
+    console.log( "query : ", query)
+
+    for ( let name of query){ // in returns the 
+        console.log( "let name in query", image,  name )
+        retBool = retBool && image.includes( name )
+    }
+
+    console.log( "retBool", retBool)
+
+    return retBool
+}
 
 
 export const addSrcAndDirname = (images) => {

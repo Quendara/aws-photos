@@ -8,6 +8,7 @@ import {
   faUserAstronaut,
   faCloudUploadAlt,
   faImages,
+  faUserNinja,
   faLaptopHouse,
   faCalendarDay,
   faCameraRetro
@@ -227,6 +228,7 @@ const Auth = ({ authSuccessCallback }) => {
               <ul id="nav-mobile" className="center hide-on-med-and-down m4">
                 <li><NavLink className="nav-item nav-link mr-2"className="left mr-6" style={{ fontSize:"2em" }}  to="/main" ><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> <b> Photos</b></NavLink></li>
                 <li><NavLink className="nav-item nav-link mr-4" to="/today" activeClassName="blue"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</NavLink></li>
+                <li><NavLink className="nav-item nav-link mr-4" to="/faces" activeClassName="blue"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</NavLink></li>
                 <li><NavLink className="nav-item nav-link mr-4" to="/import" activeClassName="blue"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> Import</NavLink></li>
                 <li><NavLink className="nav-item nav-link mr-4 " to="/devtools" activeClassName="blue"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</NavLink></li>
 

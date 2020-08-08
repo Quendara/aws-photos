@@ -153,18 +153,18 @@ const ImageGrid = ({
       currentRenderer = imageRenderer
     }
 
-
+    
     // limit
-    if (+currentLimit > photos.length) {
+    if (+currentLimit > photos.length ) { 
       setCurrentLimit(photos.length)
     }
     return retImages.slice(0, size) // reduce    
   }
 
   // 
-  const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
+  const currentPhotos = limitPhotosAndSort(photos, limit, sortBy);
 
-  const showPaging = () => {
+  const showPaging = ( photos ) => {
 
     // Hide more button when all images loaded!
     if( currentLimit === photos.length ){
@@ -174,12 +174,15 @@ const ImageGrid = ({
   }
 
   // targetRowHeight={170} 
+    // <h6> EBUG # {photos.length }, {currentPhotos.length} {currentLimit}</h6>
+    
   return (
     <>
       { photos.length > 0 && <>
-
         
         <div>
+          
+
           <Gallery  photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
           <ModalGateway>
             { viewerIsOpen ? (
@@ -198,7 +201,7 @@ const ImageGrid = ({
 
           { isVisible }
 
-          { showPaging() && <>
+          { showPaging( photos ) && <>
             <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
 
             </> 
@@ -232,4 +235,5 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImageGrid);
+// export default connect(null, mapDispatchToProps)(ImageGrid);
 
