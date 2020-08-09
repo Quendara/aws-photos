@@ -158,6 +158,9 @@ const ImageFaces = ({
                     <button className="btn m-2" onClick={ () => callbackFilter("faces", "Gaby" ) } >Gaby</button>
                     <button className="btn m-2" onClick={ () => callbackFilter("faces", "Reinhard" ) } >Reinhard</button>
                     <button className="btn m-2" onClick={ () => callbackFilter("faces", "Marian" ) } >Marian</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Matthias" ) } >Matthias</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Richard" ) } >Richard</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Petra" ) } >Petra</button>
                     
 
 
