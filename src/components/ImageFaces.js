@@ -43,36 +43,28 @@ const ImageFaces = ({
         // setCurrentFilter(current_filter)
         // filterFiles(current_filter)
 
-        console.log( "query.faces ", query.faces )
-        console.log( "query.faces typeof", typeof query.faces )
+        let valueA = value
 
-        let valueA = []
-        if( typeof query.faces === "object" ){
-            valueA = query.faces
-
-        }
-
-        
-
-        if( value === "" ){
+        if( key === "faces"){
+            console.log( "query.faces ", query.faces )
+            console.log( "query.faces typeof", typeof query.faces )
+    
             valueA = []
-        }
-        else{
-            // valueA = [value]
-            valueA.push( value )
-            // if( typeof query.faces === "string" )
-            // {
-            //     valueA = [value]
-            // }
-            // else{ // expect ARRAY
-            //     valueA = query.faces.push( value )
-            // }
+            if( typeof query.faces === "object" ){
+                valueA = query.faces
+            }
+    
             
+            if( value === "" ){
+                valueA = []
+            }
+            else{
+                // valueA = [value]
+                valueA.push( value )
+            }
+    
+            console.log( "valueA", valueA )            
         }
-
-        console.log( "valueA", valueA )
-
-        
 
         setQueryFilter(key, valueA )
     }
@@ -114,7 +106,10 @@ const ImageFaces = ({
     //  
 
     const printQuery = (query) => {
-        return query.join( ", ")
+        if( typeof query === "object"){
+            return query.join( ", ")
+        }
+        
     }
 
     return (

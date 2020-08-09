@@ -110,7 +110,7 @@ const imageHasFace = ( image, query ) => {
         retBool = retBool && image.includes( name )
     }
 
-    console.log( "retBool", retBool)
+    // console.log( "retBool", retBool)
 
     return retBool
 }
