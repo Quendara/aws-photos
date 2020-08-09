@@ -103,10 +103,10 @@ const imageHasFace = ( image, query ) => {
 
     let retBool = true; 
 
-    console.log( "query : ", query)
+    // console.log( "query : ", query)
 
     for ( let name of query){ // in returns the 
-        console.log( "let name in query", image,  name )
+        // console.log( "let name in query", image,  name )
         retBool = retBool && image.includes( name )
     }
 

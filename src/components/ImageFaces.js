@@ -18,6 +18,7 @@ import { createStore } from "redux";
 
 
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
+import { values } from "underscore";
 
 // init with function
 export const store = createStore(rootReducer)
@@ -34,7 +35,7 @@ const ImageFaces = ({
 }) => {
 
     const [showImage, setShowImage] = useState(true); // group, list, grid
-
+    
     const callbackFilter = (key, value) => {
 
         console.log("callbackFilter : ", key, " : ", value)
@@ -42,7 +43,38 @@ const ImageFaces = ({
         // setCurrentFilter(current_filter)
         // filterFiles(current_filter)
 
-        setQueryFilter(key, value)
+        console.log( "query.faces ", query.faces )
+        console.log( "query.faces typeof", typeof query.faces )
+
+        let valueA = []
+        if( typeof query.faces === "object" ){
+            valueA = query.faces
+
+        }
+
+        
+
+        if( value === "" ){
+            valueA = []
+        }
+        else{
+            // valueA = [value]
+            valueA.push( value )
+            // if( typeof query.faces === "string" )
+            // {
+            //     valueA = [value]
+            // }
+            // else{ // expect ARRAY
+            //     valueA = query.faces.push( value )
+            // }
+            
+        }
+
+        console.log( "valueA", valueA )
+
+        
+
+        setQueryFilter(key, valueA )
     }
 
     const test = (image) => {
@@ -75,6 +107,14 @@ const ImageFaces = ({
         console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id)
         setMetadataOnImage(id, what, newValue, token.access)
 
+
+        
+    }
+
+    //  
+
+    const printQuery = (query) => {
+        return query.join( ", ")
     }
 
     return (
@@ -105,11 +145,20 @@ const ImageFaces = ({
 
                 <div className="col s12 m9 l10" >
 
-                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Andre"] ) } >Andre</button>
-                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Irena"] ) } >Irena</button>
-                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Juri"] ) } >Juri</button>
-                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Jonna"] ) } >Jonna</button>
-                    <button className="btn m-2" onClick={ () => setQueryFilter("faces", ["Andre", "Irena"] ) } >Andre & Irena</button>
+                        
+
+                        <button className="btn red m-2" onClick={ () => callbackFilter("faces", "" ) } >{ printQuery( query.faces ) }</button>
+
+                   
+
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Andre" ) } >Andre</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Irena" ) } >Irena</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Juri" ) } >Juri</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Jonna" ) } >Jonna</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Gaby" ) } >Gaby</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Reinhard" ) } >Reinhard</button>
+                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Marian" ) } >Marian</button>
+                    
 
 
                     { (showImage && photos.length > 0) &&
