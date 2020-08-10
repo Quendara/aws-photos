@@ -154,22 +154,12 @@ function token(state = initial_state.token, action) {
 
 function query(state = initial_state.query, action) {
 
-    let query = {
-        country: state.country,
-        state: state.state,
-        city: state.city,
-        sameday: state.sameday,
-        dirname: state.dirname,
-        month: state.month,
-        day: state.day,
-        year: state.year,
-        rating: state.rating
-    }
+    let query = Object.assign({}, state, {}) // make a copy of the current state
 
     switch (action.type) {
         case SET_FILTER:
             query[action.key] = action.value;
-            // console.log("query requcer : (key, value) ", action.key, action.value)
+            console.log("query requcer : (key, value) ", action.key, action.value)
             return query
         default:
             return state

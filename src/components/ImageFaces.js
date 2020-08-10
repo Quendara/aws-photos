@@ -45,9 +45,11 @@ const ImageFaces = ({
 
         let valueA = value
 
-        if( key === "faces"){
-            console.log( "query.faces ", query.faces )
-            console.log( "query.faces typeof", typeof query.faces )
+        console.log( "query ", query )
+
+        if( key === "faces" ){
+            // console.log( "query.faces ", query.faces )
+            // console.log( "query.faces typeof", typeof query.faces )
     
             valueA = []
             if( typeof query.faces === "object" ){
@@ -108,8 +110,7 @@ const ImageFaces = ({
     const printQuery = (query) => {
         if( typeof query === "object"){
             return query.join( ", ")
-        }
-        
+        }        
     }
 
     return (
@@ -142,7 +143,7 @@ const ImageFaces = ({
 
                         
 
-                        <button className="btn red m-2" onClick={ () => callbackFilter("faces", "" ) } >{ printQuery( query.faces ) }</button>
+                    <button className="btn red m-2" onClick={ () => callbackFilter("faces", "" ) } >{ printQuery( query.faces ) }</button>
 
                    
 

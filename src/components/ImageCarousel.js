@@ -21,6 +21,12 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     const [countryClipboard, setCountryClipboard] = useState("");
     const [stateClipboard, setStateClipboard] = useState("");
 
+    const printQuery = (query) => {
+        if( typeof query === "object"){
+            return query.join( ", ")
+        }        
+    }    
+
     const getCaptionFromPhoto = (image) => {
         return (
             <div >
@@ -33,6 +39,8 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                     <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
                 </h5>
                 <p onClick={ () => setContextMenu("city") } className="grey-text" > { image.city }</p>
+
+                <button className="btn red m-2"  >{ printQuery( image.faces ) }</button>
             </div>)
     }
 
@@ -185,19 +193,17 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                     image={ photo }
                     className="responsive-carousel"
                     alt={ photo.title } />
-
             </div>
 
             <div style={ { top: '0px', right: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
             <div style={ { top: '43%', left: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
             <div style={ { top: '43%', right: '20px' } } className="image-carousel offset-s10 s1 grey-text text-darken-5" onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
 
-
             <div style={ { bottom: '2%', left: '20%', width: '30%' } } className="image-carousel-text" >
                 { contextMenuFcn() }
             </div>
 
-            <div style={ { top: '80%', left: '20px' } } className="image-carousel-text" >
+            <div style={ { top: '70%', left: '20px' } } className="image-carousel-text" >
                 { getCaptionFromPhoto(photo) }
 
             </div>
