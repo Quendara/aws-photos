@@ -13,8 +13,18 @@ export const CancelFilterAll = ({ query, callbackFilter }) => {
             <CancelFilter value={ query.country } filter="country" callback={ callbackFilter } />
             <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
+            <CancelFilter value={ query.faces } filter="faces" callback={ callbackFilter } />
         </>
     )
+}
+
+const printQuery = (query) => {
+    if( typeof query === "object"){
+        return query.join( ", ")
+    }
+    else {
+        return query
+    }   
 }
 
 export const CancelFilter = ({ value, filter, callback }) => {
@@ -23,9 +33,10 @@ export const CancelFilter = ({ value, filter, callback }) => {
         <>
             { value.length > 0 &&
                 <button className="btn blue ml-2" onClick={ () => callback(filter, "") }  >
-                    <Icon icon={ filter } className="mr-2" /><b>{ value } </b><Icon icon="cancel" className="ml-2" />
+                    <Icon icon={ filter } className="mr-2" /><b>{ printQuery( value ) } </b><Icon icon="cancel" className="ml-2" />
                 </button> }
         </>
     )
 }
 
+// <button className="btn red m-2" onClick={ () => callbackFilter("faces", "" ) } >{ printQuery( query.faces ) }</button>

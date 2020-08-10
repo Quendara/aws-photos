@@ -6,9 +6,9 @@ import { connect } from 'react-redux'
 
 
 import { TopList } from "./TopList"
-import { CancelFilter } from "./CancelFilter"
+import { CancelFilterAll } from "./CancelFilter"
 import { ImageCarousel } from "./ImageCarousel"
-import ImageGrid from "./ImageGrid"
+import ImageGroup from "./ImageGroup"
 
 
 import { setQueryFilter } from "../redux/actions"; // import default 
@@ -35,8 +35,8 @@ const ImageFaces = ({
 }) => {
 
     const [showImage, setShowImage] = useState(true); // group, list, grid
-    
-    const callbackFilter = (key, value) => {
+
+    const callbackFilter = (key, value, add=true) => { // add = false means remove from ARRAY
 
         console.log("callbackFilter : ", key, " : ", value)
         // current_filter[key] = value;
@@ -45,30 +45,38 @@ const ImageFaces = ({
 
         let valueA = value
 
-        console.log( "query ", query )
+        console.log("query ", query)
 
-        if( key === "faces" ){
-            // console.log( "query.faces ", query.faces )
-            // console.log( "query.faces typeof", typeof query.faces )
-    
+        if (key === "faces") {
             valueA = []
-            if( typeof query.faces === "object" ){
+            if (typeof query.faces === "object") {
                 valueA = query.faces
             }
-    
-            
-            if( value === "" ){
-                valueA = []
+
+            if( add === true ){
+                if (value === "") {
+                    valueA = []
+                }
+                else {
+                    // valueA = [value]
+                    valueA.push(value)
+                } 
             }
             else{
-                // valueA = [value]
-                valueA.push( value )
+                // remove
+                const index = valueA.indexOf( value )
+                if( index >= 0 ){
+                    valueA.splice( index, 1); // index, how many
+                    // delete valueA[index];  
+                }
+                
             }
-    
-            console.log( "valueA", valueA )            
+
+
+            console.log("valueA", valueA)
         }
 
-        setQueryFilter(key, valueA )
+        setQueryFilter(key, valueA)
     }
 
     const test = (image) => {
@@ -100,18 +108,28 @@ const ImageFaces = ({
         // }
         console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id)
         setMetadataOnImage(id, what, newValue, token.access)
+    }
 
+    const facesHeaderClass = ( name, array ) => {
 
+        if( array.includes( name ) ){
+            return "btn m-2 red"    
+        }
+        return "btn m-2"
         
     }
+    
 
-    //  
+    const facesHeader = ( query ) => {
 
-    const printQuery = (query) => {
-        if( typeof query === "object"){
-            return query.join( ", ")
-        }        
+        const names = ["Andre", "Irena", "Jonna", "Juri", "Gaby", "Reinhard", "Marian", "Richard", "Petra" ]
+
+        return names.map( name => {
+                return( <button className={facesHeaderClass( name, query )} onClick={ () => callbackFilter("faces", name, !query.includes( name ) ) } >{name}</button> )
+        } )
     }
+
+
 
     return (
         <>
@@ -141,29 +159,19 @@ const ImageFaces = ({
 
                 <div className="col s12 m9 l10" >
 
-                        
-
-                    <button className="btn red m-2" onClick={ () => callbackFilter("faces", "" ) } >{ printQuery( query.faces ) }</button>
-
-                   
-
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Andre" ) } >Andre</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Irena" ) } >Irena</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Juri" ) } >Juri</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Jonna" ) } >Jonna</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Gaby" ) } >Gaby</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Reinhard" ) } >Reinhard</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Marian" ) } >Marian</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Matthias" ) } >Matthias</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Richard" ) } >Richard</button>
-                    <button className="btn m-2" onClick={ () => callbackFilter("faces", "Petra" ) } >Petra</button>
                     
 
+                    {facesHeader( query.faces )}
 
-                    { (showImage && photos.length > 0) &&
-                        <>
-                            <ImageGrid photos={ photos } limit="15" />
-                        </> }
+
+
+                    { photos.length > 0 ?
+                        (<ImageGroup photos={ photos } initialGroup="year" showGroupSelector={ false } />)
+                        : (<>
+                            <div className="card-panel blue darken-4 " >
+                                <h3 className="blue-text text-lighten-4 center">Keine Fotos von wo { query.faces.join(", ")} zusammen abgebildet sind. </h3>
+                            </div>
+                        </>) }
 
                 </div>
             </div>
