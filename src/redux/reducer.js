@@ -124,11 +124,21 @@ function photos(state = initial_state.photos, action) {
             }
 
             return state.map((image, index) => {
+
                 if (image.id === action.id) {
                     let newObject = Object.assign({}, image )
-                    newObject[ action.what ] = action.newValue
+                    if( action.what !== "dirname" ){
+                        newObject[ action.what ] = action.newValue
+                    }
+                    else{                        
+                        // newObject['dirname_physical'] = newObject.dirname // current value
+                        newObject['dirname_logical'] = action.newValue // current value
+                        // newObject[ action.what ] = newObject.dirname  // dirname == new logical value
+                    }
+                    
                     return newObject
-                }
+                }                
+
                 return image
             })            
 

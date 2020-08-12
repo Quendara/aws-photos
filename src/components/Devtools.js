@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Icon } from "./Icons"
 // import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
-
 import Settings from "../Settings"
 
 const Devtools = ({
@@ -71,10 +70,10 @@ const Devtools = ({
 
             <h1>Devtools </h1>
 
+            
+
             <h3>Gps </h3>
             <p>
-
-
                 <button className="btn blue m-2" onClick={ gps_find_missing_locations }  >
                     <Icon icon="city" className="mr-2" /><b> Find Locations </b>
                 </button>

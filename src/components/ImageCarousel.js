@@ -4,9 +4,11 @@ import { useSwipeable } from "react-swipeable";
 import { ImageOnDemand } from "./ImageOnDemand";
 
 import { TopList } from "./TopList";
-
+import { TopAutoComplete } from "./TopAutoComplete";
 
 import { Icon } from "./Icons";
+
+
 // import { values } from "underscore";
 
 export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback, updateMetadataCallback }) => {
@@ -16,23 +18,24 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
     const [index, setIndex] = useState(currentIndex);
     const [contextMenu, setContextMenu] = useState("");
-
     const [cityClipboard, setCityClipboard] = useState("");
     const [countryClipboard, setCountryClipboard] = useState("");
     const [stateClipboard, setStateClipboard] = useState("");
 
     const printQuery = (query) => {
-        if( typeof query === "object"){
-            return query.join( ", ")
-        }        
-    }    
+        if (typeof query === "object") {
+            return query.join(", ")
+        }
+    }
 
     const getCaptionFromPhoto = (image) => {
         return (
             <div >
+
+                <p className="grey-text">{ image.id } </p>
                 { image.filename }
                 <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
-                <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey-text">{ image.dirname }</span>
+                <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey-text">{ image.dirname } - { image.dirname_physical }</span>
 
                 <h5>
                     <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
@@ -40,7 +43,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 </h5>
                 <p onClick={ () => setContextMenu("city") } className="grey-text" > { image.city }</p>
 
-                <button className="btn red m-2"  >{ printQuery( image.faces ) }</button>
+                <button className="btn red m-2"  >{ printQuery(image.faces) }</button>
             </div>)
     }
 
@@ -99,17 +102,14 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                 console.log('key pressed here !! ' + event.key)
         }
     }
-
     const setMissing = () => {
         const newRating = -10
         ratingCallback(photo.id, newRating);
     }
-
     const setDeleted = () => {
         const newRating = -1
         ratingCallback(photo.id, newRating);
     }
-
     const increaseRating = () => {
         const newRating = photo.rating + 1
         if (newRating <= 5) { // prevent to access negative arr
@@ -122,13 +122,11 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             ratingCallback(photo.id, newRating);
         }
     }
-
     const nextImage = () => {
         const newIndex = index + 1
         if (newIndex < photos.length) { // prevent to access negative arr
             setIndex(index + 1)
         }
-
     }
     const previousImage = () => {
         const newIndex = index - 1 // prevent to access out of range arr
@@ -165,7 +163,6 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
     }
 
     const contextMenuFcn = () => {
-
         return (
             <>
                 { countryClipboard.length > 0 &&
@@ -178,9 +175,11 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                         { cityClipboard.length > 0 && <>{ cityClipboard }</> }
                     </p>
                 }
-
                 { contextMenu.length > 0 &&
-                    <TopList rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } />
+                    <>
+                        <TopList rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
+                        <TopAutoComplete rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } />
+                    </>
                 }
             </>
         )
@@ -194,20 +193,15 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
                     className="responsive-carousel"
                     alt={ photo.title } />
             </div>
-
             <div style={ { top: '0px', right: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
             <div style={ { top: '43%', left: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
             <div style={ { top: '43%', right: '20px' } } className="image-carousel offset-s10 s1 grey-text text-darken-5" onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
-
             <div style={ { bottom: '2%', left: '20%', width: '30%' } } className="image-carousel-text" >
                 { contextMenuFcn() }
             </div>
-
             <div style={ { top: '70%', left: '20px' } } className="image-carousel-text" >
                 { getCaptionFromPhoto(photo) }
-
             </div>
-
             <div style={ { top: '90%', right: '20px' } } className="image-carousel" >
                 <a className="btn red m-2" onClick={ setDeleted } >Delete</a>
                 <a className="btn blue m-2" onClick={ setMissing }  >Missing</a>

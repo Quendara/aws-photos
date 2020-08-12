@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import SandboxList from "./SandboxList"
 
 import { TopList } from "./TopList"
+import { TopAutoComplete } from "./TopAutoComplete"
+
 import { CancelFilter } from "./CancelFilter"
 import { ImageCarousel } from "./ImageCarousel"
 import ImageGrid from "./ImageGrid"
@@ -35,6 +37,8 @@ const Sandbox = ({
 }) => {
 
     const [showImage, setShowImage] = useState(true); // group, list, grid
+
+    const [textmessage, setTextmessage] = useState(""); // group, list, grid
 
     const callbackFilter = (key, value) => {
 
@@ -78,6 +82,15 @@ const Sandbox = ({
 
     }
 
+    const callbackTest = (key, value ) => {
+        let msg = key
+        msg += ", "
+        msg += value
+        setTextmessage( msg )
+    }
+
+    
+
     return (
         <>
 
@@ -115,7 +128,10 @@ const Sandbox = ({
 
                     { (showImage && photos.length > 0) &&
                         <>
-                            <ImageGrid photos={ photos } limit="15" />
+                            {textmessage}
+
+                            <hr />
+                            <ImageGrid photos={ photos } limit="2" />
                         </> }
 
                 </div>

@@ -10,8 +10,14 @@ import ImageFaces from "./components/ImageFaces";
 import Sandbox from "./components/Sandbox";
 import Devtools from "./components/Devtools";
 
+import { ThemeProvider } from "@material-ui/core";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { createMuiTheme } from "@material-ui/core/styles";
 
 import Settings from "./Settings"
+
+
+
 
 // import { TimeTree } from "./TimeTree";
 import {
@@ -68,6 +74,15 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [jwtTocken, setJwtToken] = useState("");
 
+  const theme = createMuiTheme({
+    palette: {
+        type: "dark"
+    },
+  });
+  
+
+
+
   const authSuccessCallback = (username, token) => {
     setUsername(username);
     setJwtToken(token);
@@ -110,6 +125,9 @@ const App = () => {
   })
 
   return (
+    <ThemeProvider theme={ theme }>
+    <CssBaseline />
+
     <Router>
       <div className="container-fluid">
         <nav className="navbar navbar-dark bg-dark">
@@ -136,6 +154,7 @@ const App = () => {
         }
       </div>
     </Router>
+    </ThemeProvider>
   );
 };
 
