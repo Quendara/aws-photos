@@ -1,5 +1,6 @@
 import React from "react";
 import { Icon } from "./Icons"
+import {Button} from '@material-ui/core';
 
 export const CancelFilterAll = ({ query, callbackFilter }) => {
     return (
@@ -32,9 +33,9 @@ export const CancelFilter = ({ value, filter, callback }) => {
     return (
         <>
             { value.length > 0 &&
-                <button className="btn blue ml-2" onClick={ () => callback(filter, "") }  >
+                <Button className="btn blue ml-2" onClick={ () => callback(filter, "") }  >
                     <Icon icon={ filter } className="mr-2" /><b>{ printQuery( value ) } </b><Icon icon="cancel" className="ml-2" />
-                </button> }
+                </Button> }
         </>
     )
 }
