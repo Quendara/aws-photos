@@ -15,6 +15,14 @@ import {
 
 } from "@fortawesome/free-solid-svg-icons";
 
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+
+
 import {
   BrowserRouter as Router,
   NavLink,
@@ -35,7 +43,26 @@ const poolData = {
   ClientId: "5v3et57vfoqijj81g3ksbidm5k"
 };
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(6),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }),
+);
+
 const Auth = ({ authSuccessCallback }) => {
+
+  const classes = useStyles();
+
+
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
@@ -220,19 +247,35 @@ const Auth = ({ authSuccessCallback }) => {
     //<li><NavLink className="nav-item nav-link mr-2 " to="/sandbox" activeClassName="blue">Sandbox</NavLink></li>
     return (
       <>
-        <div className="nav-wrapper" id="navbarNavDropdown">
+        <AppBar position="static">
+          <Toolbar>
+
+          <NavLink to="/main" className={ classes.title }   >
+            <Typography variant="h6" >
+            <FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> 
+              Photos
+          </Typography>
+          </NavLink>
+            <NavLink to="/today" className={ classes.menuButton } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
+            <NavLink to="/faces" className={ classes.menuButton } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
+            <NavLink to="/import" className={ classes.menuButton } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> import</Typography> </NavLink>
+            <NavLink to="/devtools" className={ classes.title } > <Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</Typography> </NavLink>
+
+            <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /><Button color="inherit">{ username } </Button>
+            <FontAwesomeIcon onClick={ signOut } icon={ faSignOutAlt } className="ml-2" /><Button color="inherit">Logout</Button>
+            
+          </Toolbar>
+        </AppBar>
+
+        {/* <div className="nav-wrapper" id="navbarNavDropdown">
           <div className="row">
             <div className=" col s12" >
-
-              
               <ul id="nav-mobile" className="center hide-on-med-and-down m4">
                 <li><NavLink className="nav-item nav-link mr-2"className="left mr-6" style={{ fontSize:"2em" }}  to="/main" ><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> <b> Photos</b></NavLink></li>
                 <li><NavLink className="nav-item nav-link mr-4" to="/today" activeClassName="blue"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</NavLink></li>
                 <li><NavLink className="nav-item nav-link mr-4" to="/faces" activeClassName="blue"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</NavLink></li>
                 <li><NavLink className="nav-item nav-link mr-4" to="/import" activeClassName="blue"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> Import</NavLink></li>
                 <li><NavLink className="nav-item nav-link mr-4 " to="/devtools" activeClassName="blue"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</NavLink></li>
-
-
               </ul>
               <ul className="right hide-on-med-and-down m4">
                 <li>
@@ -249,7 +292,7 @@ const Auth = ({ authSuccessCallback }) => {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
       </>
     );
   }
