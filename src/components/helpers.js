@@ -1,4 +1,4 @@
-import { sortBy, groupBy, shuffle } from "underscore";
+import { sortBy, groupBy, shuffle, reduce } from "underscore";
 import Settings from "../Settings"
 
 export const sortPhotos = (images, sortByKey = 'rating', ascending=false) => {
@@ -12,6 +12,14 @@ export const sortPhotos = (images, sortByKey = 'rating', ascending=false) => {
 
 export const shuffleItems = ( list ) => {
     return shuffle(list)
+}
+
+export const sumArray = ( list, key ) => {
+    // return reduce( list, function(memo, num){ return memo + num[key]; }, 0);
+    let sum = 0;
+    list.map( (item, index)  => { sum += item[key] } )
+    return sum
+
 }
 
 

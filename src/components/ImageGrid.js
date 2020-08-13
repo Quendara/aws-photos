@@ -7,7 +7,7 @@ import Gallery from 'react-photo-gallery';
 import { Modal, ModalGateway } from "react-images";
 
 import { ImageGridImage } from "./ImageGridImage"
-import { ImageCarousel } from "./ImageCarousel"
+import ImageCarousel from "./ImageCarousel"
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 
 // import Settings from "../Settings"

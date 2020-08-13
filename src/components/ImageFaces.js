@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 
 import { TopList } from "./TopList"
 import { CancelFilterAll } from "./CancelFilter"
-import { ImageCarousel } from "./ImageCarousel"
+import ImageCarousel from "./ImageCarousel"
 import ImageGroup from "./ImageGroup"
 
 
@@ -122,7 +122,7 @@ const ImageFaces = ({
 
     const facesHeader = ( query ) => {
 
-        const names = ["Andre", "Irena", "Jonna", "Juri", "Gaby", "Reinhard", "Marian", "Richard", "Petra" ]
+        const names = ["Andre", "Irena", "Jonna", "Juri", "Gaby", "Reinhard", "Marian", "Matthias", "Petra" ]
 
         return names.map( name => {
                 return( <button className={facesHeaderClass( name, query )} onClick={ () => callbackFilter("faces", name, !query.includes( name ) ) } >{name}</button> )

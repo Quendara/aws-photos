@@ -10,7 +10,7 @@ import { Rating } from "./Rating"
 import { sortPhotos } from "./helpers"
 
 import { setRatingOnImage } from "../redux/actions"; // import default 
-import { ImageCarousel } from "./ImageCarousel"
+import ImageCarousel from "./ImageCarousel"
 
 
   

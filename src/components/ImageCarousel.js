@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux'
+
+
 import { Rating } from "./Rating"
 import { useSwipeable } from "react-swipeable";
 import { ImageOnDemand } from "./ImageOnDemand";
 
 import { TopList } from "./TopList";
 import { TopAutoComplete } from "./TopAutoComplete";
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/Card';
 
 import { Icon } from "./Icons";
-
+import { addSrcAndDirname } from "./helpers";
 
 // import { values } from "underscore";
 
-export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallback, updateMetadataCallback }) => {
+const ImageCarousel = ({ 
+    photos, 
+    all_photos, // from redux
+    currentIndex,
+    closeCallback,
+    ratingCallback, 
+    updateMetadataCallback }) => {
+
+
 
     // ratingCallback(photo.id, newRating);
     // updateMetadataCallback(photo.id, what, newValue );
@@ -64,12 +78,12 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             case '5':
                 ratingCallback(photo.id, event.key);
                 break;
-            case 'd':
-                setDeleted();
-                break;
-            case 'm':
-                setMissing();
-                break;
+            // case 'd':
+            //     setDeleted();
+            //     break;
+            // case 'm':
+            //     setMissing();
+            //     break;
             case 27:
             case 'Escape':
                 closeCallback()
@@ -86,15 +100,15 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             case 'ArrowLeft':
                 previousImage()
                 break;
-            case 'c':
-                setCountryClipboard(photo.country)
-                setStateClipboard(photo.state)
-                setCityClipboard(photo.city)
-                break;
-            case 'v':
-                updateMetadata("country", countryClipboard) // call callback 
-                updateMetadata("state", stateClipboard) // call callback 
-                updateMetadata("city", cityClipboard) // call callback 
+            // case 'c':
+            //     setCountryClipboard(photo.country)
+            //     setStateClipboard(photo.state)
+            //     setCityClipboard(photo.city)
+            //     break;
+            // case 'v':
+            //     updateMetadata("country", countryClipboard) // call callback 
+            //     updateMetadata("state", stateClipboard) // call callback 
+            //     updateMetadata("city", cityClipboard) // call callback 
                 break;
             default:
                 console.log('key pressed here !! ' + event.key)
@@ -162,24 +176,35 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
 
     const contextMenuFcn = () => {
         return (
-            <>
+            <Card>
+                   <CardMedia
+          
+          image={ photo.source_url }
+          title="Contemplative Reptile"
+        />
+                <>
                 { countryClipboard.length > 0 &&
-                    <p className="blue" >
+                <div style={{ padding: "20px" }} >
                         <h3>Clipboard</h3>
                         <h5>
                             <span className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }                </span>
                             <span className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</span>
                         </h5>
                         { cityClipboard.length > 0 && <>{ cityClipboard }</> }
-                    </p>
+                        </div>
                 }
                 { contextMenu.length > 0 &&
-                    <>
+                    
+
+                        <div style={{ padding: "20px" }} >
+                        
+                        <TopAutoComplete rendering="collection" photos={ all_photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } />                        
                         <TopList rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
-                        <TopAutoComplete rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } />
-                    </>
+                        <TopList rendering="collection" photos={ all_photos } title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
+                        </div>
                 }
-            </>
+                </>
+            </Card>
         )
     }
 
@@ -194,7 +219,7 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
             <div style={ { top: '0px', right: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
             <div style={ { top: '43%', left: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
             <div style={ { top: '43%', right: '20px' } } className="image-carousel offset-s10 s1 grey-text text-darken-5" onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
-            <div style={ { bottom: '2%', left: '20%', width: '30%' } } className="image-carousel-text" >
+            <div style={ { bottom: '2%', left: '25%', width: '35%' , margin:"5%", zIndex: '1' } } className="image-carousel-text" >
                 { contextMenuFcn() }
             </div>
             <div style={ { top: '70%', left: '20px' } } className="image-carousel-text" >
@@ -208,3 +233,19 @@ export const ImageCarousel = ({ photos, currentIndex, closeCallback, ratingCallb
         </div>
     )
 }
+
+const mapStateToProps = state => {
+
+    const t0 = performance.now()
+
+    let photos = state.photos
+
+    let copyOfphotos = addSrcAndDirname(photos)
+    // copyOfphotos = filterFiles(copyOfphotos, state.query)
+
+    return { all_photos: copyOfphotos } // photos:photos
+}
+
+
+
+export default connect(mapStateToProps, null)(ImageCarousel);

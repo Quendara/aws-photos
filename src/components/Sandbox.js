@@ -12,6 +12,7 @@ import { TopAutoComplete } from "./TopAutoComplete"
 import { CancelFilter } from "./CancelFilter"
 import { ImageCarousel } from "./ImageCarousel"
 import ImageGrid from "./ImageGrid"
+import ImageGrid2 from "./ImageGrid2"
 
 
 import { setQueryFilter } from "../redux/actions"; // import default 
@@ -119,19 +120,11 @@ const Sandbox = ({
 
                 <div className="col s12 m9 l10" >
 
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Andre"] ) } >Andre</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Irena"] ) } >Irena</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Juri"] ) } >Juri</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Jonna"] ) } >Jonna</button>
-                    <button className="btn mr-1" onClick={ () => setQueryFilter("faces", ["Andre", "Irena"] ) } >Andre & Irena</button>
-
-
                     { (showImage && photos.length > 0) &&
                         <>
                             {textmessage}
 
-                            <hr />
-                            <ImageGrid photos={ photos } limit="2" />
+                            <ImageGrid2 photos={ photos } limit="10" />
                         </> }
 
                 </div>

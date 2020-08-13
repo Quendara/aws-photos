@@ -28,7 +28,7 @@ export const TopAutoComplete = ({ photos, icon, title, sortByCount = true, limit
                 id={title}
                 options={ getItems( photos ) }
                 getOptionLabel={ option => option.value }
-                style={ { width: 300 } }
+                style={ { width: "100%" } }
                 freeSolo
                 onChange={(event: any, newValue: string | null) => {
 
