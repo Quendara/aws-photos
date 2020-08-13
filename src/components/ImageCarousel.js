@@ -155,7 +155,16 @@ const ImageCarousel = ({
         };
     });
 
-    const photo = photos[index]
+    const currentPhoto = ( photos, index ) => {
+        if( photos.length === 0 ){ alert("Oh no" ); return undefined }
+        if( index >= photos.length ){
+            index = photos.length-1
+            setIndex( index )
+        }
+        return photos[index]
+    }
+
+    const photo = currentPhoto( photos, index )
 
     const updateMetadata = (what, value) => {
 
