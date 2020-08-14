@@ -4,10 +4,7 @@ import { Provider } from 'react-redux'
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 
-
-import { TopList } from "./TopList"
-import { CancelFilterAll } from "./CancelFilter"
-import ImageCarousel from "./ImageCarousel"
+import { LeftMenu } from "./LeftMenu"
 import ImageGroup from "./ImageGroup"
 
 
@@ -19,6 +16,11 @@ import { createStore } from "redux";
 
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 import { values } from "underscore";
+
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 
 // init with function
 export const store = createStore(rootReducer)
@@ -36,7 +38,7 @@ const ImageFaces = ({
 
     const [showImage, setShowImage] = useState(true); // group, list, grid
 
-    const callbackFilter = (key, value, add=true) => { // add = false means remove from ARRAY
+    const callbackFilter = (key, value, add = true) => { // add = false means remove from ARRAY
 
         console.log("callbackFilter : ", key, " : ", value)
         // current_filter[key] = value;
@@ -53,23 +55,23 @@ const ImageFaces = ({
                 valueA = query.faces
             }
 
-            if( add === true ){
+            if (add === true) {
                 if (value === "") {
                     valueA = []
                 }
                 else {
                     // valueA = [value]
                     valueA.push(value)
-                } 
+                }
             }
-            else{
+            else {
                 // remove
-                const index = valueA.indexOf( value )
-                if( index >= 0 ){
-                    valueA.splice( index, 1); // index, how many
+                const index = valueA.indexOf(value)
+                if (index >= 0) {
+                    valueA.splice(index, 1); // index, how many
                     // delete valueA[index];  
                 }
-                
+
             }
 
 
@@ -110,71 +112,58 @@ const ImageFaces = ({
         setMetadataOnImage(id, what, newValue, token.access)
     }
 
-    const facesHeaderClass = ( name, array ) => {
+    const facesHeaderClass = (name, array) => {
 
-        if( array.includes( name ) ){
-            return "btn m-2 red"    
+        if (array.includes(name)) {
+            return "secondary"
         }
-        return "btn m-2"
-        
-    }
-    
+        return "primary"
 
-    const facesHeader = ( query ) => {
-
-        const names = ["Andre", "Irena", "Jonna", "Juri", "Gaby", "Reinhard", "Marian", "Matthias", "Petra" ]
-
-        return names.map( name => {
-                return( <button className={facesHeaderClass( name, query )} onClick={ () => callbackFilter("faces", name, !query.includes( name ) ) } >{name}</button> )
-        } )
     }
 
 
+    const facesHeader = (query) => {
+
+        const names = ["Andre", "Irena", "Jonna", "Juri", "Gaby", "Reinhard", "Marian", "Matthias", "Petra"]
+
+
+        return names.map(name => {
+            return (<Button color={ facesHeaderClass(name, query) } onClick={ () => callbackFilter("faces", name, !query.includes(name)) } >{ name }</Button>)
+        })
+    }
 
     return (
         <>
 
-            <div className="row" >
+            <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start" >
 
-                <div className="col s12 m3 l2 " >
-                    { photos.length > 0 && <>
+                <Grid container item xs={ 2 } >
+                    { photos.length > 0 &&
+                        <>
+                            <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } />
 
-                        <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
+                        </> }
+                </Grid>
+                <Grid container item xs={ 10 } >
 
-                        { query.year.length > 0 &&
-                            <>
-                                <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
-                            </>
-                        }
-                        <TopList photos={ photos } title="dirname" icon="dirname" limit="9" sortByCount={ false } callback={ callbackFilter } />
-
-                        <div className="hide-on-med-and-down">
-
-                            <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
-                        </div>
-                    </> }
-                </div>
-
-                <div className="col s12 m9 l10" >
-
-                    
-
-                    {facesHeader( query.faces )}
-
-
+                    <ButtonGroup variant="text" color="primary">
+                        { facesHeader(query.faces) }
+                    </ButtonGroup>
 
                     { photos.length > 0 ?
                         (<ImageGroup photos={ photos } initialGroup="year" showGroupSelector={ false } />)
                         : (<>
                             <div className="card-panel blue darken-4 " >
-                                <h3 className="blue-text text-lighten-4 center">Keine Fotos von wo { query.faces.join(", ")} zusammen abgebildet sind. </h3>
+                                <h3 className="blue-text text-lighten-4 center">Keine Fotos von wo { query.faces.join(", ") } zusammen abgebildet sind. </h3>
                             </div>
                         </>) }
 
-                </div>
-            </div>
+                </Grid>
+            </Grid>
 
 
         </>

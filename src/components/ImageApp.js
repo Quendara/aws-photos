@@ -7,19 +7,22 @@ import { connect } from 'react-redux'
 
 
 import { Images } from "./ImagesRouter";
-import { TopList } from "./TopList";
+
 import { CancelFilterAll } from "./CancelFilter";
 import { SelectionView } from "./SelectionView";
+import { LeftMenu } from "./LeftMenu";
+
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 
 // import Settings from "../Settings"
 
 import { setQueryFilter } from "../redux/actions"; // import default 
-import { Rating } from "./Rating";
-
-import { Icon } from "./Icons"
+// import { Rating } from "./Rating";
+// import { Icon } from "./Icons"
 
 import Grid from '@material-ui/core/Grid';
+// import Hidden from '@material-ui/core/Hidden';
+// import Divider from '@material-ui/core/Divider';
 
 
 // This class contains the business logic of the application
@@ -119,49 +122,33 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 justify="flex-start"
                 alignItems="flex-start" >
 
-                <Grid container item xs={ 3 } >
-                    { sortedPhotos.length > 0 && <>
+                <Grid container item xs={ 2 } >
+                    { sortedPhotos.length > 0 && 
+                    <>
+                        <LeftMenu photos={photos} query={query} callbackFilter={callbackFilter} />
 
-                        <h6><Icon icon="rating" className="mr-2" /> Rating </h6>
-                        <div className="row">
-                            <div className="col m-1 offset-s1  s11" >
-                                <Rating rating={ query.rating } id="rating" callback={ callbackFilter } ></Rating>
-                            </div>
-                        </div>
-
-                        <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
-
-                        { query.year.length > 0 &&
-                            <>
-                                <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
-                            </>
-                        }
-                        <TopList photos={ photos } title="dirname" icon="dirname" limit="9" sortByCount={ false } callback={ callbackFilter } />
-
-                        <div className="hide-on-med-and-down">
-
-                            <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
-                        </div>
                     </> }
                 </Grid>
-                <Grid container item xs={ 9 } >
+                <Grid container item xs={ 10 } spacing={2} >
 
-                    <div className="row">
-                        <div className="col l6 center hide-on-med-and-down">
+                        {/* <div className="col l6 center hide-on-med-and-down"> */}
+                        {/* <div className="col m12 s12  l6 center" > */}
+                        <Grid container item xs={ 6 } >
                             <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
-                        </div>
-                        <div className="col m12 s12  l6 center" >
-                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } />
+                        </Grid>
+
+                        <Grid container item xs={ 6 } >
+                            <SelectionView currentValue={ view_images } style={{ flexGrow: 1}} valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>
                             <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
-                        </div>
-                    </div>
-                    <div className="row">
+                        </Grid>
+
+                        
+                    
+                    <Grid container item xs={ 12 } >
                         { imageApp }
-                    </div>
+                    </Grid>
                 </Grid>
             </Grid>
 

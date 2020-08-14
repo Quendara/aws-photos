@@ -1,6 +1,8 @@
 import React from 'react';
 import { Icon } from "./Icons"
 import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 
 export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callback }) => {
 
@@ -29,13 +31,13 @@ export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callb
     }
 
     return (
-        <>
+        <ButtonGroup size="small" variant="text"  >
             { valueArr.map((item, index) => {
                 return (
                     <Button key={ index } color={ getClass(item) } onClick={ () => callbackLocal(item) } ><Icon icon={ item } className="ml-2 mr-2" /> { getItemName(item) }</Button>
                 )
             }) }
-        </>
+        </ButtonGroup>
     )
 }
 

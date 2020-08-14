@@ -11,6 +11,35 @@ import { setQueryFilter } from "../redux/actions"; // import default
 
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
+
+
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        spacing: {
+            flexGrow: 1,
+            '& > *': {
+                margin: theme.spacing(0.5),
+              }            
+
+        },
+        menuButton: {
+            marginRight: theme.spacing(6),
+            color: "#FFFFFF",
+            textDecoration: "none"
+        },
+        title: {
+            flexGrow: 1,
+            color: "#FF0000",
+            textDecoration: "none"
+        },
+        selected: {
+            color: "#FFFF00",
+        }
+    }),
+);
 
 
 
@@ -19,6 +48,7 @@ import Grid from '@material-ui/core/Grid';
 
 export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondGroupValues, callback }) => {
 
+    const classes = useStyles();
 
     const callbackLocal = (value) => {
         callback(groupKey, groupValue, secondGroupKey, value)
@@ -27,7 +57,8 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
     return (
         <>{ secondGroupValues.map(x => (
 
-            <span key={ x.value } onClick={ () => callbackLocal(x.value) } className="ml-2">{ x.value } </span>
+            // <span key={ x.value } onClick={ () => callbackLocal(x.value) } className="ml-2">{ x.value } </span>
+            <Chip key={ x.value } size="small" label={ x.value } onClick={ () => callbackLocal(x.value) } />
         ))
         }
         </>
@@ -75,6 +106,8 @@ const StatsRow = ({ photos }) => {
 
 export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dirname", showGroupSelector = true, initialStats = false }) => {
 
+    const classes = useStyles();
+
     const [group, setGroup] = useState(initialGroup);
     const [stats, setStats] = useState(initialStats);
     // const [current, setCurrent] = useState({ name: "", photos: [] });
@@ -87,9 +120,9 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     // }
 
     const adaptColSize = (nImages) => {
-        if (nImages === 1) return "col s4"
-        if (nImages >= 4) return "col s12"
-        return "col s6"
+        if (nImages === 1) return 4 //"col s4"
+        if (nImages >= 4) return 12 // "col s12"
+        return 6 // "col s6"
     }
 
     const callbackGroupBy = (value) => {
@@ -169,13 +202,23 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
 
     const groups = getGroupedItems(photos, group)
 
+    // <h5>
+    //     <span onClick={ () => queryOnGroup(group, item.value) }>
+    //         <Icon icon={ group } className="mr-2" />
+    //         { item.value }
+    //     </span>
+    //     <span>
+    //     { getContext(group, item.value, item.photos) }
+
+    //     </span>
+    // </h5>    
+
     return (
         <div>
             <>
                 { showGroupSelector &&
                     <Grid
                         container
-                        direction="row"
                         justify="flex-start"
                         alignItems="flex-start" >
 
@@ -188,22 +231,29 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                 <>
                     { groups.map((item, index) => (
 
-                        <div className="row" key={ item.value } >
-                            <div className="col s11 mouse-pointer" key={ index }  >
-                                <h5>
-                                    <span onClick={ () => queryOnGroup(group, item.value) }>
-                                        <Icon icon={ group } className="mr-2" />
-                                        { item.value }
-                                    </span>
-                                    <span>
-                                        <span className="ml-2 blue-text text-darken-2" >
-                                            { getContext(group, item.value, item.photos) }
-                                        </span>
-                                        <span className="badge ">{ item.count }</span>
-                                    </span>
-                                </h5>
-                            </div>
-                            <div className={ adaptColSize(item.count) } key={ index + 1000 }>
+
+                        <Grid container xs={ 12 } key={ item.value }>
+                            {/* <div className="col s11 mouse-pointer" key={ index }  > */ }
+                            <Grid className="mouse-pointer" xs={ 9 }  >
+                                <br/>
+                                <div className={classes.spacing}>
+                                <Chip
+                                    color="primary"
+                                    icon={ <Icon icon={ group } className="mr-2" /> }
+                                    label={ item.value }
+                                    onClick={ () => queryOnGroup(group, item.value) }
+
+                                />
+                                { getContext(group, item.value, item.photos) }
+                                </div>
+
+
+                            </Grid>
+                            <Grid className="mouse-pointer blue" xs={ 2 }  >
+                                { item.count }
+                            </Grid>
+                            <Grid className="mouse-pointer" xs={ adaptColSize(item.count) }  >
+                                {/* <div className={ adaptColSize(item.count) } key={ index + 1000 }> */ }
 
 
                                 { stats === true ? (
@@ -227,8 +277,8 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
 
 
 
-                            </div>
-                        </div>
+                            </Grid>
+                        </Grid>
                     )) }
                 </>
 

@@ -50,10 +50,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       marginRight: theme.spacing(6),
+      color:"#FFFFFF",
+      textDecoration:"none"
     },
     title: {
       flexGrow: 1,
+      color:"#FFFFFF",
+      textDecoration:"none"
     },
+    selected:{
+      color:"#FFFF00",
+    }
   }),
 );
 
@@ -256,10 +263,10 @@ const Auth = ({ authSuccessCallback }) => {
               Photos
           </Typography>
           </NavLink>
-            <NavLink to="/today" className={ classes.menuButton } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
-            <NavLink to="/faces" className={ classes.menuButton } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
-            <NavLink to="/import" className={ classes.menuButton } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> import</Typography> </NavLink>
-            <NavLink to="/devtools" className={ classes.title } > <Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</Typography> </NavLink>
+            <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
+            <NavLink to="/faces" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
+            <NavLink to="/import" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> import</Typography> </NavLink>
+            <NavLink to="/devtools" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</Typography> </NavLink>
 
             <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /><Button color="inherit">{ username } </Button>
             <FontAwesomeIcon onClick={ signOut } icon={ faSignOutAlt } className="ml-2" /><Button color="inherit">Logout</Button>
