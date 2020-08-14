@@ -19,6 +19,7 @@ import { setQueryFilter } from "../redux/actions"; // import default
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 import { rootReducer } from "../redux/reducer"; // import default 
 import { createStore } from "redux";
+import Grid from '@material-ui/core/Grid';
 
 
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
@@ -119,13 +120,16 @@ const Sandbox = ({
                 </div>
 
                 <div className="col s12 m9 l10" >
+                    <Grid container>
+                
 
                     { (showImage && photos.length > 0) &&
                         <>
                             {textmessage}
-
-                            <ImageGrid2 photos={ photos } limit="10" />
+                            <ImageGrid photos={ photos } limit="10" />
                         </> }
+
+                    </Grid>
 
                 </div>
             </div>

@@ -21,8 +21,7 @@ export const ImageGridImage = ({
     direction,
     top,
     left,
-    selected,
-
+    selected
 }) => {
 
     const getCaptionFromPhoto = ( image, ratingCallback ) => {

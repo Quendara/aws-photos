@@ -214,8 +214,8 @@ const ImageCarousel = ({
                         <div style={{ padding: "20px" }} >
                         
                         <TopAutoComplete rendering="collection" photos={ all_photos } title={ contextMenu } icon={ contextMenu } limit="12" sortByCount={ true } callback={ updateMetadata } />                        
-                        <TopList rendering="collection" photos={ photos } title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
-                        <TopList rendering="collection" photos={ all_photos } title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
+                        <TopList rendering="collection" photos={ photos } titleAlt="Local" title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
+                        <TopList rendering="collection" photos={ all_photos } titleAlt="Global" title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
                         </div>
                 }
                 </>

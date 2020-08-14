@@ -1,8 +1,9 @@
 import React from "react";
 import { Icon } from "./Icons"
 import { findUnique } from "./helpers"
+import Card from '@material-ui/core/Card';
 
-export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, callback = undefined, rendering="menu" }) => {
+export const TopList = ({ photos, icon, title, titleAlt="", sortByCount = true, limit=1, callback = undefined, rendering="menu" }) => {
 
     const getItems = (photos) => {
         const group = title
@@ -32,11 +33,12 @@ export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, call
         </>
         ) :
         (
-            <ul className="collection indigo darken-4">
-                <li className="collection-header  mouse-pointer">
-                    <h4><Icon icon={ icon } className="ml-2 mr-2" /> <span style={{'textTransform':'capitalize'}}>{ title }</span> <span onClick={ () => callback(title, "") } className={ getResetClass() } >X</span> </h4>
-                </li>
+            <Card>
             
+                
+                    <b><Icon icon={ icon } className="ml-2 mr-2" /> <span style={{'textTransform':'capitalize'}}>{ titleAlt.length > 0 ? titleAlt : title }</span> <span onClick={ () => callback(title, "") } className={ getResetClass() } >X</span> </b>
+                
+                    <ul className="collection">
                 { getItems(photos).map((item, index) => (
                     <li className="collection-item mouse-pointer grey darken-4" onClick={ () => callback(title, item.value) } key={ index }>
                         
@@ -45,6 +47,7 @@ export const TopList = ({ photos, icon, title, sortByCount = true, limit=1, call
                     </li>
                 )) }
             </ul>
+            </Card>
         )}
         </>
     )
