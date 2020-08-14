@@ -70,6 +70,11 @@ const ImageCarousel = ({
 
     const handleKeyPress = (event) => {
 
+        if( contextMenu.length > 0 ){
+            console.log( "handleKeyPress events blocked, to avoid actions!" )
+            return;
+        }
+
         switch (event.key) {
             case '1':
             case '2':
@@ -78,12 +83,12 @@ const ImageCarousel = ({
             case '5':
                 ratingCallback(photo.id, event.key);
                 break;
-            // case 'd':
-            //     setDeleted();
-            //     break;
-            // case 'm':
-            //     setMissing();
-            //     break;
+            case 'd':
+                setDeleted();
+                break;
+            case 'm':
+                setMissing();
+                break;
             case 27:
             case 'Escape':
                 closeCallback()
@@ -100,15 +105,15 @@ const ImageCarousel = ({
             case 'ArrowLeft':
                 previousImage()
                 break;
-            // case 'c':
-            //     setCountryClipboard(photo.country)
-            //     setStateClipboard(photo.state)
-            //     setCityClipboard(photo.city)
-            //     break;
-            // case 'v':
-            //     updateMetadata("country", countryClipboard) // call callback 
-            //     updateMetadata("state", stateClipboard) // call callback 
-            //     updateMetadata("city", cityClipboard) // call callback 
+            case 'c':
+                setCountryClipboard(photo.country)
+                setStateClipboard(photo.state)
+                setCityClipboard(photo.city)
+                break;
+            case 'v':
+                updateMetadata("country", countryClipboard) // call callback 
+                updateMetadata("state", stateClipboard) // call callback 
+                updateMetadata("city", cityClipboard) // call callback 
                 break;
             default:
                 console.log('key pressed here !! ' + event.key)
@@ -194,12 +199,13 @@ const ImageCarousel = ({
                 <>
                 { countryClipboard.length > 0 &&
                 <div style={{ padding: "20px" }} >
-                        <h3>Clipboard</h3>
-                        <h5>
-                            <span className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }                </span>
-                            <span className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</span>
-                        </h5>
-                        { cityClipboard.length > 0 && <>{ cityClipboard }</> }
+                        <h5><Icon icon="clipboard" className="mr-2" />Clipboard</h5>
+                        <ul>
+                            <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
+                            <li className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</li>
+                            <li className="m-2">{ cityClipboard.length > 0 && <>{ cityClipboard }</> }</li>
+                        </ul>
+                        
                         </div>
                 }
                 { contextMenu.length > 0 &&
@@ -225,9 +231,9 @@ const ImageCarousel = ({
                     className="responsive-carousel"
                     alt={ photo.title } />
             </div>
-            <div style={ { top: '0px', right: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
-            <div style={ { top: '43%', left: '20px' } } className="image-carousel grey-text text-darken-5" onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
-            <div style={ { top: '43%', right: '20px' } } className="image-carousel offset-s10 s1 grey-text text-darken-5" onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
+            <div style={ { top: '0px', right: '20px' } } className="image-carousel " onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
+            <div style={ { top: '43%', left: '20px' } } className="image-carousel  " onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
+            <div style={ { top: '43%', right: '20px' } } className="image-carousel " onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
             <div style={ { bottom: '2%', left: '25%', width: '35%' , margin:"5%", zIndex: '1' } } className="image-carousel-text" >
                 { contextMenuFcn() }
             </div>

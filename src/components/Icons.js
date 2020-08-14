@@ -14,10 +14,13 @@ import {
     faList,
     faThList,
     faThLarge,
+    faChevronLeft,
+    faChevronRight,
     faArrowCircleLeft,
     faArrowCircleRight,
     faTimes,
-    faArrowUp
+    faArrowUp,
+    faClipboard
     // fasStar,
   } from "@fortawesome/free-solid-svg-icons";
 
@@ -31,8 +34,12 @@ const textToIcon = {
     "state": faMapMarkerAlt,
     "map": faMapMarkerAlt,
 
-    "arrow-right": faArrowCircleRight,
-    "arrow-left": faArrowCircleLeft,
+    "clipboard": faClipboard,
+
+    
+
+    "arrow-right": faChevronRight,
+    "arrow-left": faChevronLeft,
 
     "rating": faStar,
 
