@@ -11,7 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-
+import Box from '@material-ui/core/Box';
 
 export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true, limit = 1, callback = undefined, rendering = "menu" }) => {
 
@@ -22,28 +22,29 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
         return locations
     }
 
-    const getResetClass = () => {
-        return "blue right ml-2"
-    }
 
     // <div className="col m-1 offset-s1  s11" onClick={ () => callback(title, item.value) } key={ index }></div>
 
     return (
         <>
             { (rendering === "menu") ? (
-                <Grid item xs={ 12 }>
-                    <Icon icon={ icon } className="mr-2" />
-                    <span style={ { 'textTransform': 'capitalize' } }>{ title }</span>
-                    <span onClick={ () => callback(title, "") } className={ getResetClass() } >Reset</span>
+                <Grid item xs={ 11 }>
+                    <Box lineHeight={ 2.5 } fontWeight="fontWeightMedium">
+                        <Box  className="text-ellipsis" style={ { 'textTransform': 'capitalize' } }>
+                            <Icon icon={ icon } className="mr-2" />{ title }
+                        </Box >
+                        <Box textAlign="right" color="text.secondary" onClick={ () => callback(title, "") } >Reset</Box>
+                    </Box>
 
 
                     { getItems(photos).map((item, index) => (
 
-                        <Grid container item xs={ 12 } >
-                            <div className="ml-2 mouse-pointer text-ellipsis" onClick={ () => callback(title, item.value) }>
-                                <Icon icon={ icon } className="mr-2 grey-text text-darken-2" /> { item.value }</div>
-                            <span className="badge blue-text ">{ item.count }</span>
-                        </Grid>
+                        <Box lineHeight={ 1.7 }>
+                            <div className="ml-4 mouse-pointer text-ellipsis" onClick={ () => callback(title, item.value) }>                                
+                                 { item.value }
+                            </div>
+                            <Box textAlign="right" color="primary.main" >{ item.count }</Box >
+                        </Box>
                     )) }
 
                     <br />
@@ -61,7 +62,7 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
                                     <span style={ { 'textTransform': 'capitalize' } }>{ titleAlt.length > 0 ? titleAlt : title }</span>
                                 </ListItemText>
                                 <ListItemSecondaryAction>
-                                    <span onClick={ () => callback(title, "") } className={ getResetClass() } >X</span>
+                                    <span onClick={ () => callback(title, "") } >X</span>
                                 </ListItemSecondaryAction>
                             </ListItem>
 

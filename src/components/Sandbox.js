@@ -10,7 +10,7 @@ import { TopList } from "./TopList"
 import { TopAutoComplete } from "./TopAutoComplete"
 
 import { CancelFilter } from "./CancelFilter"
-import { ImageCarousel } from "./ImageCarousel"
+import ImageCarousel from "./ImageCarousel"
 import ImageGrid from "./ImageGrid"
 import ImageGrid2 from "./ImageGrid2"
 
@@ -126,7 +126,9 @@ const Sandbox = ({
                     { (showImage && photos.length > 0) &&
                         <>
                             {textmessage}
-                            <ImageGrid photos={ photos } limit="10" />
+                            {/* <ImageGrid photos={ photos } limit="10" /> */}
+                            <ImageCarousel photos={photos} currentIndex="0" />
+
                         </> }
 
                     </Grid>

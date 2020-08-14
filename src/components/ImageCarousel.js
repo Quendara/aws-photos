@@ -11,6 +11,9 @@ import { TopList } from "./TopList";
 import { TopAutoComplete } from "./TopAutoComplete";
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Box from '@material-ui/core/Box';
 
 import { Icon } from "./Icons";
 import { addSrcAndDirname } from "./helpers";
@@ -46,18 +49,18 @@ const ImageCarousel = ({
         return (
             <div >
 
-                <p className="grey-text">{ image.id } </p>
+                <Box color="text.secondary" >{ image.id } </Box>
                 { image.filename }
-                <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
-                <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey-text">{ image.dirname } - { image.dirname_physical }</span>
+                <Box lineHeight={3} fontSize="h5.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>
+                <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } - { image.dirname_physical }</span>
 
-                <h5>
+                <Box lineHeight={2} fontSize="h6.fontSize" >
                     <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
                     <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
-                </h5>
-                <p onClick={ () => setContextMenu("city") } className="grey-text" > { image.city }</p>
+                </Box>
+                <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
 
-                <button className="btn red m-2"  >{ printQuery(image.faces) }</button>
+                <Button className="secondary"  >{ printQuery(image.faces) }</Button>
             </div>)
     }
 
@@ -245,8 +248,10 @@ const ImageCarousel = ({
                 { getCaptionFromPhoto(photo) }
             </div>
             <div style={ { top: '90%', right: '20px' } } className="image-carousel" >
-                <a className="btn red m-2" onClick={ setDeleted } >Delete</a>
-                <a className="btn blue m-2" onClick={ setMissing }  >Missing</a>
+                <ButtonGroup variant="contained">
+                    <Button color="secondary" onClick={ setDeleted } >Delete</Button>
+                    <Button color="primary" onClick={ setMissing }  >Missing</Button>
+                </ButtonGroup>
                 <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length }</b></h5>
             </div>
         </div>
