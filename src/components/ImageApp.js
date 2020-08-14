@@ -19,6 +19,9 @@ import { Rating } from "./Rating";
 
 import { Icon } from "./Icons"
 
+import Grid from '@material-ui/core/Grid';
+
+
 // This class contains the business logic of the application
 const ImageApp = ({ photos, query, setQueryFilter }) => {
 
@@ -78,7 +81,7 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                             <div  >
                                 <h3 className="blue-text text-lighten-4 center">No images, please deselect at least one filter.</h3>
                                 <div className="divider" /><br /><br />
-                                <CancelFilterAll query={query} callbackFilter={ callbackFilter } />
+                                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
                             </div>
 
                         ) :
@@ -105,11 +108,18 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
 
     return (
         <>
-            <div className="row">
+            {/* <div className="row">
                 <div className="col s12">
                     <div className="m-2" ></div>
                 </div>
-                <div className="col s12 m3 l2 ">
+                <div className="col s12 m3 l2 "> */}
+            <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start" >
+
+                <Grid container item xs={ 3 } >
                     { sortedPhotos.length > 0 && <>
 
                         <h6><Icon icon="rating" className="mr-2" /> Rating </h6>
@@ -123,27 +133,27 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
 
                         { query.year.length > 0 &&
                             <>
-                                <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />                            
+                                <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
                             </>
                         }
                         <TopList photos={ photos } title="dirname" icon="dirname" limit="9" sortByCount={ false } callback={ callbackFilter } />
 
                         <div className="hide-on-med-and-down">
-                            
+
                             <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
                             <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
                             <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
                         </div>
                     </> }
+                </Grid>
+                <Grid container item xs={ 9 } >
 
-                </div>
-                <div className="col s12 m9 l10">
                     <div className="row">
                         <div className="col l6 center hide-on-med-and-down">
-                            <CancelFilterAll query={query} callbackFilter={ callbackFilter } />
+                            <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
                         </div>
                         <div className="col m12 s12  l6 center" >
-                            <SelectionView currentValue={ view_images } valueArr={ [ 'group', 'grid', 'list', 'map'] } callback={ callbackView } />
+                            <SelectionView currentValue={ view_images } valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>
                             <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
@@ -152,8 +162,9 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                     <div className="row">
                         { imageApp }
                     </div>
-                </div>
-            </div>
+                </Grid>
+            </Grid>
+
         </>
 
     )

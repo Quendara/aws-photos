@@ -8,9 +8,34 @@ import { Modal, ModalGateway } from "react-images";
 
 import { ImageGridImage } from "./ImageGridImage"
 import ImageCarousel from "./ImageCarousel"
+import { ImageOnDemand } from "./ImageOnDemand"
+
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+
+
+import Grid from '@material-ui/core/Grid';
+import GridList from '@material-ui/core/Grid';
+import GridListTile from '@material-ui/core/GridListTile';
+
 
 // import Settings from "../Settings"
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      overflow: 'hidden',
+      backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+      width: 900,
+      height: 450,
+    },
+  }),
+);
 
 const ImageGrid = ({
   photos,
@@ -23,6 +48,8 @@ const ImageGrid = ({
   token,              // from mapStateToProps
   ...rest }) => {
 
+  const classes = useStyles();
+
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [currentLimit, setCurrentLimit] = useState(limit);
@@ -31,7 +58,7 @@ const ImageGrid = ({
   const [targetRef, isVisible] = useVisible((vi: number) => {
 
     return vi > 0.02
-  } 
+  }
   )
 
   // updated in limitPhotosAndSort
@@ -93,14 +120,14 @@ const ImageGrid = ({
     console.log("increaseLimit", currentLimit)
 
     const newLimit = +currentLimit + increaseValue;
-    if( newLimit > photos.length) {
+    if (newLimit > photos.length) {
       setCurrentLimit(photos.length)
     }
-    else{
+    else {
       // increase limit when possible
-      setCurrentLimit( newLimit )
+      setCurrentLimit(newLimit)
     }
-    
+
   }
 
 
@@ -120,20 +147,20 @@ const ImageGrid = ({
       return;
     }
     console.log("callbackLocal", id, rating, setRatingOnImage)
-    setRatingOnImage(id, rating, token.access )
+    setRatingOnImage(id, rating, token.access)
 
   }
 
-  const updateMetadataCallback = (id, what, newValue ) => {
+  const updateMetadataCallback = (id, what, newValue) => {
 
     // if (setRatingOnImage === undefined) {
     //   console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
     //   return;
     // }
-    console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id )
-    setMetadataOnImage( id, what, newValue, token.access )
+    console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id)
+    setMetadataOnImage(id, what, newValue, token.access)
 
-  }      
+  }
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
 
@@ -153,9 +180,9 @@ const ImageGrid = ({
       currentRenderer = imageRenderer
     }
 
-    
+
     // limit
-    if (+currentLimit > photos.length ) { 
+    if (+currentLimit > photos.length) {
       setCurrentLimit(photos.length)
     }
     return retImages.slice(0, size) // reduce    
@@ -164,55 +191,53 @@ const ImageGrid = ({
   // 
   const currentPhotos = limitPhotosAndSort(photos, limit, sortBy);
 
-  const showPaging = ( photos ) => {
+  const showPaging = (photos) => {
 
     // Hide more button when all images loaded!
-    if( currentLimit === photos.length ){
+    if (currentLimit === photos.length) {
       return false;
     }
     return paging
   }
 
   // targetRowHeight={170} 
-    // <h6> EBUG # {photos.length }, {currentPhotos.length} {currentLimit}</h6>
-    
+  // <h6> EBUG # {photos.length }, {currentPhotos.length} {currentLimit}</h6>
+
   return (
     <>
       { photos.length > 0 && <>
-        
-        <div>
-          
 
-          <Gallery  photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
-          <ModalGateway>
-            { viewerIsOpen ? (
-              <Modal onClose={ closeLightbox }>
-                <ImageCarousel
-                  photos={ photos }
-                  currentIndex={ currentImage }
-                  closeCallback={ closeLightbox }
-                  ratingCallback={ ratingCallback }
-                  updateMetadataCallback={updateMetadataCallback}
-                   />
 
-              </Modal>
-            ) : null }
-          </ModalGateway>
+          <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
+            <ModalGateway>
+              { viewerIsOpen ? (
+                <Modal onClose={ closeLightbox }>
+                  <ImageCarousel
+                    photos={ photos }
+                    currentIndex={ currentImage }
+                    closeCallback={ closeLightbox }
+                    ratingCallback={ ratingCallback }
+                    updateMetadataCallback={ updateMetadataCallback }
+                  />
+
+                </Modal>
+              ) : null }
+            </ModalGateway>
 
           { isVisible }
 
-          { showPaging( photos ) && <>
+          { showPaging(photos) && <>
             <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
 
-            </> 
-            
-            }
+          </>
 
-            
-            
+          }
 
-            
-        </div>
+
+
+
+
+        
 
       </> }
     </>

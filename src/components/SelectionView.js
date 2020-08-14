@@ -1,15 +1,16 @@
 import React from 'react';
 import { Icon } from "./Icons"
+import Button from '@material-ui/core/Button';
 
 export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callback }) => {
 
 
     const getClass = (item) => {
         if (item === currentValue) {
-            return "btn blue m-1"
+            return "info"
         }
         else {
-            return "btn blue-text text-lighten-2 blue darken-4 m-1"
+            return "primary"
         }
     } 
 
@@ -31,7 +32,7 @@ export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callb
         <>
             { valueArr.map((item, index) => {
                 return (
-                    <a key={ index } className={ getClass(item) } onClick={ () => callbackLocal(item) } ><Icon icon={ item } className="ml-2 mr-2" /> { getItemName(item) }</a>
+                    <Button key={ index } color={ getClass(item) } onClick={ () => callbackLocal(item) } ><Icon icon={ item } className="ml-2 mr-2" /> { getItemName(item) }</Button>
                 )
             }) }
         </>

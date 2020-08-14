@@ -9,6 +9,11 @@ import ImageGrid from "./ImageGrid"
 import { SelectionView } from "./SelectionView";
 import { setQueryFilter } from "../redux/actions"; // import default 
 
+import { Button } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+
+
+
 // import { ImageListSimple } from "./ImageListSimple"
 
 
@@ -38,9 +43,9 @@ const getGroupedItems = (photos, groupA) => {
 
 const StatsRow = ({ photos }) => {
 
-    const getClass = ( key ) => {
+    const getClass = (key) => {
         switch (key) {
-            
+
             case '1': return 'grey darken-3';
             case '2': return 'grey darken-2';
             case '3': return 'yellow darken-4';
@@ -57,7 +62,7 @@ const StatsRow = ({ photos }) => {
             <tr>
                 {
                     getGroupedItems(photos, 'rating').map((item, index) => (
-                        <td width={ item.photos.length / item.photos.length } class={ getClass( item.value  )} >
+                        <td width={ item.photos.length / item.photos.length } class={ getClass(item.value) } >
                             { item.photos.length }
                         </td>
                     ))
@@ -137,7 +142,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                     groupKey={ currentGrouping }
                     groupValue={ currentValue }
                     secondGroupKey={ 'day' }
-                    secondGroupValues={ findUnique(photos, 'day') } />)                    
+                    secondGroupValues={ findUnique(photos, 'day') } />)
             default:
                 return "Bla, Bla, Bla"
         }
@@ -168,12 +173,17 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
         <div>
             <>
                 { showGroupSelector &&
-                    <div className="row" >
-                        <div className="col s12 right" >
-                            <SelectionView currentValue={ group } valueArr={ [ 'dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
-                            <button className="btn" onClick={ () => setStats( !stats )  }><Icon icon="arrowUp" /></button>
-                        </div>
-                    </div>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="flex-start" >
+
+                        <Grid container item xs={ 12 } >
+                            <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
+                            <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button>
+                        </Grid>
+                    </Grid>
                 }
                 <>
                     { groups.map((item, index) => (

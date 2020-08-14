@@ -44,11 +44,13 @@ const ImageCarousel = ({
 
     const getCaptionFromPhoto = (image) => {
         return (
-            <div>
+            <div >
+
                 <p className="grey-text">{ image.id } </p>
                 { image.filename }
                 <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></h5>
                 <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey-text">{ image.dirname } - { image.dirname_physical }</span>
+
                 <h5>
                     <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
                     <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
@@ -152,7 +154,7 @@ const ImageCarousel = ({
         }
     }
 
-    useEffect( () => {
+    useEffect(() => {
         document.addEventListener("keydown", handleKeyPress, false);
 
         return () => {

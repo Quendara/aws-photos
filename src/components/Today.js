@@ -50,7 +50,7 @@ export const Today = ({
                     <div className="m-2" ></div>
                 </div>
                 <div className="col s4 offset-s8 right" >
-                     {/* <CancelFilterAll query={ query } callbackFilter={ callbackFilter } /> */}
+                    <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
                 </div>
 
                 <div className="col s12 offset-l1 l10" >
