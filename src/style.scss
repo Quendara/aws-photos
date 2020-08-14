@@ -77,6 +77,11 @@ $transition-effects: color 1s ease, background-color 1s ease;
 	bottom: 0;
 }
 
+img.responsive-img, video.responsive-video {
+    max-width: 100%;
+    height: auto;
+}
+
 img.responsive-carousel{ 
 	height: auto;
     position: absolute;
