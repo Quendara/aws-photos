@@ -20,6 +20,8 @@ import { values } from "underscore";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Hidden from '@material-ui/core/Hidden';
+
 
 
 // init with function
@@ -141,10 +143,13 @@ const ImageFaces = ({
                 justify="flex-start"
                 alignItems="flex-start" >
 
-                <Grid container item xs={ 12 } lg={2}  >
-                    { photos.length > 0 && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
-                </Grid>                 
-                <Grid container item xs={ 12 } lg={10} spacing={2} >
+
+                <Hidden mdDown xs> 
+                    <Grid container item xs={ 12 } lg={ 2 }  >
+                        { photos.length > 0 && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
+                    </Grid>
+                </Hidden>
+                <Grid container item xs={ 12 } lg={ 10 } spacing={ 2 } >
 
                     <ButtonGroup variant="text" color="primary">
                         { facesHeader(query.faces) }
