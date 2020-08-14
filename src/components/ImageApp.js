@@ -122,22 +122,22 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 justify="flex-start"
                 alignItems="flex-start" >
 
-                <Grid container item xs={ 2 } >
+                <Grid container item xs={ 12 } lg={2}  >
                     { sortedPhotos.length > 0 && 
                     <>
                         <LeftMenu photos={photos} query={query} callbackFilter={callbackFilter} />
 
                     </> }
                 </Grid>
-                <Grid container item xs={ 10 } spacing={2} >
+                <Grid container item xs={ 12 } lg={10} spacing={2} >
 
                         {/* <div className="col l6 center hide-on-med-and-down"> */}
                         {/* <div className="col m12 s12  l6 center" > */}
-                        <Grid container item xs={ 6 } >
+                        <Grid container item xs={ 12 } lg={6} >
                             <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
                         </Grid>
 
-                        <Grid container item xs={ 6 } >
+                        <Grid container item xs={ 12 } lg={6} >
                             <SelectionView currentValue={ view_images } style={{ flexGrow: 1}} valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } />
 
                             <span className="m-2 blue-text">Sorting</span>

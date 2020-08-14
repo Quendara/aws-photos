@@ -21,6 +21,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
+
 
 
 import {
@@ -258,17 +260,21 @@ const Auth = ({ authSuccessCallback }) => {
           <Toolbar>
 
           <NavLink to="/main" className={ classes.title }   >
+            <Hidden mdDown>
             <Typography variant="h6" >
             <FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> 
               Photos
           </Typography>
+          </Hidden>
           </NavLink>
             <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
             <NavLink to="/faces" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
             <NavLink to="/import" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> import</Typography> </NavLink>
             <NavLink to="/devtools" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</Typography> </NavLink>
 
+            <Hidden mdDown>
             <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /><Button color="inherit">{ username } </Button>
+            </Hidden>
             <FontAwesomeIcon onClick={ signOut } icon={ faSignOutAlt } className="ml-2" /><Button color="inherit">Logout</Button>
             
           </Toolbar>
