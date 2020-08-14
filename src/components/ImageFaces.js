@@ -141,14 +141,10 @@ const ImageFaces = ({
                 justify="flex-start"
                 alignItems="flex-start" >
 
-                <Grid container item xs={ 2 } >
-                    { photos.length > 0 &&
-                        <>
-                            <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } />
-
-                        </> }
-                </Grid>
-                <Grid container item xs={ 10 } >
+                <Grid container item xs={ 12 } lg={2}  >
+                    { photos.length > 0 && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
+                </Grid>                 
+                <Grid container item xs={ 12 } lg={10} spacing={2} >
 
                     <ButtonGroup variant="text" color="primary">
                         { facesHeader(query.faces) }

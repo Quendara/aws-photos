@@ -123,12 +123,9 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                 alignItems="flex-start" >
 
                 <Grid container item xs={ 12 } lg={2}  >
-                    { sortedPhotos.length > 0 && 
-                    <>
-                        <LeftMenu photos={photos} query={query} callbackFilter={callbackFilter} />
+                    { photos.length > 0 && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
+                </Grid>                
 
-                    </> }
-                </Grid>
                 <Grid container item xs={ 12 } lg={10} spacing={2} >
 
                         {/* <div className="col l6 center hide-on-med-and-down"> */}
