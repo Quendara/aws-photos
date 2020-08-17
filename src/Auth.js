@@ -304,11 +304,10 @@ const Auth = ({ authSuccessCallback }) => {
               <NavLink to="/main" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faBars } className="mr-2" /> Menu</Typography> </NavLink>
               <NavLink to="/grid" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> Photos</Typography> </NavLink>
               <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
-              <NavLink to="/faces" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
+              <NavLink to="/faces" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
 
-              <Button aria-controls="simple-menu" className={ classes.menuButton } aria-haspopup="true" onClick={ menuHandleClick }>
-                <FontAwesomeIcon icon={ faEllipsisV } className="mr-2" />
-              </Button>
+             
+              <Typography color="inherit" onClick={ menuHandleClick } ><FontAwesomeIcon icon={ faEllipsisV } className="mr-2" /> Mehr</Typography>
               <Menu
                 id="simple-menu"
                 anchorEl={ anchorEl }
@@ -318,7 +317,7 @@ const Auth = ({ authSuccessCallback }) => {
               >
 
                 <MenuItem>
-                  <NavLink to="/devtools" activeClassName={ classes.selected } ><Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" />Devtools</Typography> </NavLink>
+                  <NavLink to="/devtools" className={ classes.title } activeClassName={ classes.selected } ><Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" />Devtools</Typography> </NavLink>
                 </MenuItem>
                 <MenuItem>
                   <NavLink to="/import" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" />Import</Typography> </NavLink>
