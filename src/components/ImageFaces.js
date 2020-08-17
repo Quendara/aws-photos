@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { LeftMenu } from "./LeftMenu"
 import ImageGroup from "./ImageGroup"
 
+import { useWindowSize } from "./useWindowSize"
+
 import { Icon } from "./Icons"
 
 import { setQueryFilter } from "../redux/actions"; // import default 
@@ -29,6 +31,8 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
+
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 // import InfoIcon from '@material-ui/icons/Info';
 
 // init with function
@@ -43,7 +47,10 @@ const ImageFaces = ({
     token               // from mapStateToProps    
 }) => {
 
+
     const [showImage, setShowImage] = useState(true); // group, list, grid
+
+    const size = useWindowSize();
 
     const callbackFilter = (key, value, add = true) => { // add = false means remove from ARRAY
 
@@ -143,8 +150,8 @@ const ImageFaces = ({
             if( image === undefined ) return false
             if( image.value === undefined ) return false
             if( image.value === "undefined" ) return false
-            if( image.value.length === "undefined" ) return false
-            // return image.value.split(",").length < 2
+            if( image.value.length === 0 ) return false
+            return image.value.split(",").length < 2
             return true
         })
         return list
@@ -167,31 +174,25 @@ const ImageFaces = ({
             <Grid
                 container
                 direction="row"
-                justify="flex-start"
+                justify="center"
                 alignItems="flex-start" >
 
+        {/* {size.width}px / {size.height}px */}
 
-                <Hidden mdDown xs>
-                    <Grid container item xs={ 12 } lg={ 2 }  >
-                        { photos.length > 0 && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
-                    </Grid>
-                </Hidden>
-                <Grid container item xs={ 12 } lg={ 10 } >
-
- 
+                <Grid container item xs={ 12 } lg={ 9 } >
 
                     { query.faces.length === 0 ?
 
                         (<>
 
-                            <GridList cols={ 5 }>
+                            <GridList cols={ (size.width > 600) ? 5 : 2 } >
                                 { getUniqueFacesItems(photos).map((item, index) => (
 
-                                        <GridListTile cols={1} >
+                                        <GridListTile cols={1} rows={1} >
                                             {/* onClick={ () => callback(title, item.value) } */ }
                                             {/* callbackFilter("faces", item.value, !query.includes(item.value)) */ }
 
-                                            <img src={ item.photos[0].source_url } alt={ index } />
+                                            <img src={ sortPhotos( item.photos, "rating", false  )[0].source_url } alt={ index } />
                                             <GridListTileBar
                                                     title={ item.value }
                                                     subtitle={<span>count : { item.count }</span>}
