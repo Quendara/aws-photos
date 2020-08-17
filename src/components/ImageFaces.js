@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { LeftMenu } from "./LeftMenu"
 import ImageGroup from "./ImageGroup"
 
+import { Icon } from "./Icons"
 
 import { setQueryFilter } from "../redux/actions"; // import default 
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
@@ -14,20 +15,24 @@ import { rootReducer } from "../redux/reducer"; // import default
 import { createStore } from "redux";
 
 
-import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
+import { findUnique, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 import { values } from "underscore";
 
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Hidden from '@material-ui/core/Hidden';
+import { ImageOnDemand } from "./ImageOnDemand";
 
-
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+// import InfoIcon from '@material-ui/icons/Info';
 
 // init with function
 export const store = createStore(rootReducer)
-
-
 
 const ImageFaces = ({
     photos,
@@ -50,6 +55,7 @@ const ImageFaces = ({
         let valueA = value
 
         console.log("query ", query)
+        console.log("typeof value ", typeof value)
 
         if (key === "faces") {
             valueA = []
@@ -58,8 +64,12 @@ const ImageFaces = ({
             }
 
             if (add === true) {
+                const multiple = value.split(",")
                 if (value === "") {
                     valueA = []
+                }
+                if (multiple.length >= 2) {
+                    valueA = multiple
                 }
                 else {
                     // valueA = [value]
@@ -75,7 +85,6 @@ const ImageFaces = ({
                 }
 
             }
-
 
             console.log("valueA", valueA)
         }
@@ -123,6 +132,24 @@ const ImageFaces = ({
 
     }
 
+    const getUniqueFacesItems = (photos) => {
+        const group = "faces"
+        const sortByCount = true
+        const limit = 100
+
+        let faces = findUnique(photos, group, sortByCount, limit)
+
+        const list = faces.filter(image => {
+            if( image === undefined ) return false
+            if( image.value === undefined ) return false
+            if( image.value === "undefined" ) return false
+            if( image.value.length === "undefined" ) return false
+            // return image.value.split(",").length < 2
+            return true
+        })
+        return list
+    }
+
 
     const facesHeader = (query) => {
 
@@ -144,23 +171,52 @@ const ImageFaces = ({
                 alignItems="flex-start" >
 
 
-                <Hidden mdDown xs> 
+                <Hidden mdDown xs>
                     <Grid container item xs={ 12 } lg={ 2 }  >
                         { photos.length > 0 && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
                     </Grid>
                 </Hidden>
-                <Grid container item xs={ 12 } lg={ 10 } spacing={ 2 } >
+                <Grid container item xs={ 12 } lg={ 10 } >
 
-                    <ButtonGroup variant="text" color="primary">
-                        { facesHeader(query.faces) }
-                    </ButtonGroup>
+ 
 
-                    { photos.length > 0 ?
-                        (<ImageGroup photos={ photos } initialGroup="year" showGroupSelector={ false } />)
-                        : (<>
-                            <div className="card-panel blue darken-4 " >
-                                <h3 className="blue-text text-lighten-4 center">Keine Fotos von wo { query.faces.join(", ") } zusammen abgebildet sind. </h3>
-                            </div>
+                    { query.faces.length === 0 ?
+
+                        (<>
+
+                            <GridList cols={ 5 }>
+                                { getUniqueFacesItems(photos).map((item, index) => (
+
+                                        <GridListTile cols={1} >
+                                            {/* onClick={ () => callback(title, item.value) } */ }
+                                            {/* callbackFilter("faces", item.value, !query.includes(item.value)) */ }
+
+                                            <img src={ item.photos[0].source_url } alt={ index } />
+                                            <GridListTileBar
+                                                    title={ item.value }
+                                                    subtitle={<span>count : { item.count }</span>}
+                                                    onClick={ () => callbackFilter("faces", item.value, !query.faces.includes(item.value)) }
+                                                    actionIcon={
+                                                        <IconButton aria-label={`info about ${item.value}`} >
+                                                            <Icon Icon="face" />
+                                                        </IconButton>
+                                                   }
+                                                    />
+                                        </GridListTile>
+                                )) }
+                            </GridList>
+                        </>) :
+                        (<>
+                            <ButtonGroup variant="text" color="primary">
+                                { facesHeader(query.faces) }
+                            </ButtonGroup>
+                            { photos.length > 0 ?
+                                (<ImageGroup photos={ photos } initialGroup="year" showGroupSelector={ false } />)
+                                : (<>
+                                    <div className="card-panel blue darken-4 " >
+                                        <h3 className="blue-text text-lighten-4 center">Keine Fotos von wo { query.faces.join(", ") } zusammen abgebildet sind. </h3>
+                                    </div>
+                                </>) }
                         </>) }
 
                 </Grid>

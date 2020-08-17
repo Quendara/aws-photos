@@ -26,9 +26,9 @@ import Grid from '@material-ui/core/Grid';
 
 
 // This class contains the business logic of the application
-const ImageApp = ({ photos, query, setQueryFilter }) => {
+const ImageApp = ({ photos, query, setQueryFilter, view }) => {
 
-    const [view_images, setViewImages] = useState("group"); // group, list, grid
+    const [view_images, setViewImages] = useState( view ); // group, list, grid
     const [view_sort, setViewSort] = useState("date"); // rating, date
 
     const callbackFilter = (key, value) => {
@@ -135,13 +135,11 @@ const ImageApp = ({ photos, query, setQueryFilter }) => {
                         </Grid>
 
                         <Grid container item xs={ 12 } lg={6} >
-                            <SelectionView currentValue={ view_images } style={{ flexGrow: 1}} valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } />
+                            {/* <SelectionView currentValue={ view_images } style={{ flexGrow: 1}} valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } /> */}
 
                             <span className="m-2 blue-text">Sorting</span>
                             <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
                         </Grid>
-
-                        
                     
                     <Grid container item xs={ 12 } >
                         { imageApp }

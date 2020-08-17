@@ -8,6 +8,11 @@ import {
   faUserAstronaut,
   faCloudUploadAlt,
   faImages,
+  faEllipsisV,
+  faEllipsisH,
+  faMapMarkerAlt,
+  faThList,
+  faList,
   faBars,
   faUserNinja,
   faLaptopHouse,
@@ -23,6 +28,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 
 
@@ -70,6 +78,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const Auth = ({ authSuccessCallback }) => {
 
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = useState(null); // <null | HTMLElement>
+
+  const menuHandleClick = (event) => { // : React.MouseEvent<HTMLButtonElement>
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
 
 
@@ -260,27 +278,58 @@ const Auth = ({ authSuccessCallback }) => {
         <AppBar position="static">
           <Toolbar>
 
-            <NavLink to="/main" className={ classes.title }   >
-              <Hidden mdDown>
+            <Hidden smDown>    {/*  xs   |   sm   |   md   |   lg   |   xl */ }
+              <NavLink to="/grid" className={ classes.title }   >
                 <Typography variant="h6" >
                   <FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />
                   Photos
                </Typography>
-              </Hidden>
-            </NavLink>
+              </NavLink>
 
-            <Hidden mdUp>
-              <NavLink to="/main" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faBars } className="mr-2" /> Menu</Typography> </NavLink>
-            </Hidden>
-            <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
-            <NavLink to="/faces" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
-            <NavLink to="/import" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> import</Typography> </NavLink>
-            <NavLink to="/devtools" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</Typography> </NavLink>
+              <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Group </Typography> </NavLink>
+              <NavLink to="/map" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faMapMarkerAlt } className="mr-2" /> Map </Typography> </NavLink>
+              <NavLink to="/list" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faList } className="mr-2" /> List </Typography> </NavLink>
 
-            <Hidden mdDown>
+              <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
+              <NavLink to="/faces" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
+
+              <NavLink to="/devtools" className={ classes.menuButton } activeClassName={ classes.selected } ><Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</Typography> </NavLink>
+              <NavLink to="/import" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> import</Typography> </NavLink>
+
               <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /><Button color="inherit">{ username } </Button>
-            <FontAwesomeIcon onClick={ signOut } icon={ faSignOutAlt } className="ml-2" /><Button color="inherit">Logout</Button>
+
             </Hidden>
+            <Hidden mdUp>
+
+              <NavLink to="/main" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faBars } className="mr-2" /> Menu</Typography> </NavLink>
+              <NavLink to="/grid" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> Photos</Typography> </NavLink>
+              <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
+              <NavLink to="/faces" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
+
+              <Button aria-controls="simple-menu" className={ classes.menuButton } aria-haspopup="true" onClick={ menuHandleClick }>
+                <FontAwesomeIcon icon={ faEllipsisV } className="mr-2" />
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={ anchorEl }
+                keepMounted
+                open={ Boolean(anchorEl) }
+                onClose={ handleClose }
+              >
+
+                <MenuItem>
+                  <NavLink to="/devtools" activeClassName={ classes.selected } ><Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" />Devtools</Typography> </NavLink>
+                </MenuItem>
+                <MenuItem>
+                  <NavLink to="/import" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" />Import</Typography> </NavLink>
+                </MenuItem>
+                <MenuItem>
+                  <FontAwesomeIcon onClick={ signOut } icon={ faSignOutAlt } className="mr-2" /><Typography color="inherit">Logout { username } </Typography>
+                </MenuItem>
+              </Menu>
+
+            </Hidden>
+
 
           </Toolbar>
         </AppBar>

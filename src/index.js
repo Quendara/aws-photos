@@ -140,7 +140,15 @@ const App = () => {
         { username.length > 0 &&
           <Provider store={ store } >
             <Route exact path="/" component={ ImageApp } />
-            <Route exact path="/main" component={ ImageApp } />
+            
+            {/* <Route exact path="/main" component={ ImageApp } /> */}
+            <Route exact path="/main" ><ImageApp view="group"> </ImageApp></Route>
+            <Route exact path="/grid" ><ImageApp view="grid"> </ImageApp></Route>
+            <Route exact path="/map" ><ImageApp view="map"> </ImageApp></Route>
+            <Route exact path="/group" ><ImageApp view="group"> </ImageApp></Route>
+            <Route exact path="/list" ><ImageApp view="list"> </ImageApp></Route>
+
+
             <Route exact path="/today" component={ Today } />
             <Route exact path="/faces" component={ ImageFaces } />
             

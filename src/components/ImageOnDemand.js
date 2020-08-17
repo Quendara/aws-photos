@@ -8,7 +8,8 @@ export const ImageOnDemand = ({ image, className }) => {
     // Boolean. This example is 50% visible.
     // const [targetRef, visible] = useVisible()
     // Boolean. This example is 50% visible.
-    const [targetRef, isVisible] = useVisible((vi: number) => vi > 0.02)
+    // const [targetRef, isVisible] = useVisible((vi: number) => vi > 0.02)
+    const [targetRef, isVisible] = useVisible((vi) => vi > 0.01)
     let loaded = false;
 
     const getSrcUrlWhenVisible = (isVisible) => {

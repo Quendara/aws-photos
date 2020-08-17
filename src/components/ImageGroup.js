@@ -246,8 +246,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                                 />
                                 { getContext(group, item.value, item.photos) }
                                 </div>
-
-
                             </Grid>
                             <Grid className="mouse-pointer blue" xs={ 2 }  >
                                 { item.count }
@@ -258,8 +256,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
 
                                 { stats === true ? (
                                     <StatsRow photos={ item.photos } />
-
-
                                 ) : (
                                         <>{
                                             groups.length > 1 ?

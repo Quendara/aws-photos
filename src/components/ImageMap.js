@@ -9,11 +9,12 @@ import { ImageOnDemand } from "./ImageOnDemand";
 
 import { Marker, Popup } from "react-leaflet";
 
+import Grid from '@material-ui/core/Grid';
+
 const ImageMap = ({
     photos,
     limit = 30,
     paging = false,
-    view = "grid",
     sortBy,
     setRatingOnImage,   // from mapDispatchToProps
     setQueryFilter,     // from mapDispatchToProps
@@ -136,15 +137,14 @@ const ImageMap = ({
     )
 
     return (
-        <div className="row">
-            <div className="col s12"> 
-
+        <Grid container item xs={ 12 } lg={12}  >
+            <div style={{width:"100%"}}> 
                 <div>
                     <SimpleMap markers={ markers } markerHtml={ markerHtml } zoom={ zoom } center={ calcCenter(markers) } />
                 </div>
                 <h6> { markers.length } / { photos.length }</h6>
             </div>
-        </div >
+        </Grid >
 
     )
 }
