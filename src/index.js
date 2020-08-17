@@ -29,6 +29,7 @@ import {
   useLocation
 } from "react-router-dom";
 import { setPhotos, setAccessToken } from "./redux/actions";
+import { useWindowSize } from "./components/useWindowSize"
 
 
 import './style.scss';
@@ -125,6 +126,8 @@ const App = () => {
     };
   })
 
+  const size = useWindowSize();
+
   return (
     <ThemeProvider theme={ theme }>
     <CssBaseline />
@@ -142,8 +145,8 @@ const App = () => {
             <Route exact path="/" component={ ImageApp } />
             
             {/* <Route exact path="/main" component={ ImageApp } /> */}
-            <Route exact path="/main" ><ImageApp view="group"> </ImageApp></Route>
-            <Route exact path="/grid" ><ImageApp view="grid"> </ImageApp></Route>
+            <Route exact path="/main" ><ImageApp view="grid"> </ImageApp></Route>
+            <Route exact path="/grid" ><ImageApp view="grid" menu={ (size.width > 960) ? true : false }> </ImageApp></Route>
             <Route exact path="/map" ><ImageApp view="map"> </ImageApp></Route>
             <Route exact path="/group" ><ImageApp view="group"> </ImageApp></Route>
             <Route exact path="/list" ><ImageApp view="list"> </ImageApp></Route>

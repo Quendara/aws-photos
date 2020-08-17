@@ -26,9 +26,9 @@ import Grid from '@material-ui/core/Grid';
 
 
 // This class contains the business logic of the application
-const ImageApp = ({ photos, query, setQueryFilter, view }) => {
+const ImageApp = ({ photos, query, setQueryFilter, view, menu = true }) => {
 
-    const [view_images, setViewImages] = useState( view ); // group, list, grid
+    const [view_images, setViewImages] = useState(view); // group, list, grid
     const [view_sort, setViewSort] = useState("date"); // rating, date
 
     const callbackFilter = (key, value) => {
@@ -122,26 +122,27 @@ const ImageApp = ({ photos, query, setQueryFilter, view }) => {
                 justify="flex-start"
                 alignItems="flex-start" >
 
-                <Grid container item xs={ 12 } lg={2}  >
-                    { photos.length > 0 && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
-                </Grid>                
 
-                <Grid container item xs={ 12 } lg={10} spacing={2} >
+                <Grid item xs={ 12 } lg={ 2 }  >
+                    { (menu && photos.length > 0 )  && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
+                </Grid>
 
-                        {/* <div className="col l6 center hide-on-med-and-down"> */}
-                        {/* <div className="col m12 s12  l6 center" > */}
-                        <Grid container item xs={ 12 } lg={6} >
-                            <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
-                        </Grid>
+                <Grid item xs={ 12 } lg={ 10 } spacing={ 2 } >
 
-                        <Grid container item xs={ 12 } lg={6} >
-                            {/* <SelectionView currentValue={ view_images } style={{ flexGrow: 1}} valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } /> */}
+                    {/* <div className="col l6 center hide-on-med-and-down"> */ }
+                    {/* <div className="col m12 s12  l6 center" > */ }
+                    <Grid item xs={ 12 } lg={ 6 } >
+                        <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+                    </Grid>
 
-                            <span className="m-2 blue-text">Sorting</span>
-                            <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
-                        </Grid>
-                    
-                    <Grid container item xs={ 12 } >
+                    <Grid item xs={ 12 } lg={ 6 } >
+                        {/* <SelectionView currentValue={ view_images } style={{ flexGrow: 1}} valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } /> */ }
+
+                        <span className="m-2 blue-text">Sorting</span>
+                        <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
+                    </Grid>
+
+                    <Grid item xs={ 12 } >
                         { imageApp }
                     </Grid>
                 </Grid>

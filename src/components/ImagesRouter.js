@@ -24,6 +24,9 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
         return (<ImageGroup photos={ currentPhotos} sortBy={sortBy}/>)
       case "map": 
         return (<ImageMap photos={ currentPhotos} sortBy={sortBy}/>)
+      case "menu": 
+        return (<span></span>)
+
 
       // case "today": 
       //   return (<ImageToday photos={ currentPhotos} sortBy={sortBy}/>)

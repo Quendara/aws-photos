@@ -32,7 +32,6 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 // import InfoIcon from '@material-ui/icons/Info';
 
 // init with function
@@ -177,7 +176,7 @@ const ImageFaces = ({
                 justify="center"
                 alignItems="flex-start" >
 
-        {/* {size.width}px / {size.height}px */}
+        
 
                 <Grid container item xs={ 12 } lg={ 9 } >
 
