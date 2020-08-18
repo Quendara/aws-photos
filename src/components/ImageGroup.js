@@ -7,6 +7,8 @@ import { Icon } from "./Icons"
 import { findUnique } from "./helpers"
 import ImageGrid from "./ImageGrid"
 import { SelectionView } from "./SelectionView";
+import { ImageOnDemand } from "./ImageOnDemand";
+
 import { setQueryFilter } from "../redux/actions"; // import default 
 import { useWindowSize } from "./useWindowSize"
 
@@ -127,7 +129,9 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
     return (
             <>
             
-            <img className="responsive-img" onClick={ () => shuffleIndex() } src={ item.photos[photoPreviewIndex].source_url } alt="face" />
+            {/* <img className="responsive-img" onClick={ () => shuffleIndex() } src={ item.photos[photoPreviewIndex].source_url } alt="face" /> */}
+
+            <ImageOnDemand className="responsive-img" onClick={ () => shuffleIndex() } image={ item.photos[photoPreviewIndex] } />
             <GridListTileBar
                 title={
                     <Button onClick={ () => queryOnGroup(group, item.value) } >                       

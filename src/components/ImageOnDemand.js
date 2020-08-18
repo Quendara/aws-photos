@@ -4,7 +4,7 @@ import { useVisible } from 'react-hooks-visible'
 
 // className={isVisible ? 'excited' : ''}
  // 
-export const ImageOnDemand = ({ image, className }) => {
+export const ImageOnDemand = ({ image, className, onClick }) => {
     // Boolean. This example is 50% visible.
     // const [targetRef, visible] = useVisible()
     // Boolean. This example is 50% visible.
@@ -25,7 +25,7 @@ export const ImageOnDemand = ({ image, className }) => {
     // <img ref={targetRef} className={className} src={ isVisible ? image.source_url : ''} />  
     // <img ref={targetRef} className={className} src={ getSrcUrlWhenVisible( isVisible, loaded ) } />
     return (
-        <img ref={targetRef} className={className} src={ isVisible ? image.source_url : ''} />
+        <img ref={targetRef} className={className} onClick={onClick} src={ isVisible ? image.source_url : ''} />
     )
   }
     
