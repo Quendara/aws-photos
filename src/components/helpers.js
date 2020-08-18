@@ -84,7 +84,7 @@ export const filterFiles = (images, query) => {
         }
 
         const bool4 = query.month === "" || image.month === query.month
-        const bool5 = query.day === "" || image.country === query.day
+        const bool5 = query.day === "" || image.day === query.day
         const bool6 = query.sameday === "" || image.sameday === query.sameday
 
         const bool7 = query.country === "" || image.country === query.country

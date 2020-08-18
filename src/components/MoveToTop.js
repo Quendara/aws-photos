@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Icon } from "./Icons";
+
+import Button from '@material-ui/core/Button';
 // import { setPhotos } from "../redux/actions";
 
 export const MoveToTop = ( ) => {
@@ -41,7 +43,7 @@ export const MoveToTop = ( ) => {
 
     return (
         <>
-            <button className={ getClassName( is_visible )} onClick={ scrollToTop }><Icon icon="arrowUp" /></button>
+            <button color="primary" className={ getClassName( is_visible )} onClick={ scrollToTop }><Icon icon="arrowUp" /></button>
         </>
     )
 }

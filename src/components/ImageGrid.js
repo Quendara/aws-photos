@@ -189,7 +189,7 @@ const ImageGrid = ({
   }
 
   // 
-  const currentPhotos = limitPhotosAndSort(photos, limit, sortBy);
+  const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
 
   const showPaging = (photos) => {
 
