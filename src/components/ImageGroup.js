@@ -261,16 +261,12 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     //     </span>
     // </h5>    
 
-
-
-
-
-
-
     return (
         <div>
             { groups.length === 1 ? (
-                <ImageGrid photos={ groups[0].photos } sortBy={ sortBy } limit="100" />
+                <Grid xs={ adaptColSize(groups[0].count) }  >
+                    <ImageGrid photos={ groups[0].photos } sortBy={ sortBy } limit="100" />
+                </Grid>
             ) : (
                     <>
                         { showGroupSelector &&

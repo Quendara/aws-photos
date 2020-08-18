@@ -129,11 +129,9 @@ const App = () => {
     <CssBaseline />
 
     <Router>
-      <div className="container-fluid">
-        <nav className="navbar navbar-dark bg-dark">
-
+      <div>
+        <nav>
           <Auth authSuccessCallback={ authSuccessCallback } />
-
         </nav>
 
         { username.length > 0 &&

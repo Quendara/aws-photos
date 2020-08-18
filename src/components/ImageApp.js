@@ -34,28 +34,11 @@ const ImageApp = ({ photos, query, setQueryFilter, view, menu = true }) => {
     const callbackFilter = (key, value) => {
 
         console.log("callbackFilter : ", key, " : ", value)
-        // current_filter[key] = value;
-        // setCurrentFilter(current_filter)
-        // filterFiles(current_filter)
-
         setQueryFilter(key, value)
     }
 
-    // setQueryFilter("rating", 3)
-
-    const callbackView = (view) => {
-        setViewImages(view)
-    }
     const callbackSort = (view) => {
         setViewSort(view)
-    }
-
-    const setToday = () => {
-        const date = new Date()
-        let today = leadingZeros(date.getMonth() + 1)
-        today += "-" + leadingZeros(date.getDate())
-
-        callbackFilter('sameday', today)
     }
 
     const sortedPhotos = sortPhotos(photos, view_sort)
@@ -68,9 +51,7 @@ const ImageApp = ({ photos, query, setQueryFilter, view, menu = true }) => {
         size += query.rating.length
 
         return (size > 0) // return true when one filter is active
-
     }
-
 
     const imageApp = sortedPhotos.length ? (
         <Images photos={ sortedPhotos } view={ view_images } sortBy={ view_sort } />
@@ -106,49 +87,31 @@ const ImageApp = ({ photos, query, setQueryFilter, view, menu = true }) => {
         )
 
 
-    // <button className="btn blue" onClick={ setToday } >Today</button>
-    // <TopList photos={ photos } title="rating" icon="rating" limit="5" sortByCount={ false } callback={ callbackFilter } />
-
     return (
-        <>
-            {/* <div className="row">
-                <div className="col s12">
-                    <div className="m-2" ></div>
-                </div>
-                <div className="col s12 m3 l2 "> */}
-            <Grid
-                container
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start" >
+        <Grid
+            container            
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start" >
 
-
-                <Grid item xs={ 12 } lg={ 2 }  >
-                    { (menu && photos.length > 0 )  && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
-                </Grid>
-
-                <Grid item xs={ 12 } lg={ 10 } >
-
-                    {/* <div className="col l6 center hide-on-med-and-down"> */ }
-                    {/* <div className="col m12 s12  l6 center" > */ }
-                    <Grid item xs={ 12 } lg={ 6 } >
-                        <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
-                    </Grid>
-
-                    <Grid item xs={ 12 } lg={ 6 } >
-                        {/* <SelectionView currentValue={ view_images } style={{ flexGrow: 1}} valueArr={ ['group', 'grid', 'list', 'map'] } callback={ callbackView } /> */ }
-
-                        <span className="m-2 blue-text">Sorting</span>
-                        <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
-                    </Grid>
-
-                    <Grid item xs={ 12 } >
-                        { imageApp }
-                    </Grid>
-                </Grid>
+            <Grid item xs={ 12 } lg={ 2 }  >
+                { (menu && photos.length > 0) && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
             </Grid>
 
-        </>
+            <Grid container item xs={ 12 } lg={ 10 } >
+                <Grid item xs={ 12 } lg={ 6 } >
+                    <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+                </Grid>
+                <Grid item xs={ 12 } lg={ 6 } >
+                    <span className="m-2 blue-text">Sorting 2</span>
+                    <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
+                </Grid>
+                <Grid item xs={ 12 } >
+                    { imageApp }
+                </Grid>
+            </Grid>
+        </Grid>
+
 
     )
 }
