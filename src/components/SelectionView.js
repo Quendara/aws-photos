@@ -9,7 +9,7 @@ export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callb
 
     const getClass = (item) => {
         if (item === currentValue) {
-            return "info"
+            return "default"
         }
         else {
             return "primary"

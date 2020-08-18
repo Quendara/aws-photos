@@ -138,7 +138,7 @@ export const addSrcAndDirname = (images) => {
         if (image.city === undefined) { retImage['city'] = "Unknown City" }
         if (image.state === undefined) { retImage['state'] = "Unknown State" }
 
-        // if (image.faces !== undefined) { retImage['faces'] = image.faces.split(",") }
+        if (image.faces !== undefined) { retImage['faces'] = image.faces.sort() }  
 
 
         retImage["source_url"] = [Settings.baseApiBinaryImages, image.dirname, image.filename].join('/')

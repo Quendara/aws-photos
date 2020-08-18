@@ -46,7 +46,7 @@ export const MoveToTop = ( ) => {
     return (
         <div className={ getClassName( is_visible )}  >
             
-            <Fab color="primary" variant="contained" onClick={ scrollToTop }><Icon icon="arrowUp" /></Fab>
+            <Fab color="primary" variant="round" onClick={ scrollToTop }><Icon icon="arrowUp" /></Fab>
         </div>
     )
 }

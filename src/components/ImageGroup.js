@@ -8,10 +8,19 @@ import { findUnique } from "./helpers"
 import ImageGrid from "./ImageGrid"
 import { SelectionView } from "./SelectionView";
 import { setQueryFilter } from "../redux/actions"; // import default 
+import { useWindowSize } from "./useWindowSize"
 
 import { Button } from '@material-ui/core';
+import { ButtonGroup } from '@material-ui/core';
+
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
+
+
+import IconButton from '@material-ui/core/IconButton';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -22,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             '& > *': {
                 margin: theme.spacing(0.5),
-              }            
+            }
 
         },
         menuButton: {
@@ -48,20 +57,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondGroupValues, callback }) => {
 
-    const classes = useStyles();
-
     const callbackLocal = (value) => {
         callback(groupKey, groupValue, secondGroupKey, value)
     }
 
     return (
-        <>{ secondGroupValues.map(x => (
-
+        <ButtonGroup color="primary" variant="text" >{ secondGroupValues.map(x => (
             // <span key={ x.value } onClick={ () => callbackLocal(x.value) } className="ml-2">{ x.value } </span>
-            <Chip key={ x.value } size="small" label={ x.value } onClick={ () => callbackLocal(x.value) } />
+            // <Chip key={ x.value } size="small" label={ x.value } onClick={ () => callbackLocal(x.value) } />
+            <Button key={ x.value } size="small" onClick={ () => callbackLocal(x.value) } >{ x.value }</Button>
         ))
         }
-        </>
+        </ButtonGroup>
     )
 }
 
@@ -103,13 +110,54 @@ const StatsRow = ({ photos }) => {
     )
 }
 
+const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
+    const [photoPreviewIndex, setPhotoPreviewIndex] = useState(0);
+
+    const shuffleIndex = () => {
+
+        let randInt = Math.floor(Math.random() * Math.floor(1000));
+        console.log("randInt : " + randInt)
+
+        randInt = randInt % item.photos.length
+        setPhotoPreviewIndex(randInt)
+    }    
+
+    // 
+
+    return (
+            <>
+            
+            <img className="responsive-img" onClick={ () => shuffleIndex() } src={ item.photos[photoPreviewIndex].source_url } alt="face" />
+            <GridListTileBar
+                title={
+                    <Button onClick={ () => queryOnGroup(group, item.value) } >                       
+                        <Icon icon={ group } className="mr-2" />{ item.value }
+                    </Button>
+                }
+                subtitle={ getContext(group, item.value, item.photos) }
+                actionIcon={
+                    <IconButton onClick={ () => queryOnGroup(group, item.value) } >
+                        <Icon icon={ group } className="mr-2" />
+                    </IconButton>
+                }                
+            />
+            </>
+        
+    )
+}
+
 
 export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dirname", showGroupSelector = true, initialStats = false }) => {
 
     const classes = useStyles();
+    const size = useWindowSize();
 
     const [group, setGroup] = useState(initialGroup);
     const [stats, setStats] = useState(initialStats);
+
+    
+
+
     // const [current, setCurrent] = useState({ name: "", photos: [] });
 
     // descending == absteigend
@@ -213,27 +261,44 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     //     </span>
     // </h5>    
 
+
+
+
+
+
+
     return (
         <div>
-            <>
-                { showGroupSelector &&
-                    <Grid
-                        container
-                        justify="flex-start"
-                        alignItems="flex-start" >
+            { groups.length === 1 ? (
+                <ImageGrid photos={ groups[0].photos } sortBy={ sortBy } limit="100" />
+            ) : (
+                    <>
+                        { showGroupSelector &&
+                            <Grid
+                                container
+                                justify="flex-start"
+                                alignItems="flex-start" >
 
-                        <Grid container item xs={ 12 } >
-                            <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
-                            <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button>
-                        </Grid>
-                    </Grid>
-                }
-                <>
-                    { groups.map((item, index) => (
+                                <Grid item xs={ 12 } >
+                                    <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
+                                    <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button>
+                                </Grid>
+                            </Grid>
+                        }
+                        <>
+                            <GridList spacing={ 10 } cellHeight={ 300 } cols={ (size.width > 600) ? 4 : 2 } >
+                                { groups.map((item, index) => (
+                                    <GridListTile cols={ 1 } rows={ 1 } key={ index } >
+                                        <ImageListTile item={item} group={group} index={index} queryOnGroup={queryOnGroup} getContext={getContext} /> 
+                                    </GridListTile>
+                                )) }
+                            </GridList>
 
 
-                        <Grid container xs={ 12 } key={ item.value }>
-                            {/* <div className="col s11 mouse-pointer" key={ index }  > */ }
+                            {/* { groups.map((item, index) => (
+
+                        <Grid xs={ 12 } key={ item.value }>
+                            
                             <Grid className="mouse-pointer" xs={ 9 }  >
                                 <br/>
                                 <div className={classes.spacing}>
@@ -242,7 +307,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                                     icon={ <Icon icon={ group } className="mr-2" /> }
                                     label={ item.value }
                                     onClick={ () => queryOnGroup(group, item.value) }
-
                                 />
                                 { getContext(group, item.value, item.photos) }
                                 </div>
@@ -251,23 +315,10 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                                 { item.count }
                             </Grid>
                             <Grid className="mouse-pointer" xs={ adaptColSize(item.count) }  >
-                                {/* <div className={ adaptColSize(item.count) } key={ index + 1000 }> */ }
-
-
                                 { stats === true ? (
                                     <StatsRow photos={ item.photos } />
                                 ) : (
-                                        <>{
-                                            groups.length > 1 ?
-                                                (
-                                                    <ImageGrid photos={ item.photos } sortBy={ sortBy } limit="6" />
-                                                ) :
-                                                (
-                                                    <span>
-                                                        <ImageGrid photos={ photos } sortBy={ sortBy } limit="1000" paging={ true } />
-                                                    </span>
-                                                )
-                                        }</>
+                                        <ImageGrid photos={ item.photos } sortBy={ sortBy } limit="6" />
                                     )
                                 }
 
@@ -275,10 +326,10 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
 
                             </Grid>
                         </Grid>
-                    )) }
-                </>
+                    )) } */}
+                        </>
 
-            </>
+                    </>) }
 
         </div>
     );

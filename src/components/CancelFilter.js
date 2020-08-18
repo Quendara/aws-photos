@@ -28,7 +28,7 @@ export const CancelFilterAll = ({ query, callbackFilter }) => {
             <CancelFilter value={ query.year } filter={ "year" } callback={ callbackFilter } />
             <CancelFilter value={ query.month } filter={ "month" } callback={ callbackFilter } />
             <CancelFilter value={ query.day } filter={ "day" } callback={ callbackFilter } />
-            <CancelFilter value={ query.rating } filter="rating" callback={ callbackFilter } />
+            {/* <CancelFilter value={ query.rating } filter="rating" callback={ callbackFilter } /> */}
             <CancelFilter value={ query.country } filter="country" callback={ callbackFilter } />
             <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />

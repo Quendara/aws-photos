@@ -127,7 +127,7 @@ const ImageApp = ({ photos, query, setQueryFilter, view, menu = true }) => {
                     { (menu && photos.length > 0 )  && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
                 </Grid>
 
-                <Grid item xs={ 12 } lg={ 10 } spacing={ 2 } >
+                <Grid item xs={ 12 } lg={ 10 } >
 
                     {/* <div className="col l6 center hide-on-med-and-down"> */ }
                     {/* <div className="col m12 s12  l6 center" > */ }

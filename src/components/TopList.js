@@ -39,7 +39,7 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
 
                     { getItems(photos).map((item, index) => (
 
-                        <Box lineHeight={ 1.7 }>
+                        <Box lineHeight={ 1.7 } key={index}>
                             <div className="ml-4 mouse-pointer text-ellipsis" onClick={ () => callback(title, item.value) }>                                
                                  { item.value }
                             </div>
