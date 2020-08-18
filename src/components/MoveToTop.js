@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Icon } from "./Icons";
 
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 // import { setPhotos } from "../redux/actions";
 
 export const MoveToTop = ( ) => {
@@ -35,16 +36,18 @@ export const MoveToTop = ( ) => {
     
     const getClassName = ( is_visible ) => {
         if( is_visible ){
-            return "btn-move-to-top btn btn-large blue"
+            return "btn-move-to-top  "
         }
-        return "btn-move-to-top invisible btn btn-large blue"
+        return "btn-move-to-top invisible  "
 
     }
 
+    // <button color="primary" className={ getClassName( is_visible )} onClick={ scrollToTop }><Icon icon="arrowUp" /></button>
     return (
-        <>
-            <button color="primary" className={ getClassName( is_visible )} onClick={ scrollToTop }><Icon icon="arrowUp" /></button>
-        </>
+        <div className={ getClassName( is_visible )}  >
+            
+            <Fab color="primary" variant="contained" onClick={ scrollToTop }><Icon icon="arrowUp" /></Fab>
+        </div>
     )
 }
 
