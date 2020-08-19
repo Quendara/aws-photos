@@ -97,8 +97,11 @@ const ImageFaces = ({
 
 
     const [showImage, setShowImage] = useState(true); // group, list, grid
+    const [view_sort, setViewSort] = useState("date"); // rating, date
 
     const size = useWindowSize();
+
+    const sortedPhotos = sortPhotos(photos, view_sort)
 
     const callbackFilter = (key, value, add = true) => { // add = false means remove from ARRAY
 
@@ -223,14 +226,14 @@ const ImageFaces = ({
                             </ButtonGroup> */}
                             { photos.length > 0 ?                            
                                 (
-                                    <>
-                                    <h1>Fotos von {query.faces.join(", ")}</h1>
-                                    <ImageGrid photos={ photos } initialGroup="year" showGroupSelector={ false } />
-                                    </>
+                                    <Grid item xs={ 12 }  >
+                                        <h1>Fotos von {query.faces.join(", ")}</h1>
+                                        <ImageGrid photos={ sortedPhotos } initialGroup="year" showGroupSelector={ false } />
+                                    </Grid>
                                 )
                                 : (<>
                                     <div className="card-panel blue darken-4 " >
-                                        <h3 className="blue-text text-lighten-4 center">Keine Fotos von wo { query.faces.join(", ") } zusammen abgebildet sind. </h3>
+                                        <h3 className="blue-text text-lighten-4 center">Keine Fotos von { query.faces.join(", ") } zusammen abgebildet sind. </h3>
                                     </div>
                                 </>) }
                         </>) }

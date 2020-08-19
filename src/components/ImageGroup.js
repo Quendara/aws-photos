@@ -122,19 +122,19 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
 
         randInt = randInt % item.photos.length
         setPhotoPreviewIndex(randInt)
-    }    
+    }
 
     // 
 
     return (
-            <>
-            
-            {/* <img className="responsive-img" onClick={ () => shuffleIndex() } src={ item.photos[photoPreviewIndex].source_url } alt="face" /> */}
+        <>
+
+            {/* <img className="responsive-img" onClick={ () => shuffleIndex() } src={ item.photos[photoPreviewIndex].source_url } alt="face" /> */ }
 
             <ImageOnDemand className="responsive-img" onClick={ () => shuffleIndex() } image={ item.photos[photoPreviewIndex] } />
             <GridListTileBar
                 title={
-                    <Button onClick={ () => queryOnGroup(group, item.value) } >                       
+                    <Button onClick={ () => queryOnGroup(group, item.value) } >
                         <Icon icon={ group } className="mr-2" />{ item.value }
                     </Button>
                 }
@@ -143,10 +143,10 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
                     <IconButton onClick={ () => queryOnGroup(group, item.value) } >
                         <Icon icon={ group } className="mr-2" />
                     </IconButton>
-                }                
+                }
             />
-            </>
-        
+        </>
+
     )
 }
 
@@ -159,7 +159,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     const [group, setGroup] = useState(initialGroup);
     const [stats, setStats] = useState(initialStats);
 
-    
+
 
 
     // const [current, setCurrent] = useState({ name: "", photos: [] });
@@ -268,9 +268,15 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     return (
         <div>
             { groups.length === 1 ? (
+                <>
+                <Grid item xs={ 12 } >
+                    <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />                    
+                </Grid>
+
                 <Grid xs={ adaptColSize(groups[0].count) }  >
                     <ImageGrid photos={ groups[0].photos } sortBy={ sortBy } limit="100" />
                 </Grid>
+                </>
             ) : (
                     <>
                         { showGroupSelector &&
@@ -289,7 +295,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                             <GridList spacing={ 10 } cellHeight={ 300 } cols={ (size.width > 600) ? 4 : 2 } >
                                 { groups.map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 } key={ index } >
-                                        <ImageListTile item={item} group={group} index={index} queryOnGroup={queryOnGroup} getContext={getContext} /> 
+                                        <ImageListTile item={ item } group={ group } index={ index } queryOnGroup={ queryOnGroup } getContext={ getContext } />
                                     </GridListTile>
                                 )) }
                             </GridList>
