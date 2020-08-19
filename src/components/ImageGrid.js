@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ImageGrid = ({
   photos,
-  limit = 30,
+  limit = 999,
   paging = false,
   view = "grid",
   sortBy,

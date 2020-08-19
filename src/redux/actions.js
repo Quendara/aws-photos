@@ -3,6 +3,9 @@ export const  FETCH_DATA = 'FETCH_DATA'
 export const  SET_RATING = 'SET_RATING'
 export const  SET_METADATA = 'SET_METADATA'
 export const  SET_FILTER = 'SET_FILTER'
+
+export const  ADD_TO_FILTER = 'ADD_TO_FILTER' // form Array lists in query
+export const  REMOVE_FROM_FILTER = 'REMOVE_FROM_FILTER'
 export const  SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
 
 
@@ -65,6 +68,25 @@ export function setQueryFilter( key, value ) {
       value
     }
   
-    return action;
-  
+    return action;  
   }
+
+  export function addToQueryFilter( key, value ) {
+    const action = {
+      type: ADD_TO_FILTER,
+      key, // == rating:rating
+      value
+    }
+  
+    return action;  
+  }  
+
+  export function removeFromQueryFilter( key, value ) {
+    const action = {
+      type: ADD_TO_FILTER,
+      key, // == rating:rating
+      value
+    }
+  
+    return action;  
+  }    

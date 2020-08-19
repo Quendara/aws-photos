@@ -51,7 +51,30 @@ export const findUnique = ( list, group, sortByCount = true, limit=5 ) => {
 
     // console.log("uniqueItems (SORTED) : ", uniqueItems);
     return uniqueItems.slice(0, limit) // reduce
-}   
+}  
+
+export const findUniqueFacesItems = ( photos, singlePerson = true, limit = 100) => {
+    const group = "faces"
+    const sortByCount = true        
+
+    let faces = findUnique(photos, group, sortByCount, limit)
+
+    const list = faces.filter(image => {
+        if (image === undefined) return false
+        if (image.value === undefined) return false
+        if (image.value === "undefined") return false
+        if (image.value.length === 0) return false
+        if (singlePerson) {
+            return image.value.split(",").length == 1 // true when only one person is on the image
+        }
+        else {
+            return image.value.split(",").length > 1 // true for groups
+        }
+
+        return true
+    })
+    return list
+}
 
 export const leadingZeros = (num, size=2) => {
     var s = num+"";

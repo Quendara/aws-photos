@@ -16,7 +16,7 @@ import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpe
 
 // import Settings from "../Settings"
 
-import { setQueryFilter } from "../redux/actions"; // import default 
+import { setQueryFilter, addToQueryFilter, removeFromQueryFilter } from "../redux/actions"; // import default 
 // import { Rating } from "./Rating";
 // import { Icon } from "./Icons"
 
@@ -26,15 +26,35 @@ import Grid from '@material-ui/core/Grid';
 
 
 // This class contains the business logic of the application
-const ImageApp = ({ photos, query, setQueryFilter, view, menu = true }) => {
+const ImageApp = ({ 
+    photos, 
+    query, 
+    setQueryFilter,
+    addToQueryFilter,
+    removeFromQueryFilter,   
+    view, 
+    menu = true }) => {
 
     const [view_images, setViewImages] = useState(view); // group, list, grid
     const [view_sort, setViewSort] = useState("date"); // rating, date
 
-    const callbackFilter = (key, value) => {
+    const callbackFilter = (key, value, add = true) => { // add = false means remove from ARRAY
 
         console.log("callbackFilter : ", key, " : ", value)
-        setQueryFilter(key, value)
+        console.log("query ", query)
+        console.log("typeof value ", typeof value)
+
+        if (key === "faces") {
+            if (add === true) {
+                addToQueryFilter(key, value)
+            }
+            else{
+                removeFromQueryFilter(key, value)
+            } 
+        }
+        else{
+            setQueryFilter(key, value)
+        }
     }
 
     const callbackSort = (view) => {
@@ -138,7 +158,11 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ setQueryFilter }, dispatch)
+    return bindActionCreators({ 
+        setQueryFilter,
+        addToQueryFilter,
+        removeFromQueryFilter
+    }, dispatch)
 }
 
 

@@ -2,11 +2,7 @@ import React from "react";
 
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
-
 import { findUnique } from "./helpers"
-
-
 
 
 
@@ -23,7 +19,6 @@ export const TopAutoComplete = ({ photos, icon, title, sortByCount = true, limit
     }
 
     return (
-
             <Autocomplete
                 id={title}
                 options={ getItems( photos ) }

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA, SET_METADATA } from "./actions"
+import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE_FROM_FILTER } from "./actions"
 import Settings from "../Settings"
 
 // import { mockdataBerlin } from "../data/mockdata_Berlin.js"
@@ -171,6 +171,43 @@ function query(state = initial_state.query, action) {
             query[action.key] = action.value;
             console.log("query requcer : (key, value) ", action.key, action.value)
             return query
+
+        case ADD_TO_FILTER:
+
+            let valueToAdd = []
+            const multiple = action.value.split(",")
+
+            if (action.value === "") {
+                valueToAdd = []
+            }
+            else if (multiple.length >= 2) {
+                valueToAdd = multiple
+            }
+            else {                
+                valueToAdd.push(action.value)
+            }
+
+            query[action.key] = valueToAdd;
+            console.log("ADD_TO_FILTER requcer : (key, value) ", action.key, action.value)
+            return query;
+
+        case REMOVE_FROM_FILTER:
+
+            let currentValue = query[action.key];
+            
+            const index = currentValue.indexOf(action.value)
+            if (index >= 0) {
+                currentValue.splice(index, 1); // index, how many
+            // delete valueL[index];  
+            }
+
+            query[action.key] = action.value;
+
+            console.log("REMOVE_FROM_FILTER requcer : (key, value) ", action.key, action.value)
+            return query;
+    
+
+
         default:
             return state
     }

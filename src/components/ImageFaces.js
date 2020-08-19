@@ -13,12 +13,12 @@ import { useWindowSize } from "./useWindowSize"
 import { Icon } from "./Icons"
 
 import { setQueryFilter } from "../redux/actions"; // import default 
-import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
+import { setRatingOnImage, setMetadataOnImage, addToQueryFilter, removeFromQueryFilter } from "../redux/actions"; // import default 
 import { rootReducer } from "../redux/reducer"; // import default 
 import { createStore } from "redux";
 
 
-import { findUnique, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
+import { findUnique, findUniqueFacesItems, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 import { values } from "underscore";
 
 import Grid from '@material-ui/core/Grid';
@@ -44,9 +44,19 @@ const FaceTile = ({ item, query, callbackFilter }) => {
     const names = ( value ) => {
         const multiple = value.split(",")
 
+        const filterNamesInQuery = ( images ) => {
+
+            return images; 
+
+            const list = images.filter(image => {
+                return !query.faces.includes(image) // (image.imported === imported)
+            })
+            return list;
+        }
+
         return (
             <>
-            { multiple.map( (name) => (
+            { filterNamesInQuery( multiple ).map( (name) => (
                 <Button
                     onClick={ () => callbackFilter("faces", name, !query.faces.includes(value)) }
                  >{name}</Button> ) 
@@ -78,6 +88,8 @@ const ImageFaces = ({
     photos,
     query,
     setQueryFilter,     // from mapDispatchToProps
+    addToQueryFilter,
+    removeFromQueryFilter,   
     setRatingOnImage,   // from mapDispatchToProps
     setMetadataOnImage, // from mapDispatchToProps
     token               // from mapStateToProps    
@@ -91,48 +103,20 @@ const ImageFaces = ({
     const callbackFilter = (key, value, add = true) => { // add = false means remove from ARRAY
 
         console.log("callbackFilter : ", key, " : ", value)
-        // current_filter[key] = value;
-        // setCurrentFilter(current_filter)
-        // filterFiles(current_filter)
-
-        let valueL = value
-
         console.log("query ", query)
         console.log("typeof value ", typeof value)
 
         if (key === "faces") {
-            valueL = []
-            if (typeof query.faces === "object") {
-                valueL = query.faces
-            }
-
             if (add === true) {
-                const multiple = value.split(",")
-                if (value === "") {
-                    valueL = []
-                }
-                else if (multiple.length >= 2) {
-                    valueL = multiple
-                }
-                else {
-                    // valueL = [value]
-                    valueL.push(value)
-                }
+                addToQueryFilter(key, value)
             }
-            else {
-                // remove
-                const index = valueL.indexOf(value)
-                if (index >= 0) {
-                    valueL.splice(index, 1); // index, how many
-                    // delete valueL[index];  
-                }
-
-            }
-
-            console.log("valueL", valueL)
+            else{
+                removeFromQueryFilter(key, value)
+            } 
         }
-
-        setQueryFilter(key, valueL)
+        else{
+            setQueryFilter(key, value)
+        }
     }
 
     const test = (image) => {
@@ -175,28 +159,7 @@ const ImageFaces = ({
 
     }
 
-    const getUniqueFacesItems = (photos, singlePerson = true, limit = 100) => {
-        const group = "faces"
-        const sortByCount = true        
 
-        let faces = findUnique(photos, group, sortByCount, limit)
-
-        const list = faces.filter(image => {
-            if (image === undefined) return false
-            if (image.value === undefined) return false
-            if (image.value === "undefined") return false
-            if (image.value.length === 0) return false
-            if (singlePerson) {
-                return image.value.split(",").length == 1 // true when only one person is on the image
-            }
-            else {
-                return image.value.split(",").length > 1 // true for groups
-            }
-
-            return true
-        })
-        return list
-    }
 
 
     const facesHeader = (query) => {
@@ -204,7 +167,7 @@ const ImageFaces = ({
         const names = ["Andre", "Irena", "Jonna", "Juri", "Gaby", "Reinhard", "Marian", "Matthias", "Petra"]
 
         return names.map(name => {
-            return (<Button color={ facesHeaderClass(name, query) } onClick={ () => callbackFilter("faces", name, !query.includes(name)) } >{ name }</Button>)
+            return (<Button color={ facesHeaderClass(name, query.faces) } onClick={ () => callbackFilter("faces", name, !query.faces.includes(name)) } >{ name }</Button>)
         })
     }
 
@@ -224,9 +187,10 @@ const ImageFaces = ({
                         (<>
 
                             <h2>Personen</h2>
+                            {facesHeader(query)}
 
                             <GridList cols={ (size.width > 600) ? 5 : 2 } >
-                                { getUniqueFacesItems(photos).map((item, index) => (
+                                { findUniqueFacesItems(photos).map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 } key={index} >
                                         <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" />
                                         <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
@@ -245,13 +209,13 @@ const ImageFaces = ({
                             </Grid>
 
                             <GridList cols={ (size.width > 600) ? 5 : 2 } >
-                                { getUniqueFacesItems(photos).map((item, index) => (
+                                { findUniqueFacesItems(photos).map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 }  key={index} >
                                         <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" />
                                         <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
                                     </GridListTile>
                                 )) }
-                                { getUniqueFacesItems(photos, false, 10).map((item, index) => (
+                                { findUniqueFacesItems(photos, false, 10).map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 }  key={index} >
                                         <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" />
                                         <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
@@ -306,7 +270,11 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ setQueryFilter, setMetadataOnImage }, dispatch)
+    return bindActionCreators({ 
+        setQueryFilter, 
+        setMetadataOnImage, 
+        addToQueryFilter, 
+        removeFromQueryFilter }, dispatch)
 }
 
 

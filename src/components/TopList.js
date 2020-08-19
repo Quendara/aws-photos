@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "./Icons"
-import { findUnique } from "./helpers"
+import { findUnique, findUniqueFacesItems } from "./helpers"
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/Card';
 
@@ -18,8 +18,15 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
     const getItems = (photos) => {
         const group = title
 
-        let locations = findUnique(photos, group, sortByCount, limit)
-        return locations
+        let items = []
+        if( group === "faces"){
+            items = findUniqueFacesItems( photos )
+        }
+        else {
+            items = findUnique(photos, group, sortByCount, limit)
+        }
+
+        return items
     }
 
 
@@ -28,7 +35,7 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
     return (
         <>
             { (rendering === "menu") ? (
-                <Grid item xs={ 11 }>
+                <Grid item xs={ 12 }>
                     <Box lineHeight={ 2.5 } fontWeight="fontWeightMedium">
                         <Box  className="text-ellipsis" style={ { 'textTransform': 'capitalize' } }>
                             <Icon icon={ icon } className="mr-2" />{ title }
@@ -46,10 +53,6 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
                             <Box textAlign="right" color="primary.main" >{ item.count }</Box >
                         </Box>
                     )) }
-
-                    <br />
-                    <Divider variant="middle" />
-                    <br />
                 </Grid>
 
             ) :
