@@ -15,6 +15,7 @@ import { createStore } from "redux";
 
 
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
+import Grid from '@material-ui/core/Grid';
 
 // init with function
 export const store = createStore(rootReducer)
@@ -43,28 +44,24 @@ export const Today = ({
     }
 
     return (
-        <>
+        <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="flex-start" >
 
-            <div className="row" >
-                <div className="col s12">
-                    <div className="m-2" ></div>
-                </div>
-                <div className="col s4 offset-s8 right" >
-                    <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
-                </div>
+            <Grid item xs={ 12 } lg={ 9 } >
+                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+            </Grid>
+            <Grid item xs={ 12 } lg={ 9 } >
 
-                <div className="col s12 offset-l1 l10" >
+                { (photos.length > 0) &&
+                    <>
+                        <ImageToday photos={ photos } flavor={ flavor } />
+                    </> }
+            </Grid>
+        </Grid>
 
-                    { (photos.length > 0) &&
-                        <>
-                            <ImageToday photos={ photos } flavor={flavor} />
-                        </> }
-
-                </div>
-            </div>
-
-
-        </>
     )
 }
 
