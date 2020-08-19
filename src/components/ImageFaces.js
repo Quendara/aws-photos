@@ -190,7 +190,7 @@ const ImageFaces = ({
                         (<>
 
                             <h2>Personen</h2>
-                            {facesHeader(query)}
+                            {/* {facesHeader(query)} */}
 
                             <GridList cols={ (size.width > 600) ? 5 : 2 } >
                                 { findUniqueFacesItems(photos).map((item, index) => (

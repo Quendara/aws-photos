@@ -114,6 +114,15 @@ export const findUniqueFacesItems = ( photos, singlePerson = true, limit = 100) 
         
         uniqueItems.push(item)
     }
+
+    let sortByCriteria = 'value'
+    if( sortByCount ){ sortByCriteria='count'}
+
+    uniqueItems = sortBy(uniqueItems, sortByCriteria ); // sort (str) is ascending 
+    uniqueItems = uniqueItems.reverse() // to reverse the order, of course replace with better impl
+
+
+
     return uniqueItems
     // uniqueItems.push(item)
 

@@ -4,6 +4,14 @@ import { Icon } from "./Icons"
 import { connect } from 'react-redux'
 import Settings from "../Settings"
 import Button from '@material-ui/core/Button';
+import { useWindowSize } from "./useWindowSize"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
 
 const Devtools = ({
     token               // from mapStateToProps    
@@ -11,6 +19,8 @@ const Devtools = ({
 
     const [message, setMessage] = useState("-");
     const [error, setError] = useState("");
+
+    const size = useWindowSize();
 
     const updateCache = () => {
         const url = [Settings.baseRestApi, "photos"].join('/')
@@ -31,7 +41,7 @@ const Devtools = ({
 
 
     const callUrl = (url) => {
-        setMessage("Loading..." )
+        setMessage("Loading...")
         setError("")
 
         const options = {
@@ -52,13 +62,13 @@ const Devtools = ({
                 (error) => {
                     console.error("Could not call URL : ", error.message);
                     setError(error.message)
-                    setMessage( "FAILED" )
+                    setMessage("FAILED")
                 }
             )
-            .catch(err => { 
-                console.error("XX", err) 
-                setError( err )
-                setMessage( "FAILED" )
+            .catch(err => {
+                console.error("XX", err)
+                setError(err)
+                setMessage("FAILED")
 
             })
 
@@ -67,54 +77,65 @@ const Devtools = ({
 
 
     return (
-        <div className="row">
+        <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="flex-start" >
 
-            <h1>Devtools </h1>
 
-            
-
-            <h3>Gps </h3>
-            <p>
-                <Button className="btn blue m-2" onClick={ gps_find_missing_locations }  >
+            <Grid item xs={ 12 } md={ 9 } >
+                <Typography variant="h1" >Devtools</Typography>
+                <Typography color="secondary"> Screensize : { size.width } x { size.height } </Typography>
+                <Typography variant="h4" >Gps </Typography>
+                <Button variant="contained" color="primary" onClick={ gps_find_missing_locations }  >
                     <Icon icon="city" className="mr-2" /><b> Find Locations </b>
                 </Button>
-            Scan images and lookop for city names and update gps to location database. <br />
-            </p>
+                <p>
+                    Scan images and lookop for city names and update gps to location database. <br />
+                </p>
 
-            <p>
-                <Button className="btn blue m-2" onClick={ gps_to_location }   >
+                <Button variant="contained" color="primary" onClick={ gps_to_location }   >
                     <Icon icon="city" className="mr-2" /><b> Set city, country, state in images </b>
                 </Button>
-            Scan images and replaces unresolved imagenames. <br />
-            </p>
 
-            <h3>Update Cache </h3>
+                <p>
+                    Scan images and replaces unresolved imagenames. <br />
+                </p>
+                <br />
+                <Divider variant="middle" />
+                <br />
 
-            <Button className="btn blue ml-2" onClick={ updateCache }  >
-                <Icon icon="cache" className="mr-2" /><b> Update cache </b>
-            </Button>
+                <Typography variant="h4" >Update Cache </Typography>
+                <Button variant="contained" color="primary" onClick={ updateCache }  >
+                    <Icon icon="cache" className="mr-2" /><b> Update cache </b>
+                </Button>
+                <br />
+                <br />
+                <Divider variant="middle" />
+                <br />
 
-            <h3>Response</h3>
-            <div className="row" >
-                <div className="col s6" >
-                    <div className="blue" >
-                        { message === "Loading..." &&
-                            <div className="progress">
-                                <div className="indeterminate"></div>
-                            </div> }
-                        <p className="m-2">{ message }</p>
-                    </div>
-                </div>
-                <div className="col s6" >
-                    <div className="red" >
-                        <p className="m-2">{ error }</p>
+                <Typography variant="h4" >Response</Typography>
+
+                Success
+                <Card color="primary" >
+                    <CardContent>
+                        { message.length }
+                    </CardContent>
+                </Card>
+
+                <br/>Error
+                <Card color="secondary" >
+                    <CardContent>
+                        { error }
+                    </CardContent>
+
+                </Card>
 
 
-                    </div>
-                </div>
-            </div>
 
-        </div>
+            </Grid>
+        </Grid>
 
     )
 }

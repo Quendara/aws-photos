@@ -76,7 +76,7 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
 
 const getGroupedItems = (photos, groupA) => {
     const sortByCount = false
-    const limit = 18;
+    const limit = 31;
     return findUnique(photos, groupA, sortByCount, limit)
 }
 
@@ -117,7 +117,7 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
 
     const shuffleIndex = () => {
 
-        let randInt = Math.floor(Math.random() * Math.floor(1000));
+        let randInt = Math.floor(Math.random() * Math.floor(item.photos.length));
         console.log("randInt : " + randInt)
 
         randInt = randInt % item.photos.length
@@ -269,9 +269,10 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
         <div>
             { groups.length === 1 ? (
                 <>
+                { showGroupSelector &&
                 <Grid item xs={ 12 } >
                     <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />                    
-                </Grid>
+                </Grid> }
 
                 <Grid xs={ adaptColSize(groups[0].count) }  >
                     <ImageGrid photos={ groups[0].photos } sortBy={ sortBy } limit="100" />
