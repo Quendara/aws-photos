@@ -215,13 +215,6 @@ const ImageFaces = ({
                                         <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
                                     </GridListTile>
                                 )) }
-                                { findUniqueFacesItems(photos, false, 10).map((item, index) => (
-                                    <GridListTile cols={ 1 } rows={ 1 }  key={index} >
-                                        <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" />
-                                        <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
-                                    </GridListTile>
-                                )) }                                
-
                             </GridList>
 
 

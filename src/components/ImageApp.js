@@ -123,7 +123,7 @@ const ImageApp = ({
                     <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
                 </Grid>
                 <Grid item xs={ 12 } lg={ 6 } >
-                    <span className="m-2 blue-text">Sorting 2</span>
+                    <span className="m-2 blue-text">Sorting</span>
                     <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
                 </Grid>
                 <Grid item xs={ 12 } >
@@ -131,8 +131,6 @@ const ImageApp = ({
                 </Grid>
             </Grid>
         </Grid>
-
-
     )
 }
 

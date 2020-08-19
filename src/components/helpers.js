@@ -53,27 +53,91 @@ export const findUnique = ( list, group, sortByCount = true, limit=5 ) => {
     return uniqueItems.slice(0, limit) // reduce
 }  
 
+const helperAddFacenameToUnique = ( name, image, uniqueNames ) => {
+
+    if( name === undefined ) {
+        console.error( "name is undefined" )
+    }
+    
+    
+    if( uniqueNames[name] === undefined ) {                    
+        // new element                                        
+        uniqueNames[name] = {
+            value: name,
+            //count: 1,
+            photos: [ image ]
+        }   
+    }
+    else{
+        // name exist
+        uniqueNames[name].photos.push( image )
+    }
+}
+
+
 export const findUniqueFacesItems = ( photos, singlePerson = true, limit = 100) => {
     const group = "faces"
     const sortByCount = true        
 
-    let faces = findUnique(photos, group, sortByCount, limit)
+    // let faces = findUnique(photos, group, sortByCount, limit)
+    
+    let uniqueNames = {}
 
-    const list = faces.filter(image => {
-        if (image === undefined) return false
-        if (image.value === undefined) return false
-        if (image.value === "undefined") return false
-        if (image.value.length === 0) return false
-        if (singlePerson) {
-            return image.value.split(",").length == 1 // true when only one person is on the image
+    for (let i = 0; i < photos.length; i++) {
+        const image = photos[i]
+        const faces_on_image = photos[i].faces
+        // console.log( typeof faces_on_image )
+        if( typeof faces_on_image === "object" )
+        {
+            if( faces_on_image.length === 1 ) {
+                const name = faces_on_image[0]
+                helperAddFacenameToUnique( name, image, uniqueNames )                
+            }
+            else {
+                for (let n = 0; n < faces_on_image.length; n++) {
+                    const name = faces_on_image[n]
+                    helperAddFacenameToUnique( name, image, uniqueNames )                
+                }
+            }
         }
-        else {
-            return image.value.split(",").length > 1 // true for groups
-        }
+    }
 
-        return true
-    })
-    return list
+    // transform
+    let uniqueItems = []
+    for (var name in uniqueNames) {
+
+        const item = {
+            value: name,            
+            photos: uniqueNames[name].photos,
+            count: uniqueNames[name].photos.length
+        }
+        
+        uniqueItems.push(item)
+    }
+    return uniqueItems
+    // uniqueItems.push(item)
+
+    // const item = {
+    //     value: key,
+    //     count: groups[key].length,
+    //     photos: groups[key]
+    // }
+
+    // const list = faces.filter(image => {
+    //     if (image === undefined) return false
+    //     if (image.value === undefined) return false
+    //     if (image.value === "undefined") return false
+    //     if (image.value.length === 0) return false
+    //     if (singlePerson) {
+    //         return image.value.split(",").length == 1 // true when only one person is on the image
+    //     }
+    //     else {
+    //         return image.value.split(",").length > 1 // true for groups
+    //     }
+
+    //     return true
+    // })
+    
 }
 
 export const leadingZeros = (num, size=2) => {
