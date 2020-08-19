@@ -174,21 +174,28 @@ function query(state = initial_state.query, action) {
 
         case ADD_TO_FILTER:
 
+            let currentValueX = query[action.key];
             let valueToAdd = []
-            const multiple = action.value.split(",")
+
+            if( typeof currentValueX === "object" ){
+                valueToAdd = currentValueX
+            }
+
+            // const multiple = action.value.split(",")
 
             if (action.value === "") {
                 valueToAdd = []
             }
-            else if (multiple.length >= 2) {
-                valueToAdd = multiple
-            }
+            // else if (multiple.length >= 2) {
+            //     valueToAdd = multiple
+            // }
             else {                
                 valueToAdd.push(action.value)
             }
 
             query[action.key] = valueToAdd;
             console.log("ADD_TO_FILTER requcer : (key, value) ", action.key, action.value)
+            console.log("ADD_TO_FILTER actual value is : ", action.key, valueToAdd)
             return query;
 
         case REMOVE_FROM_FILTER:
@@ -200,10 +207,10 @@ function query(state = initial_state.query, action) {
                 currentValue.splice(index, 1); // index, how many
             // delete valueL[index];  
             }
-
-            query[action.key] = action.value;
+            query[action.key] = currentValue
 
             console.log("REMOVE_FROM_FILTER requcer : (key, value) ", action.key, action.value)
+            console.log("REMOVE_FROM_FILTER actual value is : ", action.key, currentValue)
             return query;
     
 

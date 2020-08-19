@@ -42,6 +42,7 @@ const ImageApp = ({
 
         console.log("callbackFilter : ", key, " : ", value)
         console.log("query ", query)
+        console.log("add ", add)
         console.log("typeof value ", typeof value)
 
         if (key === "faces") {

@@ -83,7 +83,7 @@ export function setQueryFilter( key, value ) {
 
   export function removeFromQueryFilter( key, value ) {
     const action = {
-      type: ADD_TO_FILTER,
+      type: REMOVE_FROM_FILTER,
       key, // == rating:rating
       value
     }

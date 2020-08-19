@@ -32,7 +32,7 @@ export const CancelFilterAll = ({ query, callbackFilter }) => {
             <CancelFilter value={ query.country } filter="country" callback={ callbackFilter } />
             <CancelFilter value={ query.state } filter="state" callback={ callbackFilter } />
             <CancelFilter value={ query.city } filter="city" callback={ callbackFilter } />
-            <CancelFilter value={ query.faces } filter="faces" callback={ callbackFilter } />
+            <CancelFilterArray value={ query.faces } filter="faces" callback={ callbackFilter } />
             </div>
     )
 }
@@ -46,8 +46,33 @@ const printQuery = (query) => {
     }
 }
 
-export const CancelFilter = ({ value, filter, callback }) => {
+export const CancelFilterArray = ({ value, filter, callback }) => {
 
+    const getValue = (valueArr) => {
+        
+        if( valueArr === undefined ) return []        
+        return valueArr
+    }
+
+    return (
+        <> {getValue(value).map( x => {
+            return (
+                <Chip onClick={ () => callback(filter, x, false) }
+                    size="small"
+                    icon={ <Icon icon={ filter }  /> }
+                    label={ printQuery(x) }
+                    color="secondary"
+                    onDelete={ () => callback(filter, x, false ) }
+                />
+            )
+
+        })}
+        </>
+    )
+
+}
+
+export const CancelFilter = ({ value, filter, callback }) => {
     return (
         <>
             { value.length > 0 &&
@@ -57,10 +82,7 @@ export const CancelFilter = ({ value, filter, callback }) => {
                     label={ printQuery(value) }
                     color="secondary"
                     onDelete={ () => callback(filter, "") }
-
-                />}
-                    
-                
+                /> }
         </>
     )
 }
