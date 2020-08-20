@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE_FROM_FILTER } from "./actions"
+import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE_FROM_FILTER, SEARCH_FACE } from "./actions"
 import Settings from "../Settings"
 
 // import { mockdataBerlin } from "../data/mockdata_Berlin.js"
@@ -79,8 +79,9 @@ const restCallToBackend = (url, token, loggingMessage = "Generic Call") => {
             alert( message );
             console.log(message, err)
         })
-
 }
+
+
 
 
 
@@ -93,6 +94,70 @@ function photos(state = initial_state.photos, action) {
         case FETCH_DATA:
             return action.values
 
+        case SEARCH_FACE:            
+            const url = [Settings.baseRestApi, 'photos', action.id, 'find_faces' ].join("/")
+            console.log( url )
+
+            if (action.token !== undefined) {
+                const url = [Settings.baseRestApi, 'photos', action.id, 'find_faces' ].join("/")
+                const loggingMessage = "SEARCH_FACE"
+                // restCallToBackend(url, action.token, loggingMessage)
+
+                // setMetadataOnImage
+                // store.dispatch({ type: 'SET_METADATA', action:{ id:"action.id", what:"faces", newValue:["Klaus"], token: action.token  } })
+
+                // (async function () {
+                //     let image = await restCallToBackendAsync(url, action.token, loggingMessage).then(data => {
+                //         console.log(data)
+                //         return state.map((image, index) => {
+                //                 if (image.id === action.id) {
+                //                     return Object.assign({}, image, {
+                //                         faces: ["KLAUS"]
+                //                     })
+                //                 }
+                //                 return image
+                //             })
+    
+                //     }); 
+                //     alert(image);
+                //     return image
+                //   })()
+
+                
+                
+                return state.map((image, index) => {
+                    if (image.id === action.id) {
+                        return Object.assign({}, image, {
+                            faces: ["KLAUS"]
+                        })
+                    }
+                    return image
+                })
+            }            
+ 
+            break;
+
+        // case SET_FACES:
+        //         // backend call
+        //         if (action.token !== undefined) {
+        //             const url = [Settings.baseRestApi, 'photos', action.id, 'faces', 'set', action.rating].join("/")
+        //             const loggingMessage = "Update Rating"
+        //             // restCallToBackend(url, action.token, loggingMessage)
+        //         }
+        //         else{
+        //             console.warn( "SET_RATING (without TOKEN)" )
+        //         }
+        //         return state.map((image, index) => {
+        //             if (image.id === action.id) {
+        //                 return Object.assign({}, image, {
+        //                     rating: action.rating
+        //                 })
+        //             }
+        //             return image
+        //         })            
+
+            
+
         case SET_RATING:
             // backend call
             if (action.token !== undefined) {
@@ -103,7 +168,6 @@ function photos(state = initial_state.photos, action) {
             else{
                 console.warn( "SET_RATING (without TOKEN)" )
             }
-
             return state.map((image, index) => {
                 if (image.id === action.id) {
                     return Object.assign({}, image, {
@@ -116,13 +180,12 @@ function photos(state = initial_state.photos, action) {
             // backend call
             if (action.token !== undefined) {
                 const url = [Settings.baseRestApi, 'photos', action.id, 'update', action.what, action.newValue ].join("/")
-                const loggingMessage = "Update Rating"
+                const loggingMessage = "Update SET_METADATA"
                 restCallToBackend(url, action.token, loggingMessage)
             }
             else{
                 console.warn( "SET_METADATA (without TOKEN)" )
             }
-
             return state.map((image, index) => {
 
                 if (image.id === action.id) {

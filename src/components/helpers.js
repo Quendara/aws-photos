@@ -74,6 +74,21 @@ const helperAddFacenameToUnique = ( name, image, uniqueNames ) => {
     }
 }
 
+export async function restCallToBackendAsync(url, token, loggingMessage = "Generic Call")
+{
+    const options = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: token // token.access
+        },
+    };
+
+  let response = await fetch(url, options)
+  let data = await response.json()
+  return data;
+}
+
 
 export const findUniqueFacesItems = ( photos, singlePerson = true, limit = 100) => {
     const group = "faces"

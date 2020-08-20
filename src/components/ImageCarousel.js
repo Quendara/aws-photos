@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { Rating } from "./Rating"
 import { useSwipeable } from "react-swipeable";
 import { ImageOnDemand } from "./ImageOnDemand";
+import { CancelFilterArray } from "./CancelFilter";
+
+import { setMetadataOnImage } from "../redux/actions"; // import default 
 
 import { TopList } from "./TopList";
 import { TopAutoComplete } from "./TopAutoComplete";
@@ -16,16 +19,20 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Box from '@material-ui/core/Box';
 
 import { Icon } from "./Icons";
-import { addSrcAndDirname } from "./helpers";
+import { addSrcAndDirname, restCallToBackendAsync } from "./helpers";
+
+import Settings from "../Settings"
 
 // import { values } from "underscore";
 
-const ImageCarousel = ({ 
-    photos, 
-    all_photos, // from redux
+const ImageCarousel = ({
+    photos,
+    all_photos,          // from redux
+    token,               // from redux   
+    setMetadataOnImage,   // from redux
     currentIndex,
     closeCallback,
-    ratingCallback, 
+    ratingCallback,
     updateMetadataCallback }) => {
 
 
@@ -34,6 +41,9 @@ const ImageCarousel = ({
     // updateMetadataCallback(photo.id, what, newValue );
 
     const [index, setIndex] = useState(currentIndex);
+
+    const [showDetails, setShowDetails] = useState(false);
+
     const [contextMenu, setContextMenu] = useState("");
     const [cityClipboard, setCityClipboard] = useState("");
     const [countryClipboard, setCountryClipboard] = useState("");
@@ -45,22 +55,46 @@ const ImageCarousel = ({
         }
     }
 
+    const removeFace = (filter, value, add = false) => {
+        alert("removeFace not yet implemented : " + value)
+    }
+
+    const searchFacesOnImageLocal = (image) => {
+
+        // ( image.id, token.access )
+        const url = [Settings.baseRestApi, 'photos', image.id, 'find_faces'].join("/")
+
+        const loggingMessage = "find_faces"
+        restCallToBackendAsync(url, token.access, loggingMessage).then(data => {
+
+            const res = JSON.parse(data)
+            console.log("restCallToBackendAsync : ", res.faces)
+            // this will be rejected, but the "find_faces" call has already updated the metadata
+            setMetadataOnImage(image.id, "faces", res.faces, token.access)
+        })
+    }
+    //         console.log(data)
+
     const getCaptionFromPhoto = (image) => {
         return (
-            <div >
+            <div>
+                { showDetails &&
+                    <>
+                        <Box color="text.secondary" >{ image.id } </Box>
+                        { image.filename }
+                        <Box lineHeight={ 3 } fontSize="h5.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>
+                        <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } - { image.dirname_physical }</span>
 
-                <Box color="text.secondary" >{ image.id } </Box>
-                { image.filename }
-                <Box lineHeight={3} fontSize="h5.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>
-                <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } - { image.dirname_physical }</span>
+                        <Box lineHeight={ 2 } fontSize="h6.fontSize" >
+                            <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
+                            <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
+                        </Box>
+                        <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
 
-                <Box lineHeight={2} fontSize="h6.fontSize" >
-                    <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
-                    <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
-                </Box>
-                <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
-
-                <Button className="secondary"  >{ printQuery(image.faces) }</Button>
+                        <CancelFilterArray value={ image.faces } filter="faces" callback={ removeFace } />
+                        <Button variant="outlined" className="ml-2" onClick={ () => searchFacesOnImageLocal(image) } >search faces</Button>
+                    </>
+                }
             </div>)
     }
 
@@ -75,10 +109,12 @@ const ImageCarousel = ({
 
     const handleKeyPress = (event) => {
 
-        if( contextMenu.length > 0 ){
-            console.log( "handleKeyPress events blocked, to avoid actions!" )
+        if (contextMenu.length > 0) {
+            console.log("handleKeyPress events blocked, to avoid actions!")
             return;
         }
+
+        console.log("handleKeyPress", event.key)
 
         switch (event.key) {
             case '1':
@@ -91,8 +127,20 @@ const ImageCarousel = ({
             case 'd':
                 setDeleted();
                 break;
+            case 'i':
+                setShowDetails( !showDetails )
+                break;    
+                
             case 'm':
                 setMissing();
+                break;
+            case 'r':
+                // updateMetadata("rotate", 180 ) // call callback ();
+                let rotate = 180;
+                if (photo.rotate !== undefined) {
+                    rotate = (photo.rotate + 180) % 360;
+                }
+                setMetadataOnImage(photo.id, "rotate", rotate, token.access)
                 break;
             case 27:
             case 'Escape':
@@ -165,16 +213,16 @@ const ImageCarousel = ({
         };
     });
 
-    const currentPhoto = ( photos, index ) => {
-        if( photos.length === 0 ){ alert("Oh no" ); return undefined }
-        if( index >= photos.length ){
-            index = photos.length-1
-            setIndex( index )
+    const currentPhoto = (photos, index) => {
+        if (photos.length === 0) { alert("Oh no"); return undefined }
+        if (index >= photos.length) {
+            index = photos.length - 1
+            setIndex(index)
         }
         return photos[index]
     }
 
-    const photo = currentPhoto( photos, index )
+    const photo = currentPhoto(photos, index)
 
     const updateMetadata = (what, value) => {
 
@@ -195,36 +243,35 @@ const ImageCarousel = ({
 
     const contextMenuFcn = () => {
         return (
-            <Card>
-                   <CardMedia
-          
-          image={ photo.source_url }
-          title="Contemplative Reptile"
-        />
+            <Card color="primary">
+                <CardMedia
+                    image={ photo.source_url }
+                    title="Contemplative Reptile"
+                />
                 <>
-                { countryClipboard.length > 0 &&
-                <div style={{ padding: "20px" }} >
-                        <h5><Icon icon="clipboard" className="mr-2" />Clipboard</h5>
-                        <ul>
-                            <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
-                            <li className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</li>
-                            <li className="m-2">{ cityClipboard.length > 0 && <>{ cityClipboard }</> }</li>
-                        </ul>
-                        
-                        </div>
-                }
-                { contextMenu.length > 0 &&
-                    
+                    { countryClipboard.length > 0 &&
+                        <div style={ { padding: "20px" } } >
+                            <h5><Icon icon="clipboard" className="mr-2" />Clipboard</h5>
+                            <ul>
+                                <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
+                                <li className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</li>
+                                <li className="m-2">{ cityClipboard.length > 0 && <>{ cityClipboard }</> }</li>
+                            </ul>
 
-                        <div style={{ padding: "20px" }} >
-                        
-                        <TopAutoComplete rendering="collection" photos={ all_photos } title={ contextMenu } icon={ contextMenu } limit="999" sortByCount={ true } callback={ updateMetadata } />                        
-                        <br/><br/>
-                        <TopList rendering="collection" photos={ photos } titleAlt="Local" title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
-                        <br/><br/>
-                        <TopList rendering="collection" photos={ all_photos } titleAlt="Global" title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
                         </div>
-                }
+                    }
+                    { contextMenu.length > 0 &&
+
+
+                        <div style={ { padding: "20px" } } >
+
+                            <TopAutoComplete rendering="collection" photos={ all_photos } title={ contextMenu } icon={ contextMenu } limit="999" sortByCount={ true } callback={ updateMetadata } />
+                            <br /><br />
+                            <TopList rendering="collection" photos={ photos } titleAlt="Local" title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
+                            <br /><br />
+                            <TopList rendering="collection" photos={ all_photos } titleAlt="Global" title={ contextMenu } icon={ contextMenu } limit="5" sortByCount={ true } callback={ updateMetadata } />
+                        </div>
+                    }
                 </>
             </Card>
         )
@@ -236,23 +283,25 @@ const ImageCarousel = ({
                 <ImageOnDemand
                     image={ photo }
                     className="responsive-carousel"
-                    alt={ photo.title } />
+                    alt={ photo.id } />
             </div>
             <div style={ { top: '0px', right: '20px' } } className="image-carousel " onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
             <div style={ { top: '43%', left: '20px' } } className="image-carousel  " onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
             <div style={ { top: '43%', right: '20px' } } className="image-carousel " onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
-            <div style={ { bottom: '2%', left: '25%', width: '35%' , margin:"5%", zIndex: '1' } } className="image-carousel-text" >
+            <div style={ { bottom: '2%', left: '25%', width: '35%', margin: "5%", zIndex: '1' } } className="image-carousel-text" >
                 { contextMenuFcn() }
             </div>
             <div style={ { top: '70%', left: '20px' } } className="image-carousel-text" >
                 { getCaptionFromPhoto(photo) }
             </div>
             <div style={ { top: '90%', right: '20px' } } className="image-carousel" >
+                { showDetails &&
                 <ButtonGroup variant="contained">
                     <Button color="secondary" onClick={ setDeleted } >Delete</Button>
                     <Button color="primary" onClick={ setMissing }  >Missing</Button>
                 </ButtonGroup>
-                <h5 className="grey-text text-darken-5 right-align" ><b>{ index + 1 } / { photos.length }</b></h5>
+    }
+                <Box lineHeight={ 3 } fontSize="h5.fontSize" i ><b>{ index + 1 } / { photos.length }</b></Box>
             </div>
         </div>
     )
@@ -266,10 +315,13 @@ const mapStateToProps = state => {
 
     let copyOfphotos = addSrcAndDirname(photos)
     // copyOfphotos = filterFiles(copyOfphotos, state.query)
+    const token = state.token
 
-    return { all_photos: copyOfphotos } // photos:photos
+    return { all_photos: copyOfphotos, token } // photos:photos
 }
 
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({ setMetadataOnImage }, dispatch)
+}
 
-
-export default connect(mapStateToProps, null)(ImageCarousel);
+export default connect(mapStateToProps, mapDispatchToProps)(ImageCarousel);

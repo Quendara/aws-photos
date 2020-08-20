@@ -26,20 +26,37 @@ const ImageMap = ({
     const filterImagesWithoutCoords = (images ) => {
 
         let inCount = 0
+        let inQuantCount = 0
         let outCount = 0
 
+        let uniqueLocations = {}
+
         const imagesWithCoords = images.filter(image => {
+
             if (image.lat === undefined || isNaN(image.lat) || parseInt(image.lat) === 0) {
                 //console.log("OUT : ", image.lat)
                 ++outCount
                 return false
             }
             ++inCount
+
+            const intLat = parseInt(image.lat*1000)
+
+            if( uniqueLocations[intLat] === undefined ){
+                uniqueLocations[intLat] = { count:0 };
+                ++inQuantCount
+                return true
+            }
+            else {
+                
+            }
+
+            // if( inCount > 100 ){ return false}
             // console.log("IN  : ", image.lat)
-            return true
+            return false
         })
 
-        console.log("filterImagesWithoutCoords in/total : ", inCount, (inCount+outCount) )
+        console.log("filterImagesWithoutCoords in/total : ", inCount, (inCount+outCount) , inQuantCount )
 
         return imagesWithCoords;
     }        

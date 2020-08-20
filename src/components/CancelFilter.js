@@ -55,9 +55,9 @@ export const CancelFilterArray = ({ value, filter, callback }) => {
     }
 
     return (
-        <> {getValue(value).map( x => {
+        <> {getValue(value).map( (x, index) => {
             return (
-                <Chip onClick={ () => callback(filter, x, false) }
+                <Chip key={index} onClick={ () => callback(filter, x, false) }
                     size="small"
                     icon={ <Icon icon={ filter }  /> }
                     label={ printQuery(x) }
