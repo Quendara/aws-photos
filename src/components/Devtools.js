@@ -109,7 +109,7 @@ const Devtools = ({
                 <Typography variant="h4" >Update Cache </Typography>
                 <Button variant="contained" color="primary" onClick={ updateCache }  >
                     <Icon icon="cache" className="mr-2" /><b> Update cache </b>
-                </Button>
+                </Button> 
                 <br />
                 <br />
                 <Divider variant="middle" />
