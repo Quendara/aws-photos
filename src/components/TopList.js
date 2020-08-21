@@ -19,8 +19,9 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
         const group = title
 
         let items = []
+        const singleperson = true
         if( group === "faces"){
-            items = findUniqueFacesItems( photos )
+            items = findUniqueFacesItems( photos, singleperson, limit )
         }
         else {
             items = findUnique(photos, group, sortByCount, limit)

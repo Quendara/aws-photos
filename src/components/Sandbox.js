@@ -1,18 +1,17 @@
 import React, { useState } from "react"; // , { useState }
-import { Provider } from 'react-redux'
+// import { Provider } from 'react-redux'
 
 import { bindActionCreators } from "redux";
-import { connect } from 'react-redux'
+import { connect } from 'react-redux' 
 
-import SandboxList from "./SandboxList"
+// import SandboxList from "./SandboxList"
 
 import { TopList } from "./TopList"
-import { TopAutoComplete } from "./TopAutoComplete"
+// import { TopAutoComplete } from "./TopAutoComplete"
 
-import { CancelFilter } from "./CancelFilter"
 import ImageCarousel from "./ImageCarousel"
-import ImageGrid from "./ImageGrid"
-import ImageGrid2 from "./ImageGrid2"
+// import ImageGrid from "./ImageGrid"
+// import ImageGrid2 from "./ImageGrid2"
 
 
 import { setQueryFilter } from "../redux/actions"; // import default 

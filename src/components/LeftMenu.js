@@ -26,9 +26,9 @@ export const LeftMenu = ({ photos, query, callbackFilter }) => {
                 <br />
 
 
-                <TopListAuto photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
+                <TopListAuto photos={ photos } title="year" icon="year" limit="99" sortByCount={ false } callback={ callbackFilter } />
 
-                <TopList photos={ photos } title="faces" icon="faces" limit="10" sortByCount={ false } callback={ callbackFilter } />
+                <TopList photos={ photos } title="faces" icon="faces" limit="6" sortByCount={ false } callback={ callbackFilter } />
                 <br />
                 <Divider variant="middle" />
                 <br />

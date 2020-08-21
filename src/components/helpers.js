@@ -136,31 +136,8 @@ export const findUniqueFacesItems = ( photos, singlePerson = true, limit = 100) 
     uniqueItems = sortBy(uniqueItems, sortByCriteria ); // sort (str) is ascending 
     uniqueItems = uniqueItems.reverse() // to reverse the order, of course replace with better impl
 
+    return uniqueItems.slice(0, limit) 
 
-
-    return uniqueItems
-    // uniqueItems.push(item)
-
-    // const item = {
-    //     value: key,
-    //     count: groups[key].length,
-    //     photos: groups[key]
-    // }
-
-    // const list = faces.filter(image => {
-    //     if (image === undefined) return false
-    //     if (image.value === undefined) return false
-    //     if (image.value === "undefined") return false
-    //     if (image.value.length === 0) return false
-    //     if (singlePerson) {
-    //         return image.value.split(",").length == 1 // true when only one person is on the image
-    //     }
-    //     else {
-    //         return image.value.split(",").length > 1 // true for groups
-    //     }
-
-    //     return true
-    // })
     
 }
 
@@ -249,11 +226,19 @@ export const addSrcAndDirname = (images) => {
         if (image.city === undefined) { retImage['city'] = "Unknown City" }
         if (image.state === undefined) { retImage['state'] = "Unknown State" }
 
-        if (image.faces !== undefined) { retImage['faces'] = image.faces.sort() }  
+        if (image.faces !== undefined) { 
+
+            retImage['faces'] = image.faces.sort() 
+            retImage['nFaces'] = image.faces.length
+        }  
+        else{
+            retImage['nFaces'] = 0
+        }
 
 
         retImage["source_url"] = [Settings.baseApiBinaryImages, image.dirname, image.filename].join('/')
         retImage["src"] = image.id
+        retImage["rating"] = +image.rating
 
         if (image.dirname_logical !== undefined) {
             retImage['dirname_physical'] = image.dirname

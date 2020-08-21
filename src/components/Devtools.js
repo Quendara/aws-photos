@@ -71,10 +71,16 @@ const Devtools = ({
                 setMessage("FAILED")
 
             })
-
-
     }
 
+    const printMessage = ( message ) => {
+
+        return message.slice( 0, 1000 )
+        // if( typeof message === "string" )        {
+        //     return message
+        // }
+        // return 
+    }
 
     return (
         <Grid
@@ -120,7 +126,7 @@ const Devtools = ({
                 Success
                 <Card color="primary" >
                     <CardContent>
-                        { message.length }
+                        { printMessage( message ) }
                     </CardContent>
                 </Card>
 

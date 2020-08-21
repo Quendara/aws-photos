@@ -39,7 +39,9 @@ export const ImageOnDemand = ({ image, className, onClick }) => {
     }
     let r = className
 
-    if (image.rotate !== undefined) {
+
+
+    if ( image !== undefined && image.rotate !== undefined) {
       if (image.rotate === 180) {
         r += " rotate180"
       }
@@ -53,10 +55,12 @@ export const ImageOnDemand = ({ image, className, onClick }) => {
   // <img ref={targetRef} className={className} src={ getSrcUrlWhenVisible( isVisible, loaded ) } />
   return (
 
-    <>
-      <img ref={ targetRef } alt={ visibility } className={ getClassName(image, className, visibility) } onClick={ onClick } src={ ((visibility > 0.01) || loaded) ? image.source_url : '' } />
+    <div ref={ targetRef } style={{backgroundColor:"#2D2D31", height:"100%"}} >
+      <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ ((visibility > 0.01) || loaded) ? image.source_url : '' } />
       {/* <div  className={ getClassName( image, className, visibility ) }> x {visibility}</div> */ }
-    </>
+    </div>
+      
+    
 
   )
 }

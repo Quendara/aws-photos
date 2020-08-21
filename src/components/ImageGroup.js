@@ -24,6 +24,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
+import red from '@material-ui/core/colors/red';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -86,11 +87,11 @@ const StatsRow = ({ photos }) => {
     const getClass = (key) => {
         switch (key) {
 
-            case '1': return 'grey darken-3';
-            case '2': return 'grey darken-2';
-            case '3': return 'yellow darken-4';
-            case '4': return 'yellow darken-3';
-            case '5': return 'yellow darken-1';
+            case '1': return '#494949';
+            case '2': return '#757575';
+            case '3': return '#ffea00';
+            case '4': return '#ff9100';
+            case '5': return '#ff3d00';
 
             default:
                 break;
@@ -98,12 +99,13 @@ const StatsRow = ({ photos }) => {
     }
 
     return (
-        <table width="95%">
+        <table width="99%">
             <tr>
                 {
                     getGroupedItems(photos, 'rating').map((item, index) => (
-                        <td width={ item.photos.length / item.photos.length } class={ getClass(item.value) } >
-                            { item.photos.length }
+                        <td height="500" width={ item.photos.length / photos.length } style={{ verticalAlign:"top", backgroundColor:getClass(item.value) }}  >                            
+                            { item.value }<br></br>
+                            { Math.round( (item.photos.length / photos.length)*100 ) } %
                         </td>
                     ))
                 }
@@ -124,13 +126,9 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
         setPhotoPreviewIndex(randInt)
     }
 
-    // 
-
     return (
         <>
-
             {/* <img className="responsive-img" onClick={ () => shuffleIndex() } src={ item.photos[photoPreviewIndex].source_url } alt="face" /> */ }
-
             <ImageOnDemand className="responsive-img" onClick={ () => shuffleIndex() } image={ item.photos[photoPreviewIndex] } />
             <GridListTileBar
                 title={
@@ -146,10 +144,8 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
                 }
             />
         </>
-
     )
 }
-
 
 export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dirname", showGroupSelector = true, initialStats = false }) => {
 
@@ -158,18 +154,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
 
     const [group, setGroup] = useState(initialGroup);
     const [stats, setStats] = useState(initialStats);
-
-
-
-
-    // const [current, setCurrent] = useState({ name: "", photos: [] });
-
-    // descending == absteigend
-    // ascending == aufstseigend
-    // const filterCurrent = (images) => {
-
-    //     return images.slice(0, 5);
-    // }
 
     const adaptColSize = (nImages) => {
         if (nImages === 1) return 4 //"col s4"
@@ -184,7 +168,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     const getContext = (currentGrouping, currentValue, photos) => {
         const sortByCount = false
         const limit = 3;
-
 
         switch (currentGrouping) {
             case "year":
@@ -234,7 +217,6 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     }
 
     // condition ? true : false.
-
     const queryOnTwoGroups = (group1, value1, group2, value2) => {
         setQueryFilter(group1, value1)
         setQueryFilter(group2, value2)
@@ -296,7 +278,18 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                             <GridList spacing={ 10 } cellHeight={ 300 } cols={ (size.width > 600) ? 4 : 2 } >
                                 { groups.map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 } key={ index } >
-                                        <ImageListTile item={ item } group={ group } index={ index } queryOnGroup={ queryOnGroup } getContext={ getContext } />
+                                        { stats === true ? (
+                                            <>
+                                            <StatsRow photos={ item.photos } />
+                                            <GridListTileBar    title={
+                                                <Button onClick={ () => queryOnGroup(group, item.value) } >
+                                                    <Icon icon={ group } className="mr-2" />{ item.value }
+                                                </Button>
+                                            } />
+                                            </>
+                                        ) : (
+                                            <ImageListTile item={ item } group={ group } index={ index } queryOnGroup={ queryOnGroup } getContext={ getContext } />
+                                        )}             
                                     </GridListTile>
                                 )) }
                             </GridList>

@@ -42,7 +42,7 @@ const ImageCarousel = ({
 
     const [index, setIndex] = useState(currentIndex);
 
-    const [showDetails, setShowDetails] = useState(false);
+    const [showDetails, setShowDetails] = useState(true);
 
     const [contextMenu, setContextMenu] = useState("");
     const [cityClipboard, setCityClipboard] = useState("");

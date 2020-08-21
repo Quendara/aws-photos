@@ -192,10 +192,11 @@ const ImageFaces = ({
                             <h2>Personen</h2>
                             {/* {facesHeader(query)} */}
 
-                            <GridList cols={ (size.width > 600) ? 5 : 2 } >
-                                { findUniqueFacesItems(photos).map((item, index) => (
+                            <GridList cols={ (size.width > 600) ? 6 : 2 } >
+                                { findUniqueFacesItems(photos, true, 12).map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 } key={index} >
-                                        <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" />
+                                        {/* <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" /> */}
+                                        <ImageOnDemand className="responsive-img"  image={ sortPhotos(item.photos, "rating", false)[0] } />
                                         <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
                                     </GridListTile>
                                 )) }
@@ -211,10 +212,11 @@ const ImageFaces = ({
                                 <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
                             </Grid>
 
-                            <GridList cols={ (size.width > 600) ? 5 : 2 } >
-                                { findUniqueFacesItems(photos).map((item, index) => (
+                            <GridList cols={ (size.width > 600) ? 6 : 2 } >
+                                { findUniqueFacesItems(photos, true, 6).map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 }  key={index} >
-                                        <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" />
+                                        {/* <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" /> */}
+                                        <ImageOnDemand className="responsive-img"  image={ sortPhotos(item.photos, "rating", false)[0] } />
                                         <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
                                     </GridListTile>
                                 )) }

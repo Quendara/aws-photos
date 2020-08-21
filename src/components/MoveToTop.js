@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Icon } from "./Icons";
 
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 // import { setPhotos } from "../redux/actions";
 
