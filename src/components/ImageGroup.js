@@ -137,15 +137,17 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
                     </Button>
                 }
                 subtitle={ getContext(group, item.value, item.photos) }
-                actionIcon={
-                    <IconButton onClick={ () => queryOnGroup(group, item.value) } >
-                        <Icon icon={ group } className="mr-2" />
-                    </IconButton>
-                }
+
             />
         </>
     )
 }
+
+// actionIcon={
+//     <IconButton onClick={ () => queryOnGroup(group, item.value) } >
+//         <Icon icon={ group } className="mr-2" />
+//     </IconButton>
+// }
 
 export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dirname", showGroupSelector = true, initialStats = false }) => {
 
@@ -275,7 +277,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                             </Grid>
                         }
                         <>
-                            <GridList spacing={ 10 } cellHeight={ 300 } cols={ (size.width > 600) ? 4 : 2 } >
+                            <GridList spacing={ 10 } cellHeight={ (size.width > 600) ? 280 : 180 } cols={ (size.width > 600) ? 4 : 2 } >
                                 { groups.map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 } key={ index } >
                                         { stats === true ? (

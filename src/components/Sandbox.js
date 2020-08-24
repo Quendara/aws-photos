@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 // import SandboxList from "./SandboxList"
 
 import { TopList } from "./TopList"
-// import { TopAutoComplete } from "./TopAutoComplete"
+import { TopAutoComplete } from "./TopAutoComplete"
 
 import ImageCarousel from "./ImageCarousel"
 // import ImageGrid from "./ImageGrid"
@@ -99,21 +99,9 @@ const Sandbox = ({
 
                 <div className="col s12 m3 l2 " >
                     { photos.length > 0 && <>
-
-                        <TopList photos={ photos } title="year" icon="year" limit="10" sortByCount={ false } callback={ callbackFilter } />
-
-                        { query.year.length > 0 &&
-                            <>
-                                <TopList photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
-                            </>
-                        }
-                        <TopList photos={ photos } title="dirname" icon="dirname" limit="9" sortByCount={ false } callback={ callbackFilter } />
-
+           
                         <div className="hide-on-med-and-down">
-
-                            <TopList photos={ photos } title="country" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="state" icon="location" limit="5" callback={ callbackFilter } />
-                            <TopList photos={ photos } title="city" icon="location" limit="5" callback={ callbackFilter } />
+                            <TopAutoComplete  photos={ photos } title="city" icon="location" limit="50" callback={ callbackTest } />
                         </div>
                     </> }
                 </div>
@@ -126,7 +114,7 @@ const Sandbox = ({
                         <>
                             {textmessage}
                             {/* <ImageGrid photos={ photos } limit="10" /> */}
-                            <ImageCarousel photos={photos} currentIndex="0" />
+                            {/* <ImageCarousel photos={photos} currentIndex="0" /> */}
 
                         </> }
 

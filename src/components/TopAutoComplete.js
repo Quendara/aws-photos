@@ -19,12 +19,24 @@ export const TopAutoComplete = ({ photos, icon, title, sortByCount = true, limit
     }
 
     return (
+
+        //     <Autocomplete
+        //     multiple
+        //     limitTags={1}
+        //     id="multiple-limit-tags"
+        //     options={getItems( photos ) }
+        //     getOptionLabel={(option) => option.value}            
+        //     renderInput={(params) => (
+        //     <TextField {...params} variant="outlined" label="limitTags" placeholder="Favorites" />
+        //     )}
+        // />
             <Autocomplete
                 id={title}
+                freeSolo
                 options={ getItems( photos ) }
                 getOptionLabel={ option => option.value }
                 style={ { width: "100%" } }
-                freeSolo
+                
                 onChange={(event: any, newValue: string | null) => {
 
                     if( newValue == null ) { newValue = ""}

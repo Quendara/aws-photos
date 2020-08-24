@@ -17,7 +17,7 @@ export const TopListAuto = ({ photos, icon, title, titleAlt = "", sortByCount = 
 
     return (
         <>
-            { getItems(photos).length > 12 ? 
+            { getItems(photos).length > 5 ? 
             (
                 <div className="ml-2" >
                     <TopAutoComplete photos={ photos } title={title} titleAlt={titleAlt} icon={icon} sortByCount={ sortByCount } callback={ callback } />
