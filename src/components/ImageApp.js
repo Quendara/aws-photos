@@ -26,13 +26,13 @@ import Grid from '@material-ui/core/Grid';
 
 
 // This class contains the business logic of the application
-const ImageApp = ({ 
-    photos, 
-    query, 
+const ImageApp = ({
+    photos,
+    query,
     setQueryFilter,
     addToQueryFilter,
-    removeFromQueryFilter,   
-    view, 
+    removeFromQueryFilter,
+    view,
     menu = true }) => {
 
     const [view_images, setViewImages] = useState(view); // group, list, grid
@@ -49,11 +49,11 @@ const ImageApp = ({
             if (add === true) {
                 addToQueryFilter(key, value)
             }
-            else{
+            else {
                 removeFromQueryFilter(key, value)
-            } 
+            }
         }
-        else{
+        else {
             setQueryFilter(key, value)
         }
     }
@@ -110,7 +110,7 @@ const ImageApp = ({
 
     return (
         <Grid
-            container            
+            container
             direction="row"
             justify="flex-start"
             alignItems="flex-start" >
@@ -119,16 +119,25 @@ const ImageApp = ({
                 { (menu && photos.length > 0) && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> }
             </Grid>
 
-            <Grid container item xs={ 12 } lg={ 10 } >
-                <Grid item xs={ 12 } lg={ 6 } >
-                    <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
-                </Grid>
-                <Grid item xs={ 12 } lg={ 6 } >
-                    <span className="m-2 blue-text">Sorting</span>
-                    <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } />
-                </Grid>
-                <Grid item xs={ 12 } >
-                    { imageApp }
+            <Grid item xs={ 12 } lg={ 10 } >
+                <Grid
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="flex-start" >
+
+                    <Grid item xs={ 12 } lg={ 6 } >
+                        <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+                    </Grid>
+                    <Grid item xs={ 12 } lg={ 6 } alignContent="alignRight" >
+                        
+                        {/* 
+                        <span className="m-2 blue-text">Sorting</span>
+                        <SelectionView currentValue={ view_sort } iconsOnly={ true } valueArr={ ['date', 'rating'] } callback={ callbackSort } /> */}
+                    </Grid>
+                    <Grid item xs={ 12 } >
+                        { imageApp }
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>
@@ -157,7 +166,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ 
+    return bindActionCreators({
         setQueryFilter,
         addToQueryFilter,
         removeFromQueryFilter

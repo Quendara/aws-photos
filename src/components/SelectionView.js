@@ -31,10 +31,13 @@ export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callb
     }
 
     return (
-        <ButtonGroup size="small" variant="text"  >
+        <ButtonGroup size="small" variant="contained"  >
             { valueArr.map((item, index) => {
                 return (
-                    <Button key={ index } color={ getClass(item) } onClick={ () => callbackLocal(item) } ><Icon icon={ item } className="ml-2 mr-2" /> { getItemName(item) }</Button>
+                    <Button key={ index } color={ getClass(item) } onClick={ () => callbackLocal(item) } >
+                        { iconsOnly && <Icon icon={ item } className="ml-2 mr-2" /> }
+                        { getItemName(item) }
+                        </Button>
                 )
             }) }
         </ButtonGroup>

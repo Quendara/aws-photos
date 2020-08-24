@@ -12,7 +12,7 @@ import { ImageOnDemand } from "./ImageOnDemand";
 import { setQueryFilter } from "../redux/actions"; // import default 
 import { useWindowSize } from "./useWindowSize"
 
-import { Button } from '@material-ui/core';
+import { Button, Card } from '@material-ui/core';
 import { ButtonGroup } from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid';
@@ -267,13 +267,15 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                         { showGroupSelector &&
                             <Grid
                                 container
-                                justify="flex-start"
+                                justify="center"
                                 alignItems="flex-start" >
 
-                                <Grid item xs={ 12 } >
+                                <Card className="group-menu" >
+                                    
                                     <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
-                                    <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button>
-                                </Grid>
+                                    
+                                    {/* <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button> */}
+                                </Card>
                             </Grid>
                         }
                         <>

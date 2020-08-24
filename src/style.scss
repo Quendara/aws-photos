@@ -109,17 +109,24 @@ img.responsive-carousel{
 
 .btn-move-to-top {
 	position: fixed;
-	top: 90%;
+	bottom: 6%;
     right: 50px;
 	z-index: 999 !important;;
 	border-radius: 10% !important;;
-
-	transition: opacity 600ms !important;
-	
+	transition: opacity 600ms !important;	
+	transition: display 600ms !important;	
 }
 
+.group-menu {
+	position: fixed;
+	bottom: 2%;
+	z-index: 500 !important;;
+	transition: opacity 600ms !important;	
+}
+
+
 .invisible{
-	// #display: none;
+	display: none;
 	// #visibility: hidden;
 	opacity: 0;
 
