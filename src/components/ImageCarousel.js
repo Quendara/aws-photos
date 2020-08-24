@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 
-
 import { Rating } from "./Rating"
 import { useSwipeable } from "react-swipeable";
 import { ImageOnDemand } from "./ImageOnDemand";
@@ -12,11 +11,14 @@ import { setMetadataOnImage } from "../redux/actions"; // import default
 
 import { TopList } from "./TopList";
 import { TopAutoComplete } from "./TopAutoComplete";
+
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Box from '@material-ui/core/Box';
+import {CircularProgress} from '@material-ui/core/';
+
 
 import { Icon } from "./Icons";
 import { addSrcAndDirname, restCallToBackendAsync } from "./helpers";
@@ -48,6 +50,7 @@ const ImageCarousel = ({
     const [cityClipboard, setCityClipboard] = useState("");
     const [countryClipboard, setCountryClipboard] = useState("");
     const [stateClipboard, setStateClipboard] = useState("");
+    const [seachingFace, setSearchingFace] = useState(false);
 
     const printQuery = (query) => {
         if (typeof query === "object") {
@@ -61,6 +64,8 @@ const ImageCarousel = ({
 
     const searchFacesOnImageLocal = (image) => {
 
+
+        setSearchingFace( true )
         // ( image.id, token.access )
         const url = [Settings.baseRestApi, 'photos', image.id, 'find_faces'].join("/")
 
@@ -70,7 +75,11 @@ const ImageCarousel = ({
             const res = JSON.parse(data)
             console.log("restCallToBackendAsync : ", res.faces)
             // this will be rejected, but the "find_faces" call has already updated the metadata
-            setMetadataOnImage(image.id, "faces", res.faces, token.access)
+            if( res.faces.length > 0 ){
+                setMetadataOnImage(image.id, "faces", res.faces, token.access)
+            }
+            
+            setSearchingFace( false )
         })
     }
     //         console.log(data)
@@ -92,7 +101,10 @@ const ImageCarousel = ({
                         <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
 
                         <CancelFilterArray value={ image.faces } filter="faces" callback={ removeFace } />
-                        <Button variant="outlined" className="ml-2" onClick={ () => searchFacesOnImageLocal(image) } >search faces</Button>
+                        <Button variant="outlined" className="ml-2" onClick={ () => searchFacesOnImageLocal(image) } >
+                            { seachingFace && <CircularProgress /> }
+                            Search faces
+                        </Button>
                     </>
                 }
             </div>)
