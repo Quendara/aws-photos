@@ -222,9 +222,9 @@ export const addSrcAndDirname = (images) => {
 
         // let retImage = image
 
-        if (image.country === undefined) { retImage['country'] = "Unknown Country" }
-        if (image.city === undefined) { retImage['city'] = "Unknown City" }
-        if (image.state === undefined) { retImage['state'] = "Unknown State" }
+        if (image.country === undefined) { retImage['country'] = "-" }
+        if (image.city === undefined) { retImage['city'] = "-" }
+        if (image.state === undefined) { retImage['state'] = "-" }
 
         if (image.faces !== undefined) { 
 

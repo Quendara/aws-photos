@@ -3,52 +3,66 @@ import React, { useState, useCallback } from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 
+import { useWindowSize } from "./useWindowSize"
+import { CancelFilterArray } from "./CancelFilter";
+
 import { ImageOnDemand } from "./ImageOnDemand";
-import { Modal, ModalGateway } from "react-images";
 
 import { Rating } from "./Rating"
 import { sortPhotos } from "./helpers"
+import { Icon } from "./Icons";
+
 
 import { setRatingOnImage } from "../redux/actions"; // import default 
-import ImageCarousel from "./ImageCarousel"
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { Grid, Box, Button } from "@material-ui/core";
 
 
+
+
+
+
+export const ImageListSimple = ({ photos, sortBy, limit = 10, setRatingOnImage }) => {
+
+  const getCaptionFromPhoto = (image) => {
+    return (
+        <div>
+            { showDetails &&
+                <>
+                    <br/>
+                    <Icon icon="day" /> { image.day } <Icon icon="dirname" className="ml-2" /> <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } { image.dirname_physical }</span>
+                    { image.filename }
+                    <Box color="text.secondary" >{ image.id } </Box>
+
+                    <Box lineHeight={ 3 } fontSize="h6.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>  
+                    <Box lineHeight={ 1 } >
+                        <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
+                        <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
+                        <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
+                    </Box>
+                    
   
-
-const ImageSimpleRow = ({ index, image, onClick, ratingCallback }) => {
-    
-
-  // const callbackImageLocal = (e) => callbackImage( e, {index, image  } )
-  // const callbackImageLocal = (index) => {
-  //   callbackImage( index )
-  // }
-
-  const callbackImageLocal = (e) => onClick(e, { index, image });
+                    {/* 
+                    <CancelFilterArray value={ image.faces } filter="faces" callback={ removeFace } />
+                    <Button variant="outlined" className="ml-2" onClick={ () => searchFacesOnImageLocal(image) } >search faces</Button> */}
+                </>
+            }
+        </div>)
+  }
 
 
-  return (
-
-      <div className="row "  >
-          <div className="col s6 m6 l3" onClick={callbackImageLocal}  >            
-            <ImageOnDemand className="responsive-img" image={image} />
-          </div>
-          <div  className="col s6 m6 l9">
-            <span className="badge">{ image.dirname } / { image.filename }</span>
-            <h5>{ image.country }</h5>
-            <h6>{ image.city }</h6>
-            <h6>{ image.day }</h6>
-            <h5><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }   ></Rating></h5>
-            --{  image.width}x{image.height}--
-          </div>
-      </div>
-  );
-}
-
-export const ImageListSimple = ({ photos, sortBy, limit=10, setRatingOnImage }) => {
-
+  const [showDetails, setShowDetails] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [currentLimit, setCurrentLimit] = useState(limit);
+  const [contextMenu, setContextMenu] = useState("");
+
+  const size = useWindowSize();
+
+  
 
   // const openLightbox = useCallback((event, { photo, index }) => {
   //   setCurrentImage(index);
@@ -66,8 +80,8 @@ export const ImageListSimple = ({ photos, sortBy, limit=10, setRatingOnImage }) 
   };
 
   const ratingCallback = (id, rating) => {
-    
-    if( setRatingOnImage === undefined ){
+
+    if (setRatingOnImage === undefined) {
       console.error("ratingCallback - setRatingOnImage is undefined", id, rating)
     }
     console.log("ratingCallback", id, rating, setRatingOnImage)
@@ -76,25 +90,31 @@ export const ImageListSimple = ({ photos, sortBy, limit=10, setRatingOnImage }) 
 
   const limitPhotosAndSort = (images, size = 999999, sortBy) => {
 
-    console.log( "limitPhotosAndSort called" )
-    images = sortPhotos(images, sortBy)    
+    console.log("limitPhotosAndSort called")
+    images = sortPhotos(images, sortBy)
 
     if (+currentLimit > photos.length) {
       setCurrentLimit(photos.length)
     }
     return images.slice(0, size) // reduce    
-  }  
+  }
 
   // 
-  const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);  
-
+  const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
 
   const imageList = photos.length ? (
     currentPhotos.map((image, index) => {
       return (
-        <div className="row " key={ image.id } >
-          <ImageSimpleRow index={index} image={image} ratingCallback={ratingCallback} onClick={ openLightbox  } />
-        </div>
+        <>
+          <Grid xs={ 4 } >
+            <ImageOnDemand style={ {} } className="responsive-img" image={ image } />
+          </Grid>
+          <Grid xs={ 1 } ></Grid>
+          <Grid xs={ 6 } >
+            { getCaptionFromPhoto( image ) }
+        </Grid>
+        </>
+
       );
     })
   ) : (
@@ -102,21 +122,23 @@ export const ImageListSimple = ({ photos, sortBy, limit=10, setRatingOnImage }) 
     );
 
   return (
-    <>
-      { imageList }
-      <ModalGateway>
-        { viewerIsOpen ? (
-          <Modal onClose={ closeLightbox }>
-                <ImageCarousel
-                  photos={ currentPhotos }
-                  currentIndex={ currentImage }
-                  closeCallback={ closeLightbox }
-                  ratingCallback={ ratingCallback } />
-            />
-          </Modal>
-        ) : null }
-      </ModalGateway>
-    </>
+    <Grid
+      container
+      direction="row"
+      justify="center"
+      alignItems="flex-start" >
+      <Grid xs={ 9 } >
+        <Grid
+          container
+          direction="row"
+          justify="center"          
+          alignItems="flex-start" >
+
+          { imageList }
+        </Grid>
+      </Grid>
+    </Grid >
+
   );
 };
 

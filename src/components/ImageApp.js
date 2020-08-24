@@ -28,6 +28,7 @@ import Grid from '@material-ui/core/Grid';
 // This class contains the business logic of the application
 const ImageApp = ({
     photos,
+    photos_all,
     query,
     setQueryFilter,
     addToQueryFilter,
@@ -41,9 +42,9 @@ const ImageApp = ({
     const callbackFilter = (key, value, add = true) => { // add = false means remove from ARRAY
 
         console.log("callbackFilter : ", key, " : ", value)
-        console.log("query ", query)
-        console.log("add ", add)
-        console.log("typeof value ", typeof value)
+        console.log("query ", query )
+        console.log("add ", add )
+        console.log("typeof value ", typeof value )
 
         if (key === "faces") {
             if (add === true) {
@@ -86,7 +87,7 @@ const ImageApp = ({
                             <div  >
                                 <h3 className="blue-text text-lighten-4 center">No images, please deselect at least one filter.</h3>
                                 <div className="divider" /><br /><br />
-                                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+                                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } photos={ photos }  photos_all={ photos_all }  />
                             </div>
 
                         ) :
@@ -127,9 +128,9 @@ const ImageApp = ({
                     alignItems="flex-start" >
 
                     <Grid item xs={ 12 } lg={ 6 } >
-                        <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+                        <CancelFilterAll query={ query } callbackFilter={ callbackFilter } photos={ photos }  photos_all={ photos_all }  />
                     </Grid>
-                    <Grid item xs={ 12 } lg={ 6 } alignContent="alignRight" >
+                    <Grid item xs={ 12 } lg={ 6 } >
                         
                         {/* 
                         <span className="m-2 blue-text">Sorting</span>
@@ -152,8 +153,8 @@ const mapStateToProps = state => {
 
     let photos = state.photos
 
-    let copyOfphotos = addSrcAndDirname(photos)
-    copyOfphotos = filterFiles(copyOfphotos, state.query)
+    const copyOfphotos      = addSrcAndDirname(photos)
+    const filterOfphotos    = filterFiles(copyOfphotos, state.query)
 
     const t1 = performance.now()
     console.log("filtering took " + (t1 - t0).toFixed(2) + " milliseconds.")
@@ -162,7 +163,7 @@ const mapStateToProps = state => {
 
     const query = state.query
 
-    return { photos: copyOfphotos, query } // photos:photos
+    return { photos: filterOfphotos, photos_all: copyOfphotos, query } // photos:photos
 }
 
 const mapDispatchToProps = dispatch => {

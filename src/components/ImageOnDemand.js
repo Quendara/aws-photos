@@ -34,7 +34,7 @@ export const ImageOnDemand = ({ image, className, onClick }) => {
     if (visibility > 0.01) {
       if (loaded === false) {
         setLoaded(true)
-        console.log("set loaded TRUE")
+        // console.log("set loaded TRUE")
       }
     }
     let r = className

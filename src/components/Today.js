@@ -51,7 +51,7 @@ export const Today = ({
             alignItems="flex-start" >
 
             <Grid item xs={ 12 } lg={ 9 } >
-                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } photos={ photos } />
             </Grid>
             <Grid item xs={ 12 } lg={ 9 } >
 

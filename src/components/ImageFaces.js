@@ -209,7 +209,7 @@ const ImageFaces = ({
                                 <h2>Personen</h2>
                             </Grid>
                             <Grid item xs={ 6 }  >
-                                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } />
+                                <CancelFilterAll query={ query } callbackFilter={ callbackFilter } photos={ photos } />
                             </Grid>
 
                             <GridList cols={ (size.width > 600) ? 6 : 2 } >

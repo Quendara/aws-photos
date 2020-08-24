@@ -7,6 +7,7 @@ import ImageMap from "./ImageMap";
 // import {ImageToday} from "./ImageToday";
 
 import {MoveToTop} from "./MoveToTop";
+import { ImageListSimple } from "./ImageListSimple";
 
 
 const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
@@ -19,7 +20,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
         return (<ImageGrid view="grid" photos={ currentPhotos } sortBy={sortBy} paging={true} />)
       case "list":
         // the div cleans the stage when switching from grid to list
-        return (<div><ImageGrid view="details" limit={ 10 } paging={true} photos={ currentPhotos } sortBy={sortBy}  /> </div>)
+        return (<div><ImageListSimple view="details" limit={ 10 } paging={true} photos={ currentPhotos } sortBy={sortBy}  /> </div>)
       case "group": 
         return (<ImageGroup photos={ currentPhotos} sortBy={sortBy}/>)
       case "map": 

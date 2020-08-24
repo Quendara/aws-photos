@@ -12,7 +12,7 @@ import { ImageOnDemand } from "./ImageOnDemand";
 import { setQueryFilter } from "../redux/actions"; // import default 
 import { useWindowSize } from "./useWindowSize"
 
-import { Button, Card } from '@material-ui/core';
+import { Button, Card, Box } from '@material-ui/core';
 import { ButtonGroup } from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid';
@@ -251,12 +251,24 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
 
     return (
         <div>
+                        { showGroupSelector &&
+                            <Grid
+                                container
+                                justify="center"
+                                alignItems="flex-start" >
+
+                                <Box className="group-menu" boxShadow={3}  >
+                                    
+                                    <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
+                                    
+                                    {/* <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button> */}
+                                </Box>
+                            </Grid>
+                        }            
+
+
             { groups.length === 1 ? (
                 <>
-                { showGroupSelector &&
-                <Grid item xs={ 12 } >
-                    <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />                    
-                </Grid> }
 
                 <Grid xs={ adaptColSize(groups[0].count) }  >
                     <ImageGrid photos={ groups[0].photos } sortBy={ sortBy } limit="100" />
@@ -264,20 +276,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                 </>
             ) : (
                     <>
-                        { showGroupSelector &&
-                            <Grid
-                                container
-                                justify="center"
-                                alignItems="flex-start" >
 
-                                <Card className="group-menu" >
-                                    
-                                    <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
-                                    
-                                    {/* <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button> */}
-                                </Card>
-                            </Grid>
-                        }
                         <>
                             <GridList spacing={ 10 } cellHeight={ (size.width > 600) ? 280 : 180 } cols={ (size.width > 600) ? 4 : 2 } >
                                 { groups.map((item, index) => (
