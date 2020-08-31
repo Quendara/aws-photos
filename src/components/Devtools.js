@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Icon } from "./Icons"
 // import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
-import Settings from "../Settings"
+import {Settings} from "../Settings"
 import Button from '@material-ui/core/Button';
 import { useWindowSize } from "./useWindowSize"
 import Grid from '@material-ui/core/Grid';

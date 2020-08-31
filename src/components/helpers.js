@@ -1,5 +1,5 @@
 import { sortBy, groupBy, shuffle, reduce } from "underscore";
-import Settings from "../Settings"
+import {Settings} from "../Settings"
 
 export const sortPhotos = (images, sortByKey = 'rating', ascending=false) => {
     images = sortBy(images, sortByKey);

@@ -1,45 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { AppBar, Toolbar, Button, TextField, Grid, Card, Typography, Divider, CardContent } from '@material-ui/core/';
+import { List, ListItem } from '@material-ui/core/';
+
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  //  faPlus,
-  faAngleDoubleRight,
-  faSignOutAlt,
-  faUserAstronaut,
-  faCloudUploadAlt,
-  faImages,
-  faEllipsisV,
-  faEllipsisH,
-  faMapMarkerAlt,
-  faThList,
-  faList,
-  faBars,
-  faUserNinja,
-  faLaptopHouse,
-  faCalendarDay,
-  faCameraRetro
-
-} from "@fortawesome/free-solid-svg-icons";
-
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Hidden from '@material-ui/core/Hidden';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-
-
-
-
-import {
-  BrowserRouter as Router,
-  NavLink,
-} from "react-router-dom";
-
-// import { AmazonCognitoIdentity } from "amazon-cognito-identity-js";
+import { faAngleDoubleRight, faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 
 import jwt_decode from "jwt-decode";
 
@@ -54,46 +19,14 @@ const poolData = {
   ClientId: "5v3et57vfoqijj81g3ksbidm5k"
 };
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(6),
-      color: "#FFFFFF",
-      textDecoration: "none"
-    },
-    title: {
-      flexGrow: 1,
-      color: "#FFFFFF",
-      textDecoration: "none"
-    },
-    selected: {
-      color: "#FFFF00",
-    }
-  }),
-);
-
-const Auth = ({ authSuccessCallback }) => {
-
-  const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = useState(null); // <null | HTMLElement>
-
-  const menuHandleClick = (event) => { // : React.MouseEvent<HTMLButtonElement>
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
 
+const Auth = ({ authSuccessCallback, children }) => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
+  // let authError = {}
   //  const [token, setToken] = useState("");
   const [trySend, setTrySend] = useState(false);
 
@@ -127,10 +60,12 @@ const Auth = ({ authSuccessCallback }) => {
         });
       }
     }
-  });
+  }, []);
 
-  const handleClick = event => {
-    event.preventDefault();
+  const signIn = event => {
+    // event.preventDefault();
+    console.log("username ", username);
+    console.log("password ", password);
 
     if (username.length > 0 && password.length > 0) {
       // send ONLY when it's filled out
@@ -158,6 +93,16 @@ const Auth = ({ authSuccessCallback }) => {
       authSuccessCallback("", "");
     }
   };
+
+  const onPasswortChange = (e) => {
+    
+    if (e.key === "Enter") {
+      signIn(e)
+    }
+    else {
+      // setPassword( e.target.value  )
+    }
+  }
 
   const authImpl = (username, password) => {
     // Amazon Cognito creates a session which includes the id, access, and refresh tokens of an authenticated user.
@@ -203,15 +148,20 @@ const Auth = ({ authSuccessCallback }) => {
         // callback to parent
         authSuccessCallback(username, idToken);
 
-        setAuthError("Success" + JSON.stringify(decoded));
+        setAuthError("");
         setCognitoUser(cognitoUser);
         setTrySend(false);
       },
       onFailure: function (err) {
         setTrySend(false);
-        console.error("Cannot log in ", JSON.stringify(err));
-        setAuthError("Cannot log in " + JSON.stringify(err));
+        console.error("Cannot log in ", err );
+        setAuthError({
+          'code': err.code,
+          'message': err.message,
+          'name': err.name
+        })
       }
+
     });
   };
 
@@ -228,48 +178,70 @@ const Auth = ({ authSuccessCallback }) => {
 
   if (cognitoUser == null) {
     return (
-      <>
-        <>
-          <div className="nav-wrapper" id="navbarNavDropdown">
-            <div className="row">
-              <div className=" col s12" >
-                <a href="#" className="brand-logo hide-on-med-and-down">Photos</a>
-                <ul id="nav-mobile" className="right">
+      <div className="responsive-carousel-bg login-bg" >
+        <Grid
+          container
+          justify="center"
+          alignItems="center"  >
 
-                  <form className="form-inline" onSubmit={ handleClick }>
-
-                    <li>
-                      <input
-                        value={ username }
-                        className={ getInputClass(username) }
-                        placeholder="Name"
-                        onChange={ e => setUsername(e.target.value) }
-                      />
-                    </li>
-                    <li>
-                      <input
-                        type="password"
-                        value={ password }
-                        className={ getInputClass(password) }
-                        placeholder="Password"
-                        onChange={ e => setPassword(e.target.value) }
-                      />
-                    </li>
-                    <li>
-                      <button className="btn btn-primary m-2">
-                        { trySend ? "Loading" : "Sign-In" }
-                        <FontAwesomeIcon icon={ faAngleDoubleRight } className="ml-2" />
-                      </button>
-                    </li>
-                  </form>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </>
-
-        <h2>{ authError }</h2>
-      </>
+          <Grid item xs={ 11 } lg={ 12 } >
+            x<br />
+            x<br />
+            x<br />
+            x<br />
+          </Grid>
+          <Grid item xs={ 11 } lg={ 4 } >
+            <Card>
+              <List>
+                <ListItem>
+                  <Typography variant="h4" >Log in</Typography>
+                  <Divider variant="middle" />
+                </ListItem>
+                <form className="form-inline" onSubmit={ signIn } >
+                  <ListItem>
+                    <TextField
+                      value={ username }
+                      error={ trySend }
+                      fullWidth
+                      style={ { margin: 8 } }
+                      variant="outlined"
+                      className={ getInputClass(username) }
+                      label="Name"
+                      onChange={ e => setUsername(e.target.value) }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <TextField
+                      type="password"
+                      value={ password }
+                      error={ trySend }
+                      fullWidth
+                      style={ { margin: 8 } }
+                      variant="outlined"
+                      className={ getInputClass(password) }
+                      label="Password"
+                      onKeyPress={ e => onPasswortChange(e) }
+                      // onKeyPress={ e => onPasswortChange ( e.target.value ) }
+                      onChange={ e => setPassword(e.target.value) }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <Button color="primary" variant="contained" onClick={ signIn } style={ { margin: 8 } } >
+                      { trySend ? "Loading" : "Sign-In" }
+                      <FontAwesomeIcon icon={ faAngleDoubleRight } className="ml-2" />
+                    </Button>
+                  </ListItem>
+                </form>
+              </List>
+            </Card>
+            <Card>
+              <CardContent>
+                <h2>{ authError.message }</h2>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </div>
     );
   } else {
     //<li><NavLink className="nav-item nav-link mr-2 " to="/sandbox" activeClassName="blue">Sandbox</NavLink></li>
@@ -277,92 +249,11 @@ const Auth = ({ authSuccessCallback }) => {
       <>
         <AppBar position="static">
           <Toolbar>
-
-            <Hidden smDown>    {/*  xs   |   sm   |   md   |   lg   |   xl */ }
-              <NavLink to="/grid" className={ classes.title }   >
-                <Typography variant="h6" >
-                  <FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />
-                  Photos
-               </Typography>
-              </NavLink>
-
-              <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Group </Typography> </NavLink>
-              <NavLink to="/map" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faMapMarkerAlt } className="mr-2" /> Map </Typography> </NavLink>
-              {/* <NavLink to="/list" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faList } className="mr-2" /> List </Typography> </NavLink> */}
-
-              <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
-              <NavLink to="/faces" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
-
-              <NavLink to="/devtools" className={ classes.menuButton } activeClassName={ classes.selected } ><Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</Typography> </NavLink>
-              <NavLink to="/import" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> import</Typography> </NavLink>
-
-              <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /><Button color="inherit">{ username } </Button>
-
-            </Hidden>
-            <Hidden mdUp>
-
-              <NavLink to="/main" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faBars } className="mr-2" /> Menu</Typography> </NavLink>
-              <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
-              <NavLink to="/faces" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</Typography> </NavLink>
-
-
-              <Typography color="inherit" onClick={ menuHandleClick } ><FontAwesomeIcon icon={ faEllipsisV } className="mr-2" /> Mehr</Typography>
-              <Menu
-                id="simple-menu"
-                anchorEl={ anchorEl }
-                keepMounted
-                open={ Boolean(anchorEl) }
-                onClose={ handleClose }
-              >
-                <MenuItem>
-                  <NavLink to="/grid" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> Photos</Typography> </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Groups</Typography> </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink to="/devtools" className={ classes.title } activeClassName={ classes.selected } ><Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" />Devtools</Typography> </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink to="/import" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" />Import</Typography> </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <FontAwesomeIcon onClick={ signOut } icon={ faSignOutAlt } className="mr-2" /><Typography color="inherit">Logout { username } </Typography>
-                </MenuItem>
-              </Menu>
-
-            </Hidden>
-
-
+            { children }
+            <Button color="second"><FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /> { username }</Button>
+            <Button color="second" onClick={ signOut }>Logout</Button>
           </Toolbar>
         </AppBar>
-
-        {/* <div className="nav-wrapper" id="navbarNavDropdown">
-          <div className="row">
-            <div className=" col s12" >
-              <ul id="nav-mobile" className="center hide-on-med-and-down m4">
-                <li><NavLink className="nav-item nav-link mr-2"className="left mr-6" style={{ fontSize:"2em" }}  to="/main" ><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> <b> Photos</b></NavLink></li>
-                <li><NavLink className="nav-item nav-link mr-4" to="/today" activeClassName="blue"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</NavLink></li>
-                <li><NavLink className="nav-item nav-link mr-4" to="/faces" activeClassName="blue"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> Faces</NavLink></li>
-                <li><NavLink className="nav-item nav-link mr-4" to="/import" activeClassName="blue"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" /> Import</NavLink></li>
-                <li><NavLink className="nav-item nav-link mr-4 " to="/devtools" activeClassName="blue"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" /> Devtools</NavLink></li>
-              </ul>
-              <ul className="right hide-on-med-and-down m4">
-                <li>
-                  <button className="btn btn-primary ">
-                    <FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" />
-                    <b> { username } </b>
-
-                  </button>
-                  <button className="btn btn m-2 " onClick={ signOut }>
-                    Logout
-                    <FontAwesomeIcon icon={ faSignOutAlt } className="ml-2" />
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div> */}
       </>
     );
   }

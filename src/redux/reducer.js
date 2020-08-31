@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
-import { SET_RATING, SET_FILTER, SET_ACCESS_TOKEN, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE_FROM_FILTER, SEARCH_FACE } from "./actions"
-import Settings from "../Settings"
+import { SET_RATING, SET_FILTER, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE_FROM_FILTER, SEARCH_FACE } from "./actions"
+import { SET_ACCESS_TOKEN , SET_USER_ROLES } from "./actions"
+
+import {Settings} from "../Settings"
 
 // import { mockdataBerlin } from "../data/mockdata_Berlin.js"
 // import { mockdataSizilien } from "../data/mockdata_Sizilien.js"
@@ -42,7 +44,8 @@ const initial_state = {
         faces:[]
     },
     token: {
-        access: ""
+        access: "",
+        roles:[]
     }
 }
 
@@ -220,6 +223,12 @@ function token(state = initial_state.token, action) {
             return Object.assign({}, state, {
                 access: action.token
             })
+        case SET_USER_ROLES:
+            return Object.assign({}, state, {
+                roles: action.roles
+            })
+
+
         default:
             return state
     }

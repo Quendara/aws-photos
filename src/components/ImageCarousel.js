@@ -17,20 +17,21 @@ import CardMedia from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Box from '@material-ui/core/Box';
-import {CircularProgress} from '@material-ui/core/';
+import { CircularProgress } from '@material-ui/core/';
 
 
 import { Icon } from "./Icons";
 import { addSrcAndDirname, restCallToBackendAsync } from "./helpers";
 
-import Settings from "../Settings"
+import { Settings, Role } from "../Settings"
 
 // import { values } from "underscore";
 
 const ImageCarousel = ({
     photos,
     all_photos,          // from redux
-    token,               // from redux   
+    token,               // from redux  
+    roles,                // from redux  
     setMetadataOnImage,   // from redux
     currentIndex,
     closeCallback,
@@ -65,7 +66,7 @@ const ImageCarousel = ({
     const searchFacesOnImageLocal = (image) => {
 
 
-        setSearchingFace( true )
+        setSearchingFace(true)
         // ( image.id, token.access )
         const url = [Settings.baseRestApi, 'photos', image.id, 'find_faces'].join("/")
 
@@ -75,11 +76,11 @@ const ImageCarousel = ({
             const res = JSON.parse(data)
             console.log("restCallToBackendAsync : ", res.faces)
             // this will be rejected, but the "find_faces" call has already updated the metadata
-            if( res.faces.length > 0 ){
+            if (res.faces.length > 0) {
                 setMetadataOnImage(image.id, "faces", res.faces, token.access)
             }
-            
-            setSearchingFace( false )
+
+            setSearchingFace(false)
         })
     }
     //         console.log(data)
@@ -91,6 +92,7 @@ const ImageCarousel = ({
                     <>
                         <Box color="text.secondary" >{ image.id } </Box>
                         { image.filename }
+                        - roles {roles.join(", ") }
                         <Box lineHeight={ 3 } fontSize="h5.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>
                         <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } - { image.dirname_physical }</span>
 
@@ -128,61 +130,70 @@ const ImageCarousel = ({
 
         console.log("handleKeyPress", event.key)
 
-        switch (event.key) {
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-                ratingCallback(photo.id, event.key);
-                break;
-            case 'd':
-                setDeleted();
-                break;
-            case 'i':
-                setShowDetails( !showDetails )
-                break;    
-                
-            case 'm':
-                setMissing();
-                break;
-            case 'r':
-                // updateMetadata("rotate", 180 ) // call callback ();
-                let rotate = 180;
-                if (photo.rotate !== undefined) {
-                    rotate = (photo.rotate + 180) % 360;
-                }
-                setMetadataOnImage(photo.id, "rotate", rotate, token.access)
-                break;
-            case 27:
-            case 'Escape':
-                closeCallback()
-                break;
-            case 'ArrowUp':
-                increaseRating()
-                break;
-            case 'ArrowDown':
-                decreaseRating()
-                break;
-            case 'ArrowRight':
-                nextImage()
-                break;
-            case 'ArrowLeft':
-                previousImage()
-                break;
-            case 'c':
-                setCountryClipboard(photo.country)
-                setStateClipboard(photo.state)
-                setCityClipboard(photo.city)
-                break;
-            case 'v':
-                updateMetadata("country", countryClipboard) // call callback 
-                updateMetadata("state", stateClipboard) // call callback 
-                updateMetadata("city", cityClipboard) // call callback 
-                break;
-            default:
-                console.log('key pressed here !! ' + event.key)
+
+        if ( roles.includes( Role.update_metadata ) ) {
+
+
+            switch (event.key) {
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                    ratingCallback(photo.id, event.key);
+                    break;
+                case 'd':
+                    setDeleted();
+                    break;
+                case 'i':
+                    setShowDetails(!showDetails)
+                    break;
+
+                case 'm':
+                    setMissing();
+                    break;
+                case 'r':
+                    // updateMetadata("rotate", 180 ) // call callback ();
+                    let rotate = 180;
+                    if (photo.rotate !== undefined) {
+                        rotate = (photo.rotate + 180) % 360;
+                    }
+                    setMetadataOnImage(photo.id, "rotate", rotate, token.access)
+                    break;
+                case 27:
+                case 'Escape':
+                    closeCallback()
+                    break;
+                case 'ArrowUp':
+                    increaseRating()
+                    break;
+                case 'ArrowDown':
+                    decreaseRating()
+                    break;
+                case 'ArrowRight':
+                    nextImage()
+                    break;
+                case 'ArrowLeft':
+                    previousImage()
+                    break;
+                case 'c':
+                    setCountryClipboard(photo.country)
+                    setStateClipboard(photo.state)
+                    setCityClipboard(photo.city)
+                    break;
+                case 'v':
+                    updateMetadata("country", countryClipboard) // call callback 
+                    updateMetadata("state", stateClipboard) // call callback 
+                    updateMetadata("city", cityClipboard) // call callback 
+                    break;
+                default:
+                    console.log('key pressed here !! ' + event.key)
+            }
         }
+        else{
+            alert( "no admin user : " + roles.join(", "))
+        }
+
     }
     const setMissing = () => {
         const newRating = -10
@@ -308,11 +319,11 @@ const ImageCarousel = ({
             </div>
             <div style={ { top: '90%', right: '20px' } } className="image-carousel" >
                 { showDetails &&
-                <ButtonGroup variant="contained">
-                    <Button color="secondary" onClick={ setDeleted } >Delete</Button>
-                    <Button color="primary" onClick={ setMissing }  >Missing</Button>
-                </ButtonGroup>
-    }
+                    <ButtonGroup variant="contained">
+                        <Button color="secondary" onClick={ setDeleted } >Delete</Button>
+                        <Button color="primary" onClick={ setMissing }  >Missing</Button>
+                    </ButtonGroup>
+                }
                 <Box lineHeight={ 3 } fontSize="h5.fontSize" i ><b>{ index + 1 } / { photos.length }</b></Box>
             </div>
         </div>
@@ -328,8 +339,10 @@ const mapStateToProps = state => {
     let copyOfphotos = addSrcAndDirname(photos)
     // copyOfphotos = filterFiles(copyOfphotos, state.query)
     const token = state.token
+    const roles = state.token.roles
 
-    return { all_photos: copyOfphotos, token } // photos:photos
+
+    return { all_photos: copyOfphotos, token, roles } // photos:photos
 }
 
 const mapDispatchToProps = dispatch => {

@@ -71,11 +71,18 @@ $transition-effects: color 1s ease, background-color 1s ease;
 	transition: 1s;
 }
 
-.responsive-carousel-bg{ 
+.login-bg { 
+	background-image: url("https://s3.eu-central-1.amazonaws.com/quendara.de/background/Grafitti-Stonewall-2.jpg");
+	
+}
+
+
+.responsive-carousel-bg { 
+	
     position: absolute;
     height: 100vh;
 	width: 100vw;
-	background-color: #212121;
+	background-color: #212121;	
 	
     left: 0;
     right: 0;

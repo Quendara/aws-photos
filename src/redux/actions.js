@@ -11,7 +11,9 @@ export const SET_FILTER = 'SET_FILTER'
 export const ADD_TO_FILTER = 'ADD_TO_FILTER' // form Array lists in query
 export const REMOVE_FROM_FILTER = 'REMOVE_FROM_FILTER'
 
+// cre
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
+export const SET_USER_ROLES = 'SET_USER_ROLES'
 
 // list of actions
 export function addTodoById(id) {
@@ -37,6 +39,15 @@ export function setAccessToken(token) {
   const action = {
     type: SET_ACCESS_TOKEN,
     token // == token:token
+  }
+
+  return action;
+}
+
+export function setUserRoles(roles) {
+  const action = {
+    type: SET_USER_ROLES,
+    roles // == roles:roles
   }
 
   return action;
