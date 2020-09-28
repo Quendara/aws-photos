@@ -15,42 +15,29 @@ import { Icon } from "./Icons";
 
 import { setRatingOnImage } from "../redux/actions"; // import default 
 
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+// import GridList from '@material-ui/core/GridList';
+// import GridListTile from '@material-ui/core/GridListTile';
+// import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Grid, Box, Button } from "@material-ui/core";
+import ImageCarousel from "./ImageCarousel";
+import {Dialog, DialogContent} from '@material-ui/core';
 
 
-
-
-
-
-export const ImageListSimple = ({ photos, sortBy, limit = 10, setRatingOnImage }) => {
+export const ImageListSimple = ({ photos, sortBy, limit = 100, setRatingOnImage }) => {
 
   const getCaptionFromPhoto = (image) => {
     return (
-        <div>
-            { showDetails &&
-                <>
-                    <br/>
-                    <Icon icon="day" /> { image.day } <Icon icon="dirname" className="ml-2" /> <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } { image.dirname_physical }</span>
-                    { image.filename }
-                    <Box color="text.secondary" >{ image.id } </Box>
-
-                    <Box lineHeight={ 3 } fontSize="h6.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>  
-                    <Box lineHeight={ 1 } >
-                        <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
-                        <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
-                        <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
-                    </Box>
-                    
-  
-                    {/* 
-                    <CancelFilterArray value={ image.faces } filter="faces" callback={ removeFace } />
-                    <Button variant="outlined" className="ml-2" onClick={ () => searchFacesOnImageLocal(image) } >search faces</Button> */}
-                </>
-            }
-        </div>)
+      <div>
+        { showDetails &&
+          <>
+            <br />
+            <Icon icon="day" /> { image.day } <Icon icon="dirname" className="ml-2" /> <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } { image.dirname_physical }</span>
+            { image.filename }
+            <Box color="text.secondary" >{ image.id } </Box>
+            <Box lineHeight={ 3 } fontSize="h6.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>
+          </>
+        }
+      </div>)
   }
 
 
@@ -60,19 +47,15 @@ export const ImageListSimple = ({ photos, sortBy, limit = 10, setRatingOnImage }
   const [currentLimit, setCurrentLimit] = useState(limit);
   const [contextMenu, setContextMenu] = useState("");
 
-  const size = useWindowSize();
-
-  
-
-  // const openLightbox = useCallback((event, { photo, index }) => {
+ // const openLightbox = useCallback((event, { photo, index }) => {
   //   setCurrentImage(index);
   //   setViewerIsOpen(true);
   // }, []);
 
-  const openLightbox = useCallback((event, { photo, index }) => {
+  const openLightbox = (index) => {
     setCurrentImage(index);
     setViewerIsOpen(true);
-  }, []);
+  };
 
   const closeLightbox = () => {
     setCurrentImage(0);
@@ -106,13 +89,25 @@ export const ImageListSimple = ({ photos, sortBy, limit = 10, setRatingOnImage }
     currentPhotos.map((image, index) => {
       return (
         <>
-          <Grid xs={ 4 } >
-            <ImageOnDemand style={ {} } className="responsive-img" image={ image } />
+          <Grid xs={ 2 } >
+            <ImageOnDemand style={ {} } onClick={ () => openLightbox(index) } className="responsive-img" image={ image } />
           </Grid>
           <Grid xs={ 1 } ></Grid>
-          <Grid xs={ 6 } >
-            { getCaptionFromPhoto( image ) }
-        </Grid>
+          <Grid xs={ 4 } >
+            { getCaptionFromPhoto(image) }
+          </Grid>
+          <Grid xs={ 1 } ></Grid>
+          <Grid xs={ 4 } >
+            <br />
+            <Box lineHeight={ 1 } >
+              <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
+              <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
+              <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
+            </Box>
+            <Box lineHeight={ 1 } color="text.secondary" >
+              { image.lat }, { image.long }
+            </Box>
+          </Grid>
         </>
 
       );
@@ -122,22 +117,38 @@ export const ImageListSimple = ({ photos, sortBy, limit = 10, setRatingOnImage }
     );
 
   return (
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="flex-start" >
-      <Grid xs={ 9 } >
-        <Grid
-          container
-          direction="row"
-          justify="center"          
-          alignItems="flex-start" >
+    <>
+      { viewerIsOpen ?
+      <Dialog open={viewerIsOpen} fullScreen={true} >
+        <DialogContent style={{    height: "100vh", width: "100vw"}}>
+        <ImageCarousel 
+            photos={ photos } 
+            closeCallback={ closeLightbox } 
+            currentIndex={ currentImage }
+            ratingCallback={ ratingCallback }
+            />
+        </DialogContent>
+        </Dialog>
+        : (
+          <>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="flex-start" >
+              <Grid xs={ 12 } md={9} >
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="flex-start" >
 
-          { imageList }
-        </Grid>
-      </Grid>
-    </Grid >
+                  { imageList }
+                </Grid>
+              </Grid>
+            </Grid >
+          </>) }
+    </>
 
   );
 };

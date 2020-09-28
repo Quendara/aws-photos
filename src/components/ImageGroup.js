@@ -77,7 +77,7 @@ export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondG
 
 const getGroupedItems = (photos, groupA) => {
     const sortByCount = false
-    const limit = 31;
+    const limit = 131;
     return findUnique(photos, groupA, sortByCount, limit)
 }
 
@@ -134,7 +134,9 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
                 title={
                     <Button onClick={ () => queryOnGroup(group, item.value) } >
                         <Icon icon={ group } className="mr-2" />{ item.value }
+                        - {item.photos.length}
                     </Button>
+                    
                 }
                 subtitle={ getContext(group, item.value, item.photos) }
 

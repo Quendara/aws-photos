@@ -103,6 +103,22 @@ const ImageFaces = ({
 
     const sortedPhotos = sortPhotos(photos, view_sort)
 
+    const bestFaceRef = (photos, view_sort) => {
+
+        const sortedPhotos = sortPhotos(photos, "rating")
+
+        // return one of the top 3 photos of the face, favorite is when the person is alone on the image
+        const maxIndex = sortedPhotos.length>=3 ? 3 : sortedPhotos.length
+        for (let index = 0; index < maxIndex; ++index) {
+            if( sortedPhotos[index].faces.length === 1 ){
+                return sortedPhotos[index]
+            }
+        }        
+
+        return sortedPhotos[0]
+
+    }
+
     const callbackFilter = (key, value, add = true) => { // add = false means remove from ARRAY
 
         console.log("callbackFilter : ", key, " : ", value)
@@ -196,7 +212,7 @@ const ImageFaces = ({
                                 { findUniqueFacesItems(photos, true, 12).map((item, index) => (
                                     <GridListTile cols={ 1 } rows={ 1 } key={index} >
                                         {/* <img src={ sortPhotos(item.photos, "rating", false)[0].source_url } alt="face" /> */}
-                                        <ImageOnDemand className="responsive-img"  image={ sortPhotos(item.photos, "rating", false)[0] } />
+                                        <ImageOnDemand className="responsive-img"  image={ bestFaceRef( item.photos ) } />
                                         <FaceTile item={ item } query={ query } callbackFilter={ callbackFilter } />
                                     </GridListTile>
                                 )) }

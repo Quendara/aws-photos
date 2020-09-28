@@ -12,7 +12,8 @@ import { setMetadataOnImage } from "../redux/actions"; // import default
 import { TopList } from "./TopList";
 import { TopAutoComplete } from "./TopAutoComplete";
 
-import Card from '@material-ui/core/Card';
+
+import { Card, CardHeader } from '@material-ui/core';
 import CardMedia from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -266,22 +267,18 @@ const ImageCarousel = ({
 
     const contextMenuFcn = () => {
         return (
-            <Card color="primary">
-                <CardMedia
-                    image={ photo.source_url }
-                    title="Contemplative Reptile"
-                />
+            <Card color="primary">              
                 <>
                     { countryClipboard.length > 0 &&
-                        <div style={ { padding: "20px" } } >
-                            <h5><Icon icon="clipboard" className="mr-2" />Clipboard</h5>
+                        <>
+                            <CardHeader title={ <><Icon icon="clipboard" className="mr-2" />Clipboard</> } />
+                            
                             <ul>
                                 <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
                                 <li className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</li>
                                 <li className="m-2">{ cityClipboard.length > 0 && <>{ cityClipboard }</> }</li>
                             </ul>
-
-                        </div>
+                        </>
                     }
                     { contextMenu.length > 0 &&
 

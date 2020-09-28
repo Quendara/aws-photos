@@ -5,6 +5,7 @@ import { List, ListItem } from '@material-ui/core/';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleRight, faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import jwt_decode from "jwt-decode";
 
@@ -178,7 +179,7 @@ const Auth = ({ authSuccessCallback, children }) => {
 
   if (cognitoUser == null) {
     return (
-      <div className="responsive-carousel-bg login-bg" >
+      <>
         <Grid
           container
           justify="center"
@@ -241,7 +242,7 @@ const Auth = ({ authSuccessCallback, children }) => {
             </Card>
           </Grid>
         </Grid>
-      </div>
+      </>
     );
   } else {
     //<li><NavLink className="nav-item nav-link mr-2 " to="/sandbox" activeClassName="blue">Sandbox</NavLink></li>
@@ -250,14 +251,15 @@ const Auth = ({ authSuccessCallback, children }) => {
         <AppBar position="static">
           <Toolbar>
             { children }
-            <Button color="second"><FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /> { username }</Button>
-            <Button color="second" onClick={ signOut }>Logout</Button>
+
+            
+            <Button onClick={ signOut }><ExitToAppIcon /></Button>
           </Toolbar>
         </AppBar>
       </>
     );
   }
 };
-
+// <Button><FontAwesomeIcon icon={ faUserAstronaut } className="mr-2" /> { username }</Button>
 export { Auth };
 
