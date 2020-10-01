@@ -9,6 +9,8 @@ import { Modal, ModalGateway } from "react-images";
 
 import { ImageGridImage } from "./ImageGridImage"
 import ImageCarousel from "./ImageCarousel"
+import Gallery from 'react-photo-gallery';
+
 
 import { sumArray } from "./helpers"
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
@@ -57,13 +59,32 @@ const Group = ({ photos, title }) => {
     const view_sort = "rating"
     const sortedPhotos = sortPhotos(photos, view_sort)
 
-    const height = size.width / 22
+    const height = size.width / 20
+
+    const imageRenderer = (
+        ({ index, left, top, key, photo, onClick }) => (
+          <ImageGridImage
+            selected={ false }
+            onClick={ onClick }
+            key={ key }
+            margin={ "2px" }
+            index={ index }
+            photo={ photo }
+            left={ left }
+            top={ top }
+          />
+        )
+      );    
 
     return (<>
     
         { photos.length > 3 && <Group_1_2 title={ title } photos={ sortedPhotos.slice(0, 3) } height={height} ></Group_1_2> }
-        { photos.length > 7 && <Group_3 photos={ sortedPhotos.slice(8, 8 + 3) } height={height} ></Group_3> }
-        { photos.length > 10 && <Group_6 photos={ sortedPhotos.slice(2, 2 + 6) } height={height} ></Group_6> }
+        {/* photos.length > 7 && <Group_3 photos={ sortedPhotos.slice(8, 8 + 3) } height={height} ></Group_3> }
+        { photos.length > 10 && <Group_6 photos={ sortedPhotos.slice(2, 2 + 6) } height={height} ></Group_6> */}
+
+        { photos.length > 7 &&  <Grid item xs={ 12 } ><Gallery photos={ sortedPhotos.slice(8, 8 + 3)  } renderImage={ imageRenderer }  /></Grid>  }
+        { photos.length > 10 && <Grid item xs={ 12 } ><Gallery photos={ sortedPhotos.slice(2, 2 + 6) } renderImage={ imageRenderer }   /></Grid> }
+
 
     </>)
 }
@@ -78,11 +99,11 @@ const Group_1_2 = ({ photos, title, height }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/6 }>
+                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[0] } />
                         <GridListTileBar
-                            title={ <h1>{ title }</h1> } 
+                            title={ <h2>{ title }</h2> } 
                             titlePosition="top"
                             className={ classes.titleBar }>
 
@@ -91,7 +112,7 @@ const Group_1_2 = ({ photos, title, height }) => {
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ (4 * height) * 0.98 } cols={ 1 } spacing={ height/6 }>
+                <GridList cellHeight={ (4 * height) * 0.98 } cols={ 1 } spacing={ height/9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[1] } />
                     </GridListTile>
@@ -111,14 +132,14 @@ const Group_1_4 = ({ photos, title, height }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/6 }>
+                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[0] } />
                     </GridListTile>
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ 2 * height } cols={ 2 } spacing={ height/6 }>
+                <GridList cellHeight={ 2 * height } cols={ 2 } spacing={ height/9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[1] } />
                     </GridListTile>
