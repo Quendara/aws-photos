@@ -62,8 +62,8 @@ const Group = ({ photos, title }) => {
     return (<>
     
         { photos.length > 3 && <Group_1_2 title={ title } photos={ sortedPhotos.slice(0, 3) } height={height} ></Group_1_2> }
-        { photos.length > 6 && <Group_3 photos={ sortedPhotos.slice(8, 8 + 3) } height={height} ></Group_3> }
-        { photos.length > 9 && <Group_6 photos={ sortedPhotos.slice(2, 2 + 6) } height={height} ></Group_6> }
+        { photos.length > 7 && <Group_3 photos={ sortedPhotos.slice(8, 8 + 3) } height={height} ></Group_3> }
+        { photos.length > 10 && <Group_6 photos={ sortedPhotos.slice(2, 2 + 6) } height={height} ></Group_6> }
 
     </>)
 }
@@ -78,11 +78,11 @@ const Group_1_2 = ({ photos, title, height }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ 15 }>
+                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/6 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[0] } />
                         <GridListTileBar
-                            title={ <h1>{ title }</h1> }
+                            title={ <h1>{ title }</h1> } 
                             titlePosition="top"
                             className={ classes.titleBar }>
 
@@ -91,7 +91,7 @@ const Group_1_2 = ({ photos, title, height }) => {
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ (4 * height) * 0.98 } cols={ 1 } spacing={ 15 }>
+                <GridList cellHeight={ (4 * height) * 0.98 } cols={ 1 } spacing={ height/6 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[1] } />
                     </GridListTile>
@@ -111,14 +111,14 @@ const Group_1_4 = ({ photos, title, height }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ 15 }>
+                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/6 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[0] } />
                     </GridListTile>
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ 2 * height } cols={ 2 } spacing={ 15 }>
+                <GridList cellHeight={ 2 * height } cols={ 2 } spacing={ height/6 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[1] } />
                     </GridListTile>
@@ -142,7 +142,7 @@ const Group_6 = ({ photos, title, height }) => {
 
     return (
         <>
-            <Grid item  >
+            <Grid item xs={ 12 }   >
                 <GridList cellHeight={ height } cols={ 12 } spacing={ 15 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ index === 99 ? 6 : 2 } rows={ index === 99 ? 4 : 2 } >
@@ -162,7 +162,7 @@ const Group_3 = ({ photos, title, height }) => {
     return (
         <>
 
-            <Grid item  >
+            <Grid item xs={ 12 }    >
                 <GridList cellHeight={ height } cols={ 12 } spacing={ 15 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ 4 } rows={ 4 } >
@@ -321,7 +321,7 @@ const ImageGrid2 = ({
         return findUnique(photos, groupA, sortByCount, limit)
     }
 
-    const groups = getGroupedItems(photos, "country")
+    const groups = getGroupedItems(photos, "day")
 
     return (
         <>
@@ -334,7 +334,7 @@ const ImageGrid2 = ({
                             direction="row"
                             justify="flex-start"
                             alignItems="flex-start"
-                            spacing={ 2 } >
+                            spacing={ 1 } >
                             { groups.map((item, index) => (
                                 <Group title={ item.value } photos={ item.photos } >
                                 </Group>
