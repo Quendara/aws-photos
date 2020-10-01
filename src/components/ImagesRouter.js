@@ -3,6 +3,7 @@ import React from "react";
 import ImageListSimple from "./ImageListSimple";
 import ImageGroup from "./ImageGroup"; // import without {}
 import ImageGrid from "./ImageGrid";
+import ImageGrid2 from "./ImageGrid2";
 import ImageMap from "./ImageMap";
 
 import {MoveToTop} from "./MoveToTop";
@@ -17,6 +18,8 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
     switch (vw) {
       case "grid":
         return (<ImageGrid view="grid" photos={ currentPhotos } sortBy={sortBy} paging={true} />)
+      case "grid2":
+        return (<ImageGrid2 view="grid" photos={ currentPhotos } sortBy={sortBy} paging={true} />)  
       case "list":
         // the div cleans the stage when switching from grid to list
         return (<div><ImageListSimple view="details" limit={ 100 } paging={true} photos={ currentPhotos } sortBy={sortBy}  /> </div>)

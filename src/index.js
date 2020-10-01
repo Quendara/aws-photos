@@ -269,6 +269,7 @@ const App = () => {
               {/* <Route exact path="/main" component={ ImageApp } /> */ }
               <Route exact path="/main" ><ImageApp view="grid"> </ImageApp></Route>
               <Route exact path="/grid" ><ImageApp view="grid" menu={ (size.width > size_md) ? true : false }> </ImageApp></Route>
+              <Route exact path="/grid2" ><ImageApp view="grid2" menu={ (size.width > size_md) ? true : false }> </ImageApp></Route>
               <Route exact path="/map" ><ImageApp view="map" menu={ (size.width > size_md) ? true : false }>  </ImageApp></Route>
               <Route exact path="/group" ><ImageApp view="group" menu={ (size.width > size_md) ? true : false }> </ImageApp></Route>
               <Route exact path="/list" ><ImageApp view="list"> </ImageApp></Route>
