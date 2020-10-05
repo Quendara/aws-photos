@@ -20,7 +20,7 @@ import { setRatingOnImage } from "../redux/actions"; // import default
 // import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Grid, Box, Button } from "@material-ui/core";
 import ImageCarousel from "./ImageCarousel";
-import {Dialog, DialogContent} from '@material-ui/core';
+import { Dialog, DialogContent } from '@material-ui/core';
 
 
 export const ImageListSimple = ({ photos, sortBy, limit = 100, setRatingOnImage }) => {
@@ -47,7 +47,7 @@ export const ImageListSimple = ({ photos, sortBy, limit = 100, setRatingOnImage 
   const [currentLimit, setCurrentLimit] = useState(limit);
   const [contextMenu, setContextMenu] = useState("");
 
- // const openLightbox = useCallback((event, { photo, index }) => {
+  // const openLightbox = useCallback((event, { photo, index }) => {
   //   setCurrentImage(index);
   //   setViewerIsOpen(true);
   // }, []);
@@ -119,15 +119,15 @@ export const ImageListSimple = ({ photos, sortBy, limit = 100, setRatingOnImage 
   return (
     <>
       { viewerIsOpen ?
-      <Dialog open={viewerIsOpen} fullScreen={true} >
-        <DialogContent style={{    height: "100vh", width: "100vw"}}>
-        <ImageCarousel 
-            photos={ photos } 
-            closeCallback={ closeLightbox } 
-            currentIndex={ currentImage }
-            ratingCallback={ ratingCallback }
+        <Dialog open={ viewerIsOpen } fullScreen={ true } >
+          <DialogContent style={ { height: "100vh", width: "100vw" } }>
+            <ImageCarousel
+              photos={ photos }
+              closeCallback={ closeLightbox }
+              currentIndex={ currentImage }
+              ratingCallback={ ratingCallback }
             />
-        </DialogContent>
+          </DialogContent>
         </Dialog>
         : (
           <>
@@ -136,7 +136,7 @@ export const ImageListSimple = ({ photos, sortBy, limit = 100, setRatingOnImage 
               direction="row"
               justify="center"
               alignItems="flex-start" >
-              <Grid xs={ 12 } md={9} >
+              <Grid xs={ 12 } md={ 9 } >
                 <Grid
                   container
                   direction="row"

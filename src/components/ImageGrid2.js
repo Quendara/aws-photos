@@ -20,7 +20,8 @@ import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import {Typography} from '@material-ui/core/';
+import { Typography, Hidden } from '@material-ui/core/';
+import { Dialog, DialogContent } from '@material-ui/core';
 
 
 import { ImageOnDemand } from "./ImageOnDemand";
@@ -54,39 +55,97 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Group = ({ photos, title }) => {
 
+    const [viewerIsOpen, setViewerIsOpen] = useState(false);
+    const [currentImage, setCurrentImage] = useState(0);
+
     const size = useWindowSize();
+    const classes = useStyles();
 
     const view_sort = "rating"
     const sortedPhotos = sortPhotos(photos, view_sort)
 
     const height = size.width / 20
 
+    const openLightbox = (index) => {
+        setCurrentImage(index);
+        setViewerIsOpen(true);
+      };
+    
+      const closeLightbox = () => {
+        setCurrentImage(0);
+        setViewerIsOpen(false);
+      };    
+
     const imageRenderer = (
         ({ index, left, top, key, photo, onClick }) => (
-          <ImageGridImage
-            selected={ false }
-            onClick={ onClick }
-            key={ key }
-            margin={ "2px" }
-            index={ index }
-            photo={ photo }
-            left={ left }
-            top={ top }
-          />
+            <ImageGridImage
+                selected={ false }
+                onClick={ onClick }
+                key={ key }
+                index={ index }
+                photo={ photo }
+                left={ left }
+                top={ top }
+            />
         )
-      );    
+    );
 
-    return (<>
+    const ratingCallback = null
+
+    return (
+        <>
     
-        { photos.length > 3 && <Group_1_2 title={ title } photos={ sortedPhotos.slice(0, 3) } height={height} ></Group_1_2> }
-        {/* photos.length > 7 && <Group_3 photos={ sortedPhotos.slice(8, 8 + 3) } height={height} ></Group_3> }
-        { photos.length > 10 && <Group_6 photos={ sortedPhotos.slice(2, 2 + 6) } height={height} ></Group_6> */}
+        { viewerIsOpen ?
+            <Dialog open={ viewerIsOpen } fullScreen={ true } >
+              <DialogContent style={ { height: "100vh", width: "100vw" } }>
+                <ImageCarousel
+                  photos={ sortedPhotos }
+                  closeCallback={ closeLightbox }
+                  currentIndex={ currentImage }
+                  ratingCallback={ ratingCallback }
+                />
+              </DialogContent>
+            </Dialog>
+            : (
 
-        { photos.length > 7 &&  <Grid item xs={ 12 } ><Gallery photos={ sortedPhotos.slice(8, 8 + 3)  } renderImage={ imageRenderer }  /></Grid>  }
-        { photos.length > 10 && <Grid item xs={ 12 } ><Gallery photos={ sortedPhotos.slice(2, 2 + 6) } renderImage={ imageRenderer }   /></Grid> }
+    <>
+
+        <Hidden smDown>
+            { photos.length > 3 && <Group_1_2 title={ title } photos={ sortedPhotos.slice(0, 3) } height={ height } ></Group_1_2> }
+            { photos.length > 7 && <Group_3 photos={ sortedPhotos.slice(8, 8 + 3) } height={ height } ></Group_3> }
+            { photos.length > 10 && <Group_6 photos={ sortedPhotos.slice(2, 2 + 6) } height={ height } ></Group_6> }
+        </Hidden>
+        <Hidden mdUp>
+            {/* <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height / 9 }>
+                    <GridListTile cols={ 1 } rows={ 1 } >
+                        <ImageOnDemand className="responsive-img" image={ photos[0] } />
+                        <GridListTileBar
+                            title={ <h2>{ title }</h2> }
+                            titlePosition="top"
+                            className={ classes.titleBar }>
+
+                        </GridListTileBar>
+                    </GridListTile>                
+                </GridList> */}
+            {/* { photos.length > 2 && <Gallery columns={1} photos={ sortedPhotos[0] } renderImage={ imageRenderer }  /> } */ }
+            { photos.length > 3 &&
+                < Grid item xs={ 12 } >                    
+                    <Typography
+                        
+                        titlePosition="top"
+                        className={ classes.titleBar }>
+                            { title }
+                    </Typography>
+                    <ImageOnDemand onClick={ () => openLightbox(0) } className="responsive-img" image={ sortedPhotos[0] } />
+                </Grid>
+            }
+            { photos.length > 6 && <Grid item xs={ 12 } ><Gallery targetRowHeight={ 10 } spacing={ 3 } photos={ sortedPhotos.slice(1, 1 + 2) } renderImage={ imageRenderer } /></Grid> }
+            { photos.length > 10 && <Grid item xs={ 12 } ><Gallery  targetRowHeight={ 10 } spacing={ 3 } photos={ sortedPhotos.slice(3, 3 + 3) } renderImage={ imageRenderer } /></Grid>}
 
 
-    </>)
+        </Hidden>
+
+    </>) } </> )
 }
 
 
@@ -99,11 +158,11 @@ const Group_1_2 = ({ photos, title, height }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/9 }>
+                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height / 9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[0] } />
                         <GridListTileBar
-                            title={ <h2>{ title }</h2> } 
+                            title={ <h2>{ title }</h2> }
                             titlePosition="top"
                             className={ classes.titleBar }>
 
@@ -112,7 +171,7 @@ const Group_1_2 = ({ photos, title, height }) => {
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ (4 * height) * 0.98 } cols={ 1 } spacing={ height/9 }>
+                <GridList cellHeight={ (4 * height) * 0.98 } cols={ 1 } spacing={ height / 9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[1] } />
                     </GridListTile>
@@ -132,14 +191,14 @@ const Group_1_4 = ({ photos, title, height }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height/9 }>
+                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height / 9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[0] } />
                     </GridListTile>
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ 2 * height } cols={ 2 } spacing={ height/9 }>
+                <GridList cellHeight={ 2 * height } cols={ 2 } spacing={ height / 9 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand className="responsive-img" image={ photos[1] } />
                     </GridListTile>
@@ -167,6 +226,26 @@ const Group_6 = ({ photos, title, height }) => {
                 <GridList cellHeight={ height } cols={ 12 } spacing={ 15 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ index === 99 ? 6 : 2 } rows={ index === 99 ? 4 : 2 } >
+                            <ImageOnDemand className="responsive-img" image={ photo } />
+                        </GridListTile>
+                    ))
+                        // 
+                    }
+                </GridList>
+            </Grid>
+        </>
+    )
+}
+
+const Group_2 = ({ photos, title, height }) => {
+
+    return (
+        <>
+
+            <Grid item xs={ 12 }    >
+                <GridList cellHeight={ height } cols={ 12 } spacing={ 15 }>
+                    { photos.map((photo, index) => (
+                        <GridListTile key={ index } cols={ 6 } >
                             <ImageOnDemand className="responsive-img" image={ photo } />
                         </GridListTile>
                     ))
@@ -342,7 +421,7 @@ const ImageGrid2 = ({
         return findUnique(photos, groupA, sortByCount, limit)
     }
 
-    const groups = getGroupedItems(photos, "day")
+    const groups = getGroupedItems(photos, "month")
 
     return (
         <>
