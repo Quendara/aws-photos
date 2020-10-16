@@ -56,8 +56,9 @@ export const ImageOnDemand = ({ image, className, onClick }) => {
   return (
 
     <div ref={ targetRef } style={{backgroundColor:"#2D2D31", height:"100%"}} >
-      <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ ((visibility > 0.01) || loaded) ? image.source_url : '' } />
-      {/* <div  className={ getClassName( image, className, visibility ) }> x {visibility}</div> */ }
+      {/* <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ ((visibility > 0.01) || loaded) ? image.source_url : '' } /> */}
+      <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ (visibility > 0.01 ) ? image.source_url : '' } />
+      
     </div>
       
     
