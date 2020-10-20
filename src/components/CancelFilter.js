@@ -4,21 +4,12 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Chip, Menu, MenuItem } from '@material-ui/core/';
 import { findUnique, findUniqueFacesItems } from "./helpers"
+import { useStyles } from "./Styles"
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { values } from "underscore";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        spacing: {
-            flexGrow: 1,
-            '& > *': {
-                margin: theme.spacing(0.5),
-            }
 
-        }
-    })
-);
 
 export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all }) => {
     const classes = useStyles();

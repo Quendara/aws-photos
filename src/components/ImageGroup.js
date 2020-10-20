@@ -12,7 +12,7 @@ import { ImageOnDemand } from "./ImageOnDemand";
 import { setQueryFilter } from "../redux/actions"; // import default 
 import { useWindowSize } from "./useWindowSize"
 
-import { Button, Card, Box } from '@material-ui/core';
+import { Button, Card, Box, Badge, Typography } from '@material-ui/core';
 import { ButtonGroup } from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid';
@@ -23,54 +23,64 @@ import IconButton from '@material-ui/core/IconButton';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { useStyles } from "./Styles"
+
+
 
 import red from '@material-ui/core/colors/red';
 
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+// import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+// const useStyles = makeStyles((theme: Theme) =>
+//     createStyles({
+//         spacing: {
+//             flexGrow: 1,
+//             '& > *': {
+//                 margin: theme.spacing(0.5),
+//             }
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        spacing: {
-            flexGrow: 1,
-            '& > *': {
-                margin: theme.spacing(0.5),
-            }
-
-        },
-        menuButton: {
-            marginRight: theme.spacing(6),
-            color: "#FFFFFF",
-            textDecoration: "none"
-        },
-        title: {
-            flexGrow: 1,
-            color: "#FF0000",
-            textDecoration: "none"
-        },
-        selected: {
-            color: "#FFFF00",
-        }
-    }),
-);
-
-
+//         },
+//         menuButton: {
+//             marginRight: theme.spacing(6),
+//             color: "#FFFFFF",
+//             textDecoration: "none"
+//         },
+//         title: {
+//             flexGrow: 1,
+//             color: "#FF0000",
+//             textDecoration: "none"
+//         },
+//         selected: {
+//             color: "#FFFF00",
+//         }
+//     }),
+// );
 
 // import { ImageListSimple } from "./ImageListSimple"
 
 
 export const ImageGroupHeader = ({ groupKey, groupValue, secondGroupKey, secondGroupValues, callback }) => {
 
+    const classes = useStyles();
+
     const callbackLocal = (value) => {
         callback(groupKey, groupValue, secondGroupKey, value)
     }
 
+    // return (
+    //     <ButtonGroup color="primary" variant="text" >{ secondGroupValues.map(x => (
+    //         <Button variant="contained" key={ x.value } size="small" onClick={ () => callbackLocal(x.value) } >{ x.value }</Button>
+    //     ))
+    //     }
+    //     </ButtonGroup>
+    // )
     return (
-        <ButtonGroup color="primary" variant="text" >{ secondGroupValues.map(x => (
-            <Button key={ x.value } size="small" onClick={ () => callbackLocal(x.value) } >{ x.value }</Button>
+        <div className={ classes.spacing }>{ secondGroupValues.map(x => (
+            <Chip color="primary" key={ x.value } size="small" onClick={ () => callbackLocal(x.value) } label={ x.value } />
         ))
         }
-        </ButtonGroup>
+        </div>
     )
+
 }
 
 const getGroupedItems = (photos, groupA) => {
@@ -129,10 +139,21 @@ const ImageListTile = ({ item, group, index, queryOnGroup, getContext }) => {
             <ImageOnDemand className="responsive-img" onClick={ () => shuffleIndex() } image={ item.photos[photoPreviewIndex] } />
             <GridListTileBar
                 title={
-                    <Button onClick={ () => queryOnGroup(group, item.value) } >
-                        <Icon icon={ group } className="mr-2" />{ item.value }
-                        - { item.photos.length }
-                    </Button>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        alignItems="flex-start"
+                        >
+                        <Grid item>
+                            <Button onClick={ () => queryOnGroup(group, item.value) } >
+                                <Icon icon={ group } className="mr-2" />{ item.value }
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Typography color="textSecondary"> { item.photos.length }</Typography>
+                        </Grid>
+                    </Grid>
                 }
                 subtitle={ getContext(group, item.value, item.photos) }
             />

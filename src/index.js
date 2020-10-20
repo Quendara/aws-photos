@@ -247,8 +247,12 @@ const App = () => {
                   onClose={ handleClose }
                 >
                   <MenuItem>
-                    <NavLink to="/grid" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" /> Photos</Typography> </NavLink>
+                    <NavLink to="/grid" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Photos</Typography> </NavLink>
                   </MenuItem>
+                  <MenuItem>
+                    <NavLink to="/grid2" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Grid 2</Typography> </NavLink>
+                  </MenuItem>
+
                   <MenuItem>
                     <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Groups</Typography> </NavLink>
                   </MenuItem>
