@@ -220,6 +220,7 @@ const App = () => {
                </Typography>
                 </NavLink>
 
+                <NavLink to="/list" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> List </Typography> </NavLink>
                 <NavLink to="/grid2" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Grid2 </Typography> </NavLink>
                 <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Group </Typography> </NavLink>
                 <NavLink to="/map" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faMapMarkerAlt } className="mr-2" /> Map </Typography> </NavLink>

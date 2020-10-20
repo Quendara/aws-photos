@@ -163,7 +163,7 @@ const Group_1_2 = ({ photos, title, height, offset, onClick }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ 8 }>
+                <GridList cellHeight={ 8 * height +8 } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand onClick={() => localOnClick(0)} className="responsive-img" image={ photos[0] } />
                         <GridListTileBar
@@ -176,7 +176,7 @@ const Group_1_2 = ({ photos, title, height, offset, onClick }) => {
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ (4 * height) * 0.99 } cols={ 1 } spacing={ 8 }>
+                <GridList cellHeight={ (4 * height) } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand onClick={() => localOnClick(1)}  className="responsive-img" image={ photos[1] } />
                     </GridListTile>

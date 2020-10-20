@@ -19,6 +19,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Box from '@material-ui/core/Box';
 import { CircularProgress } from '@material-ui/core/';
+import { Clipboard } from "./Clipboard"
 
 
 import { Icon } from "./Icons";
@@ -49,9 +50,11 @@ const ImageCarousel = ({
     const [showDetails, setShowDetails] = useState(true);
 
     const [contextMenu, setContextMenu] = useState("");
+
     const [cityClipboard, setCityClipboard] = useState("");
     const [countryClipboard, setCountryClipboard] = useState("");
     const [stateClipboard, setStateClipboard] = useState("");
+    
     const [seachingFace, setSearchingFace] = useState(false);
 
     const printQuery = (query) => {
@@ -131,10 +134,23 @@ const ImageCarousel = ({
 
         console.log("handleKeyPress", event.key)
 
+        switch (event.key) {
+            case 27:
+                case 'Escape':
+                    closeCallback()
+                    break;
+                case 'ArrowRight':
+                    nextImage()
+                    break;
+                case 'ArrowLeft':
+                    previousImage()
+                    break;
+                default:
+                    // console.log('key pressed here !! ' + event.key)
+        }
+
 
         if ( roles.includes( Role.update_metadata ) ) {
-
-
             switch (event.key) {
                 case '1':
                 case '2':
@@ -149,7 +165,6 @@ const ImageCarousel = ({
                 case 'i':
                     setShowDetails(!showDetails)
                     break;
-
                 case 'm':
                     setMissing();
                     break;
@@ -161,22 +176,12 @@ const ImageCarousel = ({
                     }
                     setMetadataOnImage(photo.id, "rotate", rotate, token.access)
                     break;
-                case 27:
-                case 'Escape':
-                    closeCallback()
-                    break;
-                case 'ArrowUp':
-                    increaseRating()
-                    break;
-                case 'ArrowDown':
-                    decreaseRating()
-                    break;
-                case 'ArrowRight':
-                    nextImage()
-                    break;
-                case 'ArrowLeft':
-                    previousImage()
-                    break;
+                    case 'ArrowUp':
+                        increaseRating()
+                        break;
+                    case 'ArrowDown':
+                        decreaseRating()
+                        break;
                 case 'c':
                     setCountryClipboard(photo.country)
                     setStateClipboard(photo.state)
@@ -267,18 +272,10 @@ const ImageCarousel = ({
 
     const contextMenuFcn = () => {
         return (
-            <Card color="primary">              
+            <Card color="primary">                              
                 <>
                     { countryClipboard.length > 0 &&
-                        <>
-                            <CardHeader title={ <><Icon icon="clipboard" className="mr-2" />Clipboard</> } />
-                            
-                            <ul>
-                                <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
-                                <li className="m-2">{ stateClipboard.length > 0 && <>{ stateClipboard }</> }</li>
-                                <li className="m-2">{ cityClipboard.length > 0 && <>{ cityClipboard }</> }</li>
-                            </ul>
-                        </>
+                        <Clipboard country={countryClipboard} state={stateClipboard} city={cityClipboard} />
                     }
                     { contextMenu.length > 0 &&
 
@@ -303,7 +300,8 @@ const ImageCarousel = ({
                 <ImageOnDemand
                     image={ photo }
                     className="responsive-carousel"
-                    alt={ photo.id } />
+                    alt={ photo.id }
+                    onClick= { () => setShowDetails(!showDetails) } />
             </div>
             <div style={ { top: '0px', right: '20px' } } className="image-carousel " onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
             <div style={ { top: '43%', left: '20px' } } className="image-carousel  " onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>

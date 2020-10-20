@@ -2,12 +2,14 @@ import React, { useState } from "react"; // , { useState }
 // import { Provider } from 'react-redux'
 
 import { bindActionCreators } from "redux";
-import { connect } from 'react-redux' 
+import { connect } from 'react-redux'
 
 // import SandboxList from "./SandboxList"
 
 import { TopList } from "./TopList"
 import { TopAutoComplete } from "./TopAutoComplete"
+import { Clipboard } from "./Clipboard"
+
 
 import ImageCarousel from "./ImageCarousel"
 // import ImageGrid from "./ImageGrid"
@@ -18,13 +20,16 @@ import { setQueryFilter } from "../redux/actions"; // import default
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 import { rootReducer } from "../redux/reducer"; // import default 
 import { createStore } from "redux";
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@material-ui/core';
+
 
 
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 
 // init with function
 export const store = createStore(rootReducer)
+
+
 
 
 
@@ -83,14 +88,14 @@ const Sandbox = ({
 
     }
 
-    const callbackTest = (key, value ) => {
+    const callbackTest = (key, value) => {
         let msg = key
         msg += ", "
         msg += value
-        setTextmessage( msg )
+        setTextmessage(msg)
     }
 
-    
+
 
     return (
         <>
@@ -99,29 +104,33 @@ const Sandbox = ({
 
                 <div className="col s12 m3 l2 " >
                     { photos.length > 0 && <>
-           
+
                         <div className="hide-on-med-and-down">
-                            <TopAutoComplete  photos={ photos } title="city" icon="location" limit="50" callback={ callbackTest } />
+                            <TopAutoComplete photos={ photos } title="city" icon="location" limit="50" callback={ callbackTest } />
                         </div>
                     </> }
                 </div>
 
                 <div className="col s12 m9 l10" >
                     <Grid container>
-                
 
-                    { (showImage && photos.length > 0) &&
-                        <>
-                            {textmessage}
-                            {/* <ImageGrid photos={ photos } limit="10" /> */}
-                            {/* <ImageCarousel photos={photos} currentIndex="0" /> */}
+                        <Clipboard state="Germany" country="NRW" city="Bochum" ></Clipboard>
 
-                        </> }
+
+
+
+                        { (showImage && photos.length > 0) &&
+                            <>
+                                { textmessage }
+                                {/* <ImageGrid photos={ photos } limit="10" /> */ }
+                                {/* <ImageCarousel photos={photos} currentIndex="0" /> */ }
+
+                            </> }
 
                     </Grid>
 
-                </div>
-            </div>
+                </div >
+            </div >
 
 
         </>
