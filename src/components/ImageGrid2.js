@@ -163,7 +163,7 @@ const Group_1_2 = ({ photos, title, height, offset, onClick }) => {
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ height / 9 }>
+                <GridList cellHeight={ 8 * height } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand onClick={() => localOnClick(0)} className="responsive-img" image={ photos[0] } />
                         <GridListTileBar
@@ -176,7 +176,7 @@ const Group_1_2 = ({ photos, title, height, offset, onClick }) => {
                 </GridList>
             </Grid>
             <Grid item xs={ 4 } >
-                <GridList cellHeight={ (4 * height) * 0.98 } cols={ 1 } spacing={ height / 9 }>
+                <GridList cellHeight={ (4 * height) * 0.99 } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
                         <ImageOnDemand onClick={() => localOnClick(1)}  className="responsive-img" image={ photos[1] } />
                     </GridListTile>
@@ -230,7 +230,7 @@ const Group_6 = ({ photos, title, height, offset, onClick }) => {
     return (
         <>
             <Grid item xs={ 12 }   >
-                <GridList cellHeight={ height } cols={ 12 } spacing={ 15 }>
+                <GridList cellHeight={ height } cols={ 12 } spacing={ 8 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ index === 99 ? 6 : 2 } rows={ index === 99 ? 4 : 2 } >
                             <ImageOnDemand onClick={ () => localOnClick( index ) } className="responsive-img" image={ photo } />
@@ -254,7 +254,7 @@ const Group_2 = ({ photos, title, height, offset, onClick }) => {
         <>
 
             <Grid item xs={ 12 }    >
-                <GridList cellHeight={ height } cols={ 12 } spacing={ 15 }>
+                <GridList cellHeight={ height } cols={ 12 } spacing={ 8 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ 6 } >
                             <ImageOnDemand onClick={ () => localOnClick( index ) }  className="responsive-img" image={ photo } />
@@ -279,7 +279,7 @@ const Group_3 = ({ photos, title, height, offset, onClick }) => {
         <>
 
             <Grid item xs={ 12 }    >
-                <GridList cellHeight={ height } cols={ 12 } spacing={ 15 }>
+                <GridList cellHeight={ height } cols={ 12 } spacing={ 8 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ 4 } rows={ 4 } >
                             <ImageOnDemand onClick={ () => localOnClick( index ) } className="responsive-img" image={ photo } />
