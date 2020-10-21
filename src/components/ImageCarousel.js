@@ -57,6 +57,12 @@ const ImageCarousel = ({
     
     const [seachingFace, setSearchingFace] = useState(false);
 
+    const clearClipboard = () => {
+        setCityClipboard("") // call callback 
+        setCountryClipboard("") // call callback 
+        setStateClipboard("") // call callback     
+      }    
+
     const printQuery = (query) => {
         if (typeof query === "object") {
             return query.join(", ")
@@ -275,7 +281,7 @@ const ImageCarousel = ({
             <Card color="primary">                              
                 <>
                     { countryClipboard.length > 0 &&
-                        <Clipboard country={countryClipboard} state={stateClipboard} city={cityClipboard} />
+                        <Clipboard country={countryClipboard} state={stateClipboard} city={cityClipboard} closeCallback={ clearClipboard } />
                     }
                     { contextMenu.length > 0 &&
 

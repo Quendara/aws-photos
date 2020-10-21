@@ -20,18 +20,60 @@ import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // impo
 // import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Grid, Box, Button } from "@material-ui/core";
 import ImageCarousel from "./ImageCarousel";
-import { Dialog, DialogContent, Card } from '@material-ui/core';
+import { Dialog, DialogContent, Card, Hidden } from '@material-ui/core';
 import { Clipboard } from "./Clipboard"
 
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
+import { List, ListItem, IconButton, ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+
+const ImageGpsInfo = ({
+  image,
+  copyToClipboardCTA,
+  setLocationClipboardCTA
+}) => {
+
+  const [isShown, setIsShown] = useState(false);
+
+  // const bull = <span className={classes.bullet}>•</span>;
+  const bull = <span>•</span>;
+
+  return (
+    <div>
+      { image.country !== "-" ? (
+        <List
+          onMouseEnter={ () => setIsShown(true) }
+          onMouseLeave={ () => setIsShown(false) }
+        >
+          <ListItem>
+            <ListItemText primary={ <> { image.country } { bull } { image.state } </> } />
+
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="delete" onClick={ copyToClipboardCTA }>
+                { isShown && <FileCopyIcon /> }
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={ image.city }  />
+          </ListItem>
+          <ListItem>
+          <ListItemText primary={ <>{ image.lat }, { image.long }</> } secondary="GPS" />
+          </ListItem>
+        </List>
+      ) : (
+          <AddCircleIcon onClick={ setLocationClipboardCTA } />
+        ) }
+    </div>)
+}
 
 export const ImageListSimple = ({
   photos,
   sortBy,
-  limit = 100,
+  limit = 500,
   setRatingOnImage,
   setMetadataOnImage,
   token,              // from mapStateToProps
@@ -49,16 +91,53 @@ export const ImageListSimple = ({
 
   const [contextMenu, setContextMenu] = useState("");
 
+  const clearClipboard = () => {
+    setCityClipboard("") // call callback 
+    setCountryClipboard("") // call callback 
+    setStateClipboard("") // call callback     
+  }
+
 
   const getCaptionFromPhoto = (image) => {
     return (
-      <div>
-        <br />
-        <Icon icon="day" /> { image.day } <Icon icon="dirname" className="ml-2" /> <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } { image.dirname_physical }</span>
-        { image.filename }
-        <Box color="text.secondary" >{ image.id } </Box>
-        <Box lineHeight={ 3 } fontSize="h6.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>
-      </div>)
+      <List>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <Icon icon="dirname" />
+            </Avatar>
+          </ListItemAvatar>
+
+          <ListItemText
+            primary={ <><span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname }/{ image.filename }</span></> }
+            secondary={ image.dirname_physical } />
+
+        </ListItem>
+        <ListItem>
+        <ListItemAvatar>
+            <Avatar>
+        <Icon icon="day" /> 
+        </Avatar>
+          </ListItemAvatar>
+          
+          <ListItemText
+            primary={ image.day  }
+          />
+
+        </ListItem>
+        <ListItem>
+          <Box fontSize="h5.fontSize" >
+            <Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating>
+          </Box>
+        </ListItem>
+        {/* <ListItem>
+          <Hidden mdDown>
+            <Box color="text.secondary" >{ image.id } </Box> 
+          </Hidden>
+        </ListItem> */}
+
+      </List>
+    )
   }
 
   const getGpsInfoFromPhoto = (image) => {
@@ -73,12 +152,12 @@ export const ImageListSimple = ({
       updateMetadata("country", countryClipboard) // call callback 
       updateMetadata("state", stateClipboard) // call callback 
       updateMetadata("city", cityClipboard) // call callback     
-    }    
+    }
 
     const updateMetadata = (what, value) => {
 
       if (value.length > 0) {
-        console.log("Update '" + what + "' to '" + value + "' ImageID : " + image.id )
+        console.log("Update '" + what + "' to '" + value + "' ImageID : " + image.id)
         if (value !== image[what]) {
           updateMetadataCallback(image.id, what, value)
         }
@@ -92,28 +171,7 @@ export const ImageListSimple = ({
       setContextMenu("")
     }
 
-
-
-
-    return (
-      <div>
-        { image.country !== "-" ? (
-          <>
-            <br />
-            <Box lineHeight={ 1 } >
-              <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
-              <span onClick={ () => setContextMenu("state") } >{ image.state }</span>
-              <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
-            </Box>
-            <Box lineHeight={ 1 } color="text.secondary" >
-              { image.lat }, { image.long }
-            </Box>
-            <FileCopyIcon onClick={ copyToClipboardCTA } />
-          </>
-        ) : (
-            <AddCircleIcon onClick={ setLocationClipboardCTA } />
-          ) }
-      </div>)
+    return (<ImageGpsInfo image={ image } copyToClipboardCTA={ copyToClipboardCTA } setLocationClipboardCTA={ setLocationClipboardCTA } />)
   }
 
 
@@ -174,19 +232,38 @@ export const ImageListSimple = ({
   const imageList = photos.length ? (
     currentPhotos.map((image, index) => {
       return (
-        <>
-          <Grid xs={ 2 } >
-            <ImageOnDemand style={ {} } onClick={ () => openLightbox(index) } className="responsive-img" image={ image } />
-          </Grid>
-          <Grid xs={ 1 } ></Grid>
-          <Grid xs={ 4 } >
-            { getCaptionFromPhoto(image) }
-          </Grid>
-          <Grid xs={ 1 } ></Grid>
-          <Grid xs={ 4 } >
-            { getGpsInfoFromPhoto(image) }
-          </Grid>
-        </>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          key={ index }
+          spacing={ 2 }
+          alignItems="flex-start" >
+
+          <Hidden smDown>
+            <Grid item lg={ 2 } md={ 3 } >
+              <ImageOnDemand onClick={ () => openLightbox(index) } className="responsive-img" image={ image } />
+            </Grid>
+            <Grid item md={ 5 } >
+              { getCaptionFromPhoto(image) }
+            </Grid>
+            <Grid item md={ 4 } >
+              { getGpsInfoFromPhoto(image) }
+            </Grid>
+          </Hidden>
+          <Hidden mdUp>
+            <Grid item xs={ 6 } >
+              <ImageOnDemand onClick={ () => openLightbox(index) } className="responsive-img" image={ image } />
+            </Grid>
+            <Grid item xs={ 6 } >
+              <Divider />
+              { getCaptionFromPhoto(image) }
+              { getGpsInfoFromPhoto(image) }
+            </Grid>
+          </Hidden>
+
+
+        </Grid>
 
       );
     })
@@ -211,10 +288,14 @@ export const ImageListSimple = ({
       }
       <>
         { countryClipboard.length > 0 &&
-          <div style={ { position: "fixed", bottom: '2%', left: '25%', width: '35%', margin: "5%", zIndex: '1' } } className="image-carousel-text" >
-            <Card>
-              <Clipboard country={ countryClipboard } state={ stateClipboard } city={ cityClipboard } />
-            </Card>
+          <div style={ { position: "fixed", bottom: '2%', left: '0%', width: '100%', zIndex: '999' } } className="image-carousel-text" >
+            <Grid container justify="center" alignItems="center">
+              <Grid item xs={ 12 } md={ 3 }>
+                <Card>
+                  <Clipboard country={ countryClipboard } state={ stateClipboard } city={ cityClipboard } closeCallback={ clearClipboard } />
+                </Card>
+              </Grid>
+            </Grid>
           </div>
 
         }
@@ -224,16 +305,11 @@ export const ImageListSimple = ({
           direction="row"
           justify="center"
           alignItems="flex-start" >
-          <Grid xs={ 12 } md={ 9 } >
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="flex-start" >
 
-              { imageList }
-            </Grid>
-          </Grid>
+
+          { imageList }
+
+
         </Grid >
       </>
     </>

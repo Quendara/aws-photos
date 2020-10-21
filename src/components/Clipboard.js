@@ -1,6 +1,7 @@
 import React, { useState } from "react"; // , { useState }
 
-import { Grid, Card, CardHeader, Icon, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, Divider } from '@material-ui/core';
+import { Grid, Card, CardHeader, Icon, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
@@ -9,8 +10,10 @@ import LanguageIcon from '@material-ui/icons/Language';
 import LocationCityIcon from '@material-ui/icons/LocationCity';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+import CloseIcon from '@material-ui/icons/Close';
 
-export const Clipboard = ({ country, state, city }) => {
+
+export const Clipboard = ({ country, state, city, closeCallback }) => {
 
     // <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
     return (
@@ -20,6 +23,11 @@ export const Clipboard = ({ country, state, city }) => {
                         <AssignmentIcon />
                     </ListItemIcon>
                     <ListItemText primary="Clipboard" />
+                    <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="delete" onClick={closeCallback}>
+                      <CloseIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>                
                 </ListItem>
                 <Divider />
                 <ListItem>
