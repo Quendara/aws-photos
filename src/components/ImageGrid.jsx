@@ -8,15 +8,11 @@ import { Modal, ModalGateway } from "react-images";
 
 import { ImageGridImage } from "./ImageGridImage"
 import ImageCarousel from "./ImageCarousel"
-import { ImageOnDemand } from "./ImageOnDemand"
 
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 
-import Grid from '@material-ui/core/Grid';
-import GridList from '@material-ui/core/Grid';
-import GridListTile from '@material-ui/core/GridListTile';
 
 
 // import Settings from "../Settings"
@@ -45,10 +41,8 @@ const ImageGrid = ({
   sortBy,
   setRatingOnImage,   // from mapDispatchToProps
   setMetadataOnImage, // from mapDispatchToProps
-  token,              // from mapStateToProps
-  ...rest }) => {
+  token }) => {
 
-  const classes = useStyles();
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -65,7 +59,7 @@ const ImageGrid = ({
   let currentRenderer = undefined
 
 
-  const openLightbox = useCallback((event, { photo, index }) => {
+  const openLightbox = useCallback((event, { index }) => {
     setCurrentImage(index);
     setViewerIsOpen(true);
   }, []);
@@ -162,7 +156,7 @@ const ImageGrid = ({
 
   }
 
-  const limitPhotosAndSort = (images, size = 999999, sortBy) => {
+  const limitPhotosAndSort = (images, size = 999999) => {
 
     // console.log("limitPhotosAndSort called, size : ", size)
 

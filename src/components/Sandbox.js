@@ -6,25 +6,23 @@ import { connect } from 'react-redux'
 
 // import SandboxList from "./SandboxList"
 
-import { TopList } from "./TopList"
 import { TopAutoComplete } from "./TopAutoComplete"
 import { Clipboard } from "./Clipboard"
 
 
-import ImageCarousel from "./ImageCarousel"
 // import ImageGrid from "./ImageGrid"
 // import ImageGrid2 from "./ImageGrid2"
 
 
 import { setQueryFilter } from "../redux/actions"; // import default 
-import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
+import { setMetadataOnImage } from "../redux/actions"; // import default 
 import { rootReducer } from "../redux/reducer"; // import default 
 import { createStore } from "redux";
 import { Grid } from '@material-ui/core';
 
 
 
-import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
+import { filterFiles, addSrcAndDirname } from "./helpers";
 
 // init with function
 export const store = createStore(rootReducer)
@@ -35,7 +33,6 @@ export const store = createStore(rootReducer)
 
 const Sandbox = ({
     photos,
-    query,
     setQueryFilter,     // from mapDispatchToProps
     setRatingOnImage,   // from mapDispatchToProps
     setMetadataOnImage, // from mapDispatchToProps
@@ -46,47 +43,12 @@ const Sandbox = ({
 
     const [textmessage, setTextmessage] = useState(""); // group, list, grid
 
-    const callbackFilter = (key, value) => {
-
-        console.log("callbackFilter : ", key, " : ", value)
-        // current_filter[key] = value;
-        // setCurrentFilter(current_filter)
-        // filterFiles(current_filter)
-
-        setQueryFilter(key, value)
-    }
-
-    const test = (image) => {
-        console.log("getSrcUrlWhenVisible : ", image)
-    }
 
 
 
-    const closeView = () => {
-        setShowImage(false)
-    }
 
-    const ratingCallback = (id, rating) => {
 
-        if (setRatingOnImage === undefined) {
-            console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
-            return;
-        }
-        console.log("callbackLocal", id, rating)
-        // setRatingOnImage(id, rating, token.access )
 
-    }
-
-    const updateMetadataCallback = (id, what, newValue) => {
-
-        // if (setRatingOnImage === undefined) {
-        //   console.error("callbackLocal - setRatingOnImage is undefined", id, rating);
-        //   return;
-        // }
-        console.log("Update '" + what + "' to '" + newValue + "' ImageID : " + id)
-        setMetadataOnImage(id, what, newValue, token.access)
-
-    }
 
     const callbackTest = (key, value) => {
         let msg = key

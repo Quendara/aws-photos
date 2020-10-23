@@ -1,10 +1,8 @@
 
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 
-import { useWindowSize } from "./useWindowSize"
-import { CancelFilterArray } from "./CancelFilter";
 
 import { ImageOnDemand } from "./ImageOnDemand";
 
@@ -18,7 +16,7 @@ import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // impo
 // import GridList from '@material-ui/core/GridList';
 // import GridListTile from '@material-ui/core/GridListTile';
 // import GridListTileBar from '@material-ui/core/GridListTileBar';
-import { Grid, Box, Button } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import ImageCarousel from "./ImageCarousel";
 import { Dialog, DialogContent, Card, Hidden } from '@material-ui/core';
 import { Clipboard } from "./Clipboard"
@@ -27,7 +25,7 @@ import { Clipboard } from "./Clipboard"
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
-import { List, ListItem, IconButton, ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
+import { List, ListItem, IconButton, ListItemText, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 
 const ImageGpsInfo = ({
@@ -79,7 +77,7 @@ export const ImageListSimple = ({
   token,              // from mapStateToProps
 }) => {
 
-  const [showDetails, setShowDetails] = useState(true);
+  // const [] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [currentLimit, setCurrentLimit] = useState(limit);
@@ -87,9 +85,6 @@ export const ImageListSimple = ({
   const [cityClipboard, setCityClipboard] = useState("");
   const [countryClipboard, setCountryClipboard] = useState("");
   const [stateClipboard, setStateClipboard] = useState("");
-
-
-  const [contextMenu, setContextMenu] = useState("");
 
   const clearClipboard = () => {
     setCityClipboard("") // call callback 
@@ -109,7 +104,7 @@ export const ImageListSimple = ({
           </ListItemAvatar>
 
           <ListItemText
-            primary={ <><span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname }/{ image.filename }</span></> }
+            primary={ <>{ image.dirname }/{ image.filename } </> }
             secondary={ image.dirname_physical } />
 
         </ListItem>
@@ -167,8 +162,7 @@ export const ImageListSimple = ({
       }
       else {
         // CLOSE
-      }
-      setContextMenu("")
+      }      
     }
 
     return (<ImageGpsInfo image={ image } copyToClipboardCTA={ copyToClipboardCTA } setLocationClipboardCTA={ setLocationClipboardCTA } />)
