@@ -45,8 +45,6 @@ const ImageGrid2 = ({
         setGroup(value)
     }
 
-    const [currentImage, setCurrentImage] = useState(0);
-    const [viewerIsOpen, setViewerIsOpen] = useState(false);
     const [currentLimit, setCurrentLimit] = useState(limit);
     const increaseValue = 30
 
@@ -54,21 +52,6 @@ const ImageGrid2 = ({
         return vi > 0.02
     })
 
-    // const classes = useStyles();
-
-    // updated in limitPhotosAndSort
-    let currentRenderer = undefined
-
-
-    const openLightbox = useCallback((event, { photo, index }) => {
-        setCurrentImage(index);
-        setViewerIsOpen(true);
-    }, []);
-
-    const closeLightbox = () => {
-        setCurrentImage(0);
-        setViewerIsOpen(false);
-    };
 
     useEffect(() => {
         if (isVisible === true) {
@@ -88,16 +71,13 @@ const ImageGrid2 = ({
             // increase limit when possible
             setCurrentLimit(newLimit)
         }
-
     }
-
 
     const increaseLimit = () => {
 
         setTimeout(() => {
             increaseLimitImpl()
         }, 200);
-
     }
 
     // could be replaced by updateMetadataCallback
@@ -157,20 +137,7 @@ const ImageGrid2 = ({
         return paging
     }
 
-    // targetRowHeight={170} 
-    // <h6> EBUG # {photos.length }, {currentPhotos.length} {currentLimit}</h6>
 
-    const calcColsPerImage = (photo) => {
-
-        const sumWidth = sumArray(currentPhotos, "width")
-
-        const cols = Number((photo.width / sumWidth) * 99)
-
-        console.log("sumWidth : " + sumWidth)
-        console.log("cols : " + cols)
-
-        return cols;
-    }
 
     const getGroupedItems = (photos, groupA) => {
         const sortByCount = false

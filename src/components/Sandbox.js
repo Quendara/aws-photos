@@ -8,17 +8,18 @@ import { connect } from 'react-redux'
 
 import { TopAutoComplete } from "./TopAutoComplete"
 import { Clipboard } from "./Clipboard"
+import { Dropzone } from "./Dropzone"
 
 
 // import ImageGrid from "./ImageGrid"
 // import ImageGrid2 from "./ImageGrid2"
 
-
 import { setQueryFilter } from "../redux/actions"; // import default 
 import { setMetadataOnImage } from "../redux/actions"; // import default 
 import { rootReducer } from "../redux/reducer"; // import default 
 import { createStore } from "redux";
-import { Grid } from '@material-ui/core';
+import { Grid, Card } from '@material-ui/core';
+
 
 
 
@@ -62,24 +63,26 @@ const Sandbox = ({
     return (
         <>
 
-            <div className="row" >
 
-                <div className="col s12 m3 l2 " >
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+                spacing={1}
+            >
+                <Grid item xs="9" >
                     { photos.length > 0 && <>
-
                         <div className="hide-on-med-and-down">
                             <TopAutoComplete photos={ photos } title="city" icon="location" limit="50" callback={ callbackTest } />
                         </div>
                     </> }
-                </div>
+                </Grid>
 
-                <div className="col s12 m9 l10" >
-                    <Grid container>
+                <Grid item xs="9" >
+                    <Card>
 
                         <Clipboard state="Germany" country="NRW" city="Bochum" ></Clipboard>
-
-
-
 
                         { (showImage && photos.length > 0) &&
                             <>
@@ -88,11 +91,16 @@ const Sandbox = ({
                                 {/* <ImageCarousel photos={photos} currentIndex="0" /> */ }
 
                             </> }
+                    </Card>
 
-                    </Grid>
+                </Grid>
+                <Grid item xs="9" >
+                    <Dropzone></Dropzone>
 
-                </div >
-            </div >
+                </Grid>
+
+            </Grid>
+
 
 
         </>
