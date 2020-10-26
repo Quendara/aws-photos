@@ -19,6 +19,7 @@
     "auth0-js": "^9.13.4",
     "aws-amplify": "3.0.21",
     "aws-sdk": "^2.717.0",
+    "axios": "^0.21.0",
     "cross-fetch": "^3.0.5",
     "date-fns": "^2.15.0",
     "jwt-decode": "^2.2.0",
