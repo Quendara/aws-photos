@@ -263,6 +263,10 @@ const App = () => {
                   <MenuItem>
                     <NavLink to="/import" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" />Import</Typography> </NavLink>
                   </MenuItem>
+                  <MenuItem>
+                    <NavLink to="/sandbox" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" />sandbox</Typography> </NavLink>
+                  </MenuItem>
+
                 </Menu>
               </Hidden>
             </Auth>
