@@ -238,8 +238,7 @@ const App = () => {
                 <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> </Typography> </NavLink>
                 <NavLink to="/faces" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faUserNinja } className="mr-2" /> </Typography> </NavLink>
 
-
-                <Typography color="inherit" onClick={ menuHandleClick } ><FontAwesomeIcon icon={ faEllipsisV } className="mr-2" /></Typography>
+                <Typography color="inherit" className={ classes.title } onClick={ menuHandleClick } ><FontAwesomeIcon icon={ faEllipsisV }></FontAwesomeIcon></Typography>
                 <Menu
                   id="simple-menu"
                   anchorEl={ anchorEl }
@@ -253,7 +252,6 @@ const App = () => {
                   <MenuItem>
                     <NavLink to="/grid2" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Grid 2</Typography> </NavLink>
                   </MenuItem>
-
                   <MenuItem>
                     <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Groups</Typography> </NavLink>
                   </MenuItem>

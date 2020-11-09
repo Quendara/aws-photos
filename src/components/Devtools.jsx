@@ -12,6 +12,9 @@ import Divider from '@material-ui/core/Divider';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
+import { Dropzone } from "./Dropzone"
+
+
 
 const Devtools = ({
     token               // from mapStateToProps    
@@ -90,7 +93,7 @@ const Devtools = ({
             alignItems="flex-start" >
 
 
-            <Grid item xs={ 12 } md={ 9 } >
+            <Grid item xs={ 11 } md={ 9 } >
                 <Typography variant="h1" >Devtools</Typography>
                 <Typography color="secondary"> Screensize : { size.width } x { size.height } </Typography>
                 <Typography variant="h4" >Gps </Typography>
@@ -111,6 +114,10 @@ const Devtools = ({
                 <br />
                 <Divider variant="middle" />
                 <br />
+                <Dropzone
+                    successCallback={ (m) => setMessage( m ) }
+                    failCallback ={ (m) => setError( m ) }
+                ></Dropzone>
 
                 <Typography variant="h4" >Update Cache </Typography>
                 <Button variant="contained" color="primary" onClick={ updateCache }  >

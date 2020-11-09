@@ -33,7 +33,7 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
-export function Dropzone(props) {
+export function Dropzone({ successCallback, failCallback }) {
   const {
     getRootProps,
     getInputProps,
@@ -55,19 +55,6 @@ export function Dropzone(props) {
     isDragAccept
   ]);
 
-  // export const uploadToAws = async (signedRequest, file) => {
-  //   const base64 = await fs.readFile(file.uri, 'base64')
-  //   const buffer = Buffer.from(base64, 'base64')
-  //   return fetch(signedRequest, {
-  //     method: 'PUT',
-  //     headers: {
-  //     'Content-Type': 'image/jpeg; charset=utf-8',
-  //     'x-amz-acl': 'public-read',
-  //    },
-  //     body: buffer,
-  //   })
-  // }      
-
   function onDrop(acceptedFiles) {
 
     // const req = request.post('/upload')
@@ -87,13 +74,11 @@ export function Dropzone(props) {
 
       // Request made to the backend api 
       // Send formData object 
-      const url = [Settings.baseRestApi, "photoData", "upload"].join("/")
+      const url = [Settings.baseRestApi, "photoData", "upload" ].join("/")
       // axios.post( url, formData );
 
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "image/jpeg");
-      
-      var file2 = "<file contents here>";
       
       var requestOptions = {
         method: 'POST',
@@ -101,11 +86,12 @@ export function Dropzone(props) {
         body: file,
         redirect: 'follow'
       };
+
       
-      fetch("https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData/upload", requestOptions)
+      fetch( url , requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+        .then(result => successCallback(result))
+        .catch(error => failCallback( "Error while upload : " + error.toString() ));
 
       // axios({
       //   method: "POST",

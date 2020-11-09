@@ -234,8 +234,6 @@ const Auth = ({ authSuccessCallback, children }) => {
                   </ListItem>
                 </form>
               </List>
-            </Card>
-            <Card>
               <CardContent>
                 <h2>{ authError.message }</h2>
               </CardContent>
@@ -250,9 +248,7 @@ const Auth = ({ authSuccessCallback, children }) => {
       <>
         <AppBar position="static">
           <Toolbar>
-            { children }
-
-            
+            { children }            
             <Button onClick={ signOut }><ExitToAppIcon /></Button>
           </Toolbar>
         </AppBar>
