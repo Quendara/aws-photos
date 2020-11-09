@@ -58,7 +58,7 @@ export function Dropzone({ successCallback, failCallback }) {
   function onDrop(acceptedFiles) {
 
     // const req = request.post('/upload')
-    acceptedFiles.forEach(file => {
+    acceptedFiles.forEach( (file, index) => {
       // req.attach(file.name, file)
       // const formData = new FormData();
 
@@ -87,11 +87,22 @@ export function Dropzone({ successCallback, failCallback }) {
         redirect: 'follow'
       };
 
+      const failCallbackLocal = ( message ) => {
+        acceptedFiles[ index ]['ok'] = "FAILED"
+        failCallback( "Error while upload : " + message )
+      }
+
+      const successCallbackLocal = ( message ) => {
+        acceptedFiles[ index ]['ok'] = "OK"
+        successCallbackLocal( message )
+      }
+
+
       
       fetch( url , requestOptions)
         .then(response => response.text())
-        .then(result => successCallback(result))
-        .catch(error => failCallback( "Error while upload : " + error.toString() ));
+        .then(result => successCallbackLocal(result))
+        .catch(error => failCallbackLocal( "Error while upload : " + error.toString() ));
 
       // axios({
       //   method: "POST",
@@ -105,7 +116,7 @@ export function Dropzone({ successCallback, failCallback }) {
 
   const acceptedFileItems = acceptedFiles.map(file => (
     <li key={ file.path }>
-      {file.path } - {file.size } bytes
+      {file.path } - {file.size } bytes -{file.ok}-
     </li>
   ));
 
