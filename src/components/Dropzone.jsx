@@ -3,6 +3,11 @@ import React, { useMemo } from 'react';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { Settings } from '../Settings';
+import { Grid, Card, CardHeader, Icon, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+
+import { CheckCircleOutlineOutlined, ErrorOutline } from '@material-ui/icons';
+
 
 
 const baseStyle = {
@@ -112,10 +117,28 @@ export function Dropzone({ successCallback, failCallback }) {
     // req.end(callback)
   }
 
+  const status = ( ok ) => {
+    switch( ok ){
+      case undefined:
+        return "UPLOADING"
+      case "OK":
+        return <CheckCircleOutlineOutlined />
+      case "FAILED":
+          return <ErrorOutline />
+      default:
+        return "UPLOADING"
+  
+    }
+  }
+
   const acceptedFileItems = acceptedFiles.map(file => (
-    <li key={ file.path }>
-      {file.path } - {file.size } bytes -{file.ok}-
-    </li>
+    <ListItem key={ file.path }>
+      <ListItemText primary={file.path } secondary={file.size } />
+
+      <ListItemIcon>
+      {status( file.ok )}
+      </ListItemIcon>
+    </ListItem>
   ));
 
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
@@ -136,7 +159,8 @@ export function Dropzone({ successCallback, failCallback }) {
       </div>
       <aside>
         <h4>Accepted files</h4>
-        <ul>{ acceptedFileItems }</ul>
+        <List>{ acceptedFileItems }</List >
+        
         <h4>Rejected files</h4>
         <ul>{ fileRejectionItems }</ul>
       </aside>
