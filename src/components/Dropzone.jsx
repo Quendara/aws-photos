@@ -89,15 +89,13 @@ export function Dropzone({ successCallback, failCallback }) {
 
       const failCallbackLocal = ( message ) => {
         acceptedFiles[ index ]['ok'] = "FAILED"
-        failCallback( "Error while upload : " + message )
+        failCallback( message )
       }
 
       const successCallbackLocal = ( message ) => {
         acceptedFiles[ index ]['ok'] = "OK"
-        successCallbackLocal( message )
+        successCallback( message )
       }
-
-
       
       fetch( url , requestOptions)
         .then(response => response.text())
