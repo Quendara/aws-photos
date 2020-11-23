@@ -320,7 +320,7 @@ const ImageCarousel = ({
             <div style={ { top: '70%', left: '20px' } } className="image-carousel-text" >
                 { getCaptionFromPhoto(photo) }
             </div>
-            <div style={ { top: '90%', right: '20px' } } className="image-carousel" >
+            <div style={ { top: '85%', right: '20px' } } className="image-carousel" >
                 { showDetails &&
                     <ButtonGroup variant="contained">
                         <Button color="secondary" onClick={ setDeleted } >Delete</Button>
