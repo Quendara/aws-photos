@@ -26,23 +26,23 @@ export const LeftMenu = ({ photos, query, callbackFilter }) => {
                 <br />
 
 
-                <TopListAuto photos={ photos } title="year" icon="year" limit="99" sortByCount={ false } callback={ callbackFilter } />
+                <TopListAuto photos={ photos } title="year" icon="year" limit="99" sortByCount={ false } query={ query.year } callback={ callbackFilter } />
 
                 <TopList photos={ photos } title="faces" icon="faces" limit="6" sortByCount={ false } callback={ callbackFilter } />
-                <br />
+                <br /> 
                 <Divider variant="middle" />
                 <br />
 
                 { query.year.length > 0 &&
                     <>
-                        <TopListAuto photos={ photos } title="month" icon="month" limit="12" sortByCount={ false } callback={ callbackFilter } />
+                        <TopListAuto photos={ photos } title="month" icon="month" limit="12" query={ query.month }  sortByCount={ false } callback={ callbackFilter } />
                     </>
                 }
-                <TopListAuto photos={ photos } title="dirname" icon="dirname" sortByCount={ false } callback={ callbackFilter } />
+                <TopListAuto photos={ photos } title="dirname" icon="dirname" query={ query.dirname } sortByCount={ false } callback={ callbackFilter } />
 
                 <Hidden mdDown>
-                    <TopListAuto photos={ photos } title="country" icon="location" callback={ callbackFilter } />
-                    <TopListAuto photos={ photos } title="city" icon="location" callback={ callbackFilter } />
+                    <TopListAuto photos={ photos } title="country" icon="location" query={ query.country } callback={ callbackFilter } />
+                    <TopListAuto photos={ photos } title="city" icon="location" query={ query.city } callback={ callbackFilter } />
                 </Hidden>
 
             </Grid>

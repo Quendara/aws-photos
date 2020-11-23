@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 
-export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true, limit = 1, callback = undefined, rendering = "menu" }) => {
+export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true, limit = 1, callback = undefined, rendering = "menu", query="" }) => {
 
     const getItems = (photos) => {
         const group = title
@@ -36,15 +36,18 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
     return (
         <>
             { (rendering === "menu") ? (
+                <Grid container >
                 <Grid item xs={ 12 }>
                     <Box lineHeight={ 2.5 } fontWeight="fontWeightMedium">
                         <Box  className="text-ellipsis" style={ { 'textTransform': 'capitalize' } }>
                             <Icon icon={ icon } className="mr-2" />{ title }
                         </Box >
-                        <Box textAlign="right" color="text.secondary" onClick={ () => callback(title, "") } >Reset</Box>
+                        { query.length>0 && <Box textAlign="right" color="text.secondary" onClick={ () => callback(title, "") } >Reset</Box> }
+                        
                     </Box>
 
-
+                </Grid>
+                <Grid item xs={ 12 }>
                     { getItems(photos).map((item, index) => (
 
                         <Box lineHeight={ 1.7 } key={index}>
@@ -54,6 +57,7 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
                             <Box textAlign="right" color="primary.main" >{ item.count }</Box >
                         </Box>
                     )) }
+                </Grid>
                 </Grid>
 
             ) :

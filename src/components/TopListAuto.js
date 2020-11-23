@@ -6,7 +6,7 @@ import { TopAutoComplete } from "./TopAutoComplete";
 import Divider from '@material-ui/core/Divider';
 
 
-export const TopListAuto = ({ photos, icon, title, titleAlt = "", sortByCount = true, limit = 9999, callback = undefined, rendering = "menu" }) => {
+export const TopListAuto = ({ photos, icon, title, titleAlt = "", sortByCount = true, limit = 9999, callback = undefined, rendering = "menu", query = "" }) => {
 
     const getItems = (photos) => {
         const group = title
@@ -17,23 +17,23 @@ export const TopListAuto = ({ photos, icon, title, titleAlt = "", sortByCount = 
 
     return (
         <>
-            { getItems(photos).length > 5 ? 
-            (
-                <div className="ml-2" >
-                    <TopAutoComplete photos={ photos } title={title} titleAlt={titleAlt} icon={icon} sortByCount={ sortByCount } callback={ callback } />
-                    <br />
-                </div>
-            ) 
-            : (
-                <>
-                <TopList photos={ photos } title={title} titleAlt={titleAlt} limit="9" sortByCount={ sortByCount } callback={ callback } /> 
-                <br />
-                <Divider variant="middle" />
-                <br />
-                </>
-            ) }
-            
-            
+            { getItems(photos).length > 12 ?
+                (
+                    <div className="ml-2" >
+                        <TopAutoComplete photos={ photos } title={ title } titleAlt={ titleAlt } icon={ icon } sortByCount={ sortByCount } callback={ callback } />
+                        <br />
+                    </div>
+                )
+                : (
+                    <>
+                        <TopList photos={ photos } title={ title } titleAlt={ titleAlt } limit="9" sortByCount={ sortByCount } callback={ callback } query={ query } />
+                        <br />
+                        <Divider variant="middle" />
+                        <br />
+                    </>
+                ) }
+
+
         </>
     )
 
