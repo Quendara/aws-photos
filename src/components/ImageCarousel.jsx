@@ -303,11 +303,13 @@ const ImageCarousel = ({
     return (
         <div className="responsive-carousel-bg" >
             <div { ...handlers } >
+                
                 <ImageOnDemand
                     image={ photo }
                     className="responsive-carousel"
                     alt={ photo.id }
-                    onClick= { () => setShowDetails(!showDetails) } />
+                    visibilityThreshold={-1}
+                    onClick= { () => setShowDetails(!showDetails) } /> 
             </div>
             <div style={ { top: '0px', right: '20px' } } className="image-carousel " onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
             <div style={ { top: '43%', left: '20px' } } className="image-carousel  " onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>

@@ -21,6 +21,7 @@ import { createStore } from "redux";
 import { Grid, Card } from '@material-ui/core';
 
 
+import ImageCarousel from "./ImageCarousel"
 
 
 import { filterFiles, addSrcAndDirname } from "./helpers";
@@ -63,8 +64,21 @@ const Sandbox = ({
     return (
         <>
 
+{/* const ImageCarousel = ({
+    photos,
+    all_photos,          // from redux
+    token,               // from redux  
+    roles,                // from redux  
+    setMetadataOnImage,   // from redux
+    currentIndex,
+    closeCallback,
+    ratingCallback,
+    updateMetadataCallback }) 
+ */}
 
-            <Grid
+        { photos.length > 0 && <ImageCarousel photos={photos} currentIndex={0} /> }
+
+            {/* <Grid
                 container
                 direction="row"
                 justify="center"
@@ -87,8 +101,6 @@ const Sandbox = ({
                         { (showImage && photos.length > 0) &&
                             <>
                                 { textmessage }
-                                {/* <ImageGrid photos={ photos } limit="10" /> */ }
-                                {/* <ImageCarousel photos={photos} currentIndex="0" /> */ }
 
                             </> }
                     </Card>
@@ -96,10 +108,9 @@ const Sandbox = ({
                 </Grid>
                 <Grid item xs="9" >
                     <Dropzone></Dropzone>
-
                 </Grid>
 
-            </Grid>
+            </Grid> */}
 
 
 

@@ -199,41 +199,28 @@ const ImageGrid = ({
 
   return (
     <>
-      { photos.length > 0 && <>
+      { photos.length > 0 && 
+      <>
 
 
+        { viewerIsOpen ? (
+        <ImageCarousel
+          photos={ photos }
+          currentIndex={ currentImage }
+          closeCallback={ closeLightbox }
+          ratingCallback={ ratingCallback }
+          updateMetadataCallback={ updateMetadataCallback } />
+        ) : (
+        <>
           <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
-            <ModalGateway>
-              { viewerIsOpen ? (
-                <Modal onClose={ closeLightbox }>
-                  <ImageCarousel
-                    photos={ photos }
-                    currentIndex={ currentImage }
-                    closeCallback={ closeLightbox }
-                    ratingCallback={ ratingCallback }
-                    updateMetadataCallback={ updateMetadataCallback }
-                  />
-
-                </Modal>
-              ) : null }
-            </ModalGateway>
-
-          { isVisible }
-
           { showPaging(photos) && <>
             <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
-
           </>
-
           }
-
-
-
-
-
-        
-
-      </> }
+        </>
+        )
+      }
+    </> }
     </>
   )
 }
