@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "./Icons"
 import { findUnique, findUniqueFacesItems } from "./helpers"
 import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/Card';
 
 import Grid from '@material-ui/core/Grid';
@@ -13,15 +14,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 
-export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true, limit = 1, callback = undefined, rendering = "menu", query="" }) => {
+export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true, limit = 1, callback = undefined, rendering = "menu", query = "" }) => {
 
     const getItems = (photos) => {
         const group = title
 
         let items = []
         const singleperson = true
-        if( group === "faces"){
-            items = findUniqueFacesItems( photos, singleperson, limit )
+        if (group === "faces") {
+            items = findUniqueFacesItems(photos, singleperson, limit)
         }
         else {
             items = findUnique(photos, group, sortByCount, limit)
@@ -36,29 +37,34 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
     return (
         <>
             { (rendering === "menu") ? (
-                <Grid container >
-                <Grid item xs={ 12 }>
-                    <Box lineHeight={ 2.5 } fontWeight="fontWeightMedium">
-                        <Box  className="text-ellipsis" style={ { 'textTransform': 'capitalize' } }>
-                            <Icon icon={ icon } className="mr-2" />{ title }
-                        </Box >
-                        { query.length>0 && <Box textAlign="right" color="text.secondary" onClick={ () => callback(title, "") } >Reset</Box> }
-                        
-                    </Box>
+                <>
+                    <Grid container   justify="space-between" alignItems="center" >
+                        <Grid item xs={6}>
+                            <Box className="text-ellipsis" style={ { 'textTransform': 'capitalize' } }>
+                                <Icon icon={ icon } className="mr-2" />{ title }
+                            </Box >
+                        </Grid>
+                        <Grid item >
+                            { query.length > 0 &&
+                                // <Box textAlign="right" color="text.secondary" onClick={ () => callback(title, "") } >Reset</Box> 
+                                <Button  size="small" color="secondary" onClick={ () => callback(title, "") } >Reset</Button>
+                            }
+                        </Grid>
+                    </Grid>
+                    <Grid container >
+                        { getItems(photos).map((item, index) => (
+                            <Grid item xs={ 12 }>
+                                <Box lineHeight={ 1.7 } key={ index }>
+                                    <div className="ml-4 mouse-pointer text-ellipsis" onClick={ () => callback(title, item.value) }>
+                                        { item.value }
+                                    </div>
+                                    <Box textAlign="right" color="primary.main" >{ item.count }</Box >
+                                </Box>
+                            </Grid>
+                        )) }
 
-                </Grid>
-                <Grid item xs={ 12 }>
-                    { getItems(photos).map((item, index) => (
-
-                        <Box lineHeight={ 1.7 } key={index}>
-                            <div className="ml-4 mouse-pointer text-ellipsis" onClick={ () => callback(title, item.value) }>                                
-                                 { item.value }
-                            </div>
-                            <Box textAlign="right" color="primary.main" >{ item.count }</Box >
-                        </Box>
-                    )) }
-                </Grid>
-                </Grid>
+                    </Grid>
+                </>
 
             ) :
                 (
@@ -86,7 +92,8 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
                             )) }
                         </List>
                     </Card>
-                ) }
+                )
+            }
         </>
     )
 }
