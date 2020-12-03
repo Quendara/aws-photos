@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { bindActionCreators } from "redux";
+
 import { Icon } from "./Icons"
-// import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 import {Settings} from "../Settings"
 import Button from '@material-ui/core/Button';
@@ -14,10 +15,12 @@ import CardContent from '@material-ui/core/CardContent';
 
 import { Dropzone } from "./Dropzone"
 
+import { setPhotos } from "../redux/actions"; // import default 
 
 
 const Devtools = ({
-    token               // from mapStateToProps    
+    token    ,           // from mapStateToProps  
+    setPhotos,          // from redux 
 }) => {
 
     const [message, setMessage] = useState("-");
@@ -27,7 +30,7 @@ const Devtools = ({
 
     const updateCache = () => {
         const url = [Settings.baseRestApi, "photos"].join('/')
-        callUrl(url)
+        callUrl(url, setPhotos )
     }
 
     const gps_find_missing_locations = () => {
@@ -43,7 +46,7 @@ const Devtools = ({
 
 
 
-    const callUrl = (url) => {
+    const callUrl = (url, callResults= undefined ) => {
         setMessage("Loading...")
         setError("")
 
@@ -60,6 +63,9 @@ const Devtools = ({
                 result => {
                     // console.log("result", result);
                     // store.dispatch(setPhotos(result))
+                    if( callResults !== undefined ){
+                        callResults( result )
+                    }
                     setMessage(JSON.stringify(result));
                 },
                 (error) => {
@@ -153,6 +159,10 @@ const Devtools = ({
     )
 }
 
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({ setPhotos }, dispatch)
+}
+
 const mapStateToProps = state => {
 
     const token = state.token
@@ -162,4 +172,4 @@ const mapStateToProps = state => {
     return { 'token': token }
 }
 
-export default connect(mapStateToProps, null)(Devtools);
+export default connect(mapStateToProps, mapDispatchToProps )(Devtools);
