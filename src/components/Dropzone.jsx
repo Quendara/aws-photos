@@ -94,6 +94,7 @@ export function Dropzone({ successCallback, failCallback }) {
 
       const failCallbackLocal = ( message ) => {
         acceptedFiles[ index ]['ok'] = "FAILED"
+        acceptedFiles[ index ]['message'] = message
         failCallback( message )
       }
 
@@ -133,7 +134,7 @@ export function Dropzone({ successCallback, failCallback }) {
 
   const acceptedFileItems = acceptedFiles.map(file => (
     <ListItem key={ file.path }>
-      <ListItemText primary={file.path } secondary={file.size } />
+      <ListItemText primary={file.path } secondary={file.message } />
 
       <ListItemIcon>
       {status( file.ok )}
