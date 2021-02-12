@@ -88,7 +88,7 @@ export function Dropzone({ successCallback, failCallback }) {
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
-        body: file,
+        body: file, 
         redirect: 'follow'
       };
 
