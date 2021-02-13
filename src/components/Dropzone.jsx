@@ -38,6 +38,75 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
+const url = [Settings.baseRestApi, "photoData", "upload"].join("/")
+// axios.post( url, formData );
+
+const myHeaders = new Headers();
+myHeaders.append("Content-Type", "image/jpeg");
+
+
+
+const FileToUpload = ({ file }) => {
+
+
+  const retry = () => {
+
+    file['status'] = ""
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: file['file'],
+      redirect: "error" // #'follow'
+    };
+
+    const failCallbackLocal = (message) => {
+      file['status'] = "FAILED"
+      file['message'] = message
+      // file['file'] = file
+      // failCallback(message)
+    }
+
+    const successCallbackLocal = (message) => {
+      file['status'] = "OK"
+      file['message'] = message
+      // successCallback(message)
+    }
+
+    fetch(url, requestOptions)
+      .then(response => response.text())
+      .then(result => successCallbackLocal(result))
+      .catch(error => failCallbackLocal("Error while upload : " + error.toString()));
+  }
+
+
+  const status = (status) => {
+    switch (status) {
+      case "OK":
+        return <CheckCircleOutlineOutlined color="primary" />
+      case "FAILED":
+        return (
+          <IconButton edge="end" onClick={ retry } aria-label="delete">
+            <ErrorOutline color="error" />
+          </IconButton>
+        )
+
+      case undefined:
+      default:
+        return <CircularProgress />
+    }
+  }
+
+  return (
+    <ListItem key={ file.path }>
+      <ListItemText primary={ file.path } secondary={ file.message } />
+
+      <ListItemIcon >
+        { status(file.status) }
+      </ListItemIcon>
+    </ListItem>)
+}
+
 export function Dropzone({ successCallback, failCallback }) {
   const {
     getRootProps,
@@ -79,30 +148,27 @@ export function Dropzone({ successCallback, failCallback }) {
 
       // Request made to the backend api 
       // Send formData object 
-      const url = [Settings.baseRestApi, "photoData", "upload"].join("/")
-      // axios.post( url, formData );
 
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "image/jpeg");
 
-      var requestOptions = {
+      const failCallbackLocal = (message) => {
+        acceptedFiles[index]['status'] = "FAILED"
+        acceptedFiles[index]['message'] = message
+        acceptedFiles[index]['file'] = file
+        failCallback(message)
+      }
+
+      const successCallbackLocal = (message) => {
+        acceptedFiles[index]['status'] = "OK"
+        acceptedFiles[index]['message'] = message
+        successCallback(message)
+      }
+
+      const requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: file,
         redirect: "error" // #'follow'
       };
-
-      const failCallbackLocal = (message) => {
-        acceptedFiles[index]['ok'] = "FAILED"
-        acceptedFiles[index]['message'] = message
-        failCallback(message)
-      }
-
-      const successCallbackLocal = (message) => {
-        acceptedFiles[index]['ok'] = "OK"
-        acceptedFiles[index]['message'] = message
-        successCallback(message)
-      }
 
       fetch(url, requestOptions)
         .then(response => response.text())
@@ -119,28 +185,11 @@ export function Dropzone({ successCallback, failCallback }) {
     // req.end(callback)
   }
 
-  const status = (ok) => {
-    switch (ok) {
-      case "OK":
-        return <CheckCircleOutlineOutlined color="primary" />
-      case "FAILED":
-        return <ErrorOutline color="error" />
-      case undefined:
-      default:
-        return <CircularProgress />
 
-
-    }
-  }
 
   const acceptedFileItems = acceptedFiles.map(file => (
-    <ListItem key={ file.path }>
-      <ListItemText primary={ file.path } secondary={ file.message } />
+    <FileToUpload file={ file } />
 
-      <ListItemIcon >
-        { status(file.ok) }
-      </ListItemIcon>
-    </ListItem>
   ));
 
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
