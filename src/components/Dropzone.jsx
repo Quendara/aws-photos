@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
@@ -6,8 +6,9 @@ import { Settings } from '../Settings';
 import { Grid, Card, CardHeader, Icon, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
-import { CheckCircleOutlineOutlined, ErrorOutline } from '@material-ui/icons';
+import { CheckCircleOutlineOutlined, ErrorOutline, Publish } from '@material-ui/icons';
 import { CircularProgress } from '@material-ui/core/';
+
 
 
 const baseStyle = {
@@ -48,28 +49,39 @@ myHeaders.append("Content-Type", "image/jpeg");
 
 const FileToUpload = ({ file }) => {
 
+  const [status, setStatus] = useState("INIT");
+  const [message, setMessate] = useState("");
+
 
   const retry = () => {
 
-    file['status'] = ""
+    // setText("R")
+    // file['status'] = ""
+
+    setStatus("")      
 
     const requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: file['file'],
+      body: file,
       redirect: "error" // #'follow'
     };
 
     const failCallbackLocal = (message) => {
-      file['status'] = "FAILED"
-      file['message'] = message
+      // file['status'] = "FAILED"
+      // file['message'] = message
+      setMessate(message)
+      setStatus("FAILED")
+
       // file['file'] = file
       // failCallback(message)
     }
 
     const successCallbackLocal = (message) => {
-      file['status'] = "OK"
-      file['message'] = message
+      setMessate(message)
+      setStatus("OK")      
+      // file['status'] = "OK"
+      // file['message'] = message
       // successCallback(message)
     }
 
@@ -80,10 +92,18 @@ const FileToUpload = ({ file }) => {
   }
 
 
-  const status = (status) => {
+  const getStatus = (status) => {
     switch (status) {
+      case "INIT":
+        return (
+          <IconButton edge="end" onClick={ retry } aria-label="delete">
+            <Publish color="primary" />
+          </IconButton>)      
       case "OK":
-        return <CheckCircleOutlineOutlined color="primary" />
+        return (
+          <IconButton edge="end" onClick={ retry } aria-label="delete">
+            <CheckCircleOutlineOutlined color="primary" />
+          </IconButton>)
       case "FAILED":
         return (
           <IconButton edge="end" onClick={ retry } aria-label="delete">
@@ -99,10 +119,10 @@ const FileToUpload = ({ file }) => {
 
   return (
     <ListItem key={ file.path }>
-      <ListItemText primary={ file.path } secondary={ file.message } />
+      <ListItemText primary={ file.path + "(" + file.size + " Bytes)" } secondary={ message } />
 
       <ListItemIcon >
-        { status(file.status) }
+        { getStatus( status) }
       </ListItemIcon>
     </ListItem>)
 }
@@ -150,30 +170,30 @@ export function Dropzone({ successCallback, failCallback }) {
       // Send formData object 
 
 
-      const failCallbackLocal = (message) => {
-        acceptedFiles[index]['status'] = "FAILED"
-        acceptedFiles[index]['message'] = message
-        acceptedFiles[index]['file'] = file
-        failCallback(message)
-      }
+      // const failCallbackLocal = (message) => {
+      //   acceptedFiles[index]['status'] = "FAILED"
+      //   acceptedFiles[index]['message'] = message
+      //   acceptedFiles[index]['file'] = file
+      //   failCallback(message)
+      // }
 
-      const successCallbackLocal = (message) => {
-        acceptedFiles[index]['status'] = "OK"
-        acceptedFiles[index]['message'] = message
-        successCallback(message)
-      }
+      // const successCallbackLocal = (message) => {
+      //   acceptedFiles[index]['status'] = "OK"
+      //   acceptedFiles[index]['message'] = message
+      //   successCallback(message)
+      // }
 
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: file,
-        redirect: "error" // #'follow'
-      };
+      // const requestOptions = {
+      //   method: 'POST',
+      //   headers: myHeaders,
+      //   body: file,
+      //   redirect: "error" // #'follow'
+      // };
 
-      fetch(url, requestOptions)
-        .then(response => response.text())
-        .then(result => successCallbackLocal(result))
-        .catch(error => failCallbackLocal("Error while upload : " + error.toString()));
+      // fetch(url, requestOptions)
+      //   .then(response => response.text())
+      //   .then(result => successCallbackLocal(result))
+      //   .catch(error => failCallbackLocal("Error while upload : " + error.toString()));
 
       // axios({
       //   method: "POST",
