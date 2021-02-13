@@ -7,7 +7,7 @@ import { Grid, Card, CardHeader, Icon, List, ListItem, ListItemText, ListItemIco
 import IconButton from '@material-ui/core/IconButton';
 
 import { CheckCircleOutlineOutlined, ErrorOutline } from '@material-ui/icons';
-
+import { CircularProgress } from '@material-ui/core/';
 
 
 const baseStyle = {
@@ -63,7 +63,7 @@ export function Dropzone({ successCallback, failCallback }) {
   function onDrop(acceptedFiles) {
 
     // const req = request.post('/upload')
-    acceptedFiles.forEach( (file, index) => {
+    acceptedFiles.forEach((file, index) => {
       // req.attach(file.name, file)
       // const formData = new FormData();
 
@@ -79,35 +79,35 @@ export function Dropzone({ successCallback, failCallback }) {
 
       // Request made to the backend api 
       // Send formData object 
-      const url = [Settings.baseRestApi, "photoData", "upload" ].join("/")
+      const url = [Settings.baseRestApi, "photoData", "upload"].join("/")
       // axios.post( url, formData );
 
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "image/jpeg");
-      
+
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
-        body: file, 
-        redirect: 'follow'
+        body: file,
+        redirect: "error" // #'follow'
       };
 
-      const failCallbackLocal = ( message ) => {
-        acceptedFiles[ index ]['ok'] = "FAILED"
-        acceptedFiles[ index ]['message'] = message
-        failCallback( message )
+      const failCallbackLocal = (message) => {
+        acceptedFiles[index]['ok'] = "FAILED"
+        acceptedFiles[index]['message'] = message
+        failCallback(message)
       }
 
-      const successCallbackLocal = ( message ) => {
-        acceptedFiles[ index ]['ok'] = "OK"
-        acceptedFiles[ index ]['message'] = message
-        successCallback( message )
+      const successCallbackLocal = (message) => {
+        acceptedFiles[index]['ok'] = "OK"
+        acceptedFiles[index]['message'] = message
+        successCallback(message)
       }
-      
-      fetch( url , requestOptions)
+
+      fetch(url, requestOptions)
         .then(response => response.text())
         .then(result => successCallbackLocal(result))
-        .catch(error => failCallbackLocal( "Error while upload : " + error.toString() ));
+        .catch(error => failCallbackLocal("Error while upload : " + error.toString()));
 
       // axios({
       //   method: "POST",
@@ -119,26 +119,26 @@ export function Dropzone({ successCallback, failCallback }) {
     // req.end(callback)
   }
 
-  const status = ( ok ) => {
-    switch( ok ){
-      case undefined:
-        return "UPLOADING"
+  const status = (ok) => {
+    switch (ok) {
       case "OK":
-        return <CheckCircleOutlineOutlined />
+        return <CheckCircleOutlineOutlined color="primary" />
       case "FAILED":
-          return <ErrorOutline />
+        return <ErrorOutline color="error" />
+      case undefined:
       default:
-        return "UPLOADING"
-  
+        return <CircularProgress />
+
+
     }
   }
 
   const acceptedFileItems = acceptedFiles.map(file => (
     <ListItem key={ file.path }>
-      <ListItemText primary={file.path } secondary={file.message } />
+      <ListItemText primary={ file.path } secondary={ file.message } />
 
-      <ListItemIcon>
-      {status( file.ok )} 
+      <ListItemIcon >
+        { status(file.ok) }
       </ListItemIcon>
     </ListItem>
   ));
@@ -162,7 +162,7 @@ export function Dropzone({ successCallback, failCallback }) {
       <aside>
         <h4>Accepted files</h4>
         <List>{ acceptedFileItems }</List >
-        
+
         <h4>Rejected files</h4>
         <ul>{ fileRejectionItems }</ul>
       </aside>
