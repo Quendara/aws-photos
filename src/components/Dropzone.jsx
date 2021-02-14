@@ -39,7 +39,7 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
-const url = [Settings.baseRestApi, "photoData", "upload"].join("/")
+
 // axios.post( url, formData );
 
 const myHeaders = new Headers();
@@ -59,6 +59,10 @@ const FileToUpload = ({ file }) => {
     // file['status'] = ""
 
     setStatus("")      
+
+    const url = [Settings.baseRestApi, "photoData", "2022-Test", file.path ].join("/")
+
+    // https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData/{folder}/{item}
 
     const requestOptions = {
       method: 'POST',
