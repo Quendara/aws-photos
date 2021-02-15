@@ -1,7 +1,8 @@
 import React, { useState } from "react"; // , { useState }
 
-import { Grid, Card, CardHeader, Icon, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
+import { Grid, Card, CardHeader, List, ListItem, ListItemText, ListItemIcon, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
+import { Icon } from "./Icons";
 
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
@@ -12,25 +13,49 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import CloseIcon from '@material-ui/icons/Close';
 
+const ClipboardItem = ({ primary, secondary }) => {
+    return (
+        <>
+            { primary &&
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <Icon icon={ secondary } />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={ primary } secondary={ secondary } />
+                </ListItem>
+            }
+        </>
 
-export const Clipboard = ({ country, state, city, closeCallback }) => {
+        )
+    }
+
+export const Clipboard = ({ country, state, city, folder, closeCallback }) => {
 
     // <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
     return (
-            <List >
-                <ListItem>
-                    <ListItemIcon>
-                        <AssignmentIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Clipboard" />
-                    <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete" onClick={closeCallback}>
-                      <CloseIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>                
-                </ListItem>
-                <Divider />
-                <ListItem>
+                <List >
+                    <ListItem>
+                        <ListItemIcon>
+                            <AssignmentIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Clipboard" />
+                        <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="delete" onClick={ closeCallback }>
+                                <CloseIcon />
+                            </IconButton>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider />
+
+                    <ClipboardItem primary={ country } secondary="country" />
+                    <ClipboardItem primary={ state } secondary="state" />
+                    <ClipboardItem primary={ city } secondary="city" />
+                    <Divider />
+                    <ClipboardItem primary={ folder } secondary="folder" />
+
+                    {/* <ListItem>
                     <ListItemAvatar>
                         <Avatar>
                             <LanguageIcon />
@@ -53,8 +78,17 @@ export const Clipboard = ({ country, state, city, closeCallback }) => {
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={ city } secondary="city" />
-                </ListItem>
-            </List>
-        
+                </ListItem> */}
+                    {/* <Divider />
+            <ListItem>
+                <ListItemAvatar>
+                    <Avatar>
+                        <Icon icon="dirname" />
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={ folder } secondary="folder" />
+            </ListItem> */}
+                </List>
+
     )
 }

@@ -24,13 +24,15 @@ import { Clipboard } from "./Clipboard"
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 
 import { List, ListItem, IconButton, ListItemText, ListItemAvatar, ListItemSecondaryAction, Divider } from '@material-ui/core';
+
 import Avatar from '@material-ui/core/Avatar';
 
 const ImageGpsInfo = ({
   image,
-  copyToClipboardCTA,
+  copyGPSToClipboardCTA,
   setLocationClipboardCTA
 }) => {
 
@@ -47,19 +49,20 @@ const ImageGpsInfo = ({
           onMouseLeave={ () => setIsShown(false) }
         >
           <ListItem>
+            
             <ListItemText primary={ <> { image.country } { bull } { image.state } </> } />
 
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="delete" onClick={ copyToClipboardCTA }>
+              <IconButton edge="end" aria-label="delete" onClick={ copyGPSToClipboardCTA }>
                 { isShown && <FileCopyIcon /> }
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
           <ListItem>
-            <ListItemText primary={ image.city }  />
+            <ListItemText primary={ image.city } />
           </ListItem>
           <ListItem>
-          <ListItemText primary={ <>{ image.lat }, { image.long }</> } secondary="GPS" />
+            <ListItemText primary={ <>{ image.lat }, { image.long }</> } secondary="GPS" />
           </ListItem>
         </List>
       ) : (
@@ -86,20 +89,55 @@ export const ImageListSimple = ({
   const [countryClipboard, setCountryClipboard] = useState("");
   const [stateClipboard, setStateClipboard] = useState("");
 
+  const [folderClipboard, setFolderClipboard] = useState("");
+
   const clearClipboard = () => {
     setCityClipboard("") // call callback 
     setCountryClipboard("") // call callback 
     setStateClipboard("") // call callback     
+    setFolderClipboard("") // call callback     
   }
 
 
   const getCaptionFromPhoto = (image) => {
+    const setFolderFromClipboardCTA = () => {
+      updateMetadata("dirname", folderClipboard) // call callback 
+    }
+
+    const updateMetadata = (what, value) => {
+      if (value.length > 0) {
+        console.log("Update '" + what + "' to '" + value + "' ImageID : " + image.id)
+        if (value !== image[what]) {
+          updateMetadataCallback(image.id, what, value)
+        }
+        else {
+          console.log("No update needed, new and current is the same ", what)
+        }
+      }
+      else {
+        // CLOSE
+      }
+    }    
+
     return (
       <List>
         <ListItem>
-          <ListItemAvatar>
+          <ListItemAvatar >
             <Avatar>
-              <Icon icon="dirname" />
+              { folderClipboard.length > 0 ?
+                // Something in Clipboard
+                (
+                  <IconButton onClick={ setFolderFromClipboardCTA } >
+                    <LibraryAddIcon />
+                  </IconButton>
+                )
+                :
+                (
+                  <IconButton onClick={ () => setFolderClipboard(image.dirname) } >
+                    <Icon icon="dirname" />
+                  </IconButton>
+                )
+              }
             </Avatar>
           </ListItemAvatar>
 
@@ -109,14 +147,14 @@ export const ImageListSimple = ({
 
         </ListItem>
         <ListItem>
-        <ListItemAvatar>
+          <ListItemAvatar>
             <Avatar>
-        <Icon icon="day" /> 
-        </Avatar>
+              <Icon icon="day" />
+            </Avatar>
           </ListItemAvatar>
-          
+
           <ListItemText
-            primary={ image.day  }
+            primary={ image.day }
           />
 
         </ListItem>
@@ -137,7 +175,7 @@ export const ImageListSimple = ({
 
   const getGpsInfoFromPhoto = (image) => {
 
-    const copyToClipboardCTA = () => {
+    const copyGPSToClipboardCTA = () => {
       setCountryClipboard(image.country)
       setStateClipboard(image.state)
       setCityClipboard(image.city)
@@ -150,7 +188,6 @@ export const ImageListSimple = ({
     }
 
     const updateMetadata = (what, value) => {
-
       if (value.length > 0) {
         console.log("Update '" + what + "' to '" + value + "' ImageID : " + image.id)
         if (value !== image[what]) {
@@ -162,10 +199,10 @@ export const ImageListSimple = ({
       }
       else {
         // CLOSE
-      }      
+      }
     }
 
-    return (<ImageGpsInfo image={ image } copyToClipboardCTA={ copyToClipboardCTA } setLocationClipboardCTA={ setLocationClipboardCTA } />)
+    return (<ImageGpsInfo image={ image } copyGPSToClipboardCTA={ copyGPSToClipboardCTA } setLocationClipboardCTA={ setLocationClipboardCTA } />)
   }
 
 
@@ -234,6 +271,9 @@ export const ImageListSimple = ({
           spacing={ 2 }
           alignItems="flex-start" >
 
+          {/* LATER
+          <ImageListItem image={image} openCarouselCallback={ () => openLightbox(index) } */}
+
           <Hidden smDown>
             <Grid item lg={ 2 } md={ 3 } >
               <ImageOnDemand onClick={ () => openLightbox(index) } className="responsive-img" image={ image } />
@@ -281,12 +321,12 @@ export const ImageListSimple = ({
         </Dialog>
       }
       <>
-        { countryClipboard.length > 0 &&
+        { (countryClipboard.length > 0 || folderClipboard.length > 0) &&
           <div style={ { position: "fixed", bottom: '2%', left: '0%', width: '100%', zIndex: '999' } } className="image-carousel-text" >
             <Grid container justify="center" alignItems="center">
               <Grid item xs={ 12 } md={ 3 }>
                 <Card>
-                  <Clipboard country={ countryClipboard } state={ stateClipboard } city={ cityClipboard } closeCallback={ clearClipboard } />
+                  <Clipboard country={ countryClipboard } state={ stateClipboard } city={ cityClipboard } folder={ folderClipboard } closeCallback={ clearClipboard } />
                 </Card>
               </Grid>
             </Grid>

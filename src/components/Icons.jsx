@@ -10,6 +10,7 @@ import {
   faMapMarkerAlt,
   faWindowClose,
   faStarAndCrescent,
+  faCity,
 
   faList,
   faThList,
@@ -20,7 +21,9 @@ import {
   faArrowCircleRight,
   faTimes,
   faArrowUp,
-  faClipboard
+  faClipboard,
+  faGlobe,
+  faGlobeEurope
   // fasStar,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -29,15 +32,16 @@ import React from "react";
 const textToIcon = {
   // GPS
   "location": faMapMarkerAlt,
-  "city": faMapMarkerAlt,
-  "country": faMapMarkerAlt,
-  "state": faMapMarkerAlt,
+  "country": faGlobe,
+  "state": faGlobeEurope,
+  "city": faCity,
   "map": faMapMarkerAlt,
   "clipboard": faClipboard,
   "arrow-right": faChevronRight,
   "arrow-left": faChevronLeft,
   "rating": faStar,
   "dirname": faFolder,
+  "folder": faFolder,
   "filename": faFolder,
 
   "list": faList,
