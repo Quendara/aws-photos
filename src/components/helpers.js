@@ -211,6 +211,25 @@ const imageHasFace = ( image, query ) => {
     return retBool
 }
 
+export const getDateFormatedISODate = ( date ) => {
+
+    let retstr = "" + date.getFullYear()
+    retstr += "-" + leadingZeros(date.getMonth() + 1)
+    retstr += "-" + leadingZeros(date.getDate())
+
+    return retstr
+}
+
+export const getDateFormatedTime = ( date ) => {
+
+    let retstr = "" 
+    retstr += leadingZeros(date.getHours())
+    retstr += "." + leadingZeros(date.getMinutes())
+    retstr += "." + leadingZeros(date.getSeconds())
+    retstr += "." + leadingZeros(date.getMilliseconds(),3)
+
+    return retstr
+}
 
 export const addSrcAndDirname = (images) => {
 

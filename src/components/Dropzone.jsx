@@ -9,6 +9,10 @@ import IconButton from '@material-ui/core/IconButton';
 import { CheckCircleOutlineOutlined, ErrorOutline, Publish } from '@material-ui/icons';
 import { CircularProgress } from '@material-ui/core/';
 
+import { getDateFormatedTime, getDateFormatedISODate } from './helpers';
+
+
+
 
 
 const baseStyle = {
@@ -52,6 +56,17 @@ const FileToUpload = ({ file }) => {
   const [status, setStatus] = useState("INIT");
   const [message, setMessate] = useState("");
 
+  const getFilename = () => {
+    let filename = ""
+    const date = new Date()
+    filename += getDateFormatedISODate( date )
+    filename += "_"
+    filename += getDateFormatedTime( date )
+    filename += "_"    
+    filename += file.path   
+    return filename
+  }  
+
 
   const retry = () => {
 
@@ -60,7 +75,7 @@ const FileToUpload = ({ file }) => {
 
     setStatus("")      
 
-    const url = [Settings.baseRestApi, "photoData", "2021 - Familie", file.path ].join("/")
+    const url = [Settings.baseRestApi, "photoData", "2021 - Familie", getFilename() ].join("/")
 
     // https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData/{folder}/{item}
 
@@ -102,6 +117,9 @@ const FileToUpload = ({ file }) => {
         return (
           <IconButton edge="end" onClick={ retry } aria-label="delete">
             <Publish color="primary" />
+            { 
+              retry() /*INITIAL UPLOAD*/
+            }
           </IconButton>)      
       case "OK":
         return (
@@ -123,7 +141,7 @@ const FileToUpload = ({ file }) => {
 
   return (
     <ListItem key={ file.path }>
-      <ListItemText primary={ file.path + "(" + file.size + " Bytes)" } secondary={ message } />
+      <ListItemText primary={ getFilename() + " (" + file.size + " Bytes)" } secondary={ message } />
 
       <ListItemIcon >
         { getStatus( status) }

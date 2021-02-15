@@ -9,6 +9,8 @@ import {
     KeyboardDatePicker
 } from '@material-ui/pickers';
 
+// import isValidFormat from '@date-io/date-fns/is_valid_format';
+
 
 
 
@@ -19,8 +21,11 @@ export const ImageToday = ({ photos, flavor, setQueryFilter, sortBy }) => {
     const [selectedDate, setSelectedDate] = React.useState(new Date());
 
     const handleDateChange = (date) => {
-        setSelectedDate(date);
-        setDate(date)
+
+        if( date !== null ){
+            setSelectedDate(date);
+            setDate(date)        
+        }
     };
 
     const nextDay = () => {
@@ -67,7 +72,7 @@ export const ImageToday = ({ photos, flavor, setQueryFilter, sortBy }) => {
 
     // index must be 0..1, example from date.getMonth()
     const getMonthName = (index) => {
-        const array = ["Jannuar", "Feburar", "März", "April", "Mai", "Juni", "July", "August"]
+        const array = ["Jannuar", "Feburar", "März", "April", "Mai", "Juni", "July", "August", "September", "October", "November", "December"]
         return array[index]
     }
 
@@ -87,6 +92,7 @@ export const ImageToday = ({ photos, flavor, setQueryFilter, sortBy }) => {
                     <KeyboardDatePicker
                         disableToolbar
                         variant="inline"
+                        maskChar="."
                         format="yyyy-MM-dd"
                         margin="normal"
                         id="date-picker-inline"
