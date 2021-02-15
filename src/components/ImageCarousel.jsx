@@ -23,6 +23,7 @@ import { Clipboard } from "./Clipboard"
 
 
 import { Icon } from "./Icons";
+import IconButton from '@material-ui/core/IconButton';
 import { addSrcAndDirname, restCallToBackendAsync } from "./helpers";
 
 import { Settings, Role } from "../Settings"
@@ -311,9 +312,9 @@ const ImageCarousel = ({
                     visibilityThreshold={-1}
                     onClick= { () => setShowDetails(!showDetails) } /> 
             </div>
-            <div style={ { top: '0px', right: '20px' } } className="image-carousel " onClick={ closeCallback } ><h3><Icon icon="close" /></h3> </div>
-            <div style={ { top: '43%', left: '20px' } } className="image-carousel  " onClick={ previousImage } ><h3><Icon icon="arrow-left" /></h3> </div>
-            <div style={ { top: '43%', right: '20px' } } className="image-carousel " onClick={ nextImage } ><h3><Icon icon="arrow-right" /></h3> </div>
+            <div style={ { top: '0px', right: '20px' } } className="image-carousel " ><h3><IconButton onClick={ closeCallback } ><Icon icon="close" /></IconButton> </h3> </div>
+            <div style={ { top: '43%', left: '20px' } } className="image-carousel  " ><h3><IconButton onClick={ previousImage } ><Icon icon="arrow-left" /></IconButton></h3> </div>
+            <div style={ { top: '43%', right: '20px' } } className="image-carousel " ><h3><IconButton onClick={ nextImage } ><Icon icon="arrow-right" /></IconButton></h3> </div>
             <div style={ { bottom: '2%', left: '25%', width: '35%', margin: "5%", zIndex: '1' } } className="image-carousel-text" >
                 { contextMenuFcn() }
             </div>
