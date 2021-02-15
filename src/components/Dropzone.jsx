@@ -60,7 +60,7 @@ const FileToUpload = ({ file }) => {
 
     setStatus("")      
 
-    const url = [Settings.baseRestApi, "photoData", "2022-Test", file.path ].join("/")
+    const url = [Settings.baseRestApi, "photoData", "2021 - Familie", file.path ].join("/")
 
     // https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData/{folder}/{item}
 
