@@ -258,6 +258,31 @@ export const ImageListSimple = ({
     return images.slice(0, size) // reduce    
   }
 
+  const limitPhotosAndSortFixMissingCountry = (images, size = 999999, sortBy) => {
+
+    console.log("limitPhotosAndSort called")
+    images = sortPhotos(images, sortBy)
+
+    let retImages = []
+
+    for( let i=0; i<images.length; i++ ){
+      const previous_image = images[i-1]
+      const c_image = images[i]
+      const next_image = images[i+1]
+
+      if( c_image.country === "-" ){
+        if( previous_image !== undefined ){
+          if( previous_image.country !== "-"  ) {
+            retImages.push( previous_image )  
+          }  
+        }
+        retImages.push( c_image )
+      }
+    }
+
+    return retImages.slice(0, size) // reduce    
+  }  
+
   // 
   const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
 

@@ -4,7 +4,7 @@ import React, { useState } from "react"; // , { useState }
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 
-// import SandboxList from "./SandboxList"
+import {CancelFilter} from "./CancelFilter"
 
 import { TopAutoComplete } from "./TopAutoComplete"
 import { Clipboard } from "./Clipboard"
@@ -64,54 +64,10 @@ const Sandbox = ({
     return (
         <>
 
-{/* const ImageCarousel = ({
-    photos,
-    all_photos,          // from redux
-    token,               // from redux  
-    roles,                // from redux  
-    setMetadataOnImage,   // from redux
-    currentIndex,
-    closeCallback,
-    ratingCallback,
-    updateMetadataCallback }) 
- */}
+        <h1>Test</h1>
+
 
         { photos.length > 0 && <ImageCarousel photos={photos} currentIndex={0} /> }
-
-            {/* <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                spacing={1}
-            >
-                <Grid item xs="9" >
-                    { photos.length > 0 && <>
-                        <div className="hide-on-med-and-down">
-                            <TopAutoComplete photos={ photos } title="city" icon="location" limit="50" callback={ callbackTest } />
-                        </div>
-                    </> }
-                </Grid>
-
-                <Grid item xs="9" >
-                    <Card>
-
-                        <Clipboard state="Germany" country="NRW" city="Bochum" ></Clipboard>
-
-                        { (showImage && photos.length > 0) &&
-                            <>
-                                { textmessage }
-
-                            </> }
-                    </Card>
-
-                </Grid>
-                <Grid item xs="9" >
-                    <Dropzone></Dropzone>
-                </Grid>
-
-            </Grid> */}
-
 
 
         </>

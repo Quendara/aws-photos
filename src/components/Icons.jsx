@@ -23,7 +23,9 @@ import {
   faArrowUp,
   faClipboard,
   faGlobe,
-  faGlobeEurope
+  faGlobeEurope,
+  faFile,
+  faUsers
   // fasStar,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -42,7 +44,9 @@ const textToIcon = {
   "rating": faStar,
   "dirname": faFolder,
   "folder": faFolder,
-  "filename": faFolder,
+  "filename":   faFile,
+  "roles": faUsers,
+  
 
   "list": faList,
   "group": faThList,

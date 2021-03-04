@@ -48,7 +48,8 @@ const ImageCarousel = ({
 
     const [index, setIndex] = useState(currentIndex);
 
-    const [showDetails, setShowDetails] = useState(true);
+    const [showDetails, setShowDetails] = useState(false);
+    const [showDebug, setShowDebug] = useState(false);
 
     const [contextMenu, setContextMenu] = useState("");
 
@@ -101,11 +102,8 @@ const ImageCarousel = ({
             <div>
                 { showDetails &&
                     <>
-                        <Box color="text.secondary" >{ image.id } </Box>
-                        { image.filename }
-                        - roles {roles.join(", ") }
                         <Box lineHeight={ 3 } fontSize="h5.fontSize" ><Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating></Box>
-                        <Icon icon="day" /> { image.day } - <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } - { image.dirname_physical }</span>
+                        <Icon icon="day" /> { image.day } - <Icon icon="folder" /> <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname }</span>
 
                         <Box lineHeight={ 2 } fontSize="h6.fontSize" >
                             <span className="mr-2" onClick={ () => setContextMenu("country") } >{ image.country }</span>
@@ -114,7 +112,7 @@ const ImageCarousel = ({
                         <p onClick={ () => setContextMenu("city") } className="grey" > { image.city }</p>
 
                         <CancelFilterArray value={ image.faces } filter="faces" callback={ removeFace } />
-                        <Button variant="outlined" className="ml-2" onClick={ () => searchFacesOnImageLocal(image) } >
+                        <Button variant="outlined" onClick={ () => searchFacesOnImageLocal(image) } >
                             { seachingFace && <CircularProgress /> }
                             Search faces
                         </Button>
@@ -122,6 +120,23 @@ const ImageCarousel = ({
                 }
             </div>)
     }
+
+    const getDebugInfo = (image) => {
+        return (
+            <div>
+                { showDebug &&
+                    <>
+                        <Box lineHeight={ 2 } color="text.secondary" > { image.id } </Box>
+                        
+                        <Box lineHeight={ 2 } ><Icon icon="folder" /> <span onClick={ () => setContextMenu("dirname") } className="grey">{ image.dirname } - physical Location : { image.dirname_physical }</span></Box>
+
+                        <Box lineHeight={ 2 } ><Icon icon="filename" /> { image.filename }  </Box>
+                        <Box lineHeight={ 2 } ><Icon icon="roles" /> roles {roles.join(", ") } </Box>
+                        
+                    </>
+                }
+            </div>)
+    }    
 
     const handlers = useSwipeable({
         onSwipedLeft: () => nextImage(),
@@ -172,6 +187,10 @@ const ImageCarousel = ({
                 case 'i':
                     setShowDetails(!showDetails)
                     break;
+                    case 'j':
+                setShowDebug(!showDebug)
+                        break;
+    
                 case 'm':
                     setMissing();
                     break;
@@ -315,12 +334,17 @@ const ImageCarousel = ({
             <div style={ { top: '0px', right: '20px' } } className="image-carousel " ><h3><IconButton onClick={ closeCallback } ><Icon icon="close" /></IconButton> </h3> </div>
             <div style={ { top: '43%', left: '20px' } } className="image-carousel  " ><h3><IconButton onClick={ previousImage } ><Icon icon="arrow-left" /></IconButton></h3> </div>
             <div style={ { top: '43%', right: '20px' } } className="image-carousel " ><h3><IconButton onClick={ nextImage } ><Icon icon="arrow-right" /></IconButton></h3> </div>
+
             <div style={ { bottom: '2%', left: '25%', width: '35%', margin: "5%", zIndex: '1' } } className="image-carousel-text" >
                 { contextMenuFcn() }
             </div>
             <div style={ { top: '70%', left: '20px' } } className="image-carousel-text" >
                 { getCaptionFromPhoto(photo) }
             </div>
+            <div style={ { top: '0px', left: '20px' } } className="image-carousel-text" >
+                { getDebugInfo(photo) }
+            </div>
+
             <div style={ { top: '85%', right: '20px' } } className="image-carousel" >
                 { showDetails &&
                     <ButtonGroup variant="contained">

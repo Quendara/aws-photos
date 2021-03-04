@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { Icon } from "./Icons"
-import { Chip, Menu, MenuItem } from '@material-ui/core/';
+import { Chip, Button, Box, Menu, MenuItem } from '@material-ui/core/';
 import { findUnique, findUniqueFacesItems } from "./helpers"
 import { useStyles } from "./Styles"
 
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 
 
@@ -14,11 +16,11 @@ export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all }) =
     return (
         <div className={ classes.spacing }>
             <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
-            <CancelFilter photos={ photos_all } value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } />
-            <CancelFilter photos={ photos_all } value={ query.year }  filter={ "year" } callback={ callbackFilter } />
+            <CancelFilter photos={ photos_all } value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } showNext={false} />
+            <CancelFilter photos={ photos_all } value={ query.year } filter={ "year" } callback={ callbackFilter } />
             <CancelFilter photos={ photos_all } value={ query.month } filter={ "month" } callback={ callbackFilter } />
             <CancelFilter photos={ photos_all } value={ query.day } filter={ "day" } callback={ callbackFilter } />
-            <CancelFilter photos={ photos } value={ query.country } filter="country" callback={ callbackFilter } />
+            <CancelFilter photos={ photos_all } value={ query.country } filter="country" callback={ callbackFilter } />
             <CancelFilter photos={ photos } value={ query.state } filter="state" callback={ callbackFilter } />
             <CancelFilter photos={ photos } value={ query.city } filter="city" callback={ callbackFilter } />
             <CancelFilterArray value={ query.faces } filter="faces" callback={ callbackFilter } />
@@ -61,15 +63,22 @@ export const CancelFilterArray = ({ value, filter, callback }) => {
 
 }
 
-export const CancelFilter = ({ value, filter, callback, photos }) => {
+// <CancelFilter photos={ photos_all } 
+// value={ query.dirname }
+//  filter={ "dirname" }
+//  callback={ callbackFilter } />
+export const CancelFilter = ({ value, filter, callback, photos, showNext=true }) => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    let prev_value = undefined
+    let next_value = undefined
+
     const handleClick = (event) => {
-        if( items.length > 1 ){
+        if (items.length > 1) {
             setAnchorEl(event.currentTarget);
         }
-        
+
     };
 
     const handleClose = () => {
@@ -92,29 +101,34 @@ export const CancelFilter = ({ value, filter, callback, photos }) => {
 
         let reducedItemList = items
 
-        if( value.length > 0 ){
-            
+        if (value.length > 0) {
+
             let foundIndex = -1
-            for( let i=0; i<items.length; ++i ){
+            for (let i = 0; i < items.length; ++i) {
                 const item = items[i]
-                
-                if( item.value === value ){
+
+                if (item.value === value) {
                     // reducedItemList.push( item.value )
                     foundIndex = i
                     break
-                }                
+                }
             }
 
-            if( foundIndex >= 0 ){
-                const delta = 2
-                let beginIdx = foundIndex - delta ; 
-                let endIdx = foundIndex + delta  + 1 ; 
+            if (foundIndex >= 0) {
 
-                if( beginIdx < 0 ){ beginIdx = 0 }
-                if( endIdx >= items.length ){ endIdx = items.length-1 }
 
-                reducedItemList = items.slice( beginIdx, endIdx )
-            }            
+                prev_value = items[foundIndex - 1]
+                next_value = items[foundIndex + 1]
+
+                const delta = 3
+                let beginIdx = foundIndex - delta;
+                let endIdx = foundIndex + delta + 1;
+
+                if (beginIdx < 0) { beginIdx = 0 }
+                if (endIdx >= items.length) { endIdx = items.length - 1 }
+
+                reducedItemList = items.slice(beginIdx, endIdx)
+            }
         }
 
         return reducedItemList
@@ -126,14 +140,28 @@ export const CancelFilter = ({ value, filter, callback, photos }) => {
         <>
             { value.length > 0 &&
                 <>
-                    <Chip onClick={ handleClick }
+                    {/* <Chip onClick={ handleClick }
                         size="small"
                         anchorEl={ anchorEl }
                         icon={ <Icon icon={ filter } /> }
                         label={ printQuery(value) }
                         color="secondary"
                         onDelete={ () => callback(filter, "") }
-                    />
+
+                        onClick={ () => callback(filter, "") } 
+            />*/}
+
+               
+
+                    { ( prev_value !== undefined && showNext ) &&
+                        <Button size="small" onClick={ () => { callback(filter, prev_value.value) } } >
+                            <KeyboardArrowLeft />{ prev_value.value }
+                        </Button>
+                    }
+                    
+                    <Button size="small" anchorEl={ anchorEl }  onClick={ handleClick } >
+                        { printQuery(value) }
+                    </Button>
 
                     <Menu
                         id="simple-menu"
@@ -142,10 +170,22 @@ export const CancelFilter = ({ value, filter, callback, photos }) => {
                         open={ Boolean( anchorEl )  }
                         onClose={ handleClose }
                     >
+                        <MenuItem key="CLOSE" onClick={ () => { callback(filter, ""); handleClose() }  }><KeyboardArrowLeft />Close</MenuItem>
+
                         { items.map((item, index) => (
                             <MenuItem key={index} onClick={ () => { callback(filter, item.value); handleClose() } }>{ item.value }</MenuItem>
                         )) }
-                    </Menu>
+                        
+                    </Menu>                     
+
+
+                    { ( next_value !== undefined && showNext ) &&
+                    <Button size="small"  onClick={ () => { callback(filter, next_value.value) } } > 
+                        { next_value.value }
+                        <KeyboardArrowRight />
+                    </Button>
+                    }
+
                 </>
 
             }
