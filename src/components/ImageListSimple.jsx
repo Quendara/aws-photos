@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 
@@ -90,6 +90,11 @@ export const ImageListSimple = ({
   const [stateClipboard, setStateClipboard] = useState("");
 
   const [folderClipboard, setFolderClipboard] = useState("");
+
+  useEffect(() => {
+    // check if user is already logged in
+    setCurrentLimit(limit)
+  }, [photos]);  
 
   const clearClipboard = () => {
     setCityClipboard("") // call callback 

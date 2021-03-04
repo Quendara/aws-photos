@@ -22,7 +22,7 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
         return (<ImageGrid2 view="grid" photos={ currentPhotos } sortBy={sortBy} paging={true} />)  
       case "list":
         // the div cleans the stage when switching from grid to list
-        return (<div><ImageListSimple view="details" limit={ 100 } paging={true} photos={ currentPhotos } sortBy={sortBy}  /> </div>)
+        return (<div><ImageListSimple view="details" limit={ 300 } paging={true} photos={ currentPhotos } sortBy={sortBy}  /> </div>)
       case "group": 
         return (<ImageGroup photos={ currentPhotos} sortBy={sortBy}/>)
       case "map": 
