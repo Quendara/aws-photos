@@ -280,7 +280,12 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                                             } />
                                         </>
                                     ) : (
-                                            <ImageListTile item={ item } group={ group } index={ index } queryOnGroup={ queryOnGroup } getContext={ getContext } />
+                                            <ImageListTile 
+                                                item={ item } 
+                                                group={ group }
+                                                index={ index } 
+                                                gueryOnGroup={ queryOnGroup } 
+                                                getContext={ getContext } />
                                         ) }
                                 </GridListTile>
                             )) }

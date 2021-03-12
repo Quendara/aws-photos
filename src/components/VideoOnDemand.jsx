@@ -4,7 +4,7 @@ import { useVisible } from 'react-hooks-visible'
 
 // className={isVisible ? 'excited' : ''}
 // 
-export const ImageOnDemand = ({ image, className, onClick, visibilityThreshold = 0.01 }) => {
+export const VideoOnDemand = ({ image, className, onClick, visibilityThreshold = 0.01 }) => {
   // Boolean. This example is 50% visible.
   // const [targetRef, visible] = useVisible()
   // Boolean. This example is 50% visible.
@@ -40,7 +40,6 @@ export const ImageOnDemand = ({ image, className, onClick, visibilityThreshold =
   return (
 
     <div ref={ targetRef } style={{backgroundColor:"#2D2D31", height:"100%"}} >
-      {/* <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ ((visibility > 0.01) || loaded) ? image.source_url : '' } /> */}
       
       <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ (visibility > 0.01 ) ? image.source_url : '' } />
       
