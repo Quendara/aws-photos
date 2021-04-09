@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_RATING, SET_FILTER, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE_FROM_FILTER, SEARCH_FACE } from "./actions"
+import { SET_RATING, SET_FILTER, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE_FROM_FILTER, SEARCH_FACE, SET_SHOW_MENU } from "./actions"
 import { SET_ACCESS_TOKEN , SET_USER_ROLES } from "./actions"
 
 import {Settings} from "../Settings"
@@ -46,7 +46,10 @@ const initial_state = {
     token: {
         access: "",
         roles:[]
-    }
+    },
+    localSettings: {
+        showMenu: false        
+    }    
 }
 
 const restCallToBackend = (url, token, loggingMessage = "Generic Call") => {
@@ -227,8 +230,20 @@ function token(state = initial_state.token, action) {
             return Object.assign({}, state, {
                 roles: action.roles
             })
+        default:
+            return state
+    }
+}
 
+// use defaultState as state
+function settings(state = initial_state.localSettings, action) {
 
+    switch (action.type) {
+        case SET_SHOW_MENU:
+            // return tocken as new object
+            return Object.assign({}, state, {
+                showMenu: action.value
+            })
         default:
             return state
     }
@@ -293,7 +308,7 @@ function query(state = initial_state.query, action) {
 }
 
 
-export const rootReducer = combineReducers({ photos, query, token })
+export const rootReducer = combineReducers({ photos, query, token, settings })
 
 
 

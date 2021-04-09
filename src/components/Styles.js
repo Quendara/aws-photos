@@ -36,6 +36,46 @@ export const useStyles = makeStyles((theme) =>
         },
         selected: {
             color: "#FFFF00",
-        }
+        },
+    modal : {
+      position: 'absolute',
+      width: 400,
+      top:30,
+      left:30,
+      backgroundColor: theme.palette.background.paper,
+      border: '0px solid',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    }        
     }),
 );
+
+
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     root: {
+//       flexGrow: 1,
+//     },
+//     menuButton: {
+//       marginRight: theme.spacing(6),
+//       color: "#FFFFFF",
+//       textDecoration: "none"
+//     },
+//     title: {
+//       flexGrow: 1,
+//       color: "#FFFFFF",
+//       textDecoration: "none"
+//     },
+//     selected: {
+//       color: "#FFFF00",
+//     },
+//     modal : {
+//       position: 'absolute',
+//       width: 400,
+//       backgroundColor: theme.palette.background.paper,
+//       // border: '2px solid #000',
+//       boxShadow: theme.shadows[5],
+//       padding: theme.spacing(2, 4, 3),
+//     },    
+//   }),
+// );

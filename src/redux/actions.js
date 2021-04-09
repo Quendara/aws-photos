@@ -11,6 +11,9 @@ export const SET_FILTER = 'SET_FILTER'
 export const ADD_TO_FILTER = 'ADD_TO_FILTER' // form Array lists in query
 export const REMOVE_FROM_FILTER = 'REMOVE_FROM_FILTER'
 
+// Local Settings
+export const SET_SHOW_MENU = 'SET_SHOW_MENU'
+
 // cre
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN'
 export const SET_USER_ROLES = 'SET_USER_ROLES'
@@ -115,3 +118,13 @@ export function removeFromQueryFilter(key, value) {
 
   return action;
 }    
+
+// Value = Bool to toggle
+export function setShowMenu(value) {
+  const action = {
+    type: SET_SHOW_MENU,
+    value
+  }
+
+  return action;
+}

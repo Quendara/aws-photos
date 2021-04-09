@@ -4,11 +4,7 @@ import { render } from "react-dom";
 
 import { Auth } from "./Auth";
 
-import ImageApp from "./components/ImageApp"; // no {} because exported with connect
-import Today from "./components/Today";
-import ImageFaces from "./components/ImageFaces";
-import Sandbox from "./components/Sandbox";
-import Devtools from "./components/Devtools";
+
 
 import { ThemeProvider } from "@material-ui/core";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -58,6 +54,14 @@ import Hidden from '@material-ui/core/Hidden';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import ImageApp from "./components/ImageApp"; // no {} because exported with connect
+import Today from "./components/Today";
+import ImageFaces from "./components/ImageFaces";
+import Sandbox from "./components/Sandbox";
+import Devtools from "./components/Devtools";
+import { useStyles } from "./components/Styles"
+
+
 
 import './style.scss';
 
@@ -102,26 +106,7 @@ const loadPhotos = (url, token, roles ) => {
     .catch(err => { console.log("XX", err) })
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(6),
-      color: "#FFFFFF",
-      textDecoration: "none"
-    },
-    title: {
-      flexGrow: 1,
-      color: "#FFFFFF",
-      textDecoration: "none"
-    },
-    selected: {
-      color: "#FFFF00",
-    }
-  }),
-);
+
 
 
 

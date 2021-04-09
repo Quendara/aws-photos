@@ -8,7 +8,7 @@ import { TopListAuto } from "./TopListAuto";
 import { Rating } from "./Rating";
 import { Icon } from "./Icons";
 
-import Grid from '@material-ui/core/Grid';
+import {Grid, Card, CardContent } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 
@@ -17,7 +17,8 @@ export const LeftMenu = ({ photos, query, callbackFilter }) => {
 
     return (
         <>
-            <Grid item xs={ 11 } >
+            
+            <Grid  item xs={ 12 } >
                 <br />
                 <Icon icon="rating" className="mr-2" />Rating
                             <div className="m-2 ml-4"><Rating rating={ query.rating } id="rating" callback={ callbackFilter } ></Rating></div>
@@ -44,8 +45,8 @@ export const LeftMenu = ({ photos, query, callbackFilter }) => {
                     <TopListAuto photos={ photos } title="country" icon="location" query={ query.country } callback={ callbackFilter } />
                     <TopListAuto photos={ photos } title="city" icon="location" query={ query.city } callback={ callbackFilter } />
                 </Hidden>
-
             </Grid>
+            
 
         </>
     )

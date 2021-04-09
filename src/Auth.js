@@ -186,10 +186,10 @@ const Auth = ({ authSuccessCallback, children }) => {
           alignItems="center"  >
 
           <Grid item xs={ 11 } lg={ 12 } >
-            x<br />
-            x<br />
-            x<br />
-            x<br />
+            <br />
+            <br /> 
+            <br />
+            <br />
           </Grid>
           <Grid item xs={ 11 } lg={ 4 } >
             <Card>

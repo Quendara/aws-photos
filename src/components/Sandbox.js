@@ -25,6 +25,7 @@ import { restCallToBackendAsync } from "./helpers"
 
 import ImageCarousel from "./ImageCarousel"
 import { ImageOnDemand } from "./ImageOnDemand"
+import {VideoOnDemand} from "./VideoOnDemand";
 
 
 
@@ -34,43 +35,7 @@ import { filterFiles, addSrcAndDirname } from "./helpers";
 export const store = createStore(rootReducer)
 
 
-const Video = ({ folder, item }) => {
 
-    const endpoint = " https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData"
-
-    const [surl, setSUrl] = useState("")
-
-    const url = [endpoint, folder, item, "raw"].join("/")
-
-    useEffect(() => {
-        // const signed_url = ""
-        restCallToBackendAsync(url).then(data => {
-            console.log( "signed_url", data )
-            setSUrl(data.presigned_url)
-        })
-    }, [item]);
-
-    // <b>{ folder } -- { item }</b>
-    // <Divider />
-    // <p>{ url }</p>
-    // <Divider />
-    // {surl}
-
-
-    return (
-        <>
-            {surl &&
-                <video controls style={ { backgroundColor: "#2D2D31", width: "100%" } } preload="metadata" muted>
-                    <source src={surl} type="video/mp4" />
-                </video>
-            }
-        </>
-
-    )
-
-    // <p>{signed_url}</p>
-
-}
 
 
 const Sandbox = ({
@@ -99,17 +64,39 @@ const Sandbox = ({
             alignItems="flex-start" >
 
             { /* photos.length > 0 && <ImageCarousel photos={photos} currentIndex={0} /> */ }
-            {/* https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/2020%20-%20Porto/20200731_164555000_iOS.MOV/raw */ }
+            { /* https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/2020%20-%20Porto/20200731_164555000_iOS.MOV/raw */ }
+
+            {/* <ImageGrid view="grid" photos={ photos } paging={true} /> */}
+
+            {/* Request URL: https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData/2020%20-%20Porto/20200731_164555000_iOS.MOV/raw */}
+
 
             <Grid item xs={ 12 } md={4} >
-                <Video folder={"2020 - Porto"} item={"20200731_164555000_iOS.MOV"} />
+                <VideoOnDemand item={"2020 - Porto/20200731_164555000_iOS.MOV"} />
+            </Grid>
+            {/* <Grid item xs={ 12 } md={4} >
+                <VideoOnDemand folder={"2020 - Porto"} item={"20200729_222429000_iOS.MOV"} />
             </Grid>
             <Grid item xs={ 12 } md={4} >
-                <Video folder={"2020 - Porto"} item={"20200729_222429000_iOS.MOV"} />
-            </Grid>
-            <Grid item xs={ 12 } md={4} >
-                <Video folder={"2020 - Porto"} item={"20200801_222246000_iOS.MOV"} />
+                <VideoOnDemand folder={"2020 - Porto"} item={"20200801_222246000_iOS.MOV"} />
             </Grid>            
+            <Grid item xs={ 12 } md={4} >
+                <VideoOnDemand folder={"2019 - Berlin"} item={"20191023_192858_3.mp4"} />
+            </Grid>             */}
+
+            
+            {/* <Grid item xs={ 12 } md={4} >
+                <Video folder={"2009 - San Francisco"} item={"P1050718-001.MOV"} />
+            </Grid>            
+            <Grid item xs={ 12 } md={4} >
+                <Video folder={"2018 - Nord pas de Calais"} item={"IMG_3856.MOV"} />
+            </Grid>             */}
+
+            
+
+
+            
+
         </Grid>
     )
 }

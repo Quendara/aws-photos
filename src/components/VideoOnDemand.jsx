@@ -1,49 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // , { useState }
+import { restCallToBackendAsync } from "./helpers"
+
 import { useVisible } from 'react-hooks-visible'
 
 
-// className={isVisible ? 'excited' : ''}
-// 
-export const VideoOnDemand = ({ image, className, onClick, visibilityThreshold = 0.01 }) => {
-  // Boolean. This example is 50% visible.
-  // const [targetRef, visible] = useVisible()
-  // Boolean. This example is 50% visible.
-  // const [targetRef, isVisible] = useVisible((vi: number) => vi > 0.02)
+export const VideoOnDemand = ({ folder, item, className }) => {
 
-  // Percent value.
-  // const [targetRef, visibility] = useVisible()    
-  const [isVisibleState, setVisible] = useState(false)
-  const [loaded, setLoaded] = useState(false)
+  const endpoint = " https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData"
 
-  const [targetRef, visibility] = useVisible((vi) => vi)
+  const [surl, setSUrl] = useState("")
 
-  const getClassName = (image, className, visibility) => {
+  const url = [endpoint, folder, item, "raw"].join("/")
 
-    if (visibility > visibilityThreshold ) {
-      if (loaded === false) {
-        setLoaded(true)
-        // console.log("set loaded TRUE")
-      }
-    }
-    let r = className
+  useEffect(() => {
+      // const signed_url = ""
+      restCallToBackendAsync(url).then(data => {
+          console.log( "signed_url", data )
+          setSUrl(data.presigned_url)
+      })
+  }, [item]);
 
-
-
-    if ( image !== undefined && image.rotate !== undefined) {
-      if (image.rotate === 180) {
-        r += " rotate180"
-      }
-    }
-    return r
-  }
 
   return (
-
-    <div ref={ targetRef } style={{backgroundColor:"#2D2D31", height:"100%"}} >
-      
-      <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ (visibility > 0.01 ) ? image.source_url : '' } />
-      
-    </div>
-
+      <>
+          {surl &&
+              <video className={className} controls style={ { backgroundColor: "#2D2D31", width: "100%" } } preload="metadata" muted>
+                  <source src={surl} type="video/mp4" />
+              </video>
+          }
+      </>
+ 
   )
+
+  // <p>{signed_url}</p>
+
 }
