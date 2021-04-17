@@ -16,8 +16,6 @@ import Divider from '@material-ui/core/Divider';
 export const LeftMenu = ({ photos, query, callbackFilter }) => {
 
     return (
-        <>
-            
             <Grid  item xs={ 12 } >
                 <br />
                 <Icon icon="rating" className="mr-2" />Rating
@@ -46,8 +44,5 @@ export const LeftMenu = ({ photos, query, callbackFilter }) => {
                     <TopListAuto photos={ photos } title="city" icon="location" query={ query.city } callback={ callbackFilter } />
                 </Hidden>
             </Grid>
-            
-
-        </>
     )
 }

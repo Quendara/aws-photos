@@ -157,9 +157,10 @@ const ImageApp = ({
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                 >
-                    <div className={ classes.modal }>
+                    <Grid  container className={ classes.modal } >
                         <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } />
-                    </div>
+                    </Grid>
+
                 </Modal>
 
             </Grid>

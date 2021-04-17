@@ -201,8 +201,6 @@ const ImageGrid = ({
     <>
       { photos.length > 0 && 
       <>
-
-
         { viewerIsOpen ? (
         <ImageCarousel
           photos={ photos }

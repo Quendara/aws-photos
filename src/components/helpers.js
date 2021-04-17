@@ -19,10 +19,7 @@ export const sumArray = ( list, key ) => {
     let sum = 0;
     list.map( (item, index)  => { sum += item[key] } )
     return sum
-
 }
-
-
 
 export const findUnique = ( list, group, sortByCount = true, limit=5 ) => {
     let groups = groupBy(list, group);

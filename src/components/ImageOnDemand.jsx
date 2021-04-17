@@ -52,9 +52,7 @@ export const ImageOnDemand = ({ image, className, onClick, visibilityThreshold =
         return "video"
       default:
         return "unknown"
-    }
-
-    
+    }    
   }
 
   //  {/* (visibility > 0.01 ) */}
@@ -72,7 +70,7 @@ export const ImageOnDemand = ({ image, className, onClick, visibilityThreshold =
         }
         </>
       ) : (
-        <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ (visibility > 0.01 ) ? image.source_url : '' } />
+        <img  className={ getClassName(image, className, visibility) } onClick={ onClick } src={ (visibility > visibilityThreshold ) ? image.source_url : '' } />
       )      
     }
       

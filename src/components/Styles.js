@@ -39,9 +39,9 @@ export const useStyles = makeStyles((theme) =>
         },
     modal : {
       position: 'absolute',
-      width: 400,
-      top:30,
-      left:30,
+      maxWidth: 400,
+      top:80,
+      left:10,
       backgroundColor: theme.palette.background.paper,
       border: '0px solid',
       boxShadow: theme.shadows[5],
