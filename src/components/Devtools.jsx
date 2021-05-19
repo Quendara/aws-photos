@@ -14,17 +14,22 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
 import { Dropzone } from "./Dropzone"
+import { TopAutoComplete } from "./TopAutoComplete"
 
+
+import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 import { setPhotos } from "../redux/actions"; // import default 
 
 
 const Devtools = ({
-    token    ,           // from mapStateToProps  
+    token       ,
+    photos    ,           // from mapStateToProps  
     setPhotos,          // from redux 
 }) => {
 
     const [message, setMessage] = useState("-");
     const [error, setError] = useState("");
+    const [uploadFolder, setUploadFolder] = useState("2021 - Familie");
 
     const size = useWindowSize();
 
@@ -42,9 +47,6 @@ const Devtools = ({
         const url = [Settings.baseRestApi, "photos", "gps", "gps_to_location"].join('/')
         callUrl(url)
     }
-
-
-
 
     const callUrl = (url, callResults= undefined ) => {
         setMessage("Loading...")
@@ -96,12 +98,35 @@ const Devtools = ({
             container
             direction="row"
             justify="center"
+            spacing={2}
             alignItems="flex-start" >
 
 
             <Grid item xs={ 11 } md={ 9 } >
                 <Typography variant="h1" >Devtools</Typography>
                 <Typography color="secondary"> Screensize : { size.width } x { size.height } </Typography>
+                <Typography color="secondary"> #Photos : { photos.length } </Typography>
+                
+
+                <br />
+                <Divider variant="middle" />
+                <TopAutoComplete rendering="collection" photos={ photos }  title="dirname" icon="dirname"limit="999" sortByCount={ true } callback={ (x,y) => setUploadFolder(y)  } />
+                <br />
+                <Typography color="secondary"> Folder : { uploadFolder } </Typography>
+                <Dropzone
+                    uploadFolder={ uploadFolder }
+                    successCallback={ (m) => setMessage( m ) }
+                    failCallback ={ (m) => setError( m ) }
+                ></Dropzone>
+
+                
+
+
+            </Grid>
+            <Grid item xs={ 11 } md={ 4 } >
+
+
+
                 <Typography variant="h4" >Gps </Typography>
                 <Button variant="contained" color="primary" onClick={ gps_find_missing_locations }  >
                     <Icon icon="city" className="mr-2" /><b> Find Locations </b>
@@ -117,13 +142,7 @@ const Devtools = ({
                 <p>
                     Scan images and replaces unresolved imagenames. <br />
                 </p>
-                <br />
-                <Divider variant="middle" />
-                <br />
-                <Dropzone
-                    successCallback={ (m) => setMessage( m ) }
-                    failCallback ={ (m) => setError( m ) }
-                ></Dropzone>
+
 
                 <Typography variant="h4" >Update Cache </Typography>
                 <Button variant="contained" color="primary" onClick={ updateCache }  >
@@ -131,8 +150,10 @@ const Devtools = ({
                 </Button> 
                 <br />
                 <br />
-                <Divider variant="middle" />
-                <br />
+
+                </Grid>
+                <Grid item xs={ 11 } md={ 4 } >
+
 
                 <Typography variant="h4" >Response</Typography>
 
@@ -165,11 +186,22 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
 
-    const token = state.token
+    const t0 = performance.now()
 
-    console.log(token)
+    let photos = state.photos
 
-    return { 'token': token }
+    const copyOfphotos = addSrcAndDirname(photos)
+    const filterOfphotos = filterFiles(copyOfphotos, state.query)
+
+    const t1 = performance.now()
+    console.log("filtering took " + (t1 - t0).toFixed(2) + " milliseconds.")
+
+    console.log("photos[0]:", photos[0])
+
+    const query = state.query
+
+    return { photos: filterOfphotos, photos_all: copyOfphotos, query, localSettings: state.settings, token: state.token } 
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps )(Devtools);

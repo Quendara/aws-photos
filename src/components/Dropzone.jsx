@@ -51,7 +51,7 @@ myHeaders.append("Content-Type", "image/jpeg");
 
 
 
-const FileToUpload = ({ file }) => {
+const FileToUpload = ({ uploadFolder, file }) => {
 
   const [status, setStatus] = useState("INIT");
   const [message, setMessate] = useState("");
@@ -75,7 +75,7 @@ const FileToUpload = ({ file }) => {
 
     setStatus("")      
 
-    const url = [Settings.baseRestApi, "photoData", "2021 - Familie", getFilename() ].join("/")
+    const url = [Settings.baseRestApi, "photoData", uploadFolder, getFilename() ].join("/")
 
     // https://srxdhyyhm2.execute-api.eu-central-1.amazonaws.com/dev/photoData/{folder}/{item}
 
@@ -149,7 +149,7 @@ const FileToUpload = ({ file }) => {
     </ListItem>)
 }
 
-export function Dropzone({ successCallback, failCallback }) {
+export function Dropzone({ successCallback, failCallback, uploadFolder }) {
   const {
     getRootProps,
     getInputProps,
@@ -230,7 +230,7 @@ export function Dropzone({ successCallback, failCallback }) {
 
 
   const acceptedFileItems = acceptedFiles.map(file => (
-    <FileToUpload file={ file } />
+    <FileToUpload uploadFolder={uploadFolder} file={ file } />
 
   ));
 
