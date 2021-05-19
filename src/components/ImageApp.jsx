@@ -23,6 +23,7 @@ import { setQueryFilter, addToQueryFilter, removeFromQueryFilter, setShowMenu } 
 // import { Icon } from "./Icons"
 
 import Grid from '@material-ui/core/Grid';
+import Drawer from '@material-ui/core/Drawer';
 import Modal from '@material-ui/core/Modal';
 
 import { useStyles } from "./Styles"
@@ -150,18 +151,26 @@ const ImageApp = ({
 
                 {/* { (localSettings.showMenu && menu && photos.length > 0) && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> } */ }
 
-                <Modal
+                {/* <Modal
 
                     open={ (localSettings.showMenu && menu && photos.length > 0) }
                     onClose={ () => { setShowMenu(false) } }
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                 >
-                    <Grid  container className={ classes.modal } >
-                        <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } />
+                    
                     </Grid>
 
-                </Modal>
+                </Modal>                         */}
+                    <Drawer anchor={"left"} open={ (localSettings.showMenu && menu && photos.length > 0) } onClose={ () => { setShowMenu(false) } }>
+                    <Grid  container justify="center" >
+                        <Grid item xs={ 11 } >
+                            <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } />
+                        </Grid>
+                    </Grid>
+                    </Drawer>
+                        
+
 
             </Grid>
 
