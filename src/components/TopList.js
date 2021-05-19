@@ -53,7 +53,7 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
                     </Grid>
                     <Grid container >
                         { getItems(photos).map((item, index) => (
-                            <Grid item xs={ 12 }>
+                            <Grid item xs={ 12 }  key={index}>
                                 <Box lineHeight={ 1.7 } key={ index }>
                                     <div className="ml-4 mouse-pointer text-ellipsis" onClick={ () => callback(title, item.value) }>
                                         { item.value }
@@ -81,7 +81,7 @@ export const TopList = ({ photos, icon, title, titleAlt = "", sortByCount = true
                             </ListItem>
 
                             { getItems(photos).map((item, index) => (
-                                <ListItem >
+                                <ListItem key={index} >
                                     <ListItemText className="collection-item mouse-pointer grey darken-4" onClick={ () => callback(title, item.value) } key={ index }>
                                         <Icon icon={ icon } className="ml-2 mr-2 grey-text " /> { item.value }
                                     </ListItemText>
