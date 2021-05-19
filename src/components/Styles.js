@@ -36,17 +36,7 @@ export const useStyles = makeStyles((theme) =>
         },
         selected: {
             color: "#FFFF00",
-        },
-    modal : {
-      position: 'absolute',
-      maxWidth: 400,
-      top:80,
-      left:10,
-      backgroundColor: theme.palette.background.paper,
-      border: '0px solid',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    }        
+        }    
     }),
 );
 
