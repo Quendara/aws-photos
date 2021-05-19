@@ -153,16 +153,18 @@ const ImageGrid2 = ({
     return (
         <>
             { photos.length > 0 && <>
+                
                 { showGroupSelector &&
-                    <Grid
-                        container
-                        justify="center"
-                        alignItems="flex-start" >
-                        <Box className="group-menu" boxShadow={ 3 }  >
-                            <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
-                            {/* <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button> */ }
-                        </Box>
-                    </Grid>
+                    <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
+                    // <Grid
+                    //     container
+                    //     justify="center"
+                    //     alignItems="flex-start" >
+                    //     <Box className="group-menu" boxShadow={ 3 }  >
+                            
+                    //         {/* <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button> */ }
+                    //     </Box>
+                    // </Grid>
                 }
 
                 <Grid

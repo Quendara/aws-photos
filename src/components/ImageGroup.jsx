@@ -251,15 +251,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
     return (
         <div>
             { showGroupSelector &&
-                <Grid
-                    container
-                    justify="center"
-                    alignItems="flex-start" >
-                    <Box className="group-menu" boxShadow={ 3 }  >
-                        <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
-                        {/* <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button> */ }
-                    </Box>
-                </Grid>
+                <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
             }
             { groups.length === 1 ? (
                 <Grid xs={ adaptColSize(groups[0].count) }  >

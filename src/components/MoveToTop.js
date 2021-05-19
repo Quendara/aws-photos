@@ -4,10 +4,24 @@ import { Icon } from "./Icons";
 
 // import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
+import { makeStyles } from '@material-ui/core/styles';
+
 // import { setPhotos } from "../redux/actions";
+
+const useStyles = makeStyles((theme) => ({
+
+    speedDial: {
+        position: 'fixed',
+        bottom: theme.spacing(2),
+        right: theme.spacing(10),
+    },
+}));
 
 export const MoveToTop = ( ) => {
 
+
+    const classes = useStyles();
+    
     const [is_visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -46,7 +60,7 @@ export const MoveToTop = ( ) => {
     return (
         <div className={ getClassName( is_visible )}  >
             
-            <Fab color="primary" variant="round" onClick={ scrollToTop }><Icon icon="arrowUp" /></Fab>
+            <Fab color="secondary" variant="round" onClick={ scrollToTop }><Icon icon="arrowUp" /></Fab>
         </div>
     )
 }
