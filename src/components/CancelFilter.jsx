@@ -14,7 +14,7 @@ export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all }) =
     const classes = useStyles();
 
     return (
-        <div className={ classes.spacing }>
+        <span className={ classes.spacing }>
             <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } />
             <CancelFilter photos={ photos_all } value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } showNext={false} />
             <CancelFilter photos={ photos_all } value={ query.year } filter={ "year" } callback={ callbackFilter } />
@@ -24,7 +24,7 @@ export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all }) =
             <CancelFilter photos={ photos } value={ query.state } filter="state" callback={ callbackFilter } />
             <CancelFilter photos={ photos } value={ query.city } filter="city" callback={ callbackFilter } />
             <CancelFilterArray value={ query.faces } filter="faces" callback={ callbackFilter } />
-        </div>
+        </span>
     )
 }
 

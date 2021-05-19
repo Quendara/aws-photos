@@ -14,16 +14,21 @@ import { LeftMenu } from "./LeftMenu";
 
 import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 
-import { Button } from '@material-ui/core/';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import { Button, } from '@material-ui/core/';
 
 // import Settings from "../Settings"
 
 import { setQueryFilter, addToQueryFilter, removeFromQueryFilter, setShowMenu } from "../redux/actions"; // import default 
+
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+
 // import { Rating } from "./Rating";
 // import { Icon } from "./Icons"
 
 import Grid from '@material-ui/core/Grid';
-import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Modal from '@material-ui/core/Modal';
 
 import { useStyles } from "./Styles"
@@ -139,14 +144,12 @@ const ImageApp = ({
 
             <Grid item xs={ 12 } lg={ getMenuWidth(localSettings.showMenu) }  >
 
-                
-                {/* <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> */}
+
+                {/* <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> */ }
 
 
 
-                <Button size="small" onClick={ () => { setShowMenu(!localSettings.showMenu) } } >
-                    Menu
-                </Button>
+
 
 
                 {/* { (localSettings.showMenu && menu && photos.length > 0) && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> } */ }
@@ -162,14 +165,24 @@ const ImageApp = ({
                     </Grid>
 
                 </Modal>                         */}
-                    <Drawer anchor={"left"} open={ (localSettings.showMenu && menu && photos.length > 0) } onClose={ () => { setShowMenu(false) } }>
-                    <Grid  container justify="center" >
+                <SwipeableDrawer anchor={ "left" } open={ (localSettings.showMenu && menu && photos.length > 0) } onClose={ () => { setShowMenu(false) } }>
+
+
+                    <Grid container justify="flex-end" >
+
+                        <Grid item xs={ 2 } >
+                            <IconButton onClick={ () => { setShowMenu(false) } }  >
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                    <Grid container justify="center" >
                         <Grid item xs={ 11 } >
                             <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } />
                         </Grid>
                     </Grid>
-                    </Drawer>
-                        
+                </SwipeableDrawer>
+
 
 
             </Grid>
@@ -182,6 +195,10 @@ const ImageApp = ({
                     alignItems="flex-start" >
 
                     <Grid item xs={ 12 } lg={ 6 } >
+                    <IconButton onClick={ () => { setShowMenu(true) } }  >
+                                <MenuIcon />
+                            </IconButton>
+
                         <CancelFilterAll query={ query } callbackFilter={ callbackFilter } photos={ photos } photos_all={ photos_all } />
                     </Grid>
                     <Grid item xs={ 12 } lg={ 6 } >
