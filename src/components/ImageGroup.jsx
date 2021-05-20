@@ -23,6 +23,7 @@ import IconButton from '@material-ui/core/IconButton';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { Dialog, DialogContent } from '@material-ui/core';
 import { useStyles } from "./Styles"
 
 
@@ -276,7 +277,7 @@ export const ImageGroup = ({ photos, setQueryFilter, sortBy, initialGroup = "dir
                                                 item={ item } 
                                                 group={ group }
                                                 index={ index } 
-                                                gueryOnGroup={ queryOnGroup } 
+                                                queryOnGroup={ queryOnGroup } 
                                                 getContext={ getContext } />
                                         ) }
                                 </GridListTile>

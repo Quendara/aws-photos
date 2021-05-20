@@ -11,7 +11,7 @@ import ImageCarousel from "./ImageCarousel"
 
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-
+import { Dialog, DialogContent } from '@material-ui/core';
 
 
 
@@ -196,29 +196,33 @@ const ImageGrid = ({
 
   // targetRowHeight={170} 
   // <h6> EBUG # {photos.length }, {currentPhotos.length} {currentLimit}</h6>
+  // { viewerIsOpen ? (
+  //   ) : (  
 
   return (
     <>
-      { photos.length > 0 && 
-      <>
-        { viewerIsOpen ? (
-        <ImageCarousel
-          photos={ photos }
-          currentIndex={ currentImage }
-          closeCallback={ closeLightbox }
-          ratingCallback={ ratingCallback }
-          updateMetadataCallback={ updateMetadataCallback } />
-        ) : (
+      { photos.length > 0 &&
         <>
-          <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
-          { showPaging(photos) && <>
-            <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
-          </>
-          }
-        </>
-        )
-      }
-    </> }
+
+            <>
+                        <Dialog open={ viewerIsOpen } fullScreen={ true } >
+              <DialogContent style={ { height: "100vh", width: "100vw" } }>
+                <ImageCarousel
+                  photos={ photos }
+                  currentIndex={ currentImage }
+                  closeCallback={ closeLightbox }
+                  ratingCallback={ ratingCallback }
+                  updateMetadataCallback={ updateMetadataCallback } />
+              </DialogContent>
+            </Dialog>
+
+              <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
+              { showPaging(photos) && <>
+                <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
+              </>
+              }
+            </>
+        </> }
     </>
   )
 }

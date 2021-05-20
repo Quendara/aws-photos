@@ -97,9 +97,7 @@ export const ImageGrid2View = ({ photos, title, ratingCallback, updateMetadataCa
                     </DialogContent>
                 </Dialog>
                 : (
-
                     <>
-
                         <Hidden smDown>
                             { photos.length > 3 && 
                                 <>
