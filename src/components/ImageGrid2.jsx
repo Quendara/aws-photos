@@ -21,7 +21,7 @@ import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import { Typography, Hidden, Box } from '@material-ui/core/';
+import { Typography, Hidden, Box, Button } from '@material-ui/core/';
 import { Dialog, DialogContent } from '@material-ui/core';
 
 import { ImageOnDemand } from "./ImageOnDemand";
@@ -33,13 +33,26 @@ const ImageGrid2 = ({
     paging = false,
     view = "grid",
     sortBy,
-    initialGroup = "month",
+    initialGroup = "day",
     setRatingOnImage,   // from mapDispatchToProps
     setMetadataOnImage, // from mapDispatchToProps
     token,              // from mapStateToProps
     ...rest }) => {
 
     const [group, setGroup] = useState(initialGroup);
+
+    const [currentImageGroup, setCurrentImageGroup] = useState(0);
+    const [viewerIsOpen, setViewerIsOpen] = useState(false);
+
+    const openLightbox = useCallback((event, { index }) => {
+        setCurrentImageGroup(index);
+        setViewerIsOpen(true);
+    }, []);
+
+    const closeLightbox = () => {
+        setCurrentImageGroup(0);
+        setViewerIsOpen(false);
+    };
 
     const callbackGroupBy = (value) => {
         setGroup(value)
@@ -141,7 +154,7 @@ const ImageGrid2 = ({
 
     const getGroupedItems = (photos, groupA) => {
         const sortByCount = false
-        const limit = 131;
+        const limit = 200;
         return findUnique(photos, groupA, sortByCount, limit)
     }
 
@@ -150,39 +163,83 @@ const ImageGrid2 = ({
 
     const showGroupSelector = true
 
+    const imageRenderer = (
+        ({ index, left, top, key, photo, onClick }) => (
+            <ImageGridImage
+                selected={ false }
+                onClick={ onClick }
+                key={ key }
+                margin={ "2px" }
+                index={ index }
+                photo={ photo }
+                left={ left }
+                top={ top }
+            />
+        )
+    );
+
+    const groupPhotos = groups.map((item, index) => {
+
+        const view_sort = "rating"
+        const sortedPhotos = sortPhotos(item.photos, view_sort)
+        return sortedPhotos[0]
+    })
+
     return (
         <>
             { photos.length > 0 && <>
-                
+
                 { showGroupSelector &&
                     <SelectionView currentValue={ group } valueArr={ ['dirname', 'country', 'city', 'year', 'month', 'day'] } callback={ callbackGroupBy } />
-                    // <Grid
-                    //     container
-                    //     justify="center"
-                    //     alignItems="flex-start" >
-                    //     <Box className="group-menu" boxShadow={ 3 }  >
-                            
-                    //         {/* <Button onClick={ () => setStats(!stats) }><Icon icon="arrowUp" /></Button> */ }
-                    //     </Box>
-                    // </Grid>
+
                 }
 
-                <Grid
-                    container
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="flex-start"
-                    spacing={ 1 } >
-                    { groups.map((item, index) => (
-                        <ImageGrid2View title={ item.value } photos={ item.photos } ratingCallback={ ratingCallback } updateMetadataCallback={ updateMetadataCallback }  >
-                        </ImageGrid2View>
-                    )) }
-                </Grid>
+                <Dialog open={ viewerIsOpen } fullScreen={ true } >
+                    <DialogContent style={ { height: "100vh", width: "100vw" } }>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="flex-start"
+                            spacing={ 1 } >
 
-            </> }
+
+                            { groups[currentImageGroup].photos.length < 4 ? (
+                                <ImageCarousel
+                                    photos={ groups[currentImageGroup].photos }
+                                    currentIndex={ 0 }
+                                    closeCallback={ closeLightbox }
+                                    ratingCallback={ ratingCallback }
+                                    updateMetadataCallback={ updateMetadataCallback } />) : (
+                                <>
+                                    <ImageGrid2View title={ groups[currentImageGroup].value } photos={ groups[currentImageGroup].photos } ratingCallback={ ratingCallback } updateMetadataCallback={ updateMetadataCallback }  >
+                                    </ImageGrid2View>
+
+                                    <Button onClick={ closeLightbox }  >CLOSE</Button>
+                                </>
+                            ) }
+
+
+
+                        </Grid>
+
+
+
+                    </DialogContent>
+                </Dialog>
+
+                <Gallery photos={ groupPhotos } renderImage={ imageRenderer } targetRowHeight={ 300 } onClick={ openLightbox } />
+            </>
+            }
         </>
     )
 }
+
+// { groups.map((item, index) => (
+//     <ImageGrid2View title={ item.value } photos={ item.photos } ratingCallback={ ratingCallback } updateMetadataCallback={ updateMetadataCallback }  >
+//     </ImageGrid2View>    
+// )) }
+
 
 
 const mapStateToProps = state => {

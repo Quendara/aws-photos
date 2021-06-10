@@ -200,8 +200,6 @@ const ImageGrid = ({
     <>
       { photos.length > 0 &&
         <>
-
-          <>
             <Dialog open={ viewerIsOpen } fullScreen={ true } >
               <DialogContent style={ { height: "100vh", width: "100vw" } }>
                 <ImageCarousel
@@ -217,8 +215,7 @@ const ImageGrid = ({
             { showPaging(photos) && <>
               <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
             </>
-            }
-          </>
+            }          
         </> }
     </>
   )

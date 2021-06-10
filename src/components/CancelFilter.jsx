@@ -25,7 +25,8 @@ export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all = un
     return (
         <span className={ classes.spacing }>
             {/* <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } showNext={false} /> */}
-            <CancelFilter photos={ photos_filtered } value={ query.year } filter={ "year" } callback={ callbackFilter } showNext={false} showAlways={ photos_all !== undefined }/>
+            {/* WENN DER YEAR FILTER GESETZT IST; kann man durch die Order navigieren */}
+            <CancelFilter photos={ query['year']?photos_all:photos_filtered } value={ query.year } filter={ "year" } callback={ callbackFilter } showNext={false} showAlways={ photos_all !== undefined }/>
             <CancelFilter photos={ photos_filtered } value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } showNext={false} />
             <CancelFilter photos={ photos_filtered } value={ query.month } filter={ "month" } callback={ callbackFilter } showNext={false}/>
             <CancelFilter photos={ photos_filtered } value={ query.day } filter={ "day" } callback={ callbackFilter } showNext={false} />

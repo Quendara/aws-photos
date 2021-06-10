@@ -61,6 +61,11 @@ export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callb
 
     const getItemName = (item) => {
         if (iconsOnly) return ""
+
+        if( item === currentValue ){
+            return ( <b>{ item } </b> )
+        }
+
         return item;
     }
 
@@ -76,7 +81,7 @@ export const SelectionView = ({ valueArr, keyArr, iconsOnly, currentValue, callb
     >
         { valueArr.map((item, index) => (
             <SpeedDialAction
-                key={ getItemName(item) }
+                key={ item }
                 icon={ <Icon icon={ item } /> }
                 tooltipTitle={ getItemName(item) }
                 tooltipOpen
