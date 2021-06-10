@@ -50,14 +50,11 @@ const ImageGrid = ({
   const increaseValue = 30
 
   const [targetRef, isVisible] = useVisible((vi: number) => {
-
     return vi > 0.02
-  }
-  )
+  })
 
   // updated in limitPhotosAndSort
   let currentRenderer = undefined
-
 
   const openLightbox = useCallback((event, { index }) => {
     setCurrentImage(index);
@@ -204,8 +201,8 @@ const ImageGrid = ({
       { photos.length > 0 &&
         <>
 
-            <>
-                        <Dialog open={ viewerIsOpen } fullScreen={ true } >
+          <>
+            <Dialog open={ viewerIsOpen } fullScreen={ true } >
               <DialogContent style={ { height: "100vh", width: "100vw" } }>
                 <ImageCarousel
                   photos={ photos }
@@ -216,12 +213,12 @@ const ImageGrid = ({
               </DialogContent>
             </Dialog>
 
-              <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
-              { showPaging(photos) && <>
-                <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
-              </>
-              }
+            <Gallery photos={ currentPhotos } renderImage={ currentRenderer } onClick={ openLightbox } />
+            { showPaging(photos) && <>
+              <div ref={ targetRef } className="col offset-s3 s6 btn grey darker-2 m-2" onClick={ increaseLimit } >  more </div><span className="blue-text" >{ currentLimit } / { photos.length }</span>
             </>
+            }
+          </>
         </> }
     </>
   )

@@ -161,20 +161,20 @@ export const filterFiles = (images, query) => {
         const bool1 = +image.rating >= rating
 
         // return true keeps the item in the list
-        const bool2 = query.year === "" || +image.year === +query.year // true when year is not given or equel
-        const bool3 = query.dirname === "" || image.dirname === query.dirname
+        const bool2 = query.year === undefined || query.year === "" || +image.year === +query.year // true when year is not given or equel
+        const bool3 = query.dirname === undefined || query.dirname === "" || image.dirname === query.dirname
 
         if (boolWidth === false || bool1 === false || bool2 === false || bool3 === false) { // if one is false return false, skip this photo
             return false; // realy exit
         }
 
-        const bool4 = query.month === "" || image.month === query.month
-        const bool5 = query.day === "" || image.day === query.day
-        const bool6 = query.sameday === "" || image.sameday === query.sameday
+        const bool4 = query.month === undefined || query.month === "" || image.month === query.month
+        const bool5 = query.day === undefined || query.day === "" || image.day === query.day
+        const bool6 = query.sameday === undefined || query.sameday === "" || image.sameday === query.sameday
 
-        const bool7 = query.country === "" || image.country === query.country
-        const bool8 = query.state === "" || image.state === query.state
-        const bool9 = query.city === "" || image.city === query.city
+        const bool7 = query.country === undefined || query.country === "" || image.country === query.country
+        const bool8 = query.state === undefined || query.state === "" || image.state === query.state
+        const bool9 = query.city === undefined || query.city === "" || image.city === query.city
         const boolX = query.faces === undefined || query.faces === "" || query.faces.length === 0  || imageHasFace( image.faces, query.faces )
 
 
