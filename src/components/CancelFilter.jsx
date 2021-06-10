@@ -13,22 +13,19 @@ import DoneIcon from '@material-ui/icons/Done';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
-export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all }) => {
+export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all = undefined }) => {
     const classes = useStyles();
 
-    const photos_filtered = filterFiles( photos_all, 
+    const photos_filtered = photos_all?filterFiles( photos_all, 
         {
                 dirname:query['dirname']?query.dirname:"", 
                 year:query['year']?query.year:"", 
-                rating:2   } )
-
-    console.log( "photos_all : ", photos_all.length )
-    console.log( "photos_filtered : ", photos_filtered.length )
+                rating:2   } ):photos 
 
     return (
         <span className={ classes.spacing }>
             {/* <CancelFilter value={ query.sameday } filter={ "sameday" } callback={ callbackFilter } showNext={false} /> */}
-            <CancelFilter photos={ photos_filtered } value={ query.year } filter={ "year" } callback={ callbackFilter } showNext={false} showAlways={true}/>
+            <CancelFilter photos={ photos_filtered } value={ query.year } filter={ "year" } callback={ callbackFilter } showNext={false} showAlways={ photos_all !== undefined }/>
             <CancelFilter photos={ photos_filtered } value={ query.dirname } filter={ "dirname" } callback={ callbackFilter } showNext={false} />
             <CancelFilter photos={ photos_filtered } value={ query.month } filter={ "month" } callback={ callbackFilter } showNext={false}/>
             <CancelFilter photos={ photos_filtered } value={ query.day } filter={ "day" } callback={ callbackFilter } showNext={false} />
