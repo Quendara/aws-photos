@@ -22,8 +22,9 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Typography, Hidden, Box, Button } from '@material-ui/core/';
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContent, IconButton } from '@material-ui/core';
 
+import { Icon } from "./Icons";
 import { ImageOnDemand } from "./ImageOnDemand";
 import { findUnique, sortPhotos } from "./helpers"
 
@@ -196,32 +197,38 @@ const ImageGrid2 = ({
 
                 <Dialog open={ viewerIsOpen } fullScreen={ true } >
                     <DialogContent style={ { height: "100vh", width: "100vw" } }>
-                        <Grid
-                            container
-                            direction="row"
-                            justify="flex-start"
-                            alignItems="flex-start"
-                            spacing={ 1 } >
-
-
-                            { groups[currentImageGroup].photos.length < 4 ? (
-                                <ImageCarousel
-                                    photos={ groups[currentImageGroup].photos }
-                                    currentIndex={ 0 }
-                                    closeCallback={ closeLightbox }
-                                    ratingCallback={ ratingCallback }
-                                    updateMetadataCallback={ updateMetadataCallback } />) : (
-                                <>
-                                    <ImageGrid2View title={ groups[currentImageGroup].value } photos={ groups[currentImageGroup].photos } ratingCallback={ ratingCallback } updateMetadataCallback={ updateMetadataCallback }  >
-                                    </ImageGrid2View>
-
-                                    <Button onClick={ closeLightbox }  >CLOSE</Button>
-                                </>
-                            ) }
 
 
 
-                        </Grid>
+                        { groups[currentImageGroup].photos.length < 4 ? (
+                            <ImageCarousel
+                                photos={ groups[currentImageGroup].photos }
+                                currentIndex={ 0 }
+                                closeCallback={ closeLightbox }
+                                ratingCallback={ ratingCallback }
+                                updateMetadataCallback={ updateMetadataCallback } />) : (
+
+                            <Grid
+                                container
+                                direction="row"
+                                justify="flex-start"
+                                alignItems="flex-start"
+                                spacing={ 1 } >
+
+                                <div style={ { top: '0px', right: '20px', zIndex: "999" } } className="image-carousel " ><h3><IconButton onClick={ closeLightbox } ><Icon icon="close" /></IconButton> </h3> </div>
+
+                                <ImageGrid2View title={ groups[currentImageGroup].value } photos={ groups[currentImageGroup].photos } ratingCallback={ ratingCallback } updateMetadataCallback={ updateMetadataCallback }  >
+                                </ImageGrid2View>
+
+                                <Button onClick={ closeLightbox }  >CLOSE</Button>
+
+
+                            </Grid>
+                        ) }
+
+
+
+
 
 
 
