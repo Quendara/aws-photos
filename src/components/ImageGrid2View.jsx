@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-export const ImageGrid2View = ({ photos, title, ratingCallback, updateMetadataCallback }) => {
+export const ImageGrid2View = ({ photos, title, ratingCallback, updateMetadataCallback, view_sort = "rating" }) => {
 
     const [viewerIsOpen, setViewerIsOpen] = useState(false);
     const [currentImage, setCurrentImage] = useState(0);
@@ -52,7 +52,6 @@ export const ImageGrid2View = ({ photos, title, ratingCallback, updateMetadataCa
     const size = useWindowSize();
     const classes = useStyles();
 
-    const view_sort = "rating"
     const sortedPhotos = sortPhotos(photos, view_sort)
 
     const height = size.width / 20
@@ -92,30 +91,31 @@ export const ImageGrid2View = ({ photos, title, ratingCallback, updateMetadataCa
                             closeCallback={ closeLightbox }
                             currentIndex={ currentImage }
                             ratingCallback={ ratingCallback }
-                            updateMetadataCallback={updateMetadataCallback}
+                            updateMetadataCallback={ updateMetadataCallback }
                         />
                     </DialogContent>
                 </Dialog>
                 : (
                     <>
                         <Hidden smDown>
-                            { photos.length > 3 && 
+                           
+                            { photos.length > 0 &&
                                 <>
                                     { photos.length % 2 === 0 ? (
-                                    <Group_1_2 offset={0} onClick={ openLightbox} title={ title } photos={ sortedPhotos.slice(0, 3) } height={ height } ></Group_1_2>
-                                    ):(
-                                    <Group_2_1 offset={0} onClick={ openLightbox} title={ title } photos={ sortedPhotos.slice(0, 3) } height={ height } ></Group_2_1>
-                                    )}
+                                        <Group_1_2 offset={ 0 } onClick={ openLightbox } title={ title } photos={ sortedPhotos.slice(0, 3) } height={ height } ></Group_1_2>
+                                    ) : (
+                                        <Group_2_1 offset={ 0 } onClick={ openLightbox } title={ title } photos={ sortedPhotos.slice(0, 3) } height={ height } ></Group_2_1>
+                                    ) }
                                 </>
-                             }
-                            { photos.length > 7 && <Group_3  offset={3} onClick={ openLightbox } photos={ sortedPhotos.slice(3, 3 + 3) } height={ height } ></Group_3> }
-                            { photos.length > 10 && <Group_6  offset={6}  onClick={ openLightbox } photos={ sortedPhotos.slice( 6, 6 + 6) } height={ height } ></Group_6> }
+                            }
+                            { photos.length > 7 && <Group_3 offset={ 3 } onClick={ openLightbox } photos={ sortedPhotos.slice(3, 3 + 3) } height={ height } ></Group_3> }
+                            { photos.length > 10 && <Group_6 offset={ 6 } onClick={ openLightbox } photos={ sortedPhotos.slice(6, 6 + 6) } height={ height } ></Group_6> }
                         </Hidden>
                         <Hidden mdUp>
-                            { photos.length > 3 &&
-                                < Grid item xs={ 12 } >
+                            
+                            { photos.length > 0 &&
+                                <Grid item xs={ 12 } >
                                     <Typography
-
                                         titlePosition="top"
                                         className={ classes.titleBar }>
                                         { title }
@@ -138,17 +138,17 @@ const Group_1_2 = ({ photos, title, height, offset, onClick }) => {
 
     const classes = useStyles();
 
-    const localOnClick = ( index ) => {
-        onClick( offset + index )
+    const localOnClick = (index) => {
+        onClick(offset + index)
     }
 
     return (
         <>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height +8 } cols={ 1 } spacing={ 8 }>
+                <GridList cellHeight={ 8 * height + 8 } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
-                        <ImageOnDemand onClick={() => localOnClick(0)} className="responsive-img" image={ photos[0] } />
+                        <ImageOnDemand onClick={ () => localOnClick(0) } className="responsive-img" image={ photos[0] } />
                         <GridListTileBar
                             title={ <h2>{ title }</h2> }
                             titlePosition="top"
@@ -161,10 +161,10 @@ const Group_1_2 = ({ photos, title, height, offset, onClick }) => {
             <Grid item xs={ 4 } >
                 <GridList cellHeight={ (4 * height) } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
-                        <ImageOnDemand onClick={() => localOnClick(1)}  className="responsive-img" image={ photos[1] } />
+                        { photos.length > 1 && <ImageOnDemand onClick={ () => localOnClick(1) } className="responsive-img" image={ photos[1] } /> }
                     </GridListTile>
                     <GridListTile cols={ 1 } rows={ 1 } >
-                        <ImageOnDemand onClick={() => localOnClick(2)} className="responsive-img" image={ photos[2] } />
+                        { photos.length > 2 && <ImageOnDemand onClick={ () => localOnClick(2) } className="responsive-img" image={ photos[2] } /> }
                     </GridListTile>
                 </GridList>
             </Grid>
@@ -177,8 +177,8 @@ const Group_2_1 = ({ photos, title, height, offset, onClick }) => {
 
     const classes = useStyles();
 
-    const localOnClick = ( index ) => {
-        onClick( offset + index )
+    const localOnClick = (index) => {
+        onClick(offset + index)
     }
 
     return (
@@ -186,18 +186,18 @@ const Group_2_1 = ({ photos, title, height, offset, onClick }) => {
             <Grid item xs={ 4 } >
                 <GridList cellHeight={ (4 * height) } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
-                        <ImageOnDemand onClick={() => localOnClick(0)}  className="responsive-img" image={ photos[0] } />
+                        { photos.length > 1 && <ImageOnDemand onClick={ () => localOnClick(1) } className="responsive-img" image={ photos[1] } /> }
                     </GridListTile>
                     <GridListTile cols={ 1 } rows={ 1 } >
-                        <ImageOnDemand onClick={() => localOnClick(1)} className="responsive-img" image={ photos[1] } />
+                    { photos.length > 2 && <ImageOnDemand onClick={ () => localOnClick(2) } className="responsive-img" image={ photos[2] } /> }
                     </GridListTile>
                 </GridList>
             </Grid>
             <Grid item xs={ 8 } >
                 {/* <ImageOnDemand className="responsive-img" image={ photos[0] } /> */ }
-                <GridList cellHeight={ 8 * height +8 } cols={ 1 } spacing={ 8 }>
+                <GridList cellHeight={ 8 * height + 8 } cols={ 1 } spacing={ 8 }>
                     <GridListTile cols={ 1 } rows={ 1 } >
-                        <ImageOnDemand onClick={() => localOnClick(2)} className="responsive-img" image={ photos[2] } />
+                        <ImageOnDemand onClick={ () => localOnClick(0) } className="responsive-img" image={ photos[0] } />
                         <GridListTileBar
                             title={ <h2>{ title }</h2> }
                             titlePosition="top"
@@ -206,15 +206,15 @@ const Group_2_1 = ({ photos, title, height, offset, onClick }) => {
                         </GridListTileBar>
                     </GridListTile>
                 </GridList>
-            </Grid>            
+            </Grid>
         </>
     )
 }
 
 
 const Group_6 = ({ photos, height, offset, onClick }) => {
-    const localOnClick = ( index ) => {
-        onClick( offset + index )
+    const localOnClick = (index) => {
+        onClick(offset + index)
     }
     return (
         <>
@@ -222,7 +222,7 @@ const Group_6 = ({ photos, height, offset, onClick }) => {
                 <GridList cellHeight={ height } cols={ 12 } spacing={ 8 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ index === 99 ? 6 : 2 } rows={ index === 99 ? 4 : 2 } >
-                            <ImageOnDemand onClick={ () => localOnClick( index ) } className="responsive-img" image={ photo } />
+                            <ImageOnDemand onClick={ () => localOnClick(index) } className="responsive-img" image={ photo } />
                         </GridListTile>
                     ))
                         // 
@@ -237,8 +237,8 @@ const Group_6 = ({ photos, height, offset, onClick }) => {
 const Group_3 = ({ photos, height, offset, onClick }) => {
 
 
-    const localOnClick = ( index ) => {
-        onClick( offset + index )
+    const localOnClick = (index) => {
+        onClick(offset + index)
     }
 
     return (
@@ -248,7 +248,7 @@ const Group_3 = ({ photos, height, offset, onClick }) => {
                 <GridList cellHeight={ height } cols={ 12 } spacing={ 8 }>
                     { photos.map((photo, index) => (
                         <GridListTile key={ index } cols={ 4 } rows={ 4 } >
-                            <ImageOnDemand onClick={ () => localOnClick( index ) } className="responsive-img" image={ photo } />
+                            <ImageOnDemand onClick={ () => localOnClick(index) } className="responsive-img" image={ photo } />
                         </GridListTile>
                     ))
                         // 

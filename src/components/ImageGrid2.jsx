@@ -27,6 +27,7 @@ import { Dialog, DialogContent, IconButton } from '@material-ui/core';
 import { Icon } from "./Icons";
 import { ImageOnDemand } from "./ImageOnDemand";
 import { findUnique, sortPhotos } from "./helpers"
+import { GridOff } from "@material-ui/icons";
 
 const ImageGrid2 = ({
     photos,
@@ -166,24 +167,33 @@ const ImageGrid2 = ({
 
     const imageRenderer = (
         ({ index, left, top, key, photo, onClick }) => (
-            <ImageGridImage
-                selected={ false }
-                onClick={ onClick }
-                key={ key }
-                margin={ "2px" }
-                index={ index }
-                photo={ photo }
-                left={ left }
-                top={ top }
-            />
+            <div style={ { position: "relative" } } >
+                { photo.count > 1 &&
+                    <h2 style={ { position: "absolute", bottom: "0px", left: "10px", zIndex: 99 } } > { photo.count }</h2>
+                }
+                <ImageGridImage
+                    selected={ false }
+                    onClick={ onClick }
+                    key={ key }
+                    margin={ "2px" }
+                    index={ index }
+                    photo={ photo }
+                    left={ left }
+                    top={ top }
+                />
+
+            </div>
         )
     );
 
     const groupPhotos = groups.map((item, index) => {
 
         const view_sort = "rating"
-        const sortedPhotos = sortPhotos(item.photos, view_sort)
-        return sortedPhotos[0]
+        let sortedPhotos = sortPhotos(item.photos, view_sort)
+        let bestPhoto = sortedPhotos[0]
+
+        bestPhoto["count"] = item.photos.length
+        return bestPhoto
     })
 
     return (
@@ -200,37 +210,27 @@ const ImageGrid2 = ({
 
 
 
-                        { groups[currentImageGroup].photos.length < 4 ? (
-                            <ImageCarousel
-                                photos={ groups[currentImageGroup].photos }
-                                currentIndex={ 0 }
-                                closeCallback={ closeLightbox }
-                                ratingCallback={ ratingCallback }
-                                updateMetadataCallback={ updateMetadataCallback } />) : (
-
-                            <Grid
-                                container
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="flex-start"
-                                spacing={ 1 } >
-
-                                <div style={ { top: '0px', right: '20px', zIndex: "999" } } className="image-carousel " ><h3><IconButton onClick={ closeLightbox } ><Icon icon="close" /></IconButton> </h3> </div>
-
-                                <ImageGrid2View title={ groups[currentImageGroup].value } photos={ groups[currentImageGroup].photos } ratingCallback={ ratingCallback } updateMetadataCallback={ updateMetadataCallback }  >
-                                </ImageGrid2View>
-
-                                <Button onClick={ closeLightbox }  >CLOSE</Button>
-
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="flex-start"
+                            spacing={ 1 } >
+                            
+                            <Grid item xs={12} >
+                            <Button onClick={ () => setCurrentImageGroup(currentImageGroup - 1) }  >Previous</Button>
+                            <Button onClick={ () => setCurrentImageGroup(currentImageGroup + 1) }  >Next</Button>
+                            <Button onClick={ closeLightbox }  >CLOSE</Button>
 
                             </Grid>
-                        ) }
+
+                            <div style={ { top: '0px', right: '20px', zIndex: "999" } } className="image-carousel " ><h3><IconButton onClick={ closeLightbox } ><Icon icon="close" /></IconButton> </h3> </div>
+
+                            <ImageGrid2View title={ groups[currentImageGroup].value } photos={ groups[currentImageGroup].photos } ratingCallback={ ratingCallback } updateMetadataCallback={ updateMetadataCallback }  >
+                            </ImageGrid2View>
 
 
-
-
-
-
+                        </Grid>
 
                     </DialogContent>
                 </Dialog>

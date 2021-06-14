@@ -21,7 +21,6 @@ import Box from '@material-ui/core/Box';
 import { CircularProgress } from '@material-ui/core/';
 import { Clipboard } from "./Clipboard"
 
-
 import { Icon } from "./Icons";
 import IconButton from '@material-ui/core/IconButton';
 import { addSrcAndDirname, restCallToBackendAsync } from "./helpers";
