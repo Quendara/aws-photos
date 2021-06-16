@@ -148,7 +148,7 @@ export const CancelFilter = ({ value, filter, callback, photos, showNext=true, s
 
     return (
         <>
-            { ( showAlways || items.length < 10 || value.length > 0 ) &&
+            { ( showAlways || items.length < 15 || value.length > 0 ) &&
                 <>
                     {/* <Chip onClick={ handleClick }
                         size="small"

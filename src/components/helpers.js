@@ -208,6 +208,15 @@ const imageHasFace = ( image, query ) => {
     return retBool
 }
 
+export const getDateFromISOString = ( date ) => {
+
+    let retstr = "" + date.getFullYear()
+    retstr += "-" + leadingZeros(date.getMonth() + 1)
+    retstr += "-" + leadingZeros(date.getDate())
+
+    return retstr
+}
+
 export const getDateFormatedISODate = ( date ) => {
 
     let retstr = "" + date.getFullYear()
@@ -241,6 +250,22 @@ export const addSrcAndDirname = (images) => {
         if (image.country === undefined) { retImage['country'] = "-" }
         if (image.city === undefined) { retImage['city'] = "-" }
         if (image.state === undefined) { retImage['state'] = "-" }
+
+        if (image.date !== undefined) {
+
+            const dateObj = new Date( retImage['date'] )
+
+            if( isNaN( dateObj ) ){
+                console.error( "dateObj is NaN", retImage['date']  )
+            }
+            
+            // 2018-03-14T00:00:00                   
+            retImage['year']    = "" + dateObj.getFullYear() // "2018"
+            retImage['month']   = "" + dateObj.getFullYear() + "-" + leadingZeros( dateObj.getMonth()+1 )  // "2018-03",
+            retImage['day']     = getDateFromISOString( dateObj ) // "2018-03-14",
+            retImage['sameday'] = leadingZeros( dateObj.getMonth() )  +"-"+ leadingZeros( dateObj.getDate() )  // "03-14",            
+
+         }
 
         if (image.faces !== undefined) { 
 

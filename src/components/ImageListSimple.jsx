@@ -30,6 +30,14 @@ import { List, ListItem, IconButton, ListItemText, ListItemAvatar, ListItemSecon
 
 import Avatar from '@material-ui/core/Avatar';
 
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
+
+import { getDateFromISOString } from "./helpers"
+
 const ImageGpsInfo = ({
   image,
   copyGPSToClipboardCTA,
@@ -49,7 +57,7 @@ const ImageGpsInfo = ({
           onMouseLeave={ () => setIsShown(false) }
         >
           <ListItem>
-            
+
             <ListItemText primary={ <> { image.country } { bull } { image.state } </> } />
 
             <ListItemSecondaryAction>
@@ -66,9 +74,59 @@ const ImageGpsInfo = ({
           </ListItem>
         </List>
       ) : (
-          <AddCircleIcon onClick={ setLocationClipboardCTA } />
-        ) }
+        <AddCircleIcon onClick={ setLocationClipboardCTA } />
+      ) }
     </div>)
+}
+
+const ImageDay = ({
+  image,
+  day,
+  updateMetadata // callback 
+}) => {
+
+  const [selectedDate, setSelectedDate] = useState(new Date(day));
+
+  useEffect(() => {
+    // check if user is already logged in
+    setSelectedDate( new Date(day)  )
+    
+  }, [day]);
+
+  const handleDateChange = (date) => {
+
+    if (date !== null) {
+      setSelectedDate(date);
+
+      // 
+      updateMetadata( "day", getDateFromISOString( date ) )
+      // setDate(date)        
+    }
+  };
+
+
+  return (
+    <MuiPickersUtilsProvider utils={ DateFnsUtils } >
+      <KeyboardDatePicker
+        disableToolbar
+        variant="inline"
+        maskChar="."
+        format="yyyy-MM-dd"
+        value={ selectedDate }
+        onChange={ handleDateChange }
+        margin="normal"
+        id="date-picker-inline"
+        label="Datum auswählen"
+        KeyboardButtonProps={ {
+          'aria-label': 'change date',
+        } }
+      />
+    </MuiPickersUtilsProvider>
+
+
+
+  )
+
 }
 
 export const ImageListSimple = ({
@@ -94,7 +152,7 @@ export const ImageListSimple = ({
   useEffect(() => {
     // check if user is already logged in
     setCurrentLimit(limit)
-  }, [photos]);  
+  }, [photos]);
 
   const clearClipboard = () => {
     setCityClipboard("") // call callback 
@@ -122,7 +180,7 @@ export const ImageListSimple = ({
       else {
         // CLOSE
       }
-    }    
+    }
 
     return (
       <List>
@@ -158,22 +216,28 @@ export const ImageListSimple = ({
             </Avatar>
           </ListItemAvatar>
 
-          <ListItemText
+          <ImageDay day={ image.day } updateMetadata={updateMetadata} />
+          {/* <ListItemText
             primary={ image.day }
-          />
+          /> */}
 
         </ListItem>
         <ListItem>
-          <Box fontSize="h5.fontSize" >
+          <ListItemAvatar>
+            <Avatar>
+              <Icon icon="star" />
+            </Avatar>
+          </ListItemAvatar>
+          <Box fontSize="h4.fontSize" >
             <Rating rating={ image.rating } id={ image.id } callback={ ratingCallback }  ></Rating>
           </Box>
         </ListItem>
+
         {/* <ListItem>
           <Hidden mdDown>
             <Box color="text.secondary" >{ image.id } </Box> 
           </Hidden>
         </ListItem> */}
-
       </List>
     )
   }
@@ -265,23 +329,23 @@ export const ImageListSimple = ({
 
     let retImages = []
 
-    for( let i=0; i<images.length; i++ ){
-      const previous_image = images[i-1]
+    for (let i = 0; i < images.length; i++) {
+      const previous_image = images[i - 1]
       const c_image = images[i]
-      const next_image = images[i+1]
+      const next_image = images[i + 1]
 
-      if( c_image.country === "-" ){
-        if( previous_image !== undefined ){
-          if( previous_image.country !== "-"  ) {
-            retImages.push( previous_image )  
-          }  
+      if (c_image.country === "-") {
+        if (previous_image !== undefined) {
+          if (previous_image.country !== "-") {
+            retImages.push(previous_image)
+          }
         }
-        retImages.push( c_image )
+        retImages.push(c_image)
       }
     }
 
     return retImages.slice(0, size) // reduce    
-  }  
+  }
 
   // 
   const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
@@ -332,8 +396,8 @@ export const ImageListSimple = ({
       );
     })
   ) : (
-      <p className="center">You have no images left</p>
-    );
+    <p className="center">You have no images left</p>
+  );
 
   return (
     <>

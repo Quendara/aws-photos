@@ -96,7 +96,7 @@ export const ImageToday = ({ photos, flavor, setQueryFilter, sortBy }) => {
                         format="yyyy-MM-dd"
                         margin="normal"
                         id="date-picker-inline"
-                        label="Datum auswählen"
+                        label="Datum"
                         value={ selectedDate }
                         onChange={ handleDateChange }
                         KeyboardButtonProps={ {

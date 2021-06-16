@@ -3,6 +3,7 @@ import { SET_RATING, SET_FILTER, FETCH_DATA, SET_METADATA, ADD_TO_FILTER, REMOVE
 import { SET_ACCESS_TOKEN , SET_USER_ROLES } from "./actions"
 
 import {Settings} from "../Settings"
+import {leadingZeros} from "../components/helpers"
 
 // import { mockdataBerlin } from "../data/mockdata_Berlin.js"
 // import { mockdataSizilien } from "../data/mockdata_Sizilien.js"
@@ -196,13 +197,23 @@ function photos(state = initial_state.photos, action) {
 
                 if (image.id === action.id) {
                     let newObject = Object.assign({}, image )
-                    if( action.what !== "dirname" ){
-                        newObject[ action.what ] = action.newValue
+                    if( action.what === "dirname" ){
+                        newObject['dirname_logical'] = action.newValue // current value
+                        
+                    }
+                    else if( action.what === "day" ){
+                        const dateObj = new Date( action.newValue )
+                        
+                        // 2018-03-14T00:00:00                   
+                        newObject['date']    = action.newValue + "T00:00:00"   // BUG ADD Previous Time Here
+                        newObject['year']    = dateObj.getFullYear() // "2018"
+                        newObject['month']   = leadingZeros( dateObj.getMonth() )  // "2018-03",
+                        newObject['day']     = action.newValue // "2018-03-14",
+                        newObject['sameday'] = leadingZeros( dateObj.getMonth() )  +"-"+ leadingZeros( dateObj.getDate() )  // "03-14",                        
+
                     }
                     else{                        
-                        // newObject['dirname_physical'] = newObject.dirname // current value
-                        newObject['dirname_logical'] = action.newValue // current value
-                        // newObject[ action.what ] = newObject.dirname  // dirname == new logical value
+                        newObject[ action.what ] = action.newValue
                     }
                     
                     return newObject
