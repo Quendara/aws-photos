@@ -1,15 +1,12 @@
-
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
-
 
 import { ImageOnDemand } from "./ImageOnDemand";
 
 import { Rating } from "./Rating"
 import { sortPhotos } from "./helpers"
 import { Icon } from "./Icons";
-
 
 import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // import default 
 
@@ -21,6 +18,9 @@ import ImageCarousel from "./ImageCarousel";
 import { Dialog, DialogContent, Card, Hidden } from '@material-ui/core';
 import { Clipboard } from "./Clipboard"
 
+import { DatePicker } from "../atoms/DatePicker"
+
+
 
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -30,104 +30,74 @@ import { List, ListItem, IconButton, ListItemText, ListItemAvatar, ListItemSecon
 
 import Avatar from '@material-ui/core/Avatar';
 
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers';
+import { makeStyles } from '@material-ui/core/styles';
+import { deepOrange, deepPurple } from '@material-ui/core/colors';
 
-import { getDateFromISOString } from "./helpers"
+const useStyles = makeStyles((theme) => ({
+
+  orange: {
+    color: theme.palette.getContrastText(deepPurple[500]),
+    backgroundColor: deepPurple[500],
+  },
+}));
+
+
 
 const ImageGpsInfo = ({
   image,
+  locationClipboard,
   copyGPSToClipboardCTA,
   setLocationClipboardCTA
 }) => {
 
-  const [isShown, setIsShown] = useState(false);
+  const classes = useStyles();
 
-  // const bull = <span className={classes.bullet}>•</span>;
   const bull = <span>•</span>;
 
   return (
     <div>
       { image.country !== "-" ? (
-        <List
-          onMouseEnter={ () => setIsShown(true) }
-          onMouseLeave={ () => setIsShown(false) }
-        >
+        <List>
           <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                { locationClipboard.length > 0 ? ( // Something in Clipboard
+                  <IconButton onClick={ setLocationClipboardCTA } >
+                    <LibraryAddIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={ copyGPSToClipboardCTA } >
+                    <Icon icon="location" />
+                  </IconButton>
+                )
+                }
+              </Avatar>
+            </ListItemAvatar>
 
-            <ListItemText primary={ <> { image.country } { bull } { image.state } </> } />
-
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="delete" onClick={ copyGPSToClipboardCTA }>
-                { isShown && <FileCopyIcon /> }
-              </IconButton>
-            </ListItemSecondaryAction>
+            <ListItemText primary={ <> { image.country } { bull } { image.state } </> } secondary={ image.city } />
           </ListItem>
           <ListItem>
-            <ListItemText primary={ image.city } />
-          </ListItem>
-          <ListItem>
+            <ListItemAvatar></ListItemAvatar>
             <ListItemText primary={ <>{ image.lat }, { image.long }</> } secondary="GPS" />
           </ListItem>
         </List>
       ) : (
-        <AddCircleIcon onClick={ setLocationClipboardCTA } />
+        <List>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar className={ ( locationClipboard.length === 0 ) ? "":classes.orange} >
+                <IconButton disabled={ locationClipboard.length === 0 } onClick={ setLocationClipboardCTA } >
+                  <LibraryAddIcon />
+                </IconButton>
+              </Avatar>
+            </ListItemAvatar>
+          </ListItem>
+        </List>
       ) }
     </div>)
 }
 
-const ImageDay = ({
-  image,
-  day,
-  updateMetadata // callback 
-}) => {
 
-  const [selectedDate, setSelectedDate] = useState(new Date(day));
-
-  useEffect(() => {
-    // check if user is already logged in
-    setSelectedDate( new Date(day)  )
-    
-  }, [day]);
-
-  const handleDateChange = (date) => {
-
-    if (date !== null) {
-      setSelectedDate(date);
-
-      // 
-      updateMetadata( "day", getDateFromISOString( date ) )
-      // setDate(date)        
-    }
-  };
-
-
-  return (
-    <MuiPickersUtilsProvider utils={ DateFnsUtils } >
-      <KeyboardDatePicker
-        disableToolbar
-        variant="inline"
-        maskChar="."
-        format="yyyy-MM-dd"
-        value={ selectedDate }
-        onChange={ handleDateChange }
-        margin="normal"
-        id="date-picker-inline"
-        label="Datum auswählen"
-        KeyboardButtonProps={ {
-          'aria-label': 'change date',
-        } }
-      />
-    </MuiPickersUtilsProvider>
-
-
-
-  )
-
-}
 
 export const ImageListSimple = ({
   photos,
@@ -147,7 +117,10 @@ export const ImageListSimple = ({
   const [countryClipboard, setCountryClipboard] = useState("");
   const [stateClipboard, setStateClipboard] = useState("");
 
+  const [dayClipboard, setDayClipboard] = useState("");
   const [folderClipboard, setFolderClipboard] = useState("");
+
+  const classes = useStyles();
 
   useEffect(() => {
     // check if user is already logged in
@@ -159,12 +132,17 @@ export const ImageListSimple = ({
     setCountryClipboard("") // call callback 
     setStateClipboard("") // call callback     
     setFolderClipboard("") // call callback     
+    setDayClipboard("") // call callback     
   }
 
 
   const getCaptionFromPhoto = (image) => {
     const setFolderFromClipboardCTA = () => {
       updateMetadata("dirname", folderClipboard) // call callback 
+    }
+
+    const setDateFromClipboardCTA = () => {
+      updateMetadata("day", dayClipboard) // call callback 
     }
 
     const updateMetadata = (what, value) => {
@@ -186,20 +164,16 @@ export const ImageListSimple = ({
       <List>
         <ListItem>
           <ListItemAvatar >
-            <Avatar>
-              { folderClipboard.length > 0 ?
-                // Something in Clipboard
-                (
-                  <IconButton onClick={ setFolderFromClipboardCTA } >
-                    <LibraryAddIcon />
-                  </IconButton>
-                )
-                :
-                (
-                  <IconButton onClick={ () => setFolderClipboard(image.dirname) } >
-                    <Icon icon="dirname" />
-                  </IconButton>
-                )
+            <Avatar className={ ( folderClipboard.length === 0 ) ? "":classes.orange} >
+              { folderClipboard.length > 0 ? ( // Something in Clipboard
+                <IconButton onClick={ setFolderFromClipboardCTA } >
+                  <LibraryAddIcon />
+                </IconButton>
+              ) : (
+                <IconButton onClick={ () => setFolderClipboard(image.dirname) } >
+                  <Icon icon="dirname" />
+                </IconButton>
+              )
               }
             </Avatar>
           </ListItemAvatar>
@@ -211,15 +185,21 @@ export const ImageListSimple = ({
         </ListItem>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
-              <Icon icon="day" />
+              <Avatar className={ ( dayClipboard.length === 0 ) ? "":classes.orange} >
+              { dayClipboard.length > 0 ? (
+                <IconButton onClick={ setDateFromClipboardCTA } >
+                  <LibraryAddIcon />
+                </IconButton>
+              ) : (
+                <Icon icon="day" />
+              ) }
             </Avatar>
           </ListItemAvatar>
 
-          <ImageDay day={ image.day } updateMetadata={updateMetadata} />
-          {/* <ListItemText
+
+          <ListItemText
             primary={ image.day }
-          /> */}
+          />
 
         </ListItem>
         <ListItem>
@@ -238,7 +218,7 @@ export const ImageListSimple = ({
             <Box color="text.secondary" >{ image.id } </Box> 
           </Hidden>
         </ListItem> */}
-      </List>
+      </List >
     )
   }
 
@@ -271,7 +251,11 @@ export const ImageListSimple = ({
       }
     }
 
-    return (<ImageGpsInfo image={ image } copyGPSToClipboardCTA={ copyGPSToClipboardCTA } setLocationClipboardCTA={ setLocationClipboardCTA } />)
+    return (<ImageGpsInfo
+      image={ image }
+      locationClipboard={ countryClipboard }
+      copyGPSToClipboardCTA={ copyGPSToClipboardCTA }
+      setLocationClipboardCTA={ setLocationClipboardCTA } />)
   }
 
 
@@ -415,12 +399,26 @@ export const ImageListSimple = ({
         </Dialog>
       }
       <>
-        { (countryClipboard.length > 0 || folderClipboard.length > 0) &&
+        <Grid container justify="center" alignItems="center">
+          <Grid item xs={ 12 } md={ 3 }>
+            <DatePicker label="Datum für Bilder" callback={ (day) => setDayClipboard(day) } />
+          </Grid>
+        </Grid>
+
+        { (countryClipboard.length > 0 || folderClipboard.length > 0 || dayClipboard.length > 0) &&
           <div style={ { position: "fixed", bottom: '2%', left: '0%', width: '100%', zIndex: '999' } } className="image-carousel-text" >
             <Grid container justify="center" alignItems="center">
+
               <Grid item xs={ 12 } md={ 3 }>
+
                 <Card>
-                  <Clipboard country={ countryClipboard } state={ stateClipboard } city={ cityClipboard } folder={ folderClipboard } closeCallback={ clearClipboard } />
+                  <Clipboard
+                    country={ countryClipboard }
+                    state={ stateClipboard }
+                    city={ cityClipboard }
+                    folder={ folderClipboard }
+                    day={ dayClipboard }
+                    closeCallback={ clearClipboard } />
                 </Card>
               </Grid>
             </Grid>

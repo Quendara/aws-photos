@@ -32,7 +32,7 @@ const ClipboardItem = ({ primary, secondary }) => {
         )
     }
 
-export const Clipboard = ({ country, state, city, folder, closeCallback }) => {
+export const Clipboard = ({ country, state, city, folder, day, closeCallback }) => {
 
     // <li className="m-2">{ countryClipboard.length > 0 && <>{ countryClipboard }</> }</li>
     return (
@@ -53,6 +53,7 @@ export const Clipboard = ({ country, state, city, folder, closeCallback }) => {
                     <ClipboardItem primary={ country } secondary="country" />
                     <ClipboardItem primary={ state } secondary="state" />
                     <ClipboardItem primary={ city } secondary="city" />
+                    <ClipboardItem primary={ day } secondary="day" />
                     <Divider />
                     <ClipboardItem primary={ folder } secondary="folder" />
 
