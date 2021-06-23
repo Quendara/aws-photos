@@ -266,8 +266,10 @@ function query(state = initial_state.query, action) {
 
     switch (action.type) {
         case SET_FILTER:
-            query[action.key] = action.value;
-            console.log("query requcer : (key, value) ", action.key, action.value)
+            // if( action.value !== undefined && action.value.length > 0  ){
+                query[action.key] = action.value;
+                console.log("query reducer : (key, value) ", action.key, action.value)
+            // }
             return query
 
         case ADD_TO_FILTER:
@@ -282,7 +284,7 @@ function query(state = initial_state.query, action) {
             // const multiple = action.value.split(",")
 
             if (action.value === "") {
-                valueToAdd = []
+                valueToAdd = [] 
             }
             // else if (multiple.length >= 2) {
             //     valueToAdd = multiple

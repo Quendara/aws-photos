@@ -2,6 +2,15 @@ import React, { useState } from "react";
 // import Settings from "./Settings"
 // import { sortBy, groupBy } from "underscore";
 
+import {
+    // BrowserRouter as Router,
+    // Switch,
+    // Route,
+    // Link,
+    // useRouteMatch,
+    useParams
+} from "react-router-dom";
+
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 
@@ -9,14 +18,12 @@ import { connect } from 'react-redux'
 import { Images } from "./ImagesRouter";
 
 import { CancelFilterAll } from "./CancelFilter";
-import { SelectionView } from "./SelectionView";
 import { LeftMenu } from "./LeftMenu";
 
-import { leadingZeros, sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
+import { sortPhotos, filterFiles, addSrcAndDirname } from "./helpers";
 
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import { Button, } from '@material-ui/core/';
 
 // import Settings from "../Settings"
 
@@ -29,9 +36,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Modal from '@material-ui/core/Modal';
+import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 
 import { useStyles } from "./Styles"
+import { useEffect } from "react";
 
 // import Hidden from '@material-ui/core/Hidden';
 // import Divider from '@material-ui/core/Divider';
@@ -47,12 +55,20 @@ const ImageApp = ({
     setShowMenu,
     addToQueryFilter,
     removeFromQueryFilter,
-    view,
     menu = true }) => {
 
+    let { view } = useParams();      
+
+    const [ queryYear, setQueryYear] = useQueryParam('year', StringParam );  
+    const [ queryDirname, setQueryDirname] = useQueryParam('dirname', StringParam );  
     const classes = useStyles();
 
-    const [view_images, setViewImages] = useState(view); // group, list, grid
+    useEffect(() => {
+        if( queryYear !== undefined ) setQueryFilter("year", queryYear) 
+        if( queryDirname !== undefined  ) setQueryFilter("dirname", queryDirname)
+     }, [queryYear, queryDirname]);    
+
+    //const [view_images, setViewImages] = useState(view); // group, list, grid
     const [view_sort, setViewSort] = useState("date"); // rating, date
     // const [showMenu, setShowMenu] = useState(true); // rating, date
 
@@ -62,6 +78,13 @@ const ImageApp = ({
         console.log("query ", query)
         console.log("add ", add)
         console.log("typeof value ", typeof value)
+
+        if( key === "year" ){
+            setQueryYear( value ) 
+        }
+        if( key === "dirname" ){
+            setQueryDirname( value ) 
+        }        
 
         if (key === "faces") {
             if (add === true) {
@@ -93,14 +116,17 @@ const ImageApp = ({
     }
 
     const imageApp = sortedPhotos.length ? (
-        <Images photos={ sortedPhotos } view={ view_images } sortBy={ view_sort } />
+        <>
+        {/* <h1>x{queryYear}x</h1> */}
+        <Images photos={ sortedPhotos } view={ view } sortBy={ view_sort } />
+        </>
     ) : (
         <div className="row" >
             <div className="offset-s3 col s6" >
                 <h1><br /></h1>
                 <div className="card-panel blue darken-4 " >
 
-                    { filteredOn() ? (
+                    { filteredOn() ? (                        
                         <div  >
                             <h3 className="blue-text text-lighten-4 center">No images, please deselect at least one filter.</h3>
                             <div className="divider" /><br /><br />
@@ -144,27 +170,6 @@ const ImageApp = ({
 
             <Grid item xs={ 12 } lg={ getMenuWidth(localSettings.showMenu) }  >
 
-
-                {/* <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> */ }
-
-
-
-
-
-
-                {/* { (localSettings.showMenu && menu && photos.length > 0) && <LeftMenu photos={ photos } query={ query } callbackFilter={ callbackFilter } /> } */ }
-
-                {/* <Modal
-
-                    open={ (localSettings.showMenu && menu && photos.length > 0) }
-                    onClose={ () => { setShowMenu(false) } }
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                >
-                    
-                    </Grid>
-
-                </Modal>                         */}
                 <SwipeableDrawer anchor={ "left" } open={ (localSettings.showMenu && menu && photos.length > 0) } onClose={ () => { setShowMenu(false) } }>
 
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { QueryParamProvider } from 'use-query-params';
 import { Provider } from 'react-redux'
 import { render } from "react-dom";
 
@@ -17,6 +18,7 @@ import {
   BrowserRouter as Router,
   Route,
   NavLink,
+  Switch,
   IndexRoute,
   useLocation
 } from "react-router-dom";
@@ -59,6 +61,7 @@ import Today from "./components/Today";
 import ImageFaces from "./components/ImageFaces";
 import Sandbox from "./components/Sandbox";
 import Devtools from "./components/Devtools";
+
 import { useStyles } from "./components/Styles"
 
 
@@ -198,17 +201,12 @@ const App = () => {
           
             <Auth authSuccessCallback={ authSuccessCallback } >
               <Hidden smDown>    {/*  xs   |   sm   |   md   |   lg   |   xl */ }
-                <NavLink to="/grid" className={ classes.title }   >
-                  <Typography variant="h6" >
-                    <FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />
-                  Photos
-               </Typography>
-                </NavLink>
-
-                <NavLink to="/grid2" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Compact </Typography> </NavLink>
-                <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Group </Typography> </NavLink>
-                <NavLink to="/map" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faMapMarkerAlt } className="mr-2" /> Map </Typography> </NavLink>
-                <NavLink to="/list" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> List </Typography> </NavLink>
+                <NavLink to="/images/grid" className={ classes.title }   ><Typography variant="h6" ><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Photos</Typography></NavLink>
+                <NavLink to="/images/grid2" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Compact </Typography> </NavLink>
+                <NavLink to="/images/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Group </Typography> </NavLink>
+                <NavLink to="/images/map" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faMapMarkerAlt } className="mr-2" /> Map </Typography> </NavLink>
+                <NavLink to="/images/list" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> List </Typography> </NavLink>
+                <NavLink to="/images/stats" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faThList } className="mr-2" /> Stats </Typography> </NavLink>
                 {/* <NavLink to="/list" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faList } className="mr-2" /> List </Typography> </NavLink> */ }
 
                 <NavLink to="/today" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCalendarDay } className="mr-2" /> Today</Typography> </NavLink>
@@ -232,13 +230,13 @@ const App = () => {
                   onClose={ handleClose }
                 >
                   <MenuItem>
-                    <NavLink to="/grid" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Photos</Typography> </NavLink>
+                    <NavLink to="/images/grid" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Photos</Typography> </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <NavLink to="/grid2" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Grid 2</Typography> </NavLink>
+                    <NavLink to="/images/grid2" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Grid 2</Typography> </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <NavLink to="/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Groups</Typography> </NavLink>
+                    <NavLink to="/images/group" className={ classes.menuButton } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCameraRetro } className="mr-2" />Groups</Typography> </NavLink>
                   </MenuItem>
                   <MenuItem>
                     <NavLink to="/devtools" className={ classes.menuButton } activeClassName={ classes.selected } ><Typography color="inherit"><FontAwesomeIcon icon={ faLaptopHouse } className="mr-2" />Devtools</Typography> </NavLink>
@@ -249,6 +247,12 @@ const App = () => {
                   <MenuItem>
                     <NavLink to="/sandbox" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" />sandbox</Typography> </NavLink>
                   </MenuItem>
+                  <MenuItem>
+                    <NavLink to="/stats" className={ classes.title } activeClassName={ classes.selected } > <Typography color="inherit"><FontAwesomeIcon icon={ faCloudUploadAlt } className="mr-2" />sandbox</Typography> </NavLink>
+                  </MenuItem>
+
+
+                  
 
                 </Menu>
               </Hidden>
@@ -257,22 +261,32 @@ const App = () => {
 
           { username.length > 0 &&
             <Provider store={ store } >
-              <Route exact path="/" component={ ImageApp } />
+              
 
-              {/* <Route exact path="/main" component={ ImageApp } /> */ }
-              <Route exact path="/main" ><ImageApp view="grid"> </ImageApp></Route>
+              
+              {/* <Route exact path="/main" ><ImageApp view="grid"> </ImageApp></Route>
               <Route exact path="/grid" ><ImageApp view="grid" menu={ (size.width > size_md) ? true : false }> </ImageApp></Route>
               <Route exact path="/grid2" ><ImageApp view="grid2" menu={ (size.width > size_md) ? true : false }> </ImageApp></Route>
               <Route exact path="/map" ><ImageApp view="map" menu={ (size.width > size_md) ? true : false }>  </ImageApp></Route>
               <Route exact path="/group" ><ImageApp view="group" menu={ (size.width > size_md) ? true : false }> </ImageApp></Route>
               <Route exact path="/list" ><ImageApp view="list"> </ImageApp></Route>
+              <Route exact path="/stats" ><ImageApp view="stats"> </ImageApp></Route> */}
+               <Switch>
+               <QueryParamProvider ReactRouterRoute={Route}>
+               <Route exact path="/" component={ ImageApp } />
+                <Route path="/images/:view" >
+                  <ImageApp  />
+                </Route>
+                </QueryParamProvider>
+               </Switch>
 
               <Route exact path="/today" component={ Today } />
               <Route exact path="/faces" component={ ImageFaces } />
 
-              <Route exact path="/import" >
+              <Route exact path="/import" > 
+                
                 <Today flavor="import" />
-              </Route>
+              </Route> 
 
               <Route exact path="/sandbox" component={ Sandbox } />
               <Route exact path="/devtools" component={ Devtools } />

@@ -25,6 +25,7 @@
     "jwt-decode": "^2.2.0",
     "leaflet": "^1.6.0",
     "node-sass": "^4.14.1",
+    "query-string": "^7.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.2.1",
@@ -38,7 +39,8 @@
     "react-scripts": "3.4.1",
     "react-swipeable": "^5.5.1",
     "redux": "^4.0.5",
-    "underscore": "^1.10.2"
+    "underscore": "^1.10.2",
+    "use-query-params": "^1.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -15,10 +15,11 @@ import { setRatingOnImage, setMetadataOnImage } from "../redux/actions"; // impo
 // import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Grid, Box } from "@material-ui/core";
 import ImageCarousel from "./ImageCarousel";
-import { Dialog, DialogContent, Card, Hidden } from '@material-ui/core';
+import { Dialog, DialogContent, DialogActions, DialogTitle, Card, Hidden, Button } from '@material-ui/core';
 import { Clipboard } from "./Clipboard"
 
 import { DatePicker } from "../atoms/DatePicker"
+import { CancelFilter } from "../components/CancelFilter"
 
 
 
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const bull = <span>•</span>;
 
 
 const ImageGpsInfo = ({
@@ -52,7 +54,7 @@ const ImageGpsInfo = ({
 
   const classes = useStyles();
 
-  const bull = <span>•</span>;
+
 
   return (
     <div>
@@ -85,13 +87,19 @@ const ImageGpsInfo = ({
         <List>
           <ListItem>
             <ListItemAvatar>
-              <Avatar className={ ( locationClipboard.length === 0 ) ? "":classes.orange} >
+              <Avatar className={ (locationClipboard.length === 0) ? "" : classes.orange } >
                 <IconButton disabled={ locationClipboard.length === 0 } onClick={ setLocationClipboardCTA } >
                   <LibraryAddIcon />
                 </IconButton>
               </Avatar>
             </ListItemAvatar>
           </ListItem>
+          <ListItem>
+            <ListItemAvatar></ListItemAvatar>
+            <ListItemText primary={ <>{ image.lat }, { image.long } { bull } { image.status }</> } secondary="GPS" />
+            
+          </ListItem>
+
         </List>
       ) }
     </div>)
@@ -119,6 +127,8 @@ export const ImageListSimple = ({
 
   const [dayClipboard, setDayClipboard] = useState("");
   const [folderClipboard, setFolderClipboard] = useState("");
+
+  const [replacedCountry, setReplacedCountry] = useState("");
 
   const classes = useStyles();
 
@@ -164,7 +174,7 @@ export const ImageListSimple = ({
       <List>
         <ListItem>
           <ListItemAvatar >
-            <Avatar className={ ( folderClipboard.length === 0 ) ? "":classes.orange} >
+            <Avatar className={ (folderClipboard.length === 0) ? "" : classes.orange } >
               { folderClipboard.length > 0 ? ( // Something in Clipboard
                 <IconButton onClick={ setFolderFromClipboardCTA } >
                   <LibraryAddIcon />
@@ -185,7 +195,7 @@ export const ImageListSimple = ({
         </ListItem>
         <ListItem>
           <ListItemAvatar>
-              <Avatar className={ ( dayClipboard.length === 0 ) ? "":classes.orange} >
+            <Avatar className={ (dayClipboard.length === 0) ? "" : classes.orange } >
               { dayClipboard.length > 0 ? (
                 <IconButton onClick={ setDateFromClipboardCTA } >
                   <LibraryAddIcon />
@@ -331,12 +341,43 @@ export const ImageListSimple = ({
     return retImages.slice(0, size) // reduce    
   }
 
+
   // 
   const currentPhotos = limitPhotosAndSort(photos, currentLimit, sortBy);
 
-  // const setLocation = ( ) => {
-  //   set
-  // }
+
+  const handleSetCountryToMissing = ( dry = true ) => {
+
+    const missingCountry = photos.filter(image => {
+      return image.country === "-"
+    })
+
+    console.log("missingCountry : ", missingCountry)
+
+    const ret = missingCountry.map((image, index) => {
+
+      if( dry === false ){
+        setMetadataOnImage( image.id, "country", countryClipboard, token.access)
+      }
+
+      return (
+        <ListItem>
+            <Grid item xs={ 2 }  >
+              <ImageOnDemand onClick={ () => openLightbox(index) } className="responsive-img" image={ image } />
+            </Grid>          
+            <Grid item xs={ 10 }  >
+              <ListItemText primary={ <>{ image.country } { bull } { image.lat }, { image.long } { bull } { image.status } </> } secondary={ "Counter " + index } />
+            </Grid>
+          
+        </ListItem>
+      )
+
+    })
+
+    setReplacedCountry(ret)
+
+  }
+
 
   const imageList = photos.length ? (
     currentPhotos.map((image, index) => {
@@ -399,18 +440,43 @@ export const ImageListSimple = ({
         </Dialog>
       }
       <>
-        <Grid container justify="center" alignItems="center">
-          <Grid item xs={ 12 } md={ 3 }>
+        <Grid container justify="center" alignItems="center" spacing={3}>
+          <Grid item xs={ 3 } md={ 3 }>
             <DatePicker label="Datum für Bilder" callback={ (day) => setDayClipboard(day) } />
+          </Grid>
+          <Grid item xs={ 3 } md={ 3 }>
+            <CancelFilter photos={ photos } value={ countryClipboard } filter="country" callback={ (key, value) => setCountryClipboard(value) } showNext={ false } />
+            { countryClipboard.length > 0 &&
+              <>
+                <Button onClick={ () => handleSetCountryToMissing() } > Set missing country to { countryClipboard } </Button>
+
+                <Dialog open={ replacedCountry.length > 0 } >
+                  <DialogTitle id="simple-dialog-title">Replace Country on the following images.</DialogTitle>
+                  <DialogContent style={ { height: "70vh" } }>
+                  <Grid item xs={ 12 } >
+                    <List>
+                      { replacedCountry }
+                    </List>
+                  </Grid>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={ () => setReplacedCountry("") }>Close</Button>
+                    <Button variant="contained" color="primary" onClick={ () => {
+                      handleSetCountryToMissing(false) // force changes
+                      setReplacedCountry("") 
+                    }
+                    }>Run</Button>
+                  </DialogActions>
+                </Dialog>
+              </>
+            }
           </Grid>
         </Grid>
 
         { (countryClipboard.length > 0 || folderClipboard.length > 0 || dayClipboard.length > 0) &&
           <div style={ { position: "fixed", bottom: '2%', left: '0%', width: '100%', zIndex: '999' } } className="image-carousel-text" >
             <Grid container justify="center" alignItems="center">
-
               <Grid item xs={ 12 } md={ 3 }>
-
                 <Card>
                   <Clipboard
                     country={ countryClipboard }

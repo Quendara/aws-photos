@@ -21,7 +21,7 @@ export const TopListAuto = ({ photos, icon, title, titleAlt = "", sortByCount = 
                 (
                     <div className="ml-2" >
                         <TopAutoComplete photos={ photos } title={ title } titleAlt={ titleAlt } icon={ icon } sortByCount={ sortByCount } callback={ callback } />
-                        <br />
+                        <br />                        
                     </div>
                 )
                 : (

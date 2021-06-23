@@ -5,6 +5,7 @@ import ImageGroup from "./ImageGroup"; // import without {}
 import ImageGrid from "./ImageGrid";
 import ImageGrid2 from "./ImageGrid2";
 import ImageMap from "./ImageMap";
+import ImageStats from "./ImageStats";
 
 import {MoveToTop} from "./MoveToTop";
 
@@ -27,6 +28,9 @@ const Images = ({ photos, view = "group", sortBy="date", ...rest }) => {
         return (<ImageGroup photos={ currentPhotos} sortBy={sortBy}/>)
       case "map": 
         return (<ImageMap photos={ currentPhotos} sortBy={sortBy}/>)
+      case "stats": 
+        return (<ImageStats photos={ currentPhotos} sortBy={sortBy}/>)
+
       case "menu": 
         return (<span></span>)
 

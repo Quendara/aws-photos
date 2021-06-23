@@ -16,11 +16,11 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 export const CancelFilterAll = ({ query, callbackFilter, photos, photos_all = undefined }) => {
     const classes = useStyles();
 
-    const photos_filtered = photos_all?filterFiles( photos_all, 
+    const photos_filtered = photos_all ? filterFiles( photos_all, 
         {
                 dirname:query['dirname']?query.dirname:"", 
                 year:query['year']?query.year:"", 
-                rating:2   } ):photos 
+                rating:2   } ) : photos 
 
     return (
         <span className={ classes.spacing }>
