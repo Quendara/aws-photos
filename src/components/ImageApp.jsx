@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Alert from '@material-ui/lab/Alert';
+
 // import Settings from "./Settings"
 // import { sortBy, groupBy } from "underscore";
 
@@ -37,6 +39,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
+// https://www.npmjs.com/package/use-query-params#usequeryparam
 
 import { useStyles } from "./Styles"
 import { useEffect } from "react";
@@ -105,7 +108,7 @@ const ImageApp = ({
 
     const sortedPhotos = sortPhotos(photos, view_sort)
 
-    const filteredOn = () => {
+    const isFilteredOn = () => {
         let size = query.sameday.length
         size += query.dirname.length
         size += query.year.length
@@ -124,29 +127,25 @@ const ImageApp = ({
         <div className="row" >
             <div className="offset-s3 col s6" >
                 <h1><br /></h1>
-                <div className="card-panel blue darken-4 " >
-
-                    { filteredOn() ? (                        
-                        <div  >
-                            <h3 className="blue-text text-lighten-4 center">No images, please deselect at least one filter.</h3>
-                            <div className="divider" /><br /><br />
-                            <CancelFilterAll query={ query } callbackFilter={ callbackFilter } photos={ photos } photos_all={ photos_all } />
+                <Alert severity="info">
+                    { isFilteredOn() ? (                        
+                        <div>
+                            Info 
+                            <h1>No images,</h1>
+                            <h3> please deselect at least one filter.</h3>                                                        
                         </div>
-
                     ) :
                         (
                             <>
-                                <h5 className="blue-text text-lighten-4 center">Loading...</h5>
+                                <h5>Loading...</h5>
                                 <h1><br /></h1>
                                 <div className="progress">
                                     <div className="indeterminate"></div>
-                                </div>
-                                <h1><br /></h1>
+                                </div>                                
                             </>
                         )
                     }
-
-                </div>
+                </Alert>                
             </div>
         </div>
     )
